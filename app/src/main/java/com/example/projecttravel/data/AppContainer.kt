@@ -14,6 +14,7 @@ import com.example.projecttravel.data.repositories.select.TourAttractionListRepo
 import com.example.projecttravel.network.TravelApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonArray
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -99,3 +100,19 @@ object RetrofitBuilderString {
         travelStringApiService = retrofit.create(TravelApiService::class.java)
     }
 }
+
+/**
+ * object for transfer data to server as JsonArray / testing
+ */
+object RetrofitBuilderJsonArray {
+    var travelJsonArrayApiService: TravelApiService
+
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL) // 요청 보내는 API 서버 url. /로 끝나야 함
+            .addConverterFactory(GsonConverterFactory.create()) // Gson을 역직렬화
+            .build()
+        travelJsonArrayApiService = retrofit.create(TravelApiService::class.java)
+    }
+}
+

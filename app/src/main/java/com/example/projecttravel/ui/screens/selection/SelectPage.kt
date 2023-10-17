@@ -32,13 +32,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.InterestInfo
+import com.example.projecttravel.model.select.TourAttractionInfo
+import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
@@ -65,8 +66,10 @@ fun SelectPage(
 ) {
     val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
     val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
-    val interestViewModel: InterestViewModel = viewModel(factory = InterestViewModel.InterestFactory)
-    val tourAttractionViewModel: TourAttractionViewModel = viewModel(factory = TourAttractionViewModel.TourAttractionFactory)
+    val interestViewModel: InterestViewModel =
+        viewModel(factory = InterestViewModel.InterestFactory)
+    val tourAttractionViewModel: TourAttractionViewModel =
+        viewModel(factory = TourAttractionViewModel.TourAttractionFactory)
 
     val selectedCountry by remember { mutableStateOf<CountryInfo?>(null) }
     val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
@@ -256,7 +259,7 @@ fun SelectPage(
 @Composable
 fun ResetConfirmDialog(
     selectViewModel: ViewModelSelect,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -281,14 +284,14 @@ fun ResetConfirmDialog(
                         onDismiss()
                     }
                 ) {
-                    Text(text = "확인",fontSize = 20.sp,)
+                    Text(text = "확인", fontSize = 20.sp)
                 }
                 TextButton(
                     onClick = {
                         onDismiss()
                     }
                 ) {
-                    Text(text = "취소",fontSize = 20.sp,)
+                    Text(text = "취소", fontSize = 20.sp)
                 }
             }
         },
@@ -302,7 +305,7 @@ fun PlanConfirmDialog(
     planViewModel: ViewModelPlan,
     selectUiState: SelectUiState,
     onNextButtonClicked: () -> Unit = {},
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
     if (selectUiState.selectDateRange == null) {
         AlertDialog(
@@ -328,7 +331,7 @@ fun PlanConfirmDialog(
                             onDismiss()
                         }
                     ) {
-                        Text(text = "확인",fontSize = 20.sp,)
+                        Text(text = "확인", fontSize = 20.sp)
                     }
                 }
             },
@@ -357,7 +360,7 @@ fun PlanConfirmDialog(
                             onDismiss()
                         }
                     ) {
-                        Text(text = "확인",fontSize = 20.sp,)
+                        Text(text = "확인", fontSize = 20.sp)
                     }
                 }
             },
@@ -383,21 +386,21 @@ fun PlanConfirmDialog(
                 ) {
                     TextButton(
                         onClick = {
-                            getDateToWeather(selectUiState.selectDateRange)
+                            getDateToWeather(selectUiState)
                             planViewModel.setPlanDateRange(selectUiState.selectDateRange)
                             planViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
                             onNextButtonClicked()
                             onDismiss()
                         }
                     ) {
-                        Text(text = "확인",fontSize = 20.sp,)
+                        Text(text = "확인", fontSize = 20.sp)
                     }
                     TextButton(
                         onClick = {
                             onDismiss()
                         }
                     ) {
-                        Text(text = "취소",fontSize = 20.sp,)
+                        Text(text = "취소", fontSize = 20.sp)
                     }
                 }
             },
@@ -408,33 +411,51 @@ fun PlanConfirmDialog(
 /** ===================================================================== */
 /** function for getting  ====================*/
 fun getDateToWeather(
-    selectedDateRange: ClosedRange<LocalDate>?,
-){
-    val selectedDates = SelectedDates(
-        startDate = selectedDateRange?.start.toString(),
-        endEndDate = selectedDateRange?.endInclusive.toString(),
+    selectUiState: SelectUiState,
+) {
+    val firstCity = selectUiState.selectTourAttractions.first()
+    val weatherCallSend = WeatherCallSend(
+        startDate = selectUiState.selectDateRange?.start.toString(),
+        endDate = selectUiState.selectDateRange?.endInclusive.toString(),
+        lat = when (firstCity) {
+            is TourAttractionSearchInfo -> firstCity.lat
+            is TourAttractionInfo -> firstCity.lat
+            else -> { "몰루" } },
+        lng = when (firstCity) {
+            is TourAttractionSearchInfo -> firstCity.lng
+            is TourAttractionInfo -> firstCity.lan
+            else -> { "몰루" } },
+    )
+    val call = RetrofitBuilderJson.travelJsonApiService.getDateWeather(
+        weatherCallSend
     )
 
-    val call = RetrofitBuilderJson.travelJsonApiService.getDateWeather(selectedDates)
-    call.enqueue(
-        object : Callback<String> { // 비동기 방식 통신 메소드
-            override fun onResponse(
-                // 통신에 성공한 경우
-                call: Call<String>,
-                response: Response<String>,
-            ) {
-                if (response.isSuccessful) { // 응답 잘 받은 경우
-                    Log.d(TAG, response.body().toString())
-
+    call.enqueue(object : Callback<WeatherResponseGet> { // WeatherResponseGet으로 수정
+        override fun onResponse(
+            call: Call<WeatherResponseGet>,
+            response: Response<WeatherResponseGet>,
+        ) {
+            if (response.isSuccessful) { // 응답이 성공인 경우
+                val weatherResponse = response.body()
+                if (weatherResponse != null) {
+                    // 날씨 정보를 처리하거나 출력하는 코드를 작성
+                    Log.d(
+                        TAG,
+                        "Temperature: ${weatherResponse.temperature}, Description: ${weatherResponse.weatherDescription}"
+                    )
                 } else {
-                    // 통신 성공 but 응답 실패
-                    Log.d(TAG, "FAILURE")
+                    // 응답은 성공했지만 내용이 null인 경우 처리
+                    Log.d(TAG, "Response body is null")
                 }
-            }
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                // 통신에 실패한 경우
-                t.localizedMessage?.let { Log.d(TAG, it) }
+            } else {
+                // 응답이 실패한 경우
+                Log.d(TAG, "Failure")
             }
         }
+
+        override fun onFailure(call: Call<WeatherResponseGet>, t: Throwable) {
+            t.localizedMessage?.let { Log.d(TAG, it) }
+        }
+    }
     )
 }
