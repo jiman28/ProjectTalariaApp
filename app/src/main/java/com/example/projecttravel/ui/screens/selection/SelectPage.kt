@@ -47,10 +47,13 @@ import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.InterestViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionViewModel
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.time.LocalDate
 
 private const val TAG = "AAAAA"
 
@@ -386,7 +389,7 @@ fun PlanConfirmDialog(
                 ) {
                     TextButton(
                         onClick = {
-                            getDateToWeather(selectUiState)
+                            getDateToWeather(selectUiState, planViewModel)
                             planViewModel.setPlanDateRange(selectUiState.selectDateRange)
                             planViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
                             onNextButtonClicked()
@@ -412,6 +415,7 @@ fun PlanConfirmDialog(
 /** function for getting  ====================*/
 fun getDateToWeather(
     selectUiState: SelectUiState,
+    planViewModel: ViewModelPlan,
 ) {
     val firstCity = selectUiState.selectTourAttractions.first()
     val weatherCallSend = WeatherCallSend(
@@ -430,19 +434,17 @@ fun getDateToWeather(
         weatherCallSend
     )
 
-    call.enqueue(object : Callback<WeatherResponseGet> { // WeatherResponseGet으로 수정
+    call.enqueue(object : Callback<List<WeatherResponseGet>> { // WeatherResponseGet으로 수정
         override fun onResponse(
-            call: Call<WeatherResponseGet>,
-            response: Response<WeatherResponseGet>,
+            call: Call<List<WeatherResponseGet>>,
+            response: Response<List<WeatherResponseGet>>,
         ) {
             if (response.isSuccessful) { // 응답이 성공인 경우
                 val weatherResponse = response.body()
                 if (weatherResponse != null) {
+                    planViewModel.setDateToWeather(weatherResponse)
                     // 날씨 정보를 처리하거나 출력하는 코드를 작성
-                    Log.d(
-                        TAG,
-                        "Temperature: ${weatherResponse.temperature}, Description: ${weatherResponse.weatherDescription}"
-                    )
+                    Log.d(TAG, weatherResponse.toString())
                 } else {
                     // 응답은 성공했지만 내용이 null인 경우 처리
                     Log.d(TAG, "Response body is null")
@@ -453,7 +455,7 @@ fun getDateToWeather(
             }
         }
 
-        override fun onFailure(call: Call<WeatherResponseGet>, t: Throwable) {
+        override fun onFailure(call: Call<List<WeatherResponseGet>>, t: Throwable) {
             t.localizedMessage?.let { Log.d(TAG, it) }
         }
     }

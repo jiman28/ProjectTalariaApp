@@ -4,6 +4,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class WeatherResponseGet (
-    val temperature: Double,
-    val weatherDescription: String
+    val day: String?,
+    val inOut: String?,
+    val icon: String?,
 )

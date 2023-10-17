@@ -8,15 +8,14 @@ import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.ui.screens.selection.WeatherCallSend
 import com.example.projecttravel.ui.screens.selection.WeatherResponseGet
-import kotlinx.serialization.json.Json
+import okhttp3.RequestBody
+import org.json.JSONArray
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.POST
-import retrofit2.http.Query
-import java.time.LocalDate
 
 interface TravelApiService {
     @GET("country")
@@ -45,7 +44,7 @@ interface TravelApiService {
 
     // send date
     @POST("sendDate")
-    fun getDateWeather(@Body weatherCallSend: WeatherCallSend): Call<WeatherResponseGet>
+    fun getDateWeather(@Body weatherCallSend: WeatherCallSend): Call<List<WeatherResponseGet>>
 
     // TestBoardA
     @POST("sendtba")

@@ -1,10 +1,9 @@
 package com.example.projecttravel.ui.screens.viewmodels
 
-import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.model.select.WeatherInfo
+import com.example.projecttravel.ui.screens.selection.WeatherResponseGet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -31,11 +30,11 @@ class ViewModelPlan : ViewModel() {
     }
 
     /** setDateRange Object */
-//    fun setDateToWeather(desiredTourAttraction: Map<String, String>) {
-//        _uiState.update { currentState ->
-//            currentState.copy(planTourAttractionAll = desiredTourAttraction)
-//        }
-//    }
+    fun setDateToWeather(desiredTourAttraction: List<WeatherResponseGet>) {
+        _uiState.update { currentState ->
+            currentState.copy(dateToWeather = desiredTourAttraction)
+        }
+    }
 
     /** reset all Objects */
     fun resetAllPlanUiState() {

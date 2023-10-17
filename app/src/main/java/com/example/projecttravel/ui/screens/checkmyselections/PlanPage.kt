@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -17,12 +19,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
@@ -87,24 +95,33 @@ fun PlanPage(
             Column {
                 Text(planUiState.planDateRange.toString())
             }
-//            Column {
-//                planUiState.planTourAttractionAll.forEach { item ->
-//                    Column (
-//                    ) {
-//                        Text(
-//                            text = when (item) {
-//                                is TourAttractionInfo -> item.placeName
-//                                is TourAttractionSearchInfo -> item.name
-//                                else -> "몰루"
-//                            },
-//                            fontSize = 20.sp,
-//                            fontWeight = FontWeight.Bold,
-//                            modifier = Modifier
-//                                .padding(3.dp) // 원하는 여백을 추가).
-//                        )
-//                    }
-//                }
-//            }
+            Column {
+                planUiState.dateToWeather.forEach { item ->
+                    Row (
+                    ) {
+                        Text(
+                            text = "${item.day}: ${item.inOut}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.Bold,
+                            modifier = Modifier
+                                .padding(3.dp) // 원하는 여백을 추가).
+                        )
+                        AsyncImage(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(RoundedCornerShape(8.dp)),
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(item.icon)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            error = painterResource(id = R.drawable.no_image_country),
+                            placeholder = painterResource(id = R.drawable.loading_img)
+                        )
+                    }
+                }
+            }
             Column {
                 planUiState.dateToSelectedTourAttractions.forEach { (date, attractions) ->
                     Column {
