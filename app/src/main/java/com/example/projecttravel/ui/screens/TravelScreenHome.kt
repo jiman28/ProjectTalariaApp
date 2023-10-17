@@ -26,7 +26,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.checkmyselections.PlanPage
+import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.homepage.HomePage
 import com.example.projecttravel.ui.screens.searchPlaceGps.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
@@ -45,8 +45,7 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page4(title = R.string.page4),
     Page5(title = R.string.page5),
 }
-//checking push 22222222222222222222222222222222
-//checking push 11111
+
 /** Composable that displays screens */
 @Composable
 fun TravelApp(

@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.checkmyselections
+package com.example.projecttravel.ui.screens.plantrip
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
