@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">ProjectTravel</string>
+
+    <!--Page Enum class-->
+    <string name="page1">Homepage</string>
+    <string name="page2">Select Your Tour Attractions</string>
+    <string name="pageGps">Search GPS</string>
+    <string name="page3">Plan Your Trip</string>
+    <string name="page4">wtf</string>
+    <string name="page5">wtf</string>
+
+    <!--Status-->
+
+    <!--ShowCountryInfos-->
+    <string name="loading_failed">Failed to load</string>
+    <string name="retry">Retry</string>
+    <string name="loading">loading</string>
+    <string name="title_paren">%s (%s)</string>
+    <string name="title_colon">%s : %s</string>
+
+    <!--Buttons-->
+    <string name="back_button">BACK</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="reset_button">Reset</string>
+    <string name="next_button">Next</string>
+    <string name="close_button">Close</string>
+    <string name="confirm_button">Confirm</string>
+    <string name="send_button">Send Plan to DB</string>
+
+</resources>

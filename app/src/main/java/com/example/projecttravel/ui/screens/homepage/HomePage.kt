@@ -1,0 +1,82 @@
+package com.example.projecttravel.ui.screens.homepage
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.projecttravel.R
+import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.ui.screens.viewmodels.homepage.TravelViewModel
+
+@Composable
+fun HomePage(
+    countryCardClicked: (CountryInfo) -> Unit,
+    onNextButtonClicked: () -> Unit,    // 매개변수 추가
+    modifier: Modifier = Modifier,
+) {
+
+    Column(
+        modifier = modifier,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.padding_small)
+            )
+        ) {
+            StartSelectionButton(
+                onClick = { onNextButtonClicked() }
+            )
+        }
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(
+                dimensionResource(id = R.dimen.padding_small)
+            )
+        ) {
+            Text(text = "사진을 누르면 나라 정보를 볼수 있어요")
+        }
+        Column(
+        ) {
+            val travelViewModel: TravelViewModel =
+                viewModel(factory = TravelViewModel.Factory)
+            ShowCountryInfos(
+                travelUiState = travelViewModel.travelUiState,
+                countryCardClicked = countryCardClicked,
+                retryAction = travelViewModel::getCountry,
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(0.dp)
+            )
+        }
+    }
+}
+
+/**
+ * Customizable button composable that displays the [labelResourceId]
+ * and triggers [onClick] lambda when this composable is clicked
+ */
+@Composable
+fun StartSelectionButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    Button(
+        onClick = onClick,
+        modifier = modifier.widthIn(min = 250.dp)
+    ) {
+        Text(text = "Let's go Trip!!")
+    }
+}
