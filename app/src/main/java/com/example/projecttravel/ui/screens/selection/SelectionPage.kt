@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.selection
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,15 +30,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.search.TourAttractionSearchInfo
+import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
@@ -45,6 +46,10 @@ import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.InterestViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import java.time.LocalDate
 
 private const val TAG = "AAAAA"
 
@@ -378,6 +383,7 @@ fun PlanConfirmDialog(
                 ) {
                     TextButton(
                         onClick = {
+                            getDateToWeather(selectUiState.selectDateRange)
                             planViewModel.setPlanDateRange(selectUiState.selectDateRange)
                             planViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
                             onNextButtonClicked()
@@ -401,8 +407,34 @@ fun PlanConfirmDialog(
 
 /** ===================================================================== */
 /** function for getting  ====================*/
-fun getDatetoWeather(
-    Date: SelectUiState,
+fun getDateToWeather(
+    selectedDateRange: ClosedRange<LocalDate>?,
 ){
+    val selectedDates = SelectedDates(
+        startDate = selectedDateRange?.start.toString(),
+        endEndDate = selectedDateRange?.endInclusive.toString(),
+    )
 
+    val call = RetrofitBuilderJson.travelJsonApiService.getDateWeather(selectedDates)
+    call.enqueue(
+        object : Callback<String> { // 비동기 방식 통신 메소드
+            override fun onResponse(
+                // 통신에 성공한 경우
+                call: Call<String>,
+                response: Response<String>,
+            ) {
+                if (response.isSuccessful) { // 응답 잘 받은 경우
+                    Log.d(TAG, response.body().toString())
+
+                } else {
+                    // 통신 성공 but 응답 실패
+                    Log.d(TAG, "FAILURE")
+                }
+            }
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                // 통신에 실패한 경우
+                t.localizedMessage?.let { Log.d(TAG, it) }
+            }
+        }
+    )
 }

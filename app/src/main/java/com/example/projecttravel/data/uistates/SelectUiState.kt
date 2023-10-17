@@ -1,6 +1,6 @@
 package com.example.projecttravel.data.uistates
 
-import com.example.projecttravel.model.search.TourAttractionSearchInfo
+import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.model.select.InterestInfo

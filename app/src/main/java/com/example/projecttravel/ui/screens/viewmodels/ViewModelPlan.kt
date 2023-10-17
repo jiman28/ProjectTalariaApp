@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionAll
+import com.example.projecttravel.model.select.WeatherInfo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +29,13 @@ class ViewModelPlan : ViewModel() {
             currentState.copy(planTourAttractionAll = desiredTourAttraction)
         }
     }
+
+    /** setDateRange Object */
+//    fun setDateToWeather(desiredTourAttraction: Map<String, String>) {
+//        _uiState.update { currentState ->
+//            currentState.copy(planTourAttractionAll = desiredTourAttraction)
+//        }
+//    }
 
     /** reset all Objects */
     fun resetAllPlanUiState() {
@@ -77,46 +85,4 @@ class ViewModelPlan : ViewModel() {
 //            }
 //        }
 //    }
-
-//    // 날짜를 정수에 매핑
-//    private val dateToIntMap: MutableMap<LocalDate, Int> = mutableMapOf()
-//
-//    init {
-//        planDateRange?.let { range ->
-//            dateToIntMap.clear()
-//            var currentDate = range.start
-//            var dayCount = 1
-//            while (currentDate <= range.endInclusive) {
-//                dateToIntMap[currentDate] = dayCount
-//                currentDate = currentDate.plusDays(1)
-//                dayCount++
-//            }
-//        }
-//    }
-//
-//    // 날짜를 정수로 변환하는 함수
-//    fun getDateAsInt(date: LocalDate): Int? {
-//        return dateToIntMap[date]
-//    }
-//
-//    // 두 객체(LocalDate, List<TourAttractionInfo)의 내용이 같은지를 비교
-//    override fun equals(other: Any?): Boolean {
-//        if (this === other) return true
-//        if (javaClass != other?.javaClass) return false
-//
-//        other as PlanUiState
-//
-//        if (planDateRange != other.planDateRange) return false
-//        if (dateToSelectedTourAttractions != other.dateToSelectedTourAttractions) return false
-//
-//        return true
-//    }
-//
-//    // 객체를 고유하게 식별하기 위한 해시 코드를 생성
-//    override fun hashCode(): Int {
-//        var result = planDateRange.hashCode()
-//        result = 31 * result + dateToSelectedTourAttractions.hashCode()
-//        return result
-//    }
-
 }

@@ -7,7 +7,7 @@ import java.time.LocalDate
 data class PlanUiState(
     val planDateRange: ClosedRange<LocalDate>? = null,
     val planTourAttractionAll: List<TourAttractionAll> = emptyList(),
-    val dateToWeather: Map<LocalDate, List<WeatherInfo>> = emptyMap(),
+    val dateToWeather: Map<LocalDate, WeatherInfo> = emptyMap(),
 ) {
     val dateToSelectedTourAttractions: Map<LocalDate, List<TourAttractionAll>> = createDefaultDateToSelectedTourAttractions()
     /** Function that Distributes TourAttractions evenly according to LocalDate and sends it as a default value to dateToSelectedTourAttractions */

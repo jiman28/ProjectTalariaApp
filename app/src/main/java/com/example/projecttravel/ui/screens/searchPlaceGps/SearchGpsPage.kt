@@ -52,8 +52,6 @@ import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.search.TourAttractionSearchInfo
-import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchUiState

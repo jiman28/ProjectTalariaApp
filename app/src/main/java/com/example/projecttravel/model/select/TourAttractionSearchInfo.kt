@@ -1,4 +1,4 @@
-package com.example.projecttravel.model.search
+package com.example.projecttravel.model.select
 
 import com.example.projecttravel.model.select.TourAttractionAll
 import kotlinx.serialization.Serializable

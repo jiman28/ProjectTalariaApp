@@ -36,7 +36,7 @@ private const val TAG = "AAAAA"
 @Composable
 fun TestBoardPage(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: ViewModelSelect,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onNextButtonClicked: () -> Unit = {},
     modifier: Modifier = Modifier,

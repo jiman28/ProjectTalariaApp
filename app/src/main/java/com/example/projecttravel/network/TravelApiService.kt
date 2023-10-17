@@ -4,8 +4,9 @@ import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.model.select.InterestInfo
 import com.example.projecttravel.model.board.TestBoardASend
-import com.example.projecttravel.model.search.TourAttractionSearchInfo
+import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
+import com.example.projecttravel.ui.screens.selection.SelectedDates
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -37,6 +38,10 @@ interface TravelApiService {
     @POST("sendinout")
     @FormUrlEncoded
     fun setInOut(@Field("placeName") placeName: String, @Field("stateInOut") stateInOut: String, ): Call<String>
+
+    // send date
+    @POST("sendDate")
+    fun getDateWeather(@Body selectedDates: SelectedDates): Call<String>
 
     // TestBoardA
     @POST("sendtba")

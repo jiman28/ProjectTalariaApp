@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.select.TourAttrSearchListRepository
-import com.example.projecttravel.model.search.TourAttractionSearchInfo
+import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import kotlinx.coroutines.launch
 
 sealed interface TourAttrSearchUiState {
