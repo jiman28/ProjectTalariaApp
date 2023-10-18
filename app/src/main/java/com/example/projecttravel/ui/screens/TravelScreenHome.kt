@@ -40,7 +40,7 @@ import kotlinx.coroutines.launch
 enum class TravelScreen(@StringRes val title: Int) {
     Page1(title = R.string.page1),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page2(title = R.string.page2),
-    PageGps(title = R.string.pageGps),
+    Page2A(title = R.string.pageGps),
     Page3(title = R.string.page3),
     Page4(title = R.string.page4),
     Page5(title = R.string.page5),
@@ -117,7 +117,7 @@ fun TravelApp(
                     selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
                     onNextButtonClicked = { navController.navigate(TravelScreen.Page3.name) },
-                    onGpsClicked = { navController.navigate(TravelScreen.PageGps.name) },
+                    onGpsClicked = { navController.navigate(TravelScreen.Page2A.name) },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
@@ -126,14 +126,14 @@ fun TravelApp(
             }
 
             /** 2-1. GPS 선택 화면 ====================*/
-            composable(route = TravelScreen.PageGps.name) {
+            composable(route = TravelScreen.Page2A.name) {
                 SearchGpsPage(
                     selectUiState = selectUiState,
                     searchUiState = searchUiState,
                     searchViewModel = searchViewModel,
                     selectViewModel = selectViewModel,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    updateUiPageClicked = { navController.navigate(TravelScreen.PageGps.name) },
+                    updateUiPageClicked = { navController.navigate(TravelScreen.Page2A.name) },
                 )
                 BackHandler(
                     onBack = { navController.navigate(TravelScreen.Page2.name) },
