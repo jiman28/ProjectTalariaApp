@@ -100,3 +100,18 @@ object RetrofitBuilderString {
         travelStringApiService = retrofit.create(TravelApiService::class.java)
     }
 }
+
+/**
+ * object for transfer data to server as STRING
+ */
+object RetrofitBuilderGetMap {
+    var travelGetMapApiService: TravelApiService
+
+    init {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()) // Gson 컨버터 사용
+            .build()
+        travelGetMapApiService = retrofit.create(TravelApiService::class.java)
+    }
+}

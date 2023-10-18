@@ -26,8 +26,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.homepage.HomePage
+import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchPlaceGps.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
 import com.example.projecttravel.ui.screens.testboard.TestBoardPage

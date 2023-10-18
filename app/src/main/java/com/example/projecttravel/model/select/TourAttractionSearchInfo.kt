@@ -1,6 +1,5 @@
 package com.example.projecttravel.model.select
 
-import com.example.projecttravel.model.select.TourAttractionAll
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -12,4 +11,5 @@ data class TourAttractionSearchInfo (
     val lat: String,
     val lng: String,
     val img: String,
+    val inOut: String,
 ): TourAttractionAll

@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection
+package com.example.projecttravel.ui.screens.selection.selectapi
 
 import kotlinx.serialization.Serializable
 

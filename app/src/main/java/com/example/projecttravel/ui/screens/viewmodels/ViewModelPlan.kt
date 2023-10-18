@@ -3,11 +3,13 @@ package com.example.projecttravel.ui.screens.viewmodels
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.ui.screens.selection.WeatherResponseGet
+import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
+import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import retrofit2.Response
 import java.time.LocalDate
 
 class ViewModelPlan : ViewModel() {
@@ -15,24 +17,31 @@ class ViewModelPlan : ViewModel() {
     private val _uiState = MutableStateFlow(PlanUiState())
     val planUiState: StateFlow<PlanUiState> = _uiState.asStateFlow()
 
-    /** setDateRange Object */
+    /** setPlanDateRange Object */
     fun setPlanDateRange(desiredDateRange: ClosedRange<LocalDate>?) {
         _uiState.update { currentState ->
             currentState.copy(planDateRange = desiredDateRange)
         }
     }
 
-    /** setDateRange Object */
+    /** setPlanTourAttr Object */
     fun setPlanTourAttr(desiredTourAttraction: List<TourAttractionAll>) {
         _uiState.update { currentState ->
             currentState.copy(planTourAttractionAll = desiredTourAttraction)
         }
     }
 
-    /** setDateRange Object */
+    /** setDateToWeather Object */
     fun setDateToWeather(desiredTourAttraction: List<WeatherResponseGet>) {
         _uiState.update { currentState ->
             currentState.copy(dateToWeather = desiredTourAttraction)
+        }
+    }
+
+    /** setDateToAttrByWeather Object */
+    fun setDateToAttrByWeather(desiredTourAttraction: List<SpotDtoResponse>) {
+        _uiState.update { currentState ->
+            currentState.copy(dateToAttrByWeather = desiredTourAttraction)
         }
     }
 

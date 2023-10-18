@@ -1,13 +1,15 @@
 package com.example.projecttravel.data.uistates
 
 import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.ui.screens.selection.WeatherResponseGet
+import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
+import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
 import java.time.LocalDate
 
 data class PlanUiState(
     val planDateRange: ClosedRange<LocalDate>? = null,
     val planTourAttractionAll: List<TourAttractionAll> = emptyList(),
     val dateToWeather: List<WeatherResponseGet> = emptyList(),
+    val dateToAttrByWeather: List<SpotDtoResponse> = emptyList(),
 ) {
     val dateToSelectedTourAttractions: Map<LocalDate, List<TourAttractionAll>> = createDefaultDateToSelectedTourAttractions()
     /** Function that Distributes TourAttractions evenly according to LocalDate and sends it as a default value to dateToSelectedTourAttractions */

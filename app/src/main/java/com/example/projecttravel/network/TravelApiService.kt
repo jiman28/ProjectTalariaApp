@@ -6,10 +6,10 @@ import com.example.projecttravel.model.select.InterestInfo
 import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
-import com.example.projecttravel.ui.screens.selection.WeatherCallSend
-import com.example.projecttravel.ui.screens.selection.WeatherResponseGet
-import okhttp3.RequestBody
-import org.json.JSONArray
+import com.example.projecttravel.ui.screens.selection.selectapi.GetAttrWeather
+import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
+import com.example.projecttravel.ui.screens.selection.selectapi.WeatherCallSend
+import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -45,6 +45,10 @@ interface TravelApiService {
     // send date
     @POST("sendDate")
     fun getDateWeather(@Body weatherCallSend: WeatherCallSend): Call<List<WeatherResponseGet>>
+
+    // send date to get AttrList
+    @POST("sendAttr")
+    fun getDateAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
 
     // TestBoardA
     @POST("sendtba")
