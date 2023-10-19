@@ -5,10 +5,12 @@ import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -18,7 +20,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -44,6 +49,7 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page3(title = R.string.page3),
     Page4(title = R.string.page4),
     Page5(title = R.string.page5),
+    PageLoad(title = R.string.loading),
 }
 // working 2023-10-18
 /** Composable that displays screens */
@@ -109,6 +115,7 @@ fun TravelApp(
                     ExitAppWhenBackOnPressed(drawerState)
                 }
             }
+
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
                 SelectPage(
@@ -142,17 +149,31 @@ fun TravelApp(
 
             /** 3. 여행 플랜 짜기 패이지 ====================*/
             composable(route = TravelScreen.Page3.name) {
-                PlanPage(
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    onNextButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page2.name) },
-                )
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        DrawerContents(
+                            navController = navController,
+                            drawerState = drawerState,
+                            scope = scope,
+                        )
+                    },
+                ) {
+                    PlanPage(
+                        planUiState = planUiState,
+                        planViewModel = planViewModel,
+                        onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
+                        onNextButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                    )
+                    BackHandler(
+                        enabled = drawerState.isClosed,
+                        onBack = { navController.navigate(TravelScreen.Page2.name) },
+                    )
+                    /** Exit App when press BackHandler twice quickly */
+                    ExitAppWhenBackOnPressed(drawerState)
+                }
             }
+
             /** 4. 게시판 임시 페이지 ====================*/
             composable(route = TravelScreen.Page4.name) {
                 TestBoardPage(
@@ -166,6 +187,7 @@ fun TravelApp(
                 )
             }
         }
+
         /** DrawerMenu Screen closed when click phone's backButton */
         /** Must be placed beneath NavHost() to apply this BackHandler logic to all pages */
         BackHandler(
