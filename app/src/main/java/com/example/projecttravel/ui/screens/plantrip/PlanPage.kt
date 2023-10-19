@@ -3,8 +3,11 @@ package com.example.projecttravel.ui.screens.plantrip
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -48,46 +51,47 @@ fun PlanPage(
 
         /** ================================================== */
         /** Show your All Selections ====================*/
-        Column(
-            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium)),
-            verticalArrangement = Arrangement.spacedBy(dimensionResource(R.dimen.padding_small))
+        LazyColumn(
+            modifier = Modifier.fillMaxSize()
         ) {
-            Column {
+
+            item {
                 Text(planUiState.planDateRange.toString())
-            }
-            /** ================================================== */
-            /** Show your dateToWeather ====================*/
-            Column {
-                planUiState.dateToWeather.forEach { item ->
-                    Row (
-                    ) {
-                        Text(
-                            text = "${item.day}: ${item.inOut}",
-                            fontSize = 20.sp,
-                            fontWeight = FontWeight.Bold,
-                            modifier = Modifier
-                                .padding(3.dp) // 원하는 여백을 추가).
-                        )
-                        AsyncImage(
-                            modifier = Modifier
-                                .size(30.dp)
-                                .clip(RoundedCornerShape(8.dp)),
-                            model = ImageRequest.Builder(context = LocalContext.current)
-                                .data(item.icon)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
-                            error = painterResource(id = R.drawable.no_image_country),
-                            placeholder = painterResource(id = R.drawable.loading_img)
-                        )
-                    }
-                }
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }
 
-            /** ================================================== */
-            /** Show your dateToAttrByWeather ====================*/
-            Column {
+            item {
+                // Show your dateToWeather
+                Column {
+                    planUiState.dateToWeather.forEach { item ->
+                        Row {
+                            Text(
+                                text = "${item.day}: ${item.inOut}",
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier.padding(3.dp)
+                            )
+                            AsyncImage(
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .clip(RoundedCornerShape(8.dp)),
+                                model = ImageRequest.Builder(context = LocalContext.current)
+                                    .data(item.icon)
+                                    .crossfade(true)
+                                    .build(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Crop,
+                                error = painterResource(id = R.drawable.no_image_country),
+                                placeholder = painterResource(id = R.drawable.loading_img)
+                            )
+                        }
+                    }
+                }
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+            }
+
+            item {
+                // Show your dateToAttrByWeather
                 planUiState.dateToAttrByWeather.forEach { (date, attractions) ->
                     Column {
                         // 날짜 표시
@@ -101,7 +105,7 @@ fun PlanPage(
                         // 해당 날짜의 관광 목록 표시
                         attractions.forEach { attraction ->
                             Text(
-                                text = "${date}: ${ attraction.name }", // 여기서 "name"은 실제 TourAttractionAll 모델의 속성 이름일 것입니다.
+                                text = "${date}: ${attraction.name}",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Normal,
                                 modifier = Modifier.padding(3.dp)
@@ -109,11 +113,11 @@ fun PlanPage(
                         }
                     }
                 }
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }
 
-            /** ================================================== */
-            /** Show your dateToSelectedTourAttractions ====================*/
-            Column {
+            item {
+                // Show your dateToSelectedTourAttractions
                 planUiState.dateToSelectedTourAttractions.forEach { (date, attractions) ->
                     Column {
                         // 날짜 표시
@@ -133,7 +137,7 @@ fun PlanPage(
                                         is TourAttractionSearchInfo -> attraction.name
                                         else -> "몰루"
                                     }
-                                }", // 여기서 "name"은 실제 TourAttractionAll 모델의 속성 이름일 것입니다.
+                                }",
                                 fontSize = 20.sp,
                                 fontWeight = FontWeight.Normal,
                                 modifier = Modifier.padding(3.dp)
@@ -141,6 +145,7 @@ fun PlanPage(
                         }
                     }
                 }
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }
         }
     }
