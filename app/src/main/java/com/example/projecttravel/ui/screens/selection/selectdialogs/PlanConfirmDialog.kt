@@ -10,9 +10,11 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.selection.selectapi.getDateToAttrByWeather
 import com.example.projecttravel.ui.screens.selection.selectapi.getDateToWeather
@@ -86,7 +88,7 @@ fun PlanConfirmDialog(
                             onDismiss()
                         }
                     ) {
-                        Text(text = "확인", fontSize = 20.sp)
+                        Text(text = stringResource(R.string.confirm_button_kor), fontSize = 20.sp)
                     }
                 }
             },
@@ -116,15 +118,15 @@ fun PlanConfirmDialog(
                                 onLoadingStarted()
                                 // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                                 val weatherDeferred = async { getDateToWeather(selectUiState, planViewModel) }
-                                val attrDeferred = async { getDateToAttrByWeather(selectUiState, planViewModel) }
+//                                val attrDeferred = async { getDateToAttrByWeather(selectUiState, planViewModel) }
 
                                 // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                                 val isWeatherComplete = weatherDeferred.await()
-                                val isAttrComplete = attrDeferred.await()
+//                                val isAttrComplete = attrDeferred.await()
 
                                 // 모든 작업이 완료되었을 때만 실행합니다.
-                                if (isWeatherComplete && isAttrComplete) {
-//                                if (isWeatherComplete) {
+//                                if (isWeatherComplete && isAttrComplete) {
+                                if (isWeatherComplete) {
                                     planViewModel.setPlanDateRange(selectUiState.selectDateRange)
                                     planViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
                                     onDismiss()

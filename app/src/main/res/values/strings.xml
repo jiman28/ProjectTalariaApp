@@ -26,5 +26,6 @@
     <string name="close_button">Close</string>
     <string name="confirm_button">Confirm</string>
     <string name="send_button">Send Plan to DB</string>
+    <string name="confirm_button_kor">확인</string>
 
 </resources>
