@@ -135,11 +135,7 @@ fun SearchGpsPage(
                             findSearchListByName(
                                 searchUiState.searchedPlace?.name,
                                 tourAttrSearchUiState.tourAttrSearchList
-                            )?.let {
-                                selectViewModel.addTourAttrSearch(
-                                    it
-                                )
-                            }
+                            )?.let { selectViewModel.addTourAttrSearch(it) }
                         }
                         selectViewModel.setSearch(null)
                         searchViewModel.resetAllSearchUiState()
@@ -165,7 +161,7 @@ fun SearchGpsPage(
 
                     null -> {
                         if (selectUiState.selectSearch != null) {
-                            SearchedTourAttr(selectUiState, stateInOut) { newInOut ->
+                            SearchedTourAttr(selectUiState) { newInOut ->
                                 stateInOut = newInOut
                             }
                         }
@@ -313,7 +309,6 @@ fun GoogleMapSheet(
 @Composable
 fun SearchedTourAttr(
     selectUiState: SelectUiState,
-    stateInOut: String,
     onStateInOutChanged: (String) -> Unit,
 ) {
     Column (

@@ -113,6 +113,7 @@ fun sendName(
     )
 }
 
+/** Function for sending InOut number by string to write DB ====================*/
 fun sendInOut(
     placeName: String?,
     stateInOut: String?
