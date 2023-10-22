@@ -149,29 +149,16 @@ fun TravelApp(
 
             /** 3. 여행 플랜 짜기 패이지 ====================*/
             composable(route = TravelScreen.Page3.name) {
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        DrawerContents(
-                            navController = navController,
-                            drawerState = drawerState,
-                            scope = scope,
-                        )
-                    },
-                ) {
-                    PlanPage(
-                        planUiState = planUiState,
-                        planViewModel = planViewModel,
-                        onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                        onNextButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
-                    )
-                    BackHandler(
-                        enabled = drawerState.isClosed,
-                        onBack = { navController.navigate(TravelScreen.Page2.name) },
-                    )
-                    /** Exit App when press BackHandler twice quickly */
-                    ExitAppWhenBackOnPressed(drawerState)
-                }
+                PlanPage(
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
+                    onNextButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = { navController.navigate(TravelScreen.Page2.name) },
+                )
             }
 
             /** 4. 게시판 임시 페이지 ====================*/
