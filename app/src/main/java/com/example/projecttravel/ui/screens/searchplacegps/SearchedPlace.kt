@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.searchPlaceGps
+package com.example.projecttravel.ui.screens.searchplacegps
 
 import com.google.android.gms.maps.model.LatLng
 

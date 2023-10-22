@@ -1,15 +1,9 @@
-package com.example.projecttravel.ui.screens.searchPlaceGps
+package com.example.projecttravel.ui.screens.searchplacegps
 
 import android.location.Geocoder
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FetchPlaceRequest
 import com.google.android.libraries.places.api.net.FindAutocompletePredictionsRequest
 import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.coroutines.Job

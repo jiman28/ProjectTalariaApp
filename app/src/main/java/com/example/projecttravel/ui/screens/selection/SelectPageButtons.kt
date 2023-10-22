@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
@@ -26,6 +27,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 
 @Composable
 fun SelectPageButtons (
+    planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     selectUiState: SelectUiState,
     selectViewModel: ViewModelSelect,
@@ -87,6 +89,7 @@ fun SelectPageButtons (
             Text(stringResource(R.string.next_button))
             if (isPlanConfirmVisible) {
                 PlanConfirmDialog(
+                    planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectUiState = selectUiState,
                     onNextButtonClicked = onNextButtonClicked,

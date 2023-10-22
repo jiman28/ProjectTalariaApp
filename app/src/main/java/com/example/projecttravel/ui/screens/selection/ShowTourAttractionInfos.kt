@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.selection
 
-import android.provider.CalendarContract
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,14 +15,10 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.ButtonColors
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -46,7 +41,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
@@ -55,10 +49,7 @@ import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.model.select.InterestInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
-import com.example.projecttravel.ui.screens.searchPlaceGps.SearchGpsPage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
 
 @Composable

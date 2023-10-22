@@ -2,7 +2,7 @@ package com.example.projecttravel.ui.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.SearchUiState
-import com.example.projecttravel.ui.screens.searchPlaceGps.SearchedPlace
+import com.example.projecttravel.ui.screens.searchplacegps.SearchedPlace
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

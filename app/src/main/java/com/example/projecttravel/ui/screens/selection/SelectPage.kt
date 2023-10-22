@@ -19,6 +19,7 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
@@ -40,6 +41,7 @@ private const val TAG = "AAAAA"
 @Composable
 fun SelectPage(
     modifier: Modifier = Modifier,
+    planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     selectUiState: SelectUiState,
     selectViewModel: ViewModelSelect,
@@ -60,6 +62,7 @@ fun SelectPage(
         /** Buttons ====================*/
         Column {
             SelectPageButtons(
+                planUiState = planUiState,
                 planViewModel = planViewModel,
                 selectUiState = selectUiState,
                 selectViewModel = selectViewModel,

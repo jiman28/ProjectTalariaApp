@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.searchPlaceGps
+package com.example.projecttravel.ui.screens.searchplacegps
 
 import android.content.Context
 import android.util.Log

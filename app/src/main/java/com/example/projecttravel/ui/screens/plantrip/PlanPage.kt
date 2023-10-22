@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens.plantrip
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,10 +14,14 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -27,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
@@ -43,151 +49,206 @@ fun PlanPage(
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onNextButtonClicked: () -> Unit,
+    onRouteClicked: () -> Unit = {},
 ) {
 
     var selectedPlanDate by remember { mutableStateOf<LocalDate?>(null) }
-    val sortedDates = planUiState.dateToSelectedTourAttractions.keys.sorted()
+//    val sortedDates = planUiState.dateToSelectedTourAttractions.keys.sorted()
     var weatherSwitchChecked by remember { mutableStateOf(false) }
 
-    Column {
-        /** Buttons ====================*/
+    LongPressDraggable {
         Column {
-            PlanPageButtons(
-                planViewModel = planViewModel,
-                onCancelButtonClicked = onCancelButtonClicked,
-                onNextButtonClicked = onNextButtonClicked,
-            )
-        }
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+            /** Buttons ====================*/
+            Column {
+                PlanPageButtons(
+                    planViewModel = planViewModel,
+                    onCancelButtonClicked = onCancelButtonClicked,
+                    onNextButtonClicked = onNextButtonClicked,
+                )
+            }
+            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
-        /** ================================================== */
-        /** Buttons change between Random & Weather ====================*/
-        Row (
-            horizontalArrangement = Arrangement.SpaceEvenly, // 좌우로 공간을 나눠줌
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            // You can display the selected date if needed
-            Column (
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(3.dp),
+            /** ================================================== */
+            /** Buttons change between Random & Weather ====================*/
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly, // 좌우로 공간을 나눠줌
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                // You can display the selected date if needed
+                Column(
+                    modifier = Modifier
+                        .weight(3f)
+                        .padding(3.dp),
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                ) {
+                    if (weatherSwitchChecked) {
+                        Text(text = "날씨모드 ON !!!")
+                    } else {
+                        Text(text = "여기를 누르면 날씨모드로 변함 ->")
+                    }
+                }
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(3.dp),
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.End, // 수평 가운데 정렬
+                ) {
+                    Switch(
+                        checked = weatherSwitchChecked,
+                        onCheckedChange = {
+                            weatherSwitchChecked = it
+                        },
+                        thumbContent = if (weatherSwitchChecked) {
+                            {
+                                Icon(
+                                    imageVector = Icons.Filled.Build,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(SwitchDefaults.IconSize),
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                    )
+                }
+            }
+
+            /** ================================================== */
+            /** Show your All Selections ====================*/
+            Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
             ) {
-                weatherSwitchChecked.let { weatherSwitchChecked ->
-                    Text("Selected mode: $weatherSwitchChecked")
+                DateListContainer(planUiState = planUiState, planViewModel = planViewModel, onDateClick = { clickedDate ->
+                    selectedPlanDate = clickedDate
+                })
+            }
+            Column {
+                // You can display the selected date if needed
+                selectedPlanDate?.let { date ->
+                    Text("Selected Date: $date")
+                }
+
+                if (selectedPlanDate != null) {
+
+                    val selectedLocalDate = selectedPlanDate
+
+                    if (weatherSwitchChecked) {
+                        val selectedDateWeather: List<SpotDto> = if (weatherSwitchChecked) {
+                            val selectedDate = selectedLocalDate.toString()
+                            val selectedDateWeather = planUiState.dateToAttrByWeather
+                                .find { it.date == selectedDate }?.list ?: emptyList()
+                            selectedDateWeather
+                        } else {
+                            emptyList()
+                        }
+                        Box {
+                            LazyColumn(
+                                modifier = Modifier,
+                                contentPadding = PaddingValues(5.dp),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                            ) {
+                                items(selectedDateWeather) { spotDto ->
+                                    PlanTourCard(
+                                        spotDto = spotDto,
+                                        modifier = Modifier.fillMaxSize(),
+                                    )
+                                }
+                            }
+                            OutlinedButton(
+                                modifier = Modifier
+                                    .padding(3.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .align(Alignment.BottomEnd),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Blue,
+                                    contentColor = Color.White
+                                ),
+                                onClick = onRouteClicked
+                            ) {
+                                Text(text = "지도 보장")
+                            }
+                        }
+
+                    } else {
+                        val selectedDateAttrs: List<SpotDto> = if (weatherSwitchChecked == false) {
+                            val selectedDate = selectedLocalDate.toString()
+                            val selectedDateAttrs = planUiState.dateToAttrByRandom
+                                .find { it.date == selectedDate }?.list ?: emptyList()
+                            selectedDateAttrs
+                        } else {
+                            emptyList()
+                        }
+                        Box {
+                            LazyColumn(
+                                modifier = Modifier,
+                                contentPadding = PaddingValues(5.dp),
+                                verticalArrangement = Arrangement.spacedBy(5.dp)
+                            ) {
+                                items(selectedDateAttrs) { spotDto ->
+                                    PlanTourCard(
+                                        spotDto = spotDto,
+                                        modifier = Modifier.fillMaxSize(),
+                                    )
+                                }
+                            }
+                            OutlinedButton(
+                                modifier = Modifier
+                                    .padding(3.dp)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .align(Alignment.BottomEnd),
+                                colors = ButtonDefaults.buttonColors(
+                                    containerColor = Color.Blue,
+                                    contentColor = Color.White
+                                ),
+                                onClick = onRouteClicked
+                            ) {
+                                Text(text = "지도 보장")
+                            }
+                        }
+                    }
                 }
             }
-            Column (
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(3.dp),
-                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                horizontalAlignment = Alignment.End, // 수평 가운데 정렬
-            ) {
-                Switch(
-                    checked = weatherSwitchChecked,
-                    onCheckedChange = {
-                        weatherSwitchChecked = it
-                    },
-                    thumbContent = if (weatherSwitchChecked) {
-                        {
-                            Icon(
-                                imageVector = Icons.Filled.Build,
-                                contentDescription = null,
-                                modifier = Modifier.size(SwitchDefaults.IconSize),
-                            )
-                        }
-                    } else {
-                        null
-                    },
+        }
+    }
+}
+
+@Composable
+fun DateListContainer (
+    planUiState: PlanUiState,
+    planViewModel: ViewModelPlan,
+    onDateClick: (LocalDate) -> Unit
+) {
+    val sortedDates = planUiState.dateToSelectedTourAttrMap.keys.sorted()
+    LazyRow(
+        modifier = Modifier
+            .height(120.dp)
+            .fillMaxWidth()
+            .background(
+                Color.LightGray,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.Center
+    ) {
+        items(sortedDates) { date ->
+            val weatherResponseGet =
+                planUiState.dateToWeather.find { it.day == date.toString() }
+            if (weatherResponseGet != null) {
+                PlanTourDateCard(
+                    date = date,
+                    planViewModel = planViewModel,
+                    weatherResponseGet = weatherResponseGet,
+                    onClick = { onDateClick(date) } // Update selectedPlanDate
                 )
-            }
-        }
-
-        /** ================================================== */
-        /** Show your All Selections ====================*/
-        Column (
-            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-        ) {
-            LazyRow(
-                modifier = Modifier
-                    .height(120.dp)
-                    .fillMaxWidth()
-                    .background(
-                        Color.LightGray,
-//                        shape = RoundedCornerShape(topEnd = 10.dp, topStart = 10.dp)
-                    ),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                items(sortedDates) { date ->
-                    val weatherResponseGet =
-                        planUiState.dateToWeather.find { it.day == date.toString() }
-                    if (weatherResponseGet != null) {
-                        PlanTourDateCard(
-                            date = date,
-                            weatherResponseGet = weatherResponseGet,
-                            onClick = { selectedPlanDate = date } // Update selectedPlanDate
-                        )
-                    } else {
-                        PlanTourDateCard(
-                            date = date,
-                            weatherResponseGet = null,
-                            onClick = { selectedPlanDate = date } // Update selectedPlanDate
-                        )
-                    }
-                }
-            }
-        }
-        Column {
-            // You can display the selected date if needed
-            selectedPlanDate?.let { date ->
-                Text("Selected Date: $date")
-            }
-
-            if (selectedPlanDate != null) {
-
-                val selectedLocalDate = selectedPlanDate
-
-                if (weatherSwitchChecked) {
-                    val selectedDateWeather: List<SpotDto> = if (weatherSwitchChecked) {
-                        val selectedDate = selectedLocalDate.toString()
-                        val selectedDateWeather = planUiState.dateToAttrByWeather
-                            .find { it.date == selectedDate }?.list ?: emptyList()
-                        selectedDateWeather
-                    } else {
-                        emptyList()
-                    }
-                    LazyColumn(
-                        modifier = Modifier,
-                        contentPadding = PaddingValues(5.dp),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        items(selectedDateWeather) { spotDto ->
-                            PlanTourWeatherCard(
-                                spotDto = spotDto,
-                                modifier = Modifier.fillMaxSize(),
-                            )
-                        }
-                    }
-                } else {
-                    val selectedDateAttrs =
-                        planUiState.dateToSelectedTourAttractions[selectedLocalDate] ?: emptyList()
-                    LazyColumn(
-                        modifier = Modifier,
-                        contentPadding = PaddingValues(5.dp),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        items(selectedDateAttrs) { tourAttractionAll ->
-                            PlanTourAttrCard(
-                                tourAttractionAll = tourAttractionAll,
-                                modifier = Modifier.fillMaxSize(),
-                            )
-                        }
-                    }
-                }
+            } else {
+                PlanTourDateCard(
+                    date = date,
+                    planViewModel = planViewModel,
+                    weatherResponseGet = null,
+                    onClick = { onDateClick(date) } // Update selectedPlanDate
+                )
             }
         }
     }
