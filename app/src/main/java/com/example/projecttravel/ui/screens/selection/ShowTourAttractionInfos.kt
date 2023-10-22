@@ -1,7 +1,10 @@
 package com.example.projecttravel.ui.screens.selection
 
+import android.provider.CalendarContract
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,8 +14,16 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonColors
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -25,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -97,6 +109,7 @@ private fun TourAttractionListScreen(
         }
         TourAttrScreen(
             onGpsClicked = onGpsClicked,
+            selectUiState = selectUiState,
             selectViewModel = selectViewModel,
             filteredTourAttractionInfo = filteredTourAttractionInfo,
             contentPadding = contentPadding,
@@ -108,6 +121,7 @@ private fun TourAttractionListScreen(
         }
         TourAttrScreen(
             onGpsClicked = onGpsClicked,
+            selectUiState = selectUiState,
             selectViewModel = selectViewModel,
             filteredTourAttractionInfo = filteredTourAttractionInfo,
             contentPadding = contentPadding,
@@ -129,6 +143,7 @@ private fun TourAttractionListScreen(
 @Composable
 fun TourAttrScreen(
     onGpsClicked: () -> Unit = {},
+    selectUiState: SelectUiState,
     selectViewModel: ViewModelSelect,
     filteredTourAttractionInfo: List<TourAttractionInfo>,
     contentPadding: PaddingValues,
@@ -158,7 +173,7 @@ fun TourAttrScreen(
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
         items(
-            items = filteredTourAttractionInfo,
+            items = filteredTourAttractionInfo.filter { it !in selectUiState.selectTourAttractions},    // 이미 고른 관광지는 안나오게 함
             key = { tourAttractionInfo ->
                 tourAttractionInfo.placeName
             }
@@ -196,32 +211,46 @@ fun TourAttrCard(
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start
             )
-            AsyncImage(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .size(150.dp)
-                    .clip(RoundedCornerShape(8.dp))
-                    .clickable {
-                        isTourAttrInfoDialogVisible = true
-                    },
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(tourAttractionInfo.imageP)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                error = painterResource(id = R.drawable.no_image_country),
-                placeholder = painterResource(id = R.drawable.loading_img)
-            )
-            OutlinedButton(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(3.dp),
-                onClick = {
-                    onClick(tourAttractionInfo)
+            Box {
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .size(150.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .clickable {
+                            isTourAttrInfoDialogVisible = true
+                        },
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data(tourAttractionInfo.imageP)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.no_image_country),
+                    placeholder = painterResource(id = R.drawable.loading_img)
+                )
+                IconButton(
+                    modifier = Modifier
+                        .padding(3.dp)
+                        .clip(RoundedCornerShape(50.dp))
+                        .background(Color.Blue)
+                        .align(Alignment.BottomEnd),
+                    onClick = { onClick(tourAttractionInfo) }
+                ) {
+                    Icon(imageVector = Icons.Filled.Add, contentDescription = "CancelTourAttraction", tint = Color.White)
                 }
-            ) {
-                Text(text = "여기 갈랭")
+//                OutlinedButton(
+//                    modifier = Modifier
+//                        .padding(3.dp)
+//                        .clip(RoundedCornerShape(8.dp))
+//                        .align(Alignment.BottomEnd),
+//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue, contentColor = Color.White),
+//                    onClick = {
+//                        onClick(tourAttractionInfo)
+//                    }
+//                ) {
+//                    Text(text = "여기 갈랭")
+//                }
             }
         }
     }

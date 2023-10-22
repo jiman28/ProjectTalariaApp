@@ -26,6 +26,7 @@ import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewMode
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.InterestInfo
+import com.example.projecttravel.model.select.TourAttractionAll
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
@@ -48,10 +49,8 @@ fun SelectPage(
 ) {
     val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
     val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
-    val interestViewModel: InterestViewModel =
-        viewModel(factory = InterestViewModel.InterestFactory)
-    val tourAttractionViewModel: TourAttractionViewModel =
-        viewModel(factory = TourAttractionViewModel.TourAttractionFactory)
+    val interestViewModel: InterestViewModel = viewModel(factory = InterestViewModel.InterestFactory)
+    val tourAttractionViewModel: TourAttractionViewModel = viewModel(factory = TourAttractionViewModel.TourAttractionFactory)
 
     val selectedCountry by remember { mutableStateOf<CountryInfo?>(null) }
     val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
