@@ -159,7 +159,7 @@ fun PlanPage(
                         verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
                         items(selectedDateWeather) { spotDto ->
-                            PlanTourWeatherCard(
+                            PlanCardTourWeather(
                                 planUiState = planUiState,
                                 planViewModel = planViewModel,
                                 spotDto = spotDto,
@@ -219,7 +219,7 @@ fun PlanPage(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     items(selectedDateAttrs) { spotDto ->
-                        PlanTourAttrCard(
+                        PlanCardTourAttr(
                             planUiState = planUiState,
                             planViewModel = planViewModel,
                             spotDto = spotDto,
@@ -256,7 +256,7 @@ fun DateList(
             val weatherResponseGet =
                 planUiState.dateToWeather.find { it.day == date.toString() }
             if (weatherResponseGet != null) {
-                PlanTourDateCard(
+                PlanCardDate(
                     date = date,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
@@ -264,7 +264,7 @@ fun DateList(
                     onClick = { onDateClick(date) } // Update selectedPlanDate
                 )
             } else {
-                PlanTourDateCard(
+                PlanCardDate(
                     date = date,
                     planUiState = planUiState,
                     planViewModel = planViewModel,

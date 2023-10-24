@@ -32,7 +32,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
 @Composable
-fun PlanTourDateCard(
+fun PlanCardDate(
     date: LocalDate,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
