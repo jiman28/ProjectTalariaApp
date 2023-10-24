@@ -159,7 +159,7 @@ fun PlanPage(
                         verticalArrangement = Arrangement.spacedBy(5.dp)
                     ) {
                         items(selectedDateWeather) { spotDto ->
-                            PlanTourCard(
+                            PlanTourWeatherCard(
                                 planUiState = planUiState,
                                 planViewModel = planViewModel,
                                 spotDto = spotDto,
@@ -219,7 +219,7 @@ fun PlanPage(
                     verticalArrangement = Arrangement.spacedBy(5.dp)
                 ) {
                     items(selectedDateAttrs) { spotDto ->
-                        PlanTourCard(
+                        PlanTourAttrCard(
                             planUiState = planUiState,
                             planViewModel = planViewModel,
                             spotDto = spotDto,

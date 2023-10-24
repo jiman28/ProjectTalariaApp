@@ -90,7 +90,32 @@ class ViewModelPlan : ViewModel() {
 //        }
 //    }
 
+    /** removeAttrByWeather Object */
+    fun removeAttrByWeather(sourceDate: LocalDate, spotDtoToMove: SpotDto) {
+        _uiState.update { currentState ->
+            // 복사본 생성
+            val updatedAttrByRandom = currentState.dateToAttrByWeather.toMutableList()
+            // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
+            val sourceSpotDtoResponse = updatedAttrByRandom.find { it.date == sourceDate.toString() }
+            (sourceSpotDtoResponse?.list as MutableList<SpotDto>).remove(spotDtoToMove)
+            // destinationSpotDtoResponse에 spotDtoToMove 추가
+            currentState.copy(dateToAttrByWeather = updatedAttrByRandom)
+        }
+    }
 
+    /** addAttrByWeather Object */
+    fun addAttrByWeather(destinationDate: LocalDate, spotDtoToMove: SpotDto) {
+        _uiState.update { currentState ->
+            // 복사본 생성
+            val updatedAttrByRandom = currentState.dateToAttrByWeather.toMutableList()
+            // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
+            val destinationSpotDtoResponse = updatedAttrByRandom.find { it.date == destinationDate.toString() }
+            (destinationSpotDtoResponse?.list as MutableList<SpotDto>).add(spotDtoToMove)
+            currentState.copy(dateToAttrByWeather = updatedAttrByRandom)
+        }
+    }
+
+    /** removeAttrByRandom Object */
     fun removeAttrByRandom(sourceDate: LocalDate, spotDtoToMove: SpotDto) {
         _uiState.update { currentState ->
             // 복사본 생성
@@ -103,7 +128,7 @@ class ViewModelPlan : ViewModel() {
         }
     }
 
-    /** moveAttrByRandom Object */
+    /** addAttrByRandom Object */
     fun addAttrByRandom(destinationDate: LocalDate, spotDtoToMove: SpotDto) {
         _uiState.update { currentState ->
             // 복사본 생성
