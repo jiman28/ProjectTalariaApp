@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
@@ -52,162 +51,183 @@ fun PlanPage(
     onRouteClicked: () -> Unit = {},
 ) {
 
-    var selectedPlanDate by remember { mutableStateOf<LocalDate?>(null) }
-//    val sortedDates = planUiState.dateToSelectedTourAttractions.keys.sorted()
+    var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
     var weatherSwitchChecked by remember { mutableStateOf(false) }
-
-    LongPressDraggable {
+    Column {
+        /** Buttons ====================*/
         Column {
-            /** Buttons ====================*/
-            Column {
-                PlanPageButtons(
-                    planViewModel = planViewModel,
-                    onCancelButtonClicked = onCancelButtonClicked,
-                    onNextButtonClicked = onNextButtonClicked,
+            PlanPageButtons(
+                planViewModel = planViewModel,
+                onCancelButtonClicked = onCancelButtonClicked,
+                onNextButtonClicked = onNextButtonClicked,
+            )
+        }
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
+        /** ================================================== */
+        /** Buttons change between Random & Weather ====================*/
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly, // 좌우로 공간을 나눠줌
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            // You can display the selected date if needed
+            Column(
+                modifier = Modifier
+                    .weight(3f)
+                    .padding(3.dp),
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            ) {
+                if (weatherSwitchChecked) {
+                    Text(text = "날씨모드 ON !!!")
+                } else {
+                    Text(text = "여기를 누르면 날씨모드로 변함 ->")
+                }
+            }
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(3.dp),
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.End, // 수평 가운데 정렬
+            ) {
+                Switch(
+                    checked = weatherSwitchChecked,
+                    onCheckedChange = {
+                        weatherSwitchChecked = it
+                    },
+                    thumbContent = if (weatherSwitchChecked) {
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.Build,
+                                contentDescription = null,
+                                modifier = Modifier.size(SwitchDefaults.IconSize),
+                            )
+                        }
+                    } else {
+                        null
+                    },
                 )
             }
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+        }
 
-            /** ================================================== */
-            /** Buttons change between Random & Weather ====================*/
-            Row(
-                horizontalArrangement = Arrangement.SpaceEvenly, // 좌우로 공간을 나눠줌
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                // You can display the selected date if needed
-                Column(
-                    modifier = Modifier
-                        .weight(3f)
-                        .padding(3.dp),
-                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                ) {
-                    if (weatherSwitchChecked) {
-                        Text(text = "날씨모드 ON !!!")
-                    } else {
-                        Text(text = "여기를 누르면 날씨모드로 변함 ->")
-                    }
-                }
-                Column(
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(3.dp),
-                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                    horizontalAlignment = Alignment.End, // 수평 가운데 정렬
-                ) {
-                    Switch(
-                        checked = weatherSwitchChecked,
-                        onCheckedChange = {
-                            weatherSwitchChecked = it
-                        },
-                        thumbContent = if (weatherSwitchChecked) {
-                            {
-                                Icon(
-                                    imageVector = Icons.Filled.Build,
-                                    contentDescription = null,
-                                    modifier = Modifier.size(SwitchDefaults.IconSize),
-                                )
-                            }
-                        } else {
-                            null
-                        },
-                    )
-                }
-            }
-
-            /** ================================================== */
-            /** Show your All Selections ====================*/
+        /** ================================================== */
+        /** Show your All Selections ====================*/
+        if (weatherSwitchChecked) {
             Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
             ) {
-                DateListContainer(planUiState = planUiState, planViewModel = planViewModel, onDateClick = { clickedDate ->
-                    selectedPlanDate = clickedDate
-                })
+                DateList(
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    onDateClick = { clickedDate ->
+                        selectedPlanDate = clickedDate
+                    })
+            }
+
+            Text(text = selectedPlanDate.toString())
+            Text(text = planUiState.currentPlanDate.toString())
+
+            Column {
+                OutlinedButton(
+                    modifier = Modifier
+                        .padding(3.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Blue,
+                        contentColor = Color.White
+                    ),
+                    onClick = onRouteClicked
+                ) {
+                    Text(text = "지도 보장")
+                }
             }
             Column {
-                // You can display the selected date if needed
-                selectedPlanDate?.let { date ->
-                    Text("Selected Date: $date")
+                val selectedDateWeather: List<SpotDto> = if (weatherSwitchChecked) {
+                    val selectedDate = selectedPlanDate.toString()
+                    val selectedDateWeather = planUiState.dateToAttrByWeather
+                        .find { it.date == selectedDate }?.list ?: emptyList()
+                    selectedDateWeather
+                } else {
+                    emptyList()
                 }
-
-                if (selectedPlanDate != null) {
-
-                    val selectedLocalDate = selectedPlanDate
-
-                    if (weatherSwitchChecked) {
-                        val selectedDateWeather: List<SpotDto> = if (weatherSwitchChecked) {
-                            val selectedDate = selectedLocalDate.toString()
-                            val selectedDateWeather = planUiState.dateToAttrByWeather
-                                .find { it.date == selectedDate }?.list ?: emptyList()
-                            selectedDateWeather
-                        } else {
-                            emptyList()
-                        }
-                        Box {
-                            LazyColumn(
-                                modifier = Modifier,
-                                contentPadding = PaddingValues(5.dp),
-                                verticalArrangement = Arrangement.spacedBy(5.dp)
-                            ) {
-                                items(selectedDateWeather) { spotDto ->
-                                    PlanTourCard(
-                                        spotDto = spotDto,
-                                        modifier = Modifier.fillMaxSize(),
-                                    )
+                Box {
+                    LazyColumn(
+                        modifier = Modifier,
+                        contentPadding = PaddingValues(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        items(selectedDateWeather) { spotDto ->
+                            PlanTourCard(
+                                planUiState = planUiState,
+                                planViewModel = planViewModel,
+                                spotDto = spotDto,
+                                modifier = Modifier.fillMaxSize(),
+                                onDateClick = { clickedDate ->
+                                    selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
                                 }
-                            }
-                            OutlinedButton(
-                                modifier = Modifier
-                                    .padding(3.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .align(Alignment.BottomEnd),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Blue,
-                                    contentColor = Color.White
-                                ),
-                                onClick = onRouteClicked
-                            ) {
-                                Text(text = "지도 보장")
-                            }
+                            )
                         }
+                    }
 
-                    } else {
-                        val selectedDateAttrs: List<SpotDto> = if (weatherSwitchChecked == false) {
-                            val selectedDate = selectedLocalDate.toString()
-                            val selectedDateAttrs = planUiState.dateToAttrByRandom
-                                .find { it.date == selectedDate }?.list ?: emptyList()
-                            selectedDateAttrs
-                        } else {
-                            emptyList()
-                        }
-                        Box {
-                            LazyColumn(
-                                modifier = Modifier,
-                                contentPadding = PaddingValues(5.dp),
-                                verticalArrangement = Arrangement.spacedBy(5.dp)
-                            ) {
-                                items(selectedDateAttrs) { spotDto ->
-                                    PlanTourCard(
-                                        spotDto = spotDto,
-                                        modifier = Modifier.fillMaxSize(),
-                                    )
-                                }
+                }
+            }
+        } else {
+            Column(
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            ) {
+                DateList(
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    onDateClick = { clickedDate ->
+                        selectedPlanDate = clickedDate
+                    }
+                )
+            }
+
+            Text(text = selectedPlanDate.toString())
+            Text(text = planUiState.currentPlanDate.toString())
+
+            Column {
+                OutlinedButton(
+                    modifier = Modifier
+                        .padding(3.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color.Blue,
+                        contentColor = Color.White
+                    ),
+                    onClick = onRouteClicked
+                ) {
+                    Text(text = "지도 보장")
+                }
+            }
+            Column {
+                val selectedDateAttrs: List<SpotDto> = if (weatherSwitchChecked == false) {
+                    val selectedDate = selectedPlanDate.toString()
+                    val selectedDateAttrs = planUiState.dateToAttrByRandom
+                        .find { it.date == selectedDate }?.list ?: emptyList()
+                    selectedDateAttrs
+                } else {
+                    emptyList()
+                }
+                LazyColumn(
+                    modifier = Modifier,
+                    contentPadding = PaddingValues(5.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    items(selectedDateAttrs) { spotDto ->
+                        PlanTourCard(
+                            planUiState = planUiState,
+                            planViewModel = planViewModel,
+                            spotDto = spotDto,
+                            modifier = Modifier.fillMaxSize(),
+                            onDateClick = { clickedDate ->
+                                selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
                             }
-                            OutlinedButton(
-                                modifier = Modifier
-                                    .padding(3.dp)
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .align(Alignment.BottomEnd),
-                                colors = ButtonDefaults.buttonColors(
-                                    containerColor = Color.Blue,
-                                    contentColor = Color.White
-                                ),
-                                onClick = onRouteClicked
-                            ) {
-                                Text(text = "지도 보장")
-                            }
-                        }
+                        )
                     }
                 }
             }
@@ -216,10 +236,10 @@ fun PlanPage(
 }
 
 @Composable
-fun DateListContainer (
+fun DateList(
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
-    onDateClick: (LocalDate) -> Unit
+    onDateClick: (LocalDate) -> Unit,
 ) {
     val sortedDates = planUiState.dateToSelectedTourAttrMap.keys.sorted()
     LazyRow(
@@ -238,6 +258,7 @@ fun DateListContainer (
             if (weatherResponseGet != null) {
                 PlanTourDateCard(
                     date = date,
+                    planUiState = planUiState,
                     planViewModel = planViewModel,
                     weatherResponseGet = weatherResponseGet,
                     onClick = { onDateClick(date) } // Update selectedPlanDate
@@ -245,6 +266,7 @@ fun DateListContainer (
             } else {
                 PlanTourDateCard(
                     date = date,
+                    planUiState = planUiState,
                     planViewModel = planViewModel,
                     weatherResponseGet = null,
                     onClick = { onDateClick(date) } // Update selectedPlanDate

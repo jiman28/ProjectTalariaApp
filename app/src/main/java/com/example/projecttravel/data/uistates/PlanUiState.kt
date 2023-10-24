@@ -7,6 +7,7 @@ import java.time.LocalDate
 
 data class PlanUiState(
     val planDateRange: ClosedRange<LocalDate>? = null,
+    val currentPlanDate: LocalDate? = null,
     val planTourAttractionAll: List<TourAttractionAll> = emptyList(),
     val dateToWeather: List<WeatherResponseGet> = emptyList(),
     val dateToAttrByWeather: List<SpotDtoResponse> = emptyList(),

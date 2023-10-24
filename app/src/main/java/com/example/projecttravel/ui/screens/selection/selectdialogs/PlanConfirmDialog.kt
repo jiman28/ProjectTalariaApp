@@ -138,7 +138,7 @@ fun PlanConfirmDialog(
 //                                if (isWeatherComplete && isAttrComplete) {
                                 if (isWeatherComplete) {
                                     planViewModel.setPlanDateRange(selectUiState.selectDateRange)
-                                    planViewModel.setPlanTourAttrSpot(convertToSpotDtoResponses(selectUiState))
+                                    planViewModel.setDateToAttrByRandom(convertToSpotDtoResponses(selectUiState))
                                     onDismiss()
                                     onNextButtonClicked()
                                 } else {

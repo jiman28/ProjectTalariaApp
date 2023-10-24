@@ -1,8 +1,10 @@
 package com.example.projecttravel.ui.screens.viewmodels
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionAll
+import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
 import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
 import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,24 +25,17 @@ class ViewModelPlan : ViewModel() {
         }
     }
 
+    /** setName Object */
+    fun setCurrentPlanDate (desiredDate: LocalDate) {
+        _uiState.update { currentState ->
+            currentState.copy(currentPlanDate = desiredDate)
+        }
+    }
+
     /** setPlanTourAttr Object */
     fun setPlanTourAttr(desiredTourAttraction: List<TourAttractionAll>) {
         _uiState.update { currentState ->
             currentState.copy(planTourAttractionAll = desiredTourAttraction)
-        }
-    }
-
-    /** setPlanTourAttrMap Object */
-    fun setPlanTourAttrMap(desiredTourAttraction: Map<LocalDate, List<TourAttractionAll>>) {
-        _uiState.update { currentState ->
-            currentState.copy(dateToSelectedTourAttrMap = desiredTourAttraction)
-        }
-    }
-
-    /** setPlanTourAttrSpot Object */
-    fun setPlanTourAttrSpot(desiredTourAttraction: List<SpotDtoResponse>) {
-        _uiState.update { currentState ->
-            currentState.copy(dateToAttrByRandom = desiredTourAttraction)
         }
     }
 
@@ -58,31 +53,71 @@ class ViewModelPlan : ViewModel() {
         }
     }
 
+    /** setDateToAttrByRandom Object */
+    fun setDateToAttrByRandom(desiredTourAttraction: List<SpotDtoResponse>) {
+        _uiState.update { currentState ->
+            currentState.copy(dateToAttrByRandom = desiredTourAttraction)
+        }
+    }
+
+    /** setPlanTourAttrMap Object */
+    fun setPlanTourAttrMap(desiredTourAttraction: Map<LocalDate, List<TourAttractionAll>>) {
+        _uiState.update { currentState ->
+            currentState.copy(dateToSelectedTourAttrMap = desiredTourAttraction)
+        }
+    }
+
+//    /** moveAttrByWeather Object */
+//    fun moveAttrByWeather(destinationDate: LocalDate, spotDtoToMove: SpotDto){
+//        _uiState.update { currentState ->
+//            // 복사본 생성
+//            val updatedAttrByWeather = currentState.dateToAttrByWeather.toMutableList()
+//
+//            // destinationDate에 해당하는 SpotDtoResponse 찾기
+//            val destinationSpotDtoResponseWeather = updatedAttrByWeather.find { it.date == destinationDate.toString() }
+//
+//            if (destinationSpotDtoResponseWeather != null) {
+//                destinationSpotDtoResponseWeather.list = destinationSpotDtoResponseWeather.list.toMutableList()
+//                if ((destinationSpotDtoResponseWeather.list as MutableList<SpotDto>).contains(spotDtoToMove)) {
+//                    Log.d("xxxxxxxxxxxxxxxxxxxx", "이미 있는 거임")
+//                } else {
+//                    (destinationSpotDtoResponseWeather.list as MutableList<SpotDto>).add(spotDtoToMove)
+//                }
+//            }
+//
+//            // 업데이트된 목록을 새로운 PlanUiState로 복사하여 반환
+//            currentState.copy(dateToAttrByWeather = updatedAttrByWeather)
+//        }
+//    }
+
+
+    fun removeAttrByRandom(sourceDate: LocalDate, spotDtoToMove: SpotDto) {
+        _uiState.update { currentState ->
+            // 복사본 생성
+            val updatedAttrByRandom = currentState.dateToAttrByRandom.toMutableList()
+            // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
+            val sourceSpotDtoResponse = updatedAttrByRandom.find { it.date == sourceDate.toString() }
+            (sourceSpotDtoResponse?.list as MutableList<SpotDto>).remove(spotDtoToMove)
+            // destinationSpotDtoResponse에 spotDtoToMove 추가
+            currentState.copy(dateToAttrByRandom = updatedAttrByRandom)
+        }
+    }
+
+    /** moveAttrByRandom Object */
+    fun addAttrByRandom(destinationDate: LocalDate, spotDtoToMove: SpotDto) {
+        _uiState.update { currentState ->
+            // 복사본 생성
+            val updatedAttrByRandom = currentState.dateToAttrByRandom.toMutableList()
+            // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
+            val destinationSpotDtoResponse = updatedAttrByRandom.find { it.date == destinationDate.toString() }
+            (destinationSpotDtoResponse?.list as MutableList<SpotDto>).add(spotDtoToMove)
+            currentState.copy(dateToAttrByRandom = updatedAttrByRandom)
+        }
+    }
+
+
     /** reset all Objects */
     fun resetAllPlanUiState() {
         _uiState.value = PlanUiState() // DailyPlanUiState를 기본 값으로 재설정
     }
-
-//    /** Replace attraction by drag and drop */
-//    fun moveAttraction(fromDate: LocalDate, toDate: LocalDate, attraction: TourAttractionAll) {
-//        _uiState.update { currentState ->
-//            val currentAttractions = currentState.dateToSelectedTourAttractions[fromDate]?.toMutableList() ?: return@update currentState
-//
-//            // Remove the attraction from the source date
-//            currentAttractions.remove(attraction)
-//
-//            // Add the attraction to the target date
-//            val targetAttractions = (currentState.dateToSelectedTourAttractions[toDate]?.toMutableList() ?: mutableListOf()).also {
-//                it.add(attraction)
-//            }
-//
-//            // Create an updated map with the modified data
-//            val updatedDateToSelectedTourAttractions = currentState.dateToSelectedTourAttractions.toMutableMap()
-//            updatedDateToSelectedTourAttractions[fromDate] = currentAttractions
-//            updatedDateToSelectedTourAttractions[toDate] = targetAttractions
-//
-//            // Create and return an updated PlanUiState with the new map
-//            currentState.copy(dateToSelectedTourAttractions = updatedDateToSelectedTourAttractions)
-//        }
-//    }
 }

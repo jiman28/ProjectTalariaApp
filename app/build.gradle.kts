@@ -100,11 +100,11 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
 
     // Google Map Service
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     // Google Map Compose
     implementation("com.google.maps.android:maps-compose:2.11.4")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     // Google Map = Places SDK for Android
     implementation("com.google.android.libraries.places:places:3.2.0")
@@ -114,7 +114,7 @@ dependencies {
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")  // 수정
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.03.00"))
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.3")  // 수정
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.5.4")  // 수정
 
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
