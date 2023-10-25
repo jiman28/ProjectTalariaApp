@@ -1,23 +1,36 @@
 package com.example.projecttravel.ui.screens
 
+import android.app.Activity
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.projecttravel.LoginActivity
+import com.example.projecttravel.MainActivity
 import com.example.projecttravel.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,6 +44,13 @@ fun DrawerContents (
     drawerState: DrawerState,
     scope: CoroutineScope,
 ) {
+    var isLogOutState by remember { mutableStateOf(false) }
+
+    Surface {
+        if (isLogOutState) {
+            LogOutDialog( onDismissAlert = { isLogOutState = false })
+        }
+    }
     ModalDrawerSheet(
         modifier = Modifier.size(200.dp, 500.dp),
     ) {
@@ -58,6 +78,12 @@ fun DrawerContents (
             )
         }
         TextButton(onClick = {
+            isLogOutState = true
+            scope.launch { drawerState.close() }
+        }) {
+            Text(text = "로그아웃", fontSize = 25.sp)
+        }
+        TextButton(onClick = {
             navController.navigate(TravelScreen.Page2.name)
             scope.launch { drawerState.close() }
         }) {
@@ -82,4 +108,51 @@ fun DrawerContents (
 //            Text(text = "게시판 임시 페이지", fontSize = 25.sp)
 //        }
     }
+}
+
+/** ===================================================================== */
+/** LogOutDialog to ask whether to logout or not ====================*/
+@Composable
+fun LogOutDialog(
+    onDismissAlert: () -> Unit,
+) {
+    val context = LocalContext.current
+    AlertDialog(
+        onDismissRequest = {
+            onDismissAlert()
+        },
+        text = {
+            Text(
+                text = "로그아웃 할꺼임",
+                fontSize = 50.sp,
+                lineHeight = 50.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        context.startActivity(Intent(context, LoginActivity::class.java))
+                        (context as Activity).finish()
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+                TextButton(
+                    onClick = {
+                        onDismissAlert()
+                    }
+                ) {
+                    Text(text = "취소", fontSize = 20.sp)
+                }
+            }
+        },
+    )
 }
