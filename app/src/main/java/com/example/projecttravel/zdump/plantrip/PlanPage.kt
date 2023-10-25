@@ -1,5 +1,6 @@
-package com.example.projecttravel.ui.screens.plantrip
+package com.example.projecttravel.zdump.plantrip
 
+import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -14,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Build
@@ -32,13 +34,20 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.zdump.plantrip.reorder.ReorderListViewModel
 import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import org.burnoutcrew.reorderable.ReorderableItem
+import org.burnoutcrew.reorderable.detectReorderAfterLongPress
+import org.burnoutcrew.reorderable.rememberReorderableLazyListState
+import org.burnoutcrew.reorderable.reorderable
 import java.time.LocalDate
 
 @Composable
@@ -46,6 +55,7 @@ fun PlanPage(
     modifier: Modifier = Modifier,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
+    vm: ReorderListViewModel = viewModel(),
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onNextButtonClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
@@ -152,25 +162,23 @@ fun PlanPage(
                 } else {
                     emptyList()
                 }
-                Box {
-                    LazyColumn(
-                        modifier = Modifier,
-                        contentPadding = PaddingValues(5.dp),
-                        verticalArrangement = Arrangement.spacedBy(5.dp)
-                    ) {
-                        items(selectedDateWeather) { spotDto ->
-                            PlanCardTourWeather(
-                                planUiState = planUiState,
-                                planViewModel = planViewModel,
-                                spotDto = spotDto,
-                                modifier = Modifier.fillMaxSize(),
-                                onDateClick = { clickedDate ->
-                                    selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
-                                }
-                            )
-                        }
-                    }
 
+                LazyColumn(
+                    modifier = Modifier,
+                    contentPadding = PaddingValues(5.dp),
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    items(selectedDateWeather) { spotDto ->
+                        PlanCardTourWeather(
+                            planUiState = planUiState,
+                            planViewModel = planViewModel,
+                            spotDto = spotDto,
+                            modifier = Modifier.fillMaxSize(),
+                            onDateClick = { clickedDate ->
+                                selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
+                            }
+                        )
+                    }
                 }
             }
         } else {
@@ -205,34 +213,77 @@ fun PlanPage(
                 }
             }
             Column {
-                val selectedDateAttrs: List<SpotDto> = if (weatherSwitchChecked == false) {
-                    val selectedDate = selectedPlanDate.toString()
-                    val selectedDateAttrs = planUiState.dateToAttrByRandom
-                        .find { it.date == selectedDate }?.list ?: emptyList()
-                    selectedDateAttrs
-                } else {
-                    emptyList()
-                }
+
+//                val selectedDate = selectedPlanDate.toString()
+//                var selectedDateAttrs = planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list ?: emptyList()
+//                var selectedDateAttrs = remember { mutableStateOf(List<SpotDto>)(planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list) }
+//                var selectedDateAttrs by remember { mutableStateOf(planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list ?: emptyList()) }
+//                val state = rememberReorderableLazyListState(
+//                    onMove = { from, to ->
+//                        selectedDateAttrs = selectedDateAttrs.toMutableList().apply {
+//                            add(to.index, removeAt(from.index))
+//                        }
+//                    },
+//                )
+
+                val state = rememberReorderableLazyListState(onMove = vm::moveAttr,)
+
                 LazyColumn(
-                    modifier = Modifier,
-                    contentPadding = PaddingValues(5.dp),
-                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                    state = state.listState,
+                    modifier = Modifier
+                        .reorderable(state)
+                        .detectReorderAfterLongPress(state)
                 ) {
-                    items(selectedDateAttrs) { spotDto ->
-                        PlanCardTourAttr(
-                            planUiState = planUiState,
-                            planViewModel = planViewModel,
-                            spotDto = spotDto,
-                            modifier = Modifier.fillMaxSize(),
-                            onDateClick = { clickedDate ->
-                                selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
-                            }
-                        )
+                    items(vm.selectedDateAttrs, { getSpotDtoId(it) }) { item ->
+                        ReorderableItem(state, key = getSpotDtoId(item)) { isDragging ->
+                            val elevation = animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                            PlanCardTourAttr(
+                                planUiState = planUiState,
+                                planViewModel = planViewModel,
+                                spotDto = item,
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .detectReorderAfterLongPress(state)
+                                    .shadow(elevation.value),
+                                onDateClick = { clickedDate ->
+                                    selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
+                                }
+                            )
+                        }
                     }
                 }
+
+//                if (selectedDateAttrs.isNotEmpty()) {
+//
+//
+//                } else {
+//                    Text(text = "목록이 없당")
+//                }
+
+//                LazyColumn(
+//                    modifier = Modifier,
+//                    contentPadding = PaddingValues(5.dp),
+//                    verticalArrangement = Arrangement.spacedBy(5.dp)
+//                ) {
+//                    items(selectedDateAttrs) { spotDto ->
+//                        PlanCardTourAttr(
+//                            planUiState = planUiState,
+//                            planViewModel = planViewModel,
+//                            spotDto = spotDto,
+//                            modifier = Modifier.fillMaxSize(),
+//                            onDateClick = { clickedDate ->
+//                                selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
+//                            }
+//                        )
+//                    }
+//                }
             }
         }
     }
+}
+
+fun getSpotDtoId(spotDto: SpotDto): String {
+    return spotDto.pk
 }
 
 @Composable

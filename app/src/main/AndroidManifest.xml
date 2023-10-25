@@ -20,7 +20,7 @@
         android:theme="@style/Theme.ProjectTravel"
         tools:targetApi="33">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:label="탈랄리아"
             android:theme="@style/Theme.ProjectTravel">
@@ -28,6 +28,12 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="탈랄리아"
+            android:theme="@style/Theme.ProjectTravel">
         </activity>
         <!-- meta-data MAPS_API_KEY update -->
         <meta-data

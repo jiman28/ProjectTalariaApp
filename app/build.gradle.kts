@@ -85,6 +85,12 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    // Icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+
+    // reorder
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+
     // Retrofit
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -98,9 +104,6 @@ dependencies {
 
     // using gson parsing
     implementation("com.google.code.gson:gson:2.10.1")
-
-    // Google Map Service
-    implementation("com.google.android.gms:play-services-maps:18.2.0")
 
     // Google Map Compose
     implementation("com.google.maps.android:maps-compose:2.11.4")

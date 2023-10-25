@@ -2,6 +2,9 @@
     <string name="app_name">ProjectTravel</string>
 
     <!--Page Enum class-->
+    <string name="pageLogin">Homepage</string>
+    <string name="pageSignIn">Select Your Tour Attractions</string>
+
     <string name="page1">Homepage</string>
     <string name="page2">Select Your Tour Attractions</string>
     <string name="pageGps">Search GPS</string>

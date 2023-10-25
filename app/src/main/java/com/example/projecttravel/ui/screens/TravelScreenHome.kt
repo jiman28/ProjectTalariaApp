@@ -28,8 +28,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.homepage.HomePage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
-import com.example.projecttravel.ui.screens.plantrip.PlanPage
-import com.example.projecttravel.ui.screens.searchplacegps.SearchGpsPage
+import com.example.projecttravel.zdump.plantrip.PlanPage
+import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
 import com.example.projecttravel.ui.screens.testboard.TestBoardPage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
@@ -147,12 +147,10 @@ fun TravelApp(
 
             /** 3. 여행 플랜 짜기 화면 ====================*/
             composable(route = TravelScreen.Page3.name) {
-                PlanPage(
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    onNextButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
-                    onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
+                TestBoardPage(
+                    selectUiState = selectUiState,
+                    selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
+                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) }
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
@@ -174,15 +172,7 @@ fun TravelApp(
 
             /** 4. 게시판 임시 화면 ====================*/
             composable(route = TravelScreen.Page4.name) {
-                TestBoardPage(
-                    selectUiState = selectUiState,
-                    selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
-                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page3.name) }
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page3.name) },
-                )
+
             }
         }
 

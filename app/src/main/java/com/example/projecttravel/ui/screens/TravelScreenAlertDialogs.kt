@@ -91,3 +91,41 @@ fun GlobalErrorDialog(
         },
     )
 }
+
+/** ===================================================================== */
+/** ResetConfirmDialog to ask whether to reset or not ====================*/
+@Composable
+fun LoginErrorDialog(
+    onDismissAlert: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = {
+            onDismissAlert()
+        },
+        text = {
+            Text(
+                text = "로그인 실패염",
+                fontSize = 50.sp,
+                lineHeight = 50.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        onDismissAlert()
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+            }
+        },
+    )
+}

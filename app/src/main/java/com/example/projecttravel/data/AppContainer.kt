@@ -102,7 +102,7 @@ object RetrofitBuilderString {
 }
 
 /**
- * object for transfer data to server as STRING
+ * object for transfer data to server as Map
  */
 object RetrofitBuilderGetMap {
     var travelGetMapApiService: TravelApiService

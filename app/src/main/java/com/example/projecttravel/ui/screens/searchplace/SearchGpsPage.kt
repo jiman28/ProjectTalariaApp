@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.searchplacegps
+package com.example.projecttravel.ui.screens.searchplace
 
 import android.location.Geocoder
 
