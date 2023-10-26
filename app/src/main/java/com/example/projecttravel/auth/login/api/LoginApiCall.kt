@@ -1,8 +1,8 @@
-package com.example.projecttravel.ui.login.api
+package com.example.projecttravel.auth.login.api
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderJson
-import com.example.projecttravel.ui.login.data.User
+import com.example.projecttravel.auth.login.data.User
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.serialization.json.Json
 import retrofit2.Call

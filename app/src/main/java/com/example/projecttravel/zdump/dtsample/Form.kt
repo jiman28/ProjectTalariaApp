@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.login.data
+package com.example.projecttravel.zdump.dtsample
 
 import kotlinx.serialization.Serializable
 

@@ -6,13 +6,12 @@ import com.example.projecttravel.model.select.InterestInfo
 import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
-import com.example.projecttravel.ui.login.data.Form
-import com.example.projecttravel.ui.login.data.User
+import com.example.projecttravel.zdump.dtsample.Form
+import com.example.projecttravel.auth.login.data.User
 import com.example.projecttravel.ui.screens.selection.selectapi.GetAttrWeather
 import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
 import com.example.projecttravel.ui.screens.selection.selectapi.WeatherCallSend
 import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
-import kotlinx.serialization.json.Json
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field

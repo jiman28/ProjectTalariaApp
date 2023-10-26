@@ -1,9 +1,8 @@
-package com.example.projecttravel.ui.login.Forms
+package com.example.projecttravel.auth.login.Forms
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -32,7 +31,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,23 +47,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.MainActivity
-import com.example.projecttravel.ui.login.api.LoginApiCall
-import com.example.projecttravel.ui.login.data.Form
-import com.example.projecttravel.ui.login.data.User
-import com.example.projecttravel.ui.login.data.UserViewModel
-import com.example.projecttravel.ui.login.datastore.App
-import com.example.projecttravel.ui.screens.GlobalErrorDialog
+import com.example.projecttravel.auth.login.api.LoginApiCall
+import com.example.projecttravel.auth.login.data.User
+import com.example.projecttravel.auth.login.data.UserViewModel
+import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.auth.login.datastore.DataStore.Companion.emailKey
+import com.example.projecttravel.auth.login.datastore.DataStore.Companion.pwdKey
+//import com.example.projecttravel.auth.login.datastore.DataStore.Companion.rememberKey
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.LoginErrorDialog
-import com.example.projecttravel.ui.screens.selection.selectapi.getDateToWeather
-import com.example.projecttravel.ui.screens.selection.selectdialogs.convertToSpotDtoResponses
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
@@ -72,16 +67,54 @@ fun LoginForm(
     onNextButtonClicked: () -> Unit,
     userViewModel: UserViewModel = viewModel(),
 ) {
-    // DataStoreModule을 사용하여 데이터 스토어로부터 pwd 값을 가져옴
-//    val dataStoreModule = App.getInstance().getDataStore()
-//    val savedEmail by dataStoreModule.email.collectAsState("")
-//    val savedPwd by dataStoreModule.pwd.collectAsState("")
-
     val scope = rememberCoroutineScope()
-    var credentials by remember { mutableStateOf(Credentials()) }
     val context = LocalContext.current
+    val dataStore = (context).dataStore
 
+    var credentials by remember { mutableStateOf(Credentials()) }
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
+
+    LaunchedEffect(Unit) {
+        dataStore.data.collect {preferences ->
+            credentials.email = preferences[emailKey] ?: ""
+            credentials.pwd = preferences[pwdKey] ?: ""
+//            credentials.remember = preferences[rememberKey] ?: false
+            if (credentials.email != "" && credentials.pwd != "") {
+                scope.launch {
+                    isLoadingState = true
+                    val sendUser = User(
+                        email = credentials.email,
+                        password = credentials.pwd, // Consider changing the names here if needed
+                    )
+                    val userDeferred = async { LoginApiCall(sendUser) }
+                    val isUserComplete = userDeferred.await()
+                    if (isUserComplete) {
+                        userViewModel.setLoginEmail(credentials.email)
+                        context.startActivity(Intent(context, MainActivity::class.java))
+                        (context as Activity).finish()
+                    } else {
+                        isLoadingState = false
+                    }
+                }
+            }
+        }
+    }
+
+//    if (credentials.remember) {
+//        LaunchedEffect(credentials.remember) {
+//            dataStore.edit { preferences ->
+//                preferences[emailKey] = credentials.email
+//                preferences[pwdKey] = credentials.pwd
+//            }
+//        }
+//
+//    }
+
+//    LaunchedEffect(credentials.remember){
+//        dataStore.edit { preferences ->
+//            preferences[rememberKey] = credentials.remember
+//        }
+//    }
 
     Surface {
         when (isLoadingState) {
@@ -123,15 +156,13 @@ fun LoginForm(
 
         Button(
             onClick = {
-//                if (credentials.remember) {
-//                    CoroutineScope(Dispatchers.Main).launch{
-//                        App.getInstance().getDataStore().setEmail(credentials.email)
-//                        App.getInstance().getDataStore().setPwd(credentials.pwd)
-//                        Log.d("xxxxxxxxxxxxxxxxxxxx", App.getInstance().getDataStore().email.toString())
-//                        Log.d("xxxxxxxxxxxxxxxxxxxx", App.getInstance().getDataStore().pwd.toString())
-//                    }
-//                }
                 scope.launch {
+                    if (credentials.remember) {
+                        dataStore.edit { preferences ->
+                            preferences[emailKey] = credentials.email
+                            preferences[pwdKey] = credentials.pwd
+                        }
+                    }
                     isLoadingState = true
                     val sendUser = User(
                         email = credentials.email,

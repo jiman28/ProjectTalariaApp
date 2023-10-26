@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.login.Forms
+package com.example.projecttravel.auth.login.Forms
 
 import android.content.Context
 import android.util.Log
@@ -41,7 +41,7 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.RetrofitBuilderJson
-import com.example.projecttravel.ui.login.data.Form
+import com.example.projecttravel.zdump.dtsample.Form
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response

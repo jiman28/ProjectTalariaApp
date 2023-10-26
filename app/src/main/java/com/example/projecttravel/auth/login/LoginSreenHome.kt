@@ -1,12 +1,9 @@
-package com.example.projecttravel.ui.login
+package com.example.projecttravel.auth.login
 
 import android.app.Activity
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerState
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,15 +17,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.login.Forms.LoginForm
-import com.example.projecttravel.ui.login.Forms.SignForm
+import com.example.projecttravel.auth.login.Forms.LoginForm
+import com.example.projecttravel.zdump.dtsample.SettingPage
+import com.example.projecttravel.auth.login.Forms.SignForm
 import com.example.projecttravel.ui.screens.TravelScreen
 
 enum class LoginScreen(@StringRes val title: Int) {
     Page1(title = R.string.pageLogin),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page2(title = R.string.pageSignIn),
+    Page3(title = R.string.pageTestDS),
 }
-
 
 @Composable
 fun LoginSreenHome(
@@ -64,6 +62,11 @@ fun LoginSreenHome(
                     navController.navigate(TravelScreen.Page1.name)
                 },
             )
+        }
+
+        /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
+        composable(route = TravelScreen.Page3.name) {
+            SettingPage()
         }
     }
 }

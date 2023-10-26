@@ -16,9 +16,11 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,10 +30,13 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import com.example.projecttravel.LoginActivity
 import com.example.projecttravel.MainActivity
 import com.example.projecttravel.R
+import com.example.projecttravel.auth.login.datastore.DataStore
+import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -51,6 +56,7 @@ fun DrawerContents (
             LogOutDialog( onDismissAlert = { isLogOutState = false })
         }
     }
+
     ModalDrawerSheet(
         modifier = Modifier.size(200.dp, 500.dp),
     ) {
@@ -116,7 +122,9 @@ fun DrawerContents (
 fun LogOutDialog(
     onDismissAlert: () -> Unit,
 ) {
+    val scope = rememberCoroutineScope()
     val context = LocalContext.current
+    val dataStore = (context).dataStore
     AlertDialog(
         onDismissRequest = {
             onDismissAlert()
@@ -139,8 +147,14 @@ fun LogOutDialog(
             ) {
                 TextButton(
                     onClick = {
-                        context.startActivity(Intent(context, LoginActivity::class.java))
-                        (context as Activity).finish()
+                        scope.launch {
+                            dataStore.edit { preferences ->
+                                preferences[DataStore.emailKey] = ""
+                                preferences[DataStore.pwdKey] = ""
+                            }
+                            context.startActivity(Intent(context, LoginActivity::class.java))
+                            (context as Activity).finish()
+                        }
                     }
                 ) {
                     Text(text = "확인", fontSize = 20.sp)
