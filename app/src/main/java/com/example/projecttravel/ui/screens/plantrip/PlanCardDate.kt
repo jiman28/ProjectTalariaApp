@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip
+package com.example.projecttravel.ui.screens.plantrip
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

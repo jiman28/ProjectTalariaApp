@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip
+package com.example.projecttravel.ui.screens.plantrip
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -46,7 +46,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
 @Composable
-fun PlanCardTourAttr(
+fun PlanCardTourWeather(
     modifier: Modifier = Modifier,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
@@ -123,8 +123,8 @@ fun PlanCardTourAttr(
                                                 .padding(10.dp)
                                                 .fillMaxWidth()
                                                 .clickable {
-                                                    planUiState.currentPlanDate?.let { planViewModel.removeAttrByRandom(sourceDate = it, spotDtoToMove = spotDto) }
-                                                    planViewModel.addAttrByRandom(destinationDate = date, spotDtoToMove = spotDto)
+                                                    planUiState.currentPlanDate?.let { planViewModel.removeAttrByWeather(sourceDate = it, spotDtoToMove = spotDto) }
+                                                    planViewModel.addAttrByWeather(destinationDate = date, spotDtoToMove = spotDto)
                                                     planViewModel.setCurrentPlanDate(date)
                                                     onDateClick(date)
                                                     isMoveAttrDialogVisible =false

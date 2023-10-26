@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip
+package com.example.projecttravel.ui.screens.plantrip
 
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -41,7 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.zdump.plantrip.reorder.ReorderListViewModel
+import com.example.projecttravel.zdump.reorder.ReorderListViewModel
 import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import org.burnoutcrew.reorderable.ReorderableItem
@@ -213,77 +213,39 @@ fun PlanPage(
                 }
             }
             Column {
+                val selectedDateAttrs: List<SpotDto> = if (!weatherSwitchChecked) {
+                    val selectedDate = selectedPlanDate.toString()
+                    val selectedDateAttrs = planUiState.dateToAttrByRandom
+                        .find { it.date == selectedDate }?.list ?: emptyList()
+                    selectedDateAttrs
+                } else {
+                    emptyList()
+                }
 
-//                val selectedDate = selectedPlanDate.toString()
-//                var selectedDateAttrs = planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list ?: emptyList()
-//                var selectedDateAttrs = remember { mutableStateOf(List<SpotDto>)(planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list) }
-//                var selectedDateAttrs by remember { mutableStateOf(planUiState.dateToAttrByRandom.find { it.date == selectedDate }?.list ?: emptyList()) }
-//                val state = rememberReorderableLazyListState(
-//                    onMove = { from, to ->
-//                        selectedDateAttrs = selectedDateAttrs.toMutableList().apply {
-//                            add(to.index, removeAt(from.index))
-//                        }
-//                    },
-//                )
-
-                val state = rememberReorderableLazyListState(onMove = vm::moveAttr,)
-
-                LazyColumn(
-                    state = state.listState,
-                    modifier = Modifier
-                        .reorderable(state)
-                        .detectReorderAfterLongPress(state)
-                ) {
-                    items(vm.selectedDateAttrs, { getSpotDtoId(it) }) { item ->
-                        ReorderableItem(state, key = getSpotDtoId(item)) { isDragging ->
-                            val elevation = animateDpAsState(if (isDragging) 16.dp else 0.dp)
+                if (selectedDateAttrs.isNotEmpty()) {
+                    LazyColumn(
+                        modifier = Modifier,
+                        contentPadding = PaddingValues(5.dp),
+                        verticalArrangement = Arrangement.spacedBy(5.dp)
+                    ) {
+                        items(selectedDateAttrs) { spotDto ->
                             PlanCardTourAttr(
                                 planUiState = planUiState,
                                 planViewModel = planViewModel,
-                                spotDto = item,
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .detectReorderAfterLongPress(state)
-                                    .shadow(elevation.value),
+                                spotDto = spotDto,
+                                modifier = Modifier.fillMaxSize(),
                                 onDateClick = { clickedDate ->
                                     selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
                                 }
                             )
                         }
                     }
+                } else {
+                    Text(text = "목록이 없당")
                 }
-
-//                if (selectedDateAttrs.isNotEmpty()) {
-//
-//
-//                } else {
-//                    Text(text = "목록이 없당")
-//                }
-
-//                LazyColumn(
-//                    modifier = Modifier,
-//                    contentPadding = PaddingValues(5.dp),
-//                    verticalArrangement = Arrangement.spacedBy(5.dp)
-//                ) {
-//                    items(selectedDateAttrs) { spotDto ->
-//                        PlanCardTourAttr(
-//                            planUiState = planUiState,
-//                            planViewModel = planViewModel,
-//                            spotDto = spotDto,
-//                            modifier = Modifier.fillMaxSize(),
-//                            onDateClick = { clickedDate ->
-//                                selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
-//                            }
-//                        )
-//                    }
-//                }
             }
         }
     }
-}
-
-fun getSpotDtoId(spotDto: SpotDto): String {
-    return spotDto.pk
 }
 
 @Composable

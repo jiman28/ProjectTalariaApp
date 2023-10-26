@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip.reorder
+package com.example.projecttravel.zdump.reorder
 
 import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
 

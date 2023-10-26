@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip.reorder
+package com.example.projecttravel.zdump.reorder
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

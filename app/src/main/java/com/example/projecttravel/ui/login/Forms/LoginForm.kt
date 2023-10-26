@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.login.Forms
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -31,6 +32,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,13 +54,17 @@ import com.example.projecttravel.ui.login.api.LoginApiCall
 import com.example.projecttravel.ui.login.data.Form
 import com.example.projecttravel.ui.login.data.User
 import com.example.projecttravel.ui.login.data.UserViewModel
+import com.example.projecttravel.ui.login.datastore.App
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.LoginErrorDialog
 import com.example.projecttravel.ui.screens.selection.selectapi.getDateToWeather
 import com.example.projecttravel.ui.screens.selection.selectdialogs.convertToSpotDtoResponses
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 @Composable
@@ -66,6 +72,11 @@ fun LoginForm(
     onNextButtonClicked: () -> Unit,
     userViewModel: UserViewModel = viewModel(),
 ) {
+    // DataStoreModule을 사용하여 데이터 스토어로부터 pwd 값을 가져옴
+//    val dataStoreModule = App.getInstance().getDataStore()
+//    val savedEmail by dataStoreModule.email.collectAsState("")
+//    val savedPwd by dataStoreModule.pwd.collectAsState("")
+
     val scope = rememberCoroutineScope()
     var credentials by remember { mutableStateOf(Credentials()) }
     val context = LocalContext.current
@@ -110,9 +121,16 @@ fun LoginForm(
         )
         Spacer(modifier = Modifier.height(20.dp))
 
-
         Button(
             onClick = {
+//                if (credentials.remember) {
+//                    CoroutineScope(Dispatchers.Main).launch{
+//                        App.getInstance().getDataStore().setEmail(credentials.email)
+//                        App.getInstance().getDataStore().setPwd(credentials.pwd)
+//                        Log.d("xxxxxxxxxxxxxxxxxxxx", App.getInstance().getDataStore().email.toString())
+//                        Log.d("xxxxxxxxxxxxxxxxxxxx", App.getInstance().getDataStore().pwd.toString())
+//                    }
+//                }
                 scope.launch {
                     isLoadingState = true
                     val sendUser = User(

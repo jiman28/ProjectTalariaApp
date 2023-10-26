@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump.plantrip.plandialogs
+package com.example.projecttravel.ui.screens.plantrip.plandialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

@@ -12,4 +12,5 @@ data class TourAttractionSearchInfo (
     val lng: String,
     val img: String,
     val inOut: String,
+    val cityId: String,
 ): TourAttractionAll

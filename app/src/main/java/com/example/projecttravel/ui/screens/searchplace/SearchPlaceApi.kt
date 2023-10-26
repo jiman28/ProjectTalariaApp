@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.data.RetrofitBuilderString
+import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.google.android.gms.common.api.ApiException
@@ -23,6 +24,7 @@ private const val TAG2 = "BBBBB"
 fun getPlaceInfo(
     placeId: String,
     context: Context,
+    selectUiState: SelectUiState,
     searchViewModel: ViewModelSearch,
     updateUiPageClicked: () -> Unit = {},
 ) {
@@ -54,7 +56,7 @@ fun getPlaceInfo(
             if (latLng != null) {
                 Log.d("YYYYYYYYYlatLnglatLnglatLnglatLnglatLngYYYYYYYYYYY", latLng.toString())
             }
-            sendName(searchedPlace, searchViewModel, updateUiPageClicked)
+            sendName(selectUiState, searchedPlace, searchViewModel, updateUiPageClicked)
         }
         .addOnFailureListener { exception: Exception ->
             if (exception is ApiException) {
@@ -75,11 +77,17 @@ fun getPlaceInfo(
 
 /** Function for sending placeName to request placeImg ====================*/
 fun sendName(
+    selectUiState: SelectUiState,
     searchedPlace: SearchedPlace,
     searchViewModel: ViewModelSearch,
     updateUiPageClicked: () -> Unit = {},
 ) {
-    val call = RetrofitBuilderString.travelStringApiService.setPlaceName(searchedPlace.name)
+//    val selectedCityId = selectUiState.selectCity?.cityId
+//    Log.d("YYYYYYYYYYYYYYYYYYYY", searchedPlace.name.toString())
+//
+//    val call = selectedCityId?.let {  }
+
+    val call = RetrofitBuilderString.travelStringApiService.setPlaceName(placeName = searchedPlace.name, cityId = selectUiState.selectCity?.cityId)
     call.enqueue(
         object : Callback<String> { // 비동기 방식 통신 메소드
             override fun onResponse(
@@ -102,6 +110,7 @@ fun sendName(
                     updateUiPageClicked()
                 }
             }
+
             override fun onFailure(call: Call<String>, t: Throwable) {
                 // 통신에 실패한 경우
                 searchViewModel.setErrorMsg("ㅈㅅ염 다시 ㄱㄱ")

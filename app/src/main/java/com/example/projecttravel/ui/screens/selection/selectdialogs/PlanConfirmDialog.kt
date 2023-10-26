@@ -139,6 +139,7 @@ fun PlanConfirmDialog(
                                 if (isWeatherComplete) {
                                     planViewModel.setPlanDateRange(selectUiState.selectDateRange)
                                     planViewModel.setDateToAttrByRandom(convertToSpotDtoResponses(selectUiState))
+                                    planViewModel.setCurrentPlanDate(selectUiState.selectDateRange.start)
                                     onDismiss()
                                     onNextButtonClicked()
                                 } else {
@@ -232,7 +233,8 @@ fun convertToSpotDtoResponses(
                         img = attraction.imageP,
                         lan = attraction.lan,
                         lat = attraction.lat,
-                        inOut = attraction.inOut
+                        inOut = attraction.inOut,
+                        cityId = attraction.cityId
                     )
                 is TourAttractionSearchInfo ->
                     SpotDto(
@@ -241,7 +243,8 @@ fun convertToSpotDtoResponses(
                         img = attraction.img,
                         lan = attraction.lng,
                         lat = attraction.lat,
-                        inOut = attraction.inOut
+                        inOut = attraction.inOut,
+                        cityId = attraction.cityId
                     )
                 else -> null // 처리되지 않는 다른 형식의 TourAttractionAll에 대한 처리
             }

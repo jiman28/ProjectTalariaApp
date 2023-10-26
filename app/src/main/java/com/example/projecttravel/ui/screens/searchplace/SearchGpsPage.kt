@@ -146,6 +146,10 @@ fun SearchGpsPage(
             }
 
         }
+        /** selected City */
+        Column {
+            Text(text = selectUiState.selectCity?.cityName.toString())
+        }
         /** Searched Place */
         Column {
             Column(
@@ -182,6 +186,7 @@ fun SearchGpsPage(
         }
         /** GoogleMapSheet*/
         GoogleMapSheet(
+            selectUiState = selectUiState,
             searchUiState = searchUiState,
             searchViewModel = searchViewModel,
             updateUiPageClicked = updateUiPageClicked,
@@ -197,6 +202,7 @@ fun SearchGpsPage(
 /** Google API Service ====================*/
 @Composable
 fun GoogleMapSheet(
+    selectUiState: SelectUiState,
     searchUiState: SearchUiState,
     searchViewModel: ViewModelSearch,
     updateUiPageClicked: () -> Unit = {},
@@ -261,6 +267,7 @@ fun GoogleMapSheet(
                                     getPlaceInfo(
                                         it.placeId,
                                         context,
+                                        selectUiState,
                                         searchViewModel,
                                         updateUiPageClicked,
                                     )

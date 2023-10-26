@@ -10,4 +10,5 @@ data class SpotDto (
     var lan: String,
     var lat: String,
     var inOut: String,
+    var cityId: String,
 )

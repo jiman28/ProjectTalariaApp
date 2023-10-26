@@ -45,7 +45,8 @@ interface TravelApiService {
 
     // send placeName to searchedPlaceInfo
     @POST("sendplacename")
-    fun setPlaceName(@Body sendTourAttrName: String?): Call<String>
+    @FormUrlEncoded
+    fun setPlaceName(@Field("placeName") placeName: String?, @Field("cityId") cityId: String?,): Call<String>
 
     // send inout
     @POST("sendinout")
