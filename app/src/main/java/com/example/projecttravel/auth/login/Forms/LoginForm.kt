@@ -74,6 +74,9 @@ fun LoginForm(
     var credentials by remember { mutableStateOf(Credentials()) }
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
 
+    // 정규 이메일 표현식 패턴
+    val emailPattern = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
+
     LaunchedEffect(Unit) {
         dataStore.data.collect {preferences ->
             credentials.email = preferences[emailKey] ?: ""
@@ -99,22 +102,6 @@ fun LoginForm(
             }
         }
     }
-
-//    if (credentials.remember) {
-//        LaunchedEffect(credentials.remember) {
-//            dataStore.edit { preferences ->
-//                preferences[emailKey] = credentials.email
-//                preferences[pwdKey] = credentials.pwd
-//            }
-//        }
-//
-//    }
-
-//    LaunchedEffect(credentials.remember){
-//        dataStore.edit { preferences ->
-//            preferences[rememberKey] = credentials.remember
-//        }
-//    }
 
     Surface {
         when (isLoadingState) {
@@ -179,7 +166,7 @@ fun LoginForm(
                     }
                 }
             },
-            enabled = credentials.isNotEmpty(),
+            enabled = credentials.isNotEmpty() && credentials.email.matches(emailPattern.toRegex()),
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier.fillMaxWidth()
         ) {
@@ -198,7 +185,7 @@ fun LoginForm(
 }
 
 fun checkCredentials(creds: Credentials, context: Context): Boolean {
-    return if (creds.isNotEmpty() && creds.email == "admin") {
+    return if (creds.isNotEmpty()) {
         true
     } else {
         Toast.makeText(context, "잘못된 형식입니당", Toast.LENGTH_SHORT).show()
