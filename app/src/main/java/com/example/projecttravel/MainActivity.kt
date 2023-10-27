@@ -8,7 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
-import com.example.projecttravel.ui.screens.TravelApp
+import com.example.projecttravel.ui.screens.TravelScreenHome
 import com.example.projecttravel.ui.theme.ProjectTravelTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    TravelApp()
+                    TravelScreenHome()
                 }
             }
         }

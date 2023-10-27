@@ -16,7 +16,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,9 +31,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
-import com.example.projecttravel.LoginActivity
-import com.example.projecttravel.MainActivity
+//import com.example.projecttravel.zdump.LoginActivity
 import com.example.projecttravel.R
+import com.example.projecttravel.auth.login.data.UserUiState
+import com.example.projecttravel.auth.login.data.ViewModelUser
 import com.example.projecttravel.auth.login.datastore.DataStore
 import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
 import kotlinx.coroutines.CoroutineScope
@@ -45,6 +45,9 @@ import kotlinx.coroutines.launch
  * */
 @Composable
 fun DrawerContents (
+    onLogOutClicked: () -> Unit,
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     navController: NavHostController,
     drawerState: DrawerState,
     scope: CoroutineScope,
@@ -53,7 +56,7 @@ fun DrawerContents (
 
     Surface {
         if (isLogOutState) {
-            LogOutDialog( onDismissAlert = { isLogOutState = false })
+            LogOutDialog(onDismissAlert = { isLogOutState = false }, onLogOutClicked = onLogOutClicked)
         }
     }
 
@@ -78,14 +81,24 @@ fun DrawerContents (
                 modifier = Modifier.size(40.dp)
             )
             Text(
-                text = "User's name",
+                text = "${userUiState.currentLogin?.name} 님, 환영합니다",
                 fontSize = 25.sp,
                 modifier = Modifier.fillMaxWidth()
             )
+
+        }
+        TextButton(onClick = {
+            navController.navigate(TravelScreen.Page1A.name)
+            scope.launch { drawerState.close() }
+        }) {
+            Text(text = "마이 페이지", fontSize = 25.sp)
         }
         TextButton(onClick = {
             isLogOutState = true
-            scope.launch { drawerState.close() }
+            scope.launch {
+                drawerState.close()
+                userViewModel.resetUser()
+            }
         }) {
             Text(text = "로그아웃", fontSize = 25.sp)
         }
@@ -95,24 +108,6 @@ fun DrawerContents (
         }) {
             Text(text = "관광지 선택하기", fontSize = 25.sp)
         }
-        TextButton(onClick = {
-            navController.navigate(TravelScreen.Page3.name)
-            scope.launch { drawerState.close() }
-        }) {
-            Text(text = "내가 고른 관광지", fontSize = 25.sp)
-        }
-//        TextButton(onClick = {
-//            navController.navigate(TravelScreen.Page4.name)
-//            scope.launch { drawerState.close() }
-//        }) {
-//            Text(text = "GPS 임시 페이지", fontSize = 25.sp)
-//        }
-//        TextButton(onClick = {
-//            navController.navigate(TravelScreen.Page5.name)
-//            scope.launch { drawerState.close() }
-//        }) {
-//            Text(text = "게시판 임시 페이지", fontSize = 25.sp)
-//        }
     }
 }
 
@@ -120,6 +115,7 @@ fun DrawerContents (
 /** LogOutDialog to ask whether to logout or not ====================*/
 @Composable
 fun LogOutDialog(
+    onLogOutClicked: () -> Unit,
     onDismissAlert: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -152,8 +148,7 @@ fun LogOutDialog(
                                 preferences[DataStore.emailKey] = ""
                                 preferences[DataStore.pwdKey] = ""
                             }
-                            context.startActivity(Intent(context, LoginActivity::class.java))
-                            (context as Activity).finish()
+                            onLogOutClicked()
                         }
                     }
                 ) {

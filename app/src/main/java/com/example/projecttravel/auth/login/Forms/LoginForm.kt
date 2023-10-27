@@ -1,8 +1,6 @@
 package com.example.projecttravel.auth.login.Forms
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -48,15 +46,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.projecttravel.MainActivity
-import com.example.projecttravel.auth.login.api.LoginApiCall
+import com.example.projecttravel.auth.login.api.loginApiCall
 import com.example.projecttravel.auth.login.data.User
-import com.example.projecttravel.auth.login.data.UserViewModel
+import com.example.projecttravel.auth.login.data.UserUiState
+import com.example.projecttravel.auth.login.data.ViewModelUser
 import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.auth.login.datastore.DataStore.Companion.emailKey
 import com.example.projecttravel.auth.login.datastore.DataStore.Companion.pwdKey
-//import com.example.projecttravel.auth.login.datastore.DataStore.Companion.rememberKey
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.LoginErrorDialog
 import kotlinx.coroutines.async
@@ -64,9 +60,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginForm(
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
+    onLoginSuccess: () -> Unit,
     onNextButtonClicked: () -> Unit,
-    userViewModel: UserViewModel = viewModel(),
 ) {
+
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
     val dataStore = (context).dataStore
@@ -81,7 +80,6 @@ fun LoginForm(
         dataStore.data.collect {preferences ->
             credentials.email = preferences[emailKey] ?: ""
             credentials.pwd = preferences[pwdKey] ?: ""
-//            credentials.remember = preferences[rememberKey] ?: false
             if (credentials.email != "" && credentials.pwd != "") {
                 scope.launch {
                     isLoadingState = true
@@ -89,12 +87,11 @@ fun LoginForm(
                         email = credentials.email,
                         password = credentials.pwd, // Consider changing the names here if needed
                     )
-                    val userDeferred = async { LoginApiCall(sendUser) }
+                    val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
                     if (isUserComplete) {
-                        userViewModel.setLoginEmail(credentials.email)
-                        context.startActivity(Intent(context, MainActivity::class.java))
-                        (context as Activity).finish()
+                        userViewModel.setcheck("sksksksksk")
+                        onLoginSuccess()
                     } else {
                         isLoadingState = false
                     }
@@ -155,12 +152,11 @@ fun LoginForm(
                         email = credentials.email,
                         password = credentials.pwd, // Consider changing the names here if needed
                     )
-                    val userDeferred = async { LoginApiCall(sendUser) }
+                    val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
                     if (isUserComplete) {
-                        userViewModel.setLoginEmail(credentials.email)
-                        context.startActivity(Intent(context, MainActivity::class.java))
-                        (context as Activity).finish()
+                        userViewModel.setcheck("sksksksksk")
+                        onLoginSuccess()
                     } else {
                         isLoadingState = false
                     }

@@ -48,7 +48,7 @@ import retrofit2.Response
 
 
 @Composable
-fun SignForm (
+fun SignInForm (
     onCancelButtonClicked: () -> Unit = {},
 ) {
     Surface {

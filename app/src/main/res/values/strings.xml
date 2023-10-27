@@ -7,6 +7,7 @@
     <string name="pageTestDS">Data Store test page</string>
 
     <string name="page1">Homepage</string>
+    <string name="pageUser">View Your Infos</string>
     <string name="page2">Select Your Tour Attractions</string>
     <string name="pageGps">Search GPS</string>
     <string name="page3">Plan Your Trip</string>

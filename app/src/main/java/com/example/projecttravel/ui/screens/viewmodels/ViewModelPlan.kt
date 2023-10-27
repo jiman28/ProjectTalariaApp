@@ -1,12 +1,11 @@
 package com.example.projecttravel.ui.screens.viewmodels
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
-import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
+import com.example.projecttravel.model.plan.SpotDto
+import com.example.projecttravel.model.plan.SpotDtoResponse
+import com.example.projecttravel.model.plan.WeatherResponseGet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

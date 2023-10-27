@@ -4,6 +4,9 @@ import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderGetMap
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
+import com.example.projecttravel.model.plan.SpotDtoResponse
+import com.example.projecttravel.model.plan.WeatherCallSend
+import com.example.projecttravel.model.plan.WeatherResponseGet
 import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan

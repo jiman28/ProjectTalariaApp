@@ -1,8 +1,8 @@
 package com.example.projecttravel.data.uistates
 
 import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
-import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
+import com.example.projecttravel.model.plan.SpotDtoResponse
+import com.example.projecttravel.model.plan.WeatherResponseGet
 import java.time.LocalDate
 
 data class PlanUiState(

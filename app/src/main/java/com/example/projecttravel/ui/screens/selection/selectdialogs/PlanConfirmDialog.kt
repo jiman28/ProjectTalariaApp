@@ -20,8 +20,8 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.select.TourAttractionAll
 import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDto
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
+import com.example.projecttravel.model.plan.SpotDto
+import com.example.projecttravel.model.plan.SpotDtoResponse
 import com.example.projecttravel.ui.screens.selection.selectapi.getDateToAttrByWeather
 import com.example.projecttravel.ui.screens.selection.selectapi.getDateToWeather
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan

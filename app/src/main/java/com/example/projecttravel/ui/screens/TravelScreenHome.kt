@@ -26,12 +26,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
+import com.example.projecttravel.auth.login.Forms.LoginForm
+import com.example.projecttravel.auth.login.Forms.SignInForm
+import com.example.projecttravel.auth.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.homepage.HomePage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
 import com.example.projecttravel.ui.screens.testboard.TestBoardPage
+import com.example.projecttravel.ui.screens.userinfo.UserPage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
@@ -39,7 +43,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 enum class TravelScreen(@StringRes val title: Int) {
+    Page0(title = R.string.pageLogin),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
+    Page0A(title = R.string.pageSignIn),
     Page1(title = R.string.page1),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
+    Page1A(title = R.string.pageUser),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page2(title = R.string.page2),
     Page2A(title = R.string.pageGps),
     Page3(title = R.string.page3),
@@ -48,10 +55,11 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page5(title = R.string.page5),
     PageLoad(title = R.string.loading),
 }
-// working 2023-10-18
+
 /** Composable that displays screens */
 @Composable
-fun TravelApp(
+fun TravelScreenHome(
+    userViewModel: ViewModelUser = viewModel(),
     selectViewModel: ViewModelSelect = viewModel(),
     searchViewModel: ViewModelSearch = viewModel(),
     planViewModel: ViewModelPlan = viewModel(),
@@ -61,7 +69,7 @@ fun TravelApp(
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = TravelScreen.valueOf(
-        backStackEntry?.destination?.route ?: TravelScreen.Page1.name
+        backStackEntry?.destination?.route ?: TravelScreen.Page0.name
     )
     /** All Screens => All contents */
     Scaffold(
@@ -75,22 +83,55 @@ fun TravelApp(
         },
     ) { innerPadding ->
         /** All pages ====================*/
+        /** All pages ====================*/
+        val userUiState by userViewModel.userUiState.collectAsState()
         val selectUiState by selectViewModel.selectUiState.collectAsState()
         val searchUiState by searchViewModel.searchUiState.collectAsState()
         val planUiState by planViewModel.planUiState.collectAsState()
 
         NavHost(    // NavHost 컴포저블을 추가
             navController = navController,
-            startDestination = TravelScreen.Page1.name,
+            startDestination = TravelScreen.Page0.name,
             modifier = Modifier.padding(innerPadding)
         ) {     // 최종 매개변수에 빈 후행 람다를 전달
-            /** 1. 로그인 첫번째 페이지 ====================*/
+            /** 0. 로그인 페이지 ====================*/
+            composable(route = TravelScreen.Page0.name) {
+                LoginForm(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    onLoginSuccess = {
+                        navController.navigate(TravelScreen.Page1.name)
+                    },
+                    onNextButtonClicked = {
+                        navController.navigate(TravelScreen.Page0A.name)
+                    },
+                )
+                /** Exit App when press BackHandler twice quickly */
+                ExitAppWhenBackOnPressed(drawerState)
+            }
+
+            /** 0A. 회원 가입 화면 ====================*/
+            composable(route = TravelScreen.Page0A.name) {
+                SignInForm(
+                    onCancelButtonClicked = {
+                        navController.navigate(TravelScreen.Page0.name)
+                    },
+                )
+            }
+
+            /** 1. 홈페이지 ====================*/
             composable(route = TravelScreen.Page1.name) {
+                /** ModalNavigationDrawer must always be placed before any screens */
                 /** ModalNavigationDrawer must always be placed before any screens */
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
                         DrawerContents(
+                            onLogOutClicked = {
+                                navController.navigate(TravelScreen.Page0.name)
+                            },
+                            userUiState = userUiState,
+                            userViewModel = userViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -112,7 +153,17 @@ fun TravelApp(
                     ExitAppWhenBackOnPressed(drawerState)
                 }
             }
-
+            /** 1A. 나라, 도시, 관광지 선택 화면 ====================*/
+            composable(route = TravelScreen.Page1A.name) {
+                UserPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = { navController.navigate(TravelScreen.Page1.name) },
+                )
+            }
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
                 SelectPage(
@@ -129,7 +180,6 @@ fun TravelApp(
                     onBack = { navController.navigate(TravelScreen.Page1.name) },
                 )
             }
-
             /** 2-1. GPS 선택 화면 ====================*/
             composable(route = TravelScreen.Page2A.name) {
                 SearchGpsPage(
@@ -144,7 +194,6 @@ fun TravelApp(
                     onBack = { navController.navigate(TravelScreen.Page2.name) },
                 )
             }
-
             /** 3. 여행 플랜 짜기 화면 ====================*/
             composable(route = TravelScreen.Page3.name) {
                 PlanPage(
@@ -155,7 +204,6 @@ fun TravelApp(
                     onRouteClicked = { navController.navigate(TravelScreen.Page2.name) },
                 )
             }
-
             /** 3-1. 경로 확인 화면 ====================*/
             composable(route = TravelScreen.Page3A.name) {
                 RouteGpsPage(
@@ -167,7 +215,6 @@ fun TravelApp(
                     onBack = { navController.navigate(TravelScreen.Page3.name) },
                 )
             }
-
             /** 4. 게시판 임시 화면 ====================*/
             composable(route = TravelScreen.Page4.name) {
                 TestBoardPage(
@@ -181,7 +228,6 @@ fun TravelApp(
                 )
             }
         }
-
         /** DrawerMenu Screen closed when click phone's backButton */
         /** Must be placed beneath NavHost() to apply this BackHandler logic to all pages */
         BackHandler(

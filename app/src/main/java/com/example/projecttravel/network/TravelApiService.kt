@@ -8,10 +8,12 @@ import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.zdump.dtsample.Form
 import com.example.projecttravel.auth.login.data.User
+import com.example.projecttravel.auth.login.data.UserResponse
 import com.example.projecttravel.ui.screens.selection.selectapi.GetAttrWeather
-import com.example.projecttravel.ui.screens.selection.selectapi.SpotDtoResponse
-import com.example.projecttravel.ui.screens.selection.selectapi.WeatherCallSend
-import com.example.projecttravel.ui.screens.selection.selectapi.WeatherResponseGet
+import com.example.projecttravel.model.plan.SpotDtoResponse
+import com.example.projecttravel.model.plan.WeatherCallSend
+import com.example.projecttravel.model.plan.WeatherResponseGet
+import com.example.projecttravel.zdump.dtsample.LoginResponse
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -22,8 +24,12 @@ import retrofit2.http.POST
 interface TravelApiService {
     // login
     @POST("androidlogin")
-    fun getLoginResponse(@Body user: User): Call<Boolean>
+    fun checkLogin(@Body user: User): Call<UserResponse>
 
+    @POST("mlogininfo")
+    fun getLoginInfo(@Body user: User): Call<UserResponse>
+
+    // signin
     @POST("androidsignin")
     fun setFormResponse(@Body form: Form): Call<String>
 
