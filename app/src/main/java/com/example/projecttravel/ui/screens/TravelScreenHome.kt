@@ -79,13 +79,13 @@ fun TravelScreenHome(
     /** State of topBar, set state to false on each currentScreens */
     var showTopBar by rememberSaveable { mutableStateOf(true) }
     showTopBar = when (currentScreen) {
-        TravelScreen.Page0 -> false // on this screen topBar should be hidden
-        TravelScreen.Page0A -> false // on this screen topBar should be hidden
-        TravelScreen.Page2 -> false // on this screen topBar should be hidden
-        TravelScreen.Page2A -> false // on this screen topBar should be hidden
-        TravelScreen.Page3 -> false // on this screen topBar should be hidden
-        TravelScreen.Page3A -> false // on this screen topBar should be hidden
-        else -> true // in all other cases show bottom bar
+        TravelScreen.Page0 -> false     // on this screen topBar should be hidden
+        TravelScreen.Page0A -> false    // on this screen topBar should be hidden
+        TravelScreen.Page2 -> false     // on this screen topBar should be hidden
+        TravelScreen.Page2A -> false    // on this screen topBar should be hidden
+        TravelScreen.Page3 -> false     // on this screen topBar should be hidden
+        TravelScreen.Page3A -> false    // on this screen topBar should be hidden
+        else -> true    // in all other cases show bottom bar
     }
 
     /** All Screens => All contents */
