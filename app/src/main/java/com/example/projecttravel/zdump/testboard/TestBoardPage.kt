@@ -1,6 +1,5 @@
-package com.example.projecttravel.ui.screens.testboard
+package com.example.projecttravel.zdump.testboard
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,15 +20,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 private const val TAG = "AAAAA"
 
@@ -148,7 +141,7 @@ fun TestBoardPage(
                         boardAContent = boardAContent,
                         boardAAuthor = boardAAuthor
                     )
-                    writeText(testBoardASend)
+//                    writeText(testBoardASend)
                 }
             ) {
                 Text(text = "게시판")
@@ -157,28 +150,28 @@ fun TestBoardPage(
     }
 }
 
-/** HTTP Request & Response ====================*/
-fun writeText(testBoardASend: TestBoardASend) {
-    val call = RetrofitBuilderJson.travelJsonApiService.setTestBoardA(testBoardASend)
-    call.enqueue(
-        object : Callback<String> { // 비동기 방식 통신 메소드
-            override fun onResponse(
-                // 통신에 성공한 경우
-                call: Call<String>,
-                response: Response<String>,
-            ) {
-                if (response.isSuccessful) { // 응답 잘 받은 경우
-                    Log.d(TAG, response.body().toString())
-
-                } else {
-                    // 통신 성공 but 응답 실패
-                    Log.d(TAG, "FAILURE")
-                }
-            }
-            override fun onFailure(call: Call<String>, t: Throwable) {
-                // 통신에 실패한 경우
-                t.localizedMessage?.let { Log.d(TAG, it) }
-            }
-        }
-    )
-}
+///** HTTP Request & Response ====================*/
+//fun writeText(testBoardASend: TestBoardASend) {
+//    val call = RetrofitBuilderJson.travelJsonApiService.setTestBoardA(testBoardASend)
+//    call.enqueue(
+//        object : Callback<String> { // 비동기 방식 통신 메소드
+//            override fun onResponse(
+//                // 통신에 성공한 경우
+//                call: Call<String>,
+//                response: Response<String>,
+//            ) {
+//                if (response.isSuccessful) { // 응답 잘 받은 경우
+//                    Log.d(TAG, response.body().toString())
+//
+//                } else {
+//                    // 통신 성공 but 응답 실패
+//                    Log.d(TAG, "FAILURE")
+//                }
+//            }
+//            override fun onFailure(call: Call<String>, t: Throwable) {
+//                // 통신에 실패한 경우
+//                t.localizedMessage?.let { Log.d(TAG, it) }
+//            }
+//        }
+//    )
+//}

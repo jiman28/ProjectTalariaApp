@@ -1,4 +1,4 @@
-package com.example.projecttravel.model.board
+package com.example.projecttravel.zdump.testboard
 
 import kotlinx.serialization.Serializable
 

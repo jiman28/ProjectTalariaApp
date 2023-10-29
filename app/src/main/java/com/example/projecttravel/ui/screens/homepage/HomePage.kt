@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.homepage
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,15 +17,17 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.homepage.TravelViewModel
 
 @Composable
 fun HomePage(
+    userUiState: UserUiState,
     countryCardClicked: (CountryInfo) -> Unit,
     onNextButtonClicked: () -> Unit,    // 매개변수 추가
     modifier: Modifier = Modifier,
 ) {
-
+    Log.d("isUserComplete2222222222", userUiState.currentLogin.toString())
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween

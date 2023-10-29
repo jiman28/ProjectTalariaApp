@@ -1,10 +1,10 @@
-package com.example.projecttravel.auth.login.api
+package com.example.projecttravel.ui.screens.login.api
 
 import android.util.Log
-import com.example.projecttravel.auth.login.data.User
-import com.example.projecttravel.auth.login.data.UserResponse
-import com.example.projecttravel.auth.login.data.UserUiState
-import com.example.projecttravel.auth.login.data.ViewModelUser
+import com.example.projecttravel.ui.screens.login.data.User
+import com.example.projecttravel.ui.screens.login.data.UserResponse
+import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.data.RetrofitBuilderGetMap
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -33,8 +33,8 @@ suspend fun loginApiCall(
                         userViewModel.setUser(loginResponse)
                         Log.d("xxxxx1xxxxxxxxxxxxxxx", "Request Success + Response Success")
                         Log.d("xxxxx1xxxxxxxxxxxxxxx", call.toString())
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", response.body().toString())
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", userUiState.currentLogin.toString())
+                        Log.d("xxxxx1111111xxxxxxxxxxxxxxx", response.body().toString())
+                        Log.d("xxxxx1222221xxxxxxxxxxxxxxx", userUiState.currentLogin.toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {

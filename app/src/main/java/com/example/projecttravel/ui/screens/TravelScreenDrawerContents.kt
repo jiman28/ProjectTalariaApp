@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Surface
@@ -25,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -33,10 +35,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 //import com.example.projecttravel.zdump.LoginActivity
 import com.example.projecttravel.R
-import com.example.projecttravel.auth.login.data.UserUiState
-import com.example.projecttravel.auth.login.data.ViewModelUser
-import com.example.projecttravel.auth.login.datastore.DataStore
-import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.ui.screens.login.datastore.DataStore
+import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -87,12 +89,18 @@ fun DrawerContents (
             )
 
         }
+
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+
         TextButton(onClick = {
             navController.navigate(TravelScreen.Page1A.name)
             scope.launch { drawerState.close() }
         }) {
             Text(text = "마이 페이지", fontSize = 25.sp)
         }
+
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+
         TextButton(onClick = {
             isLogOutState = true
             scope.launch {
@@ -102,11 +110,23 @@ fun DrawerContents (
         }) {
             Text(text = "로그아웃", fontSize = 25.sp)
         }
+
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+
         TextButton(onClick = {
             navController.navigate(TravelScreen.Page2.name)
             scope.launch { drawerState.close() }
         }) {
-            Text(text = "관광지 선택하기", fontSize = 25.sp)
+            Text(text = "여행 계획하기", fontSize = 25.sp)
+        }
+
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+
+        TextButton(onClick = {
+            navController.navigate(TravelScreen.Page4.name)
+            scope.launch { drawerState.close() }
+        }) {
+            Text(text = "게시판", fontSize = 25.sp)
         }
     }
 }

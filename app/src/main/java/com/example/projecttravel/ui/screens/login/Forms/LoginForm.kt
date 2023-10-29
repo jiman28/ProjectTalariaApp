@@ -1,6 +1,7 @@
-package com.example.projecttravel.auth.login.Forms
+package com.example.projecttravel.ui.screens.login.Forms
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -46,13 +47,13 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
-import com.example.projecttravel.auth.login.api.loginApiCall
-import com.example.projecttravel.auth.login.data.User
-import com.example.projecttravel.auth.login.data.UserUiState
-import com.example.projecttravel.auth.login.data.ViewModelUser
-import com.example.projecttravel.auth.login.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.auth.login.datastore.DataStore.Companion.emailKey
-import com.example.projecttravel.auth.login.datastore.DataStore.Companion.pwdKey
+import com.example.projecttravel.ui.screens.login.api.loginApiCall
+import com.example.projecttravel.ui.screens.login.data.User
+import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.emailKey
+import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.pwdKey
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.LoginErrorDialog
 import kotlinx.coroutines.async
@@ -89,8 +90,9 @@ fun LoginForm(
                     )
                     val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
+//                    if (isUserComplete && userUiState.currentLogin != null) { // 로그에는 null 이 들어오는데 정상적으로 데이터는 들어옴. 뭔가 이상함.
                     if (isUserComplete) {
-                        userViewModel.setcheck("sksksksksk")
+                        Log.d("isUserComplete1111111111", userUiState.currentLogin.toString())
                         onLoginSuccess()
                     } else {
                         isLoadingState = false
@@ -154,8 +156,7 @@ fun LoginForm(
                     )
                     val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
-                    if (isUserComplete) {
-                        userViewModel.setcheck("sksksksksk")
+                    if (isUserComplete && userUiState.currentLogin != null) {
                         onLoginSuccess()
                     } else {
                         isLoadingState = false

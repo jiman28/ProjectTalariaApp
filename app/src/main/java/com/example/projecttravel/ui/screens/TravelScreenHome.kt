@@ -16,6 +16,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -26,16 +27,16 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.auth.login.Forms.LoginForm
-import com.example.projecttravel.auth.login.Forms.SignInForm
-import com.example.projecttravel.auth.login.data.ViewModelUser
+import com.example.projecttravel.ui.screens.boards.AllBoardsPage
+import com.example.projecttravel.ui.screens.login.Forms.LoginForm
+import com.example.projecttravel.ui.screens.login.Forms.SignInForm
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.homepage.HomePage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
-import com.example.projecttravel.ui.screens.testboard.TestBoardPage
-import com.example.projecttravel.ui.screens.userinfo.UserPage
+import com.example.projecttravel.ui.screens.myinfo.MyPage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
@@ -53,7 +54,6 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page3A(title = R.string.pageRoute),
     Page4(title = R.string.page4),
     Page5(title = R.string.page5),
-    PageLoad(title = R.string.loading),
 }
 
 /** Composable that displays screens */
@@ -68,27 +68,41 @@ fun TravelScreenHome(
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = TravelScreen.valueOf(
-        backStackEntry?.destination?.route ?: TravelScreen.Page0.name
-    )
+    val currentScreen =
+        TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
+
+    val userUiState by userViewModel.userUiState.collectAsState()
+    val selectUiState by selectViewModel.selectUiState.collectAsState()
+    val searchUiState by searchViewModel.searchUiState.collectAsState()
+    val planUiState by planViewModel.planUiState.collectAsState()
+
+    /** State of topBar, set state to false on each currentScreens */
+    var showTopBar by rememberSaveable { mutableStateOf(true) }
+    showTopBar = when (currentScreen) {
+        TravelScreen.Page0 -> false // on this screen topBar should be hidden
+        TravelScreen.Page0A -> false // on this screen topBar should be hidden
+        TravelScreen.Page2 -> false // on this screen topBar should be hidden
+        TravelScreen.Page2A -> false // on this screen topBar should be hidden
+        TravelScreen.Page3 -> false // on this screen topBar should be hidden
+        TravelScreen.Page3A -> false // on this screen topBar should be hidden
+        else -> true // in all other cases show bottom bar
+    }
+
     /** All Screens => All contents */
     Scaffold(
         topBar = {
-            TravelAppBar(
-                currentScreen = currentScreen,
-                navController = navController,  // TravelApp()의 navController 를 전달
-                drawerState = drawerState,
-                scope = scope,
-            )
+            /** shows TopBar only when true */
+            if (showTopBar) {
+                TravelAppBar(
+                    currentScreen = currentScreen,
+                    navController = navController,  // TravelApp()의 navController 를 전달
+                    drawerState = drawerState,
+                    scope = scope,
+                )
+            }
         },
     ) { innerPadding ->
         /** All pages ====================*/
-        /** All pages ====================*/
-        val userUiState by userViewModel.userUiState.collectAsState()
-        val selectUiState by selectViewModel.selectUiState.collectAsState()
-        val searchUiState by searchViewModel.searchUiState.collectAsState()
-        val planUiState by planViewModel.planUiState.collectAsState()
-
         NavHost(    // NavHost 컴포저블을 추가
             navController = navController,
             startDestination = TravelScreen.Page0.name,
@@ -122,7 +136,6 @@ fun TravelScreenHome(
             /** 1. 홈페이지 ====================*/
             composable(route = TravelScreen.Page1.name) {
                 /** ModalNavigationDrawer must always be placed before any screens */
-                /** ModalNavigationDrawer must always be placed before any screens */
                 ModalNavigationDrawer(
                     drawerState = drawerState,
                     drawerContent = {
@@ -139,6 +152,7 @@ fun TravelScreenHome(
                     },
                 ) {
                     HomePage(
+                        userUiState = userUiState,
                         onNextButtonClicked = {
                             navController.navigate(TravelScreen.Page2.name)
                         },
@@ -153,16 +167,32 @@ fun TravelScreenHome(
                     ExitAppWhenBackOnPressed(drawerState)
                 }
             }
-            /** 1A. 나라, 도시, 관광지 선택 화면 ====================*/
+            /** 1A. 내 정보 화면 ====================*/
             composable(route = TravelScreen.Page1A.name) {
-                UserPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page1.name) },
-                )
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        DrawerContents(
+                            onLogOutClicked = {
+                                navController.navigate(TravelScreen.Page0.name)
+                            },
+                            userUiState = userUiState,
+                            userViewModel = userViewModel,
+                            navController = navController,
+                            drawerState = drawerState,
+                            scope = scope,
+                        )
+                    },
+                ) {
+                    MyPage(
+                        userUiState = userUiState,
+                        userViewModel = userViewModel,
+                    )
+                    BackHandler(
+                        enabled = drawerState.isClosed,
+                        onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
+                    )
+                }
             }
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
@@ -200,8 +230,8 @@ fun TravelScreenHome(
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    onNextButtonClicked = {  },
-                    onRouteClicked = { navController.navigate(TravelScreen.Page2.name) },
+                    onNextButtonClicked = { },
+                    onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
             }
             /** 3-1. 경로 확인 화면 ====================*/
@@ -215,19 +245,37 @@ fun TravelScreenHome(
                     onBack = { navController.navigate(TravelScreen.Page3.name) },
                 )
             }
-            /** 4. 게시판 임시 화면 ====================*/
+
+            /** 4. 게시판 화면 ====================*/
             composable(route = TravelScreen.Page4.name) {
-                TestBoardPage(
-                    selectUiState = selectUiState,
-                    selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
-                    onCancelButtonClicked = { navController.navigate(TravelScreen.Page3.name) }
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page3.name) },
-                )
+                ModalNavigationDrawer(
+                    drawerState = drawerState,
+                    drawerContent = {
+                        DrawerContents(
+                            onLogOutClicked = {
+                                navController.navigate(TravelScreen.Page0.name)
+                            },
+                            userUiState = userUiState,
+                            userViewModel = userViewModel,
+                            navController = navController,
+                            drawerState = drawerState,
+                            scope = scope,
+                        )
+                    },
+                ) {
+                    AllBoardsPage(
+                        userUiState = userUiState,
+                        planUiState = planUiState,
+                        onBackButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
+                    )
+                    BackHandler(
+                        enabled = drawerState.isClosed,
+                        onBack = { navController.navigate(TravelScreen.Page1.name) },
+                    )
+                }
             }
         }
+
         /** DrawerMenu Screen closed when click phone's backButton */
         /** Must be placed beneath NavHost() to apply this BackHandler logic to all pages */
         BackHandler(

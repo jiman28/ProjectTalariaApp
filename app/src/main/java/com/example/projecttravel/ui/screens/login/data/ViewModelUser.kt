@@ -1,4 +1,4 @@
-package com.example.projecttravel.auth.login.data
+package com.example.projecttravel.ui.screens.login.data
 
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

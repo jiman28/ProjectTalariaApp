@@ -1,4 +1,4 @@
-package com.example.projecttravel.auth.login.Forms
+package com.example.projecttravel.ui.screens.login.Forms
 
 import android.content.Context
 import android.util.Log

@@ -1,6 +1,14 @@
 package com.example.projecttravel.data
 
 import com.example.projecttravel.BuildConfig
+import com.example.projecttravel.data.repositories.board.BoardListRepository
+import com.example.projecttravel.data.repositories.board.CompanyListRepository
+import com.example.projecttravel.data.repositories.board.DefaultBoardListRepository
+import com.example.projecttravel.data.repositories.board.DefaultCompanyListRepository
+import com.example.projecttravel.data.repositories.board.DefaultReplyListRepository
+import com.example.projecttravel.data.repositories.board.DefaultTradeListRepository
+import com.example.projecttravel.data.repositories.board.ReplyListRepository
+import com.example.projecttravel.data.repositories.board.TradeListRepository
 import com.example.projecttravel.data.repositories.select.CityListRepository
 import com.example.projecttravel.data.repositories.select.CountryListRepository
 import com.example.projecttravel.data.repositories.select.DefaultCityListRepository
@@ -11,6 +19,8 @@ import com.example.projecttravel.data.repositories.select.DefaultTourAttractionL
 import com.example.projecttravel.data.repositories.select.InterestListRepository
 import com.example.projecttravel.data.repositories.select.TourAttrSearchListRepository
 import com.example.projecttravel.data.repositories.select.TourAttractionListRepository
+import com.example.projecttravel.data.repositories.user.DefaultUserInfoListRepository
+import com.example.projecttravel.data.repositories.user.UserInfoListRepository
 import com.example.projecttravel.network.TravelApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
@@ -30,6 +40,11 @@ interface AppContainer {
     val interestListRepository: InterestListRepository
     val tourAttractionListRepository: TourAttractionListRepository
     val tourAttrSearchListRepository: TourAttrSearchListRepository
+    val boardListRepository: BoardListRepository
+    val companyListRepository: CompanyListRepository
+    val tradeListRepository: TradeListRepository
+    val replyListRepository: ReplyListRepository
+    val userInfoListRepository: UserInfoListRepository
 }
 
 /**
@@ -48,8 +63,7 @@ class DefaultAppContainer : AppContainer {
         retrofit.create(TravelApiService::class.java)
     }
 
-    /** DI implementation for all of each repository */
-
+    /** DI implementation for all of each repository - Travel */
     override val countryListRepository: CountryListRepository by lazy {
         DefaultCountryListRepository(retrofitService)
     }
@@ -68,6 +82,28 @@ class DefaultAppContainer : AppContainer {
 
     override val tourAttrSearchListRepository: TourAttrSearchListRepository by lazy {
         DefaultTourAttrSearchListRepository(retrofitService)
+    }
+
+    /** DI implementation for all of each repository - Boards */
+    override val boardListRepository: BoardListRepository by lazy {
+        DefaultBoardListRepository(retrofitService)
+    }
+
+    override val companyListRepository: CompanyListRepository by lazy {
+        DefaultCompanyListRepository(retrofitService)
+    }
+
+    override val tradeListRepository: TradeListRepository by lazy {
+        DefaultTradeListRepository(retrofitService)
+    }
+
+    override val replyListRepository: ReplyListRepository by lazy {
+        DefaultReplyListRepository(retrofitService)
+    }
+
+    /** DI implementation for all of each repository - UserInfo */
+    override val userInfoListRepository: UserInfoListRepository by lazy {
+        DefaultUserInfoListRepository(retrofitService)
     }
 }
 

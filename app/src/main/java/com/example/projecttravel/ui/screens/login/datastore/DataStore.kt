@@ -1,4 +1,4 @@
-package com.example.projecttravel.auth.login.datastore
+package com.example.projecttravel.ui.screens.login.datastore
 
 import android.content.Context
 import androidx.datastore.core.DataStore

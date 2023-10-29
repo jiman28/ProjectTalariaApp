@@ -1,19 +1,22 @@
 package com.example.projecttravel.network
 
+import com.example.projecttravel.model.board.Board
+import com.example.projecttravel.model.board.Company
+import com.example.projecttravel.model.board.Reply
+import com.example.projecttravel.model.board.Trade
 import com.example.projecttravel.model.select.CityInfo
 import com.example.projecttravel.model.select.CountryInfo
 import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.board.TestBoardASend
 import com.example.projecttravel.model.select.TourAttractionSearchInfo
 import com.example.projecttravel.model.select.TourAttractionInfo
 import com.example.projecttravel.zdump.dtsample.Form
-import com.example.projecttravel.auth.login.data.User
-import com.example.projecttravel.auth.login.data.UserResponse
+import com.example.projecttravel.ui.screens.login.data.User
+import com.example.projecttravel.ui.screens.login.data.UserResponse
 import com.example.projecttravel.ui.screens.selection.selectapi.GetAttrWeather
 import com.example.projecttravel.model.plan.SpotDtoResponse
 import com.example.projecttravel.model.plan.WeatherCallSend
 import com.example.projecttravel.model.plan.WeatherResponseGet
-import com.example.projecttravel.zdump.dtsample.LoginResponse
+import com.example.projecttravel.model.user.UserInfo
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -22,17 +25,22 @@ import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface TravelApiService {
-    // login
+    // User DB Calls ==============================
+    // Login Calls
     @POST("androidlogin")
     fun checkLogin(@Body user: User): Call<UserResponse>
 
-    @POST("mlogininfo")
-    fun getLoginInfo(@Body user: User): Call<UserResponse>
-
-    // signin
+    // SignIn Call
     @POST("androidsignin")
     fun setFormResponse(@Body form: Form): Call<String>
 
+
+    // UserInfo DB ==============================
+    @GET("userinfo")
+    suspend fun getUserInfoList(): List<UserInfo>
+
+
+    // Travel DB ==============================
     @GET("country")
     suspend fun getCountryList(): List<CountryInfo>
 
@@ -48,25 +56,49 @@ interface TravelApiService {
     @GET("searc")
     suspend fun getTourAttrSearchList(): List<TourAttractionSearchInfo>
 
+
+    // Travel DB Edit Calls ==============================
     // send placeName to searchedPlaceInfo
     @POST("sendplacename")
     @FormUrlEncoded
     fun setPlaceName(@Field("placeName") placeName: String?, @Field("cityId") cityId: String?,): Call<String>
 
-    // send inout
+    // send inout Info to DB
     @POST("sendinout")
     @FormUrlEncoded
     fun setInOut(@Field("placeName") placeName: String, @Field("stateInOut") stateInOut: String, ): Call<String>
 
-    // send date
+    // send date to get WeatherInfos
     @POST("sendDate")
     fun getDateWeather(@Body weatherCallSend: WeatherCallSend): Call<List<WeatherResponseGet>>
 
-    // send date to get AttrList
-    @POST("sendAttr")
+    // send date to get AttrList by Weather
+    @POST("sendAttrWeather")
     fun getDateAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
 
-    // TestBoardA
-    @POST("sendtba")
-    fun setTestBoardA(@Body testBoardASend: TestBoardASend): Call<String>
+    // send date to get AttrList by City ~ OnWorking
+    @POST("sendAttrCity")
+    fun getDateCityAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
+
+
+    // Board DB ==============================
+    @GET("board")
+    suspend fun getBoardList(): List<Board>
+
+    @GET("company")
+    suspend fun getCompanyList(): List<Company>
+
+    @GET("trade")
+    suspend fun getTradeList(): List<Trade>
+
+    @GET("reply")
+    suspend fun getReplyList(): List<Reply>
+
+    // Board DB Edit Calls ==============================
+
 }
+
+
+//    // TestBoardA
+//    @POST("sendtba")
+//    fun setTestBoardA(@Body testBoardASend: TestBoardASend): Call<String>
