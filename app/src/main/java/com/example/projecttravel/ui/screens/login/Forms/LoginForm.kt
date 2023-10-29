@@ -156,7 +156,9 @@ fun LoginForm(
                     )
                     val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
-                    if (isUserComplete && userUiState.currentLogin != null) {
+//                    if (isUserComplete && userUiState.currentLogin != null) { // 로그에는 null 이 들어오는데 정상적으로 데이터는 들어옴. 뭔가 이상함.
+                    if (isUserComplete) {
+                        Log.d("isUserComplete1111111111", userUiState.currentLogin.toString())
                         onLoginSuccess()
                     } else {
                         isLoadingState = false
