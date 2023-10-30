@@ -10,4 +10,5 @@ data class Trade (
     val writeDate: String,
     val views: String,
     val writeId: String,
+    val userId: String,
 )

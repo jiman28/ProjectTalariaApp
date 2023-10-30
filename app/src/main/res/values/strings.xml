@@ -13,6 +13,9 @@
     <string name="page3">Plan Your Trip</string>
     <string name="pageRoute">Search GPS</string>
     <string name="page4">Boards</string>
+    <string name="pageViewBoard">Search GPS</string>
+    <string name="pageWriteBoard">Search GPS</string>
+    <string name="pageEditBoard">Search GPS</string>
     <string name="page5">hohoho</string>
 
     <!--Status-->

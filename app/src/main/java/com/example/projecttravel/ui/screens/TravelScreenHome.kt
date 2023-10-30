@@ -28,6 +28,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boards.AllBoardsPage
+import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
 import com.example.projecttravel.ui.screens.login.Forms.LoginForm
 import com.example.projecttravel.ui.screens.login.Forms.SignInForm
 import com.example.projecttravel.ui.screens.login.data.ViewModelUser
@@ -53,6 +54,8 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page3(title = R.string.page3),
     Page3A(title = R.string.pageRoute),
     Page4(title = R.string.page4),
+    Page4A(title = R.string.pageViewBoard),
+    Page4B(title = R.string.pageWriteBoard),
     Page5(title = R.string.page5),
 }
 
@@ -85,6 +88,8 @@ fun TravelScreenHome(
         TravelScreen.Page2A -> false    // on this screen topBar should be hidden
         TravelScreen.Page3 -> false     // on this screen topBar should be hidden
         TravelScreen.Page3A -> false    // on this screen topBar should be hidden
+        TravelScreen.Page4A -> false    // on this screen topBar should be hidden
+        TravelScreen.Page4B -> false    // on this screen topBar should be hidden
         else -> true    // in all other cases show bottom bar
     }
 
@@ -108,6 +113,7 @@ fun TravelScreenHome(
             startDestination = TravelScreen.Page0.name,
             modifier = Modifier.padding(innerPadding)
         ) {     // 최종 매개변수에 빈 후행 람다를 전달
+            /** ============================================================ */
             /** 0. 로그인 페이지 ====================*/
             composable(route = TravelScreen.Page0.name) {
                 LoginForm(
@@ -123,7 +129,6 @@ fun TravelScreenHome(
                 /** Exit App when press BackHandler twice quickly */
                 ExitAppWhenBackOnPressed(drawerState)
             }
-
             /** 0A. 회원 가입 화면 ====================*/
             composable(route = TravelScreen.Page0A.name) {
                 SignInForm(
@@ -133,6 +138,7 @@ fun TravelScreenHome(
                 )
             }
 
+            /** ============================================================ */
             /** 1. 홈페이지 ====================*/
             composable(route = TravelScreen.Page1.name) {
                 /** ModalNavigationDrawer must always be placed before any screens */
@@ -194,6 +200,8 @@ fun TravelScreenHome(
                     )
                 }
             }
+
+            /** ============================================================ */
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
                 SelectPage(
@@ -224,6 +232,8 @@ fun TravelScreenHome(
                     onBack = { navController.navigate(TravelScreen.Page2.name) },
                 )
             }
+
+            /** ============================================================ */
             /** 3. 여행 플랜 짜기 화면 ====================*/
             composable(route = TravelScreen.Page3.name) {
                 PlanPage(
@@ -246,6 +256,7 @@ fun TravelScreenHome(
                 )
             }
 
+            /** ============================================================ */
             /** 4. 게시판 화면 ====================*/
             composable(route = TravelScreen.Page4.name) {
                 ModalNavigationDrawer(
@@ -273,6 +284,17 @@ fun TravelScreenHome(
                         onBack = { navController.navigate(TravelScreen.Page1.name) },
                     )
                 }
+            }
+            /** 4-1. 경로 확인 화면 ====================*/
+            composable(route = TravelScreen.Page4A.name) {
+//                ViewContentsBoard(
+//                    planUiState = planUiState,
+//                    onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+//                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = { navController.navigate(TravelScreen.Page4.name) },
+                )
             }
         }
 

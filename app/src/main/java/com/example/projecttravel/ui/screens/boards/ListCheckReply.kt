@@ -13,36 +13,37 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListBoard
+import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
+import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 
 @Composable
-fun BoardList(
+fun ListCheckReply(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {
-    val boardListViewModel: ViewModelListBoard =
-        viewModel(factory = ViewModelListBoard.BoardFactory)
-    val boardUiState = (boardListViewModel.boardUiState as? BoardUiState.BoardSuccess)
-    if (boardUiState != null) {
+    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
+    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
+    if (replyUiState != null) {
         LazyColumn(
             modifier = modifier,
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             items(
-                items = boardUiState.boardList,
-                key = { board ->
-                    board.articleNo
+                items = replyUiState.replyList,
+                key = { reply ->
+                    reply.replyNo
                 }
-            ) { board ->
+            ) { reply ->
                 Column {
-                    Text(text = "articleNo = ${board.articleNo}")
-                    Text(text = "content = ${board.content}")
-                    Text(text = "title = ${board.title}")
-                    Text(text = "views = ${board.views}")
-                    Text(text = "writeDate = ${board.writeDate}")
-                    Text(text = "writeId = ${board.writeId}")
+                    Text(text = "replyNo = ${reply.replyNo}")
+                    Text(text = "boardEntity = ${reply.boardEntity}")
+                    Text(text = "companyEntity = ${reply.companyEntity}")
+                    Text(text = "tradeEntity = ${reply.tradeEntity}")
+                    Text(text = "replycontent = ${reply.replyContent}")
+                    Text(text = "writeDate = ${reply.writeDate}")
+                    Text(text = "writeId = ${reply.writeId}")
+                    Text(text = "userId = ${reply.userId}")
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }

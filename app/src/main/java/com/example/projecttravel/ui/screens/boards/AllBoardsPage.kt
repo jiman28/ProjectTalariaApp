@@ -41,25 +41,25 @@ fun AllBoardsPage(
         Column {
             when (selectedBoard) {
                 "board" -> {
-                    BoardList(
+                    ListBoard(
                         contentPadding = PaddingValues(0.dp),
                     )
                 }
 
                 "company" -> {
-                    CompanyList(
+                    ListCompany(
                         contentPadding = PaddingValues(0.dp),
                     )
                 }
 
                 "trade" -> {
-                    TradeList(
+                    ListTrade(
                         contentPadding = PaddingValues(0.dp),
                     )
                 }
 
                 else -> {
-                    CheckReplyList(
+                    ListCheckReply(
                         contentPadding = PaddingValues(0.dp),
                     )
                 }

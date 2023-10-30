@@ -13,37 +13,37 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
+import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
+import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListTrade
 
 @Composable
-fun CheckReplyList(
+fun ListTrade(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {
-    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
-    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
-    if (replyUiState != null) {
+    val tradeListViewModel: ViewModelListTrade =
+        viewModel(factory = ViewModelListTrade.TradeFactory)
+    val tradeUiState = (tradeListViewModel.tradeUiState as? TradeUiState.TradeSuccess)
+    if (tradeUiState != null) {
         LazyColumn(
             modifier = modifier,
             contentPadding = contentPadding,
             verticalArrangement = Arrangement.spacedBy(24.dp),
         ) {
             items(
-                items = replyUiState.replyList,
-                key = { reply ->
-                    reply.replyNo
+                items = tradeUiState.tradeList,
+                key = { trade ->
+                    trade.articleNo
                 }
-            ) { reply ->
+            ) { trade ->
                 Column {
-                    Text(text = "replyNo = ${reply.replyNo}")
-                    Text(text = "boardEntity = ${reply.boardEntity}")
-                    Text(text = "companyEntity = ${reply.companyEntity}")
-                    Text(text = "tradeEntity = ${reply.tradeEntity}")
-                    Text(text = "replycontent = ${reply.replycontent}")
-                    Text(text = "writeDate = ${reply.writeDate}")
-                    Text(text = "writeId = ${reply.writeId}")
-                    Text(text = "userId = ${reply.userId}")
+                    Text(text = "articleNo = ${trade.articleNo}")
+                    Text(text = "content = ${trade.content}")
+                    Text(text = "title = ${trade.title}")
+                    Text(text = "views = ${trade.views}")
+                    Text(text = "writeDate = ${trade.writeDate}")
+                    Text(text = "writeId = ${trade.writeId}")
+                    Text(text = "userId = ${trade.userId}")
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }

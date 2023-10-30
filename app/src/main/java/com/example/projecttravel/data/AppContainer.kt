@@ -30,7 +30,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
 
-/** localhost Bit Edu Center */
+/** localhost IPv4 BuildConfig for Retrofit */
 private val BASE_URL = BuildConfig.BASE_URL
 
 /** Dependency Injection container at the application level. */

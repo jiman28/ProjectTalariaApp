@@ -8,7 +8,7 @@ data class Reply (
     val boardEntity: String,
     val tradeEntity: String,
     val companyEntity: String,
-    val replycontent: String,
+    val replyContent: String,
     val writeDate: String,
     val writeId: String,
     val userId: String,

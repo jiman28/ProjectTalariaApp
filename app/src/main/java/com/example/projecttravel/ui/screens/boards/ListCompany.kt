@@ -17,7 +17,7 @@ import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListCompany
 
 @Composable
-fun CompanyList(
+fun ListCompany(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {
@@ -43,6 +43,7 @@ fun CompanyList(
                     Text(text = "views = ${company.views}")
                     Text(text = "writeDate = ${company.writeDate}")
                     Text(text = "writeId = ${company.writeId}")
+                    Text(text = "userId = ${company.userId}")
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             }

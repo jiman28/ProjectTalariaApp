@@ -22,6 +22,7 @@ android {
         }
         buildConfigField("String", "GOOGLE_MAPS_API_KEY", "GOOGLE_MAPS_API_KEY")
         buildConfigField("String", "BASE_URL", "BASE_URL")
+        buildConfigField("String", "BASE_BOARD_SUMMERNOTE", "BASE_BOARD_SUMMERNOTE")
     }
 
     buildTypes {
