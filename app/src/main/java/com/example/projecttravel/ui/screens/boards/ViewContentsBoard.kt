@@ -4,6 +4,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.projecttravel.BuildConfig
 
 @Composable
 fun ViewContentsBoard(
@@ -17,6 +18,9 @@ fun ViewContentsBoard(
 
 }
 
+///** localhost IPv4 BuildConfig for WebView */
+//private val BASE_BOARD_SUMMERNOTE = BuildConfig.BASE_BOARD_SUMMERNOTE
+//
 ///** html parser for Text and Img (summernote) ====================*/
 //@Composable
 //fun HTMLContentWithImage(content: String) {
@@ -30,7 +34,7 @@ fun ViewContentsBoard(
 //        },
 //        update = { webView ->
 //            // WebView에 이미지 URL을 로드하고 HTML을 표시
-//            webView.loadDataWithBaseURL("file:///android_asset/", content, "text/html", "utf-8", null)
+//            webView.loadDataWithBaseURL(BASE_BOARD_SUMMERNOTE, content, "text/html", "utf-8", null)
 //        }
 //    )
 //}
