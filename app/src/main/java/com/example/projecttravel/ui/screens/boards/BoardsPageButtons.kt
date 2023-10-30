@@ -4,22 +4,24 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.selection.selectdialogs.ResetConfirmDialog
 
 @Composable
 fun BoardsPageButtons(
+    selectedBoard: Int,
     userUiState: UserUiState,
     planUiState: PlanUiState,
     onBoardListClicked: () -> Unit = {},
@@ -34,8 +36,12 @@ fun BoardsPageButtons(
         Column {
             OutlinedButton(
                 modifier = Modifier
-                    .padding(3.dp),
-                onClick = { onReplyListClicked() }
+                    .padding(1.dp),
+                onClick = { onReplyListClicked() },
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    if (selectedBoard == R.string.reply) Color.Yellow else Color.White,
+                )
             ) {
                 Text(text = "댓글 체크")
             }
@@ -44,27 +50,36 @@ fun BoardsPageButtons(
         Row {
             OutlinedButton(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(3.dp),
-                onClick = { onBoardListClicked() }
+                    .weight(1f).padding(1.dp),
+                onClick = { onBoardListClicked() },
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    if (selectedBoard == R.string.board) Color.Yellow else Color.White,
+                )
             ) {
-                Text(text = "자유 게시판")
+                Text(text = "리뷰 모음")
             }
             OutlinedButton(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(3.dp),
-                onClick = { onCompanyListClicked() }
+                    .weight(1f).padding(1.dp),
+                onClick = { onCompanyListClicked() },
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    if (selectedBoard == R.string.company) Color.Yellow else Color.White,
+                )
             ) {
                 Text(text = "동행자 구인")
             }
             OutlinedButton(
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(3.dp),
-                onClick = { onTradeListClicked() }
+                    .weight(1f).padding(1.dp),
+                onClick = { onTradeListClicked() },
+                shape = RoundedCornerShape(0.dp),
+                colors = ButtonDefaults.outlinedButtonColors(
+                    if (selectedBoard == R.string.trade) Color.Yellow else Color.White,
+                )
             ) {
-                Text(text = "중고 거래소")
+                Text(text = "거래 시스템")
             }
         }
     }

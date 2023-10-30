@@ -285,7 +285,7 @@ fun TravelScreenHome(
                     )
                 }
             }
-            /** 4-1. 경로 확인 화면 ====================*/
+            /** 4-1. 게시판 작성 화면 ====================*/
             composable(route = TravelScreen.Page4A.name) {
 //                ViewContentsBoard(
 //                    planUiState = planUiState,

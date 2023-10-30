@@ -5,7 +5,6 @@
     <string name="pageLogin">Login page</string>
     <string name="pageSignIn">SignIn page</string>
     <string name="pageTestDS">Data Store test page</string>
-
     <string name="page1">Homepage</string>
     <string name="pageUser">View Your Infos</string>
     <string name="page2">Select Your Tour Attractions</string>
@@ -18,15 +17,6 @@
     <string name="pageEditBoard">Search GPS</string>
     <string name="page5">hohoho</string>
 
-    <!--Status-->
-
-    <!--ShowCountryInfos-->
-    <string name="loading_failed">Failed to load</string>
-    <string name="retry">Retry</string>
-    <string name="loading">loading</string>
-    <string name="title_paren">%s (%s)</string>
-    <string name="title_colon">%s : %s</string>
-
     <!--Buttons-->
     <string name="back_button">BACK</string>
     <string name="cancel_button">Cancel</string>
@@ -36,5 +26,18 @@
     <string name="confirm_button">Confirm</string>
     <string name="send_button">Send Plan to DB</string>
     <string name="confirm_button_kor">확인</string>
+
+    <!--ShowCountryInfos-->
+    <string name="loading_failed">Failed to load</string>
+    <string name="retry">Retry</string>
+    <string name="loading">loading</string>
+    <string name="title_paren">%s (%s)</string>
+    <string name="title_colon">%s : %s</string>
+
+    <!--Board -->
+    <string name="board">board</string>
+    <string name="company">company</string>
+    <string name="trade">trade</string>
+    <string name="reply">reply</string>
 
 </resources>
