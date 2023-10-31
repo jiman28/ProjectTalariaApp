@@ -17,7 +17,7 @@ import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 
 @Composable
-fun ListCheckReply(
+fun CheckReply(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {

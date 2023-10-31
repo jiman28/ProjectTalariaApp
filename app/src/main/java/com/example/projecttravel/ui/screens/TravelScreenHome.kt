@@ -38,6 +38,7 @@ import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.selection.SelectPage
 import com.example.projecttravel.ui.screens.myinfo.MyPage
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
@@ -66,6 +67,7 @@ fun TravelScreenHome(
     selectViewModel: ViewModelSelect = viewModel(),
     searchViewModel: ViewModelSearch = viewModel(),
     planViewModel: ViewModelPlan = viewModel(),
+    boardSelectViewModel: ViewModelBoardSelect = viewModel(),
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -78,6 +80,7 @@ fun TravelScreenHome(
     val selectUiState by selectViewModel.selectUiState.collectAsState()
     val searchUiState by searchViewModel.searchUiState.collectAsState()
     val planUiState by planViewModel.planUiState.collectAsState()
+    val boardSelectUiState by boardSelectViewModel.boardSelectUiState.collectAsState()
 
     /** State of topBar, set state to false on each currentScreens */
     var showTopBar by rememberSaveable { mutableStateOf(true) }
@@ -277,6 +280,9 @@ fun TravelScreenHome(
                     AllBoardsPage(
                         userUiState = userUiState,
                         planUiState = planUiState,
+                        boardSelectUiState = boardSelectUiState,
+                        boardSelectViewModel = boardSelectViewModel,
+                        onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                         onBackButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
                     )
                     BackHandler(
@@ -285,12 +291,16 @@ fun TravelScreenHome(
                     )
                 }
             }
-            /** 4-1. 게시판 작성 화면 ====================*/
+            /** 4-1. 단일 게시판 보기 화면 ====================*/
             composable(route = TravelScreen.Page4A.name) {
-//                ViewContentsBoard(
-//                    planUiState = planUiState,
-//                    onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
-//                )
+                ViewContentsBoard(
+                    userUiState = userUiState,
+                    planUiState = planUiState,
+                    boardSelectUiState = boardSelectUiState,
+                    boardSelectViewModel = boardSelectViewModel,
+                    onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
+                    onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                )
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = { navController.navigate(TravelScreen.Page4.name) },

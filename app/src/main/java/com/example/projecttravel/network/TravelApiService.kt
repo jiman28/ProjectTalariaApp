@@ -17,6 +17,7 @@ import com.example.projecttravel.model.plan.SpotDtoResponse
 import com.example.projecttravel.model.plan.WeatherCallSend
 import com.example.projecttravel.model.plan.WeatherResponseGet
 import com.example.projecttravel.model.user.UserInfo
+import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -94,10 +95,18 @@ interface TravelApiService {
     @GET("reply")
     suspend fun getReplyList(): List<Reply>
 
+
     // Board DB Edit Calls ==============================
+    // viewCounter
+    @POST("sendviewcount")
+    @FormUrlEncoded
+    fun setView(@Field("tabtitle") tabtitle: String, @Field("articleNo") articleNo: String, ): Call<String>
+
+    // write comment,reply
+    @POST("sendreply")
+    fun sendReply(@Body sendComment: SendComment): Call<SendComment>
 
 }
-
 
 //    // TestBoardA
 //    @POST("sendtba")

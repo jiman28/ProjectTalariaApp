@@ -18,13 +18,6 @@ class ViewModelUser : ViewModel() {
         }
     }
 
-    /** setName Object */
-    fun setcheck (currentUser: String) {
-        _uiState.update { currentState ->
-            currentState.copy(checker = currentUser)
-        }
-    }
-
     /** reset all Objects */
     fun resetUser() {
         _uiState.value = UserUiState() // UserUiState를 기본 값(null)으로 재설정

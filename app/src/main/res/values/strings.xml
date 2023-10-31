@@ -12,9 +12,9 @@
     <string name="page3">Plan Your Trip</string>
     <string name="pageRoute">Search GPS</string>
     <string name="page4">Boards</string>
-    <string name="pageViewBoard">Search GPS</string>
-    <string name="pageWriteBoard">Search GPS</string>
-    <string name="pageEditBoard">Search GPS</string>
+    <string name="pageViewBoard">View Board</string>
+    <string name="pageWriteBoard">Write Board</string>
+    <string name="pageEditBoard">Edit Board</string>
     <string name="page5">hohoho</string>
 
     <!--Buttons-->
@@ -39,5 +39,10 @@
     <string name="company">company</string>
     <string name="trade">trade</string>
     <string name="reply">reply</string>
+
+    <string name="boardTitle">리뷰모음</string>
+    <string name="companyTitle">동행자구인</string>
+    <string name="tradeTitle">거래시스템</string>
+    <string name="replyTitle">Comments</string>
 
 </resources>

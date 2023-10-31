@@ -11,4 +11,4 @@ data class Company (
     val views: String,
     val writeId: String,
     val userId: String,
-)
+): AllBoards

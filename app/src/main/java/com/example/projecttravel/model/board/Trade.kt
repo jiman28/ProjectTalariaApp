@@ -11,4 +11,4 @@ data class Trade (
     val views: String,
     val writeId: String,
     val userId: String,
-)
+): AllBoards
