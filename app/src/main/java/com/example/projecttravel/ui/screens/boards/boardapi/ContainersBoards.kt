@@ -5,8 +5,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SendArticle (
     val tabTitle: String,
-    val articleNo: String,
-    val replyNo: String,
+    val title: String,
+    val content: String,
+    val email: String,
 )
 
 @Serializable

@@ -1,7 +1,6 @@
 package com.example.projecttravel.ui.screens
 
 import android.app.Activity
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
@@ -30,6 +29,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boards.AllBoardsPage
 import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
+import com.example.projecttravel.ui.screens.boards.write.WriteArticlePage
 import com.example.projecttravel.ui.screens.login.Forms.LoginForm
 import com.example.projecttravel.ui.screens.login.Forms.SignInForm
 import com.example.projecttravel.ui.screens.login.data.ViewModelUser
@@ -287,6 +287,7 @@ fun TravelScreenHome(
                         boardSelectUiState = boardSelectUiState,
                         boardSelectViewModel = boardSelectViewModel,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
+                        onWriteButtonClicked = { navController.navigate(TravelScreen.Page4B.name) },
                         onBackButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
                     )
                     BackHandler(
@@ -299,15 +300,24 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page4A.name) {
                 ViewContentsBoard(
                     userUiState = userUiState,
-                    planUiState = planUiState,
                     boardSelectUiState = boardSelectUiState,
-                    boardSelectViewModel = boardSelectViewModel,
                     onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = { navController.navigate(TravelScreen.Page4.name) },
+                )
+            }
+            /** 4-2. 게시판 작성 화면 ====================*/
+            composable(route = TravelScreen.Page4B.name) {
+                WriteArticlePage(
+                    userUiState = userUiState,
+                    onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {  },
                 )
             }
         }

@@ -14,49 +14,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
-import com.example.projecttravel.ui.screens.boards.boardapi.removeCommentFromDb
+import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
+import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
+import com.example.projecttravel.ui.screens.boards.boardapi.sendArticleToDb
+import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-fun NullCommentDialog(
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        text = {
-            Text(
-                text = "댓글을 작성하세요!",
-                fontSize = 20.sp,
-                lineHeight = 20.sp,
-                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
-                modifier = Modifier
-                    .padding(10.dp) // 원하는 여백을 추가).
-                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
-                }
-            ) {
-                Text(text = "확인", fontSize = 20.sp)
-            }
-        },
-    )
-}
-
-
-
-
-
-
-@Composable
-fun RemoveCommentDialog(
-    removeComment: RemoveComment,
-    onContentRefreshClicked: () -> Unit,
+fun ArticleConfirmDialog(
+    sendArticle: SendArticle,
+    onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit,
@@ -66,7 +34,7 @@ fun RemoveCommentDialog(
         onDismissRequest = onDismiss,
         text = {
             Text(
-                text = "댓글을 삭제하시겠습니까?",
+                text = "게시글을 저장하시겠습니까?",
                 fontSize = 20.sp,
                 lineHeight = 20.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
@@ -83,22 +51,65 @@ fun RemoveCommentDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
-                            Log.d("xxxx1xxxxxxxxxxxxxxxx", removeComment.toString())
+                            Log.d("xxxx1xxxxxxxxxxxxxxxx", sendArticle.toString())
                             onLoadingStarted()
                             // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
-                            val commentDeferred = async { removeCommentFromDb(removeComment) }
+                            val articleDeferred = async { sendArticleToDb(sendArticle) }
 
                             // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                            val isCommentComplete = commentDeferred.await()
+                            val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
-                            if (isCommentComplete) {
+                            if (isArticleComplete) {
                                 onDismiss()
-                                onContentRefreshClicked()
+                                onBackButtonClicked()
                             } else {
                                 onDismiss()
                                 onErrorOccurred()
                             }
                         }
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+                TextButton(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = "취소", fontSize = 20.sp)
+                }
+            }
+        },
+    )
+}
+
+@Composable
+fun CancelWriteArticleDialog(
+    onBackButtonClicked: () -> Unit,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        text = {
+            Text(
+                text = "작성을 취소하시겠습니까?\n지금까지 작성한 내용들은 저장되지 않습니다.",
+                fontSize = 20.sp,
+                lineHeight = 20.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        onDismiss()
+                        onBackButtonClicked()
                     }
                 ) {
                     Text(text = "확인", fontSize = 20.sp)

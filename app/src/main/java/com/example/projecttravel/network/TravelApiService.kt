@@ -19,6 +19,7 @@ import com.example.projecttravel.model.plan.WeatherResponseGet
 import com.example.projecttravel.model.user.UserInfo
 import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
 import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
+import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import retrofit2.Call
 import retrofit2.http.Body
@@ -111,6 +112,10 @@ interface TravelApiService {
     // delete comment,reply
     @POST("removereply")
     fun removeReply(@Body removeComment: RemoveComment): Call<Boolean>
+
+    // write Article
+    @POST("sendarticle")
+    fun sendArticle(@Body sendArticle: SendArticle): Call<Boolean>
 
     // delete Article
     @POST("removearticle")

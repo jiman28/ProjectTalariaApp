@@ -40,6 +40,7 @@ fun AllBoardsPage(
     boardSelectUiState: BoardSelectUiState,
     boardSelectViewModel: ViewModelBoardSelect,
     onBoardClicked: () -> Unit,
+    onWriteButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
     val boardListViewModel: ViewModelListBoard = viewModel(factory = ViewModelListBoard.BoardFactory)
@@ -59,10 +60,10 @@ fun AllBoardsPage(
             Button(
                 modifier = Modifier
                     .padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.reply) },
+                onClick = { onWriteButtonClicked() },
                 shape = RoundedCornerShape(0.dp),
             ) {
-                Text(text = stringResource(R.string.replyTitle))
+                Text(text = "게시글 작성")
             }
         }
         /** Board Tab Buttons ====================*/

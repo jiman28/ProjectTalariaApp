@@ -60,9 +60,7 @@ import org.jsoup.Jsoup
 @Composable
 fun ViewContentsBoard(
     userUiState: UserUiState,
-    planUiState: PlanUiState,
     boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
     onContentRefreshClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
