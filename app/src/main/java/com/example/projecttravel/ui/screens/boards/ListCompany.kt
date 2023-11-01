@@ -41,134 +41,127 @@ import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 @Composable
 fun ListCompany(
     modifier: Modifier = Modifier,
-    boardSelectUiState: BoardSelectUiState,
+    companyUiState: CompanyUiState.CompanySuccess,
     boardSelectViewModel: ViewModelBoardSelect,
     onBoardClicked: () -> Unit,
     contentPadding: PaddingValues,
 ) {
-    val companyListViewModel: ViewModelListCompany = viewModel(factory = ViewModelListCompany.CompanyFactory)
-    val companyUiState = (companyListViewModel.companyUiState as? CompanyUiState.CompanySuccess)
-
     val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
     val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val tabtitle: String = stringResource(R.string.companyTitle)
 
-    if (companyUiState != null) {
-        LazyColumn(
-            modifier = modifier,
-            contentPadding = contentPadding,
-            verticalArrangement = Arrangement.spacedBy(3.dp),
-        ) {
-            items(
-                items = companyUiState.companyList.reversed(),
-                key = { board ->
-                    board.articleNo
-                }
-            ) { board ->
-                Card(
-                    modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-                    shape = RoundedCornerShape(5.dp),
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = contentPadding,
+        verticalArrangement = Arrangement.spacedBy(3.dp),
+    ) {
+        items(
+            items = companyUiState.companyList.reversed(),
+            key = { board ->
+                board.articleNo
+            }
+        ) { board ->
+            Card(
+                modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+                shape = RoundedCornerShape(5.dp),
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                    horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                    modifier = Modifier.padding(10.dp)
                 ) {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
-                        modifier = Modifier.padding(10.dp)
+                    Column(
+                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                        modifier = Modifier.weight(1f)
                     ) {
-                        Column(
-                            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                            modifier = Modifier.weight(1f)
+                        Text(text = board.articleNo)
+                    }
+                    Column(
+                        modifier = Modifier.weight(7f)
+                    ) {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                         ) {
-                            Text(text = board.articleNo)
-                        }
-                        Column(
-                            modifier = Modifier.weight(7f)
-                        ) {
-                            Row (
-                                verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                                horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                            Column (
+                                modifier = Modifier.weight(8f)
                             ) {
-                                Column (
-                                    modifier = Modifier.weight(8f)
+                                TextButton(
+                                    onClick = {
+                                        viewCounter(tabtitle, board.articleNo)
+                                        onBoardClicked()
+                                        boardSelectViewModel.setSelectedCompany(board)
+                                    }
                                 ) {
-                                    TextButton(
-                                        onClick = {
-                                            viewCounter(tabtitle, board.articleNo)
-                                            onBoardClicked()
-                                            boardSelectViewModel.setSelectedCompany(board)
-                                        }
-                                    ) {
 //                                        Text(fontSize = 20.sp, text = board.title)
-                                        EllipsisTextBoard(text = board.title, maxLength = 10, modifier = Modifier.fillMaxWidth())
-                                    }
-                                }
-                                Column (
-                                    verticalArrangement = Arrangement.Bottom, // 수직 가운데 정렬
-                                    modifier = Modifier.fillMaxHeight().weight(2f),
-                                ) {
-                                    Row (
-                                        verticalAlignment = Alignment.Bottom, // 수직 가운데 정렬
-                                        horizontalArrangement = Arrangement.End, // 수평 가운데 정렬
-                                        modifier = Modifier.fillMaxWidth()
-                                    ) {
-                                        val filteredReplyList = replyUiState?.replyList?.filter {
-                                            it.companyEntity == board.articleNo
-                                        }
-                                        Icon(
-                                            modifier = Modifier.size(15.dp),
-                                            imageVector = Icons.Filled.Comment,
-                                            contentDescription = "comments"
-                                        )
-                                        Spacer(modifier = Modifier.padding(2.dp))
-                                        Text(fontSize = 15.sp, text = "${filteredReplyList?.size ?: 0}") // 크기를 출력
-                                    }
+                                    EllipsisTextBoard(text = board.title, maxLength = 10, modifier = Modifier.fillMaxWidth())
                                 }
                             }
-                            Row (verticalAlignment = Alignment.CenterVertically,) {
+                            Column (
+                                verticalArrangement = Arrangement.Bottom, // 수직 가운데 정렬
+                                modifier = Modifier.fillMaxHeight().weight(2f),
+                            ) {
                                 Row (
-                                    verticalAlignment = Alignment.CenterVertically,
+                                    verticalAlignment = Alignment.Bottom, // 수직 가운데 정렬
+                                    horizontalArrangement = Arrangement.End, // 수평 가운데 정렬
+                                    modifier = Modifier.fillMaxWidth()
                                 ) {
-                                    Spacer(modifier = Modifier.padding(5.dp))
+                                    val filteredReplyList = replyUiState?.replyList?.filter {
+                                        it.companyEntity == board.articleNo
+                                    }
                                     Icon(
                                         modifier = Modifier.size(15.dp),
-                                        imageVector = Icons.Filled.AccountCircle,
-                                        contentDescription = "Account"
+                                        imageVector = Icons.Filled.Comment,
+                                        contentDescription = "comments"
                                     )
                                     Spacer(modifier = Modifier.padding(2.dp))
-                                    Text(fontSize = 12.sp, text = board.writeId)
+                                    Text(fontSize = 15.sp, text = "${filteredReplyList?.size ?: 0}") // 크기를 출력
                                 }
-                                Row (
-                                    modifier = Modifier.fillMaxWidth(),
-                                    verticalAlignment = Alignment.CenterVertically,
-                                    horizontalArrangement = Arrangement.End
-                                ){
-                                    Icon(
-                                        modifier = Modifier.size(15.dp),
-                                        imageVector = Icons.Filled.AccessTime,
-                                        contentDescription = "WriteDate"
-                                    )
-                                    Spacer(modifier = Modifier.padding(2.dp))
-                                    Text(fontSize = 12.sp, text = board.writeDate)
+                            }
+                        }
+                        Row (verticalAlignment = Alignment.CenterVertically,) {
+                            Row (
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Spacer(modifier = Modifier.padding(5.dp))
+                                Icon(
+                                    modifier = Modifier.size(15.dp),
+                                    imageVector = Icons.Filled.AccountCircle,
+                                    contentDescription = "Account"
+                                )
+                                Spacer(modifier = Modifier.padding(2.dp))
+                                Text(fontSize = 12.sp, text = board.writeId)
+                            }
+                            Row (
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.End
+                            ){
+                                Icon(
+                                    modifier = Modifier.size(15.dp),
+                                    imageVector = Icons.Filled.AccessTime,
+                                    contentDescription = "WriteDate"
+                                )
+                                Spacer(modifier = Modifier.padding(2.dp))
+                                Text(fontSize = 12.sp, text = board.writeDate)
 
-                                    Spacer(modifier = Modifier.padding(5.dp))
+                                Spacer(modifier = Modifier.padding(5.dp))
 
-                                    Icon(
-                                        modifier = Modifier.size(15.dp),
-                                        imageVector = Icons.Filled.RemoveRedEye,
-                                        contentDescription = "Views"
-                                    )
-                                    Spacer(modifier = Modifier.padding(2.dp))
-                                    Text(fontSize = 12.sp, text = board.views)
+                                Icon(
+                                    modifier = Modifier.size(15.dp),
+                                    imageVector = Icons.Filled.RemoveRedEye,
+                                    contentDescription = "Views"
+                                )
+                                Spacer(modifier = Modifier.padding(2.dp))
+                                Text(fontSize = 12.sp, text = board.views)
 
-                                }
                             }
                         }
                     }
                 }
             }
         }
-    } else {
-        Text(text = "아직 아무도 글 안 썻다우")
     }
 }

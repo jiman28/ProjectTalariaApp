@@ -23,7 +23,7 @@ import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 
 @Composable
-fun BoardsPageButtons(
+fun BoardsPageTabButtons(
     boardSelectUiState: BoardSelectUiState,
     boardSelectViewModel: ViewModelBoardSelect,
     userUiState: UserUiState,
@@ -33,20 +33,6 @@ fun BoardsPageButtons(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
     ) {
-        Column {
-            OutlinedButton(
-                modifier = Modifier
-                    .padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.reply) },
-                shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.reply) Color.Yellow else Color.White,
-                )
-            ) {
-                Text(text = stringResource(R.string.replyTitle))
-            }
-        }
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Row {
             OutlinedButton(
                 modifier = Modifier
