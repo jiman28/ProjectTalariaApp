@@ -103,8 +103,8 @@ fun SavePlanDialog(
                         } else {
                             if (setPlan != null) {
                                 scope.launch {
-                                    Log.d("xxxx1xxxxxxxxxxxxxxxx", setPlan.toString())
-                                    Log.d("xxxx1xxxxxxxxxxxxxxxx", planUiState.weatherSwitch.toString())
+                                    Log.d("xxxsetPlansetPlan", setPlan.toString())
+                                    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
                                     onLoadingStarted()
                                     // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                                     val planDeferred = async { savePlanToMongoDb(setPlan) }
@@ -114,6 +114,7 @@ fun SavePlanDialog(
                                     // 모든 작업이 완료되었을 때만 실행합니다.
                                     Log.d("xxxxx1xxxxxisPlanCompleteisPlanCompletexxxxxxxxxx", isPlanComplete.toString())
                                     if (isPlanComplete) {
+                                        planViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
                                         onDismiss()
                                         onPlanCompleteClicked()
                                     } else {

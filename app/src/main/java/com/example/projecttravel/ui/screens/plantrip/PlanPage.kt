@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.plantrip
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -54,6 +55,9 @@ fun PlanPage(
 ) {
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
     var weatherSwitchChecked by remember { mutableStateOf(false) }
+    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
+    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
+    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
     Column {
         /** Buttons ====================*/
         Column {
