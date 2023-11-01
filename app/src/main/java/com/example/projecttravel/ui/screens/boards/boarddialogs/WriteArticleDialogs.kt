@@ -14,16 +14,21 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun ArticleConfirmDialog(
     sendArticle: SendArticle,
+    boardSelectUiState: BoardSelectUiState,
+    boardSelectViewModel: ViewModelBoardSelect,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -60,6 +65,7 @@ fun ArticleConfirmDialog(
                             val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isArticleComplete) {
+                                boardSelectViewModel.setWriteBoardMenu(R.string.selectMenu)
                                 onDismiss()
                                 onBackButtonClicked()
                             } else {
@@ -85,6 +91,7 @@ fun ArticleConfirmDialog(
 
 @Composable
 fun CancelWriteArticleDialog(
+    boardSelectViewModel: ViewModelBoardSelect,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -109,6 +116,7 @@ fun CancelWriteArticleDialog(
                 TextButton(
                     onClick = {
                         onDismiss()
+                        boardSelectViewModel.setWriteBoardMenu(R.string.selectMenu)
                         onBackButtonClicked()
                     }
                 ) {

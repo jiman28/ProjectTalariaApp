@@ -8,6 +8,7 @@ import com.example.projecttravel.model.board.Trade
 
 data class BoardSelectUiState(
     val currentSelectedBoard: Int = R.string.board,
+    val selectedWriteBoardMenu: Int = R.string.selectMenu,
     val selectedBoardContent: Board? = null,
     val selectedTradeContent: Trade? = null,
     val selectedCompanyContent: Company? = null,

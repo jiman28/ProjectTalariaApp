@@ -42,4 +42,11 @@ class ViewModelBoardSelect: ViewModel() {
             currentState.copy(selectedTradeContent = desiredBoard)
         }
     }
+
+    /** setWriteBoardMenu Object */
+    fun setWriteBoardMenu(desiredBoard: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(selectedWriteBoardMenu = desiredBoard)
+        }
+    }
 }

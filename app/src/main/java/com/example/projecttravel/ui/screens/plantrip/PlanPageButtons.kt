@@ -22,7 +22,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 fun PlanPageButtons (
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,
-    onNextButtonClicked: () -> Unit,
+    onPlanCompleteClicked: () -> Unit,
 ) {
     var isResetPlanDialogVisible by remember { mutableStateOf(false) }
     Row(
@@ -53,7 +53,9 @@ fun PlanPageButtons (
             modifier = Modifier
                 .weight(1f)
                 .padding(3.dp),
-            onClick = onNextButtonClicked
+            onClick = {
+
+            }
         ) {
 //                    Text(stringResource(R.string.reset_button))
             Text(text = "계획 다짬!")

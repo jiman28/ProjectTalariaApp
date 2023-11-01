@@ -244,7 +244,7 @@ fun TravelScreenHome(
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    onNextButtonClicked = { },
+                    onPlanCompleteClicked = { },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
                 BackHandler(
@@ -313,6 +313,8 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page4B.name) {
                 WriteArticlePage(
                     userUiState = userUiState,
+                    boardSelectUiState = boardSelectUiState,
+                    boardSelectViewModel = boardSelectViewModel,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                 )
                 BackHandler(

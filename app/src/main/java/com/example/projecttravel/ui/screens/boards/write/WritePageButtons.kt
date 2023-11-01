@@ -19,21 +19,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
 import com.example.projecttravel.ui.screens.boards.boarddialogs.ArticleConfirmDialog
 import com.example.projecttravel.ui.screens.boards.boarddialogs.CancelWriteArticleDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 
 @Composable
 fun WritePageButtons(
-    tabTitle: String,
     title: String,
     content: String,
     userUiState: UserUiState,
+    boardSelectUiState: BoardSelectUiState,
+    boardSelectViewModel: ViewModelBoardSelect,
     onBackButtonClicked: () -> Unit,
 ) {
+    val tabTitle = stringResource(boardSelectUiState.selectedWriteBoardMenu)
     val sendArticle = userUiState.currentLogin?.let {
         SendArticle(
             tabTitle = tabTitle,
@@ -73,6 +77,7 @@ fun WritePageButtons(
                 if (isCancelWriteArticleDialog) {
                     CancelWriteArticleDialog(
                         onBackButtonClicked = onBackButtonClicked,
+                        boardSelectViewModel = boardSelectViewModel,
                         onDismiss = {
                             isCancelWriteArticleDialog = false
                         },
@@ -93,6 +98,8 @@ fun WritePageButtons(
                     if (sendArticle != null) {
                         ArticleConfirmDialog(
                             sendArticle = sendArticle,
+                            boardSelectUiState = boardSelectUiState,
+                            boardSelectViewModel = boardSelectViewModel,
                             onBackButtonClicked = onBackButtonClicked,
                             onDismiss = {
                                 isAddArticleDialog = false

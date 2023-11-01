@@ -47,7 +47,7 @@ fun PlanPage(
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
-    onNextButtonClicked: () -> Unit,
+    onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
 ) {
 
@@ -59,7 +59,7 @@ fun PlanPage(
             PlanPageButtons(
                 planViewModel = planViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,
-                onNextButtonClicked = onNextButtonClicked,
+                onPlanCompleteClicked = onPlanCompleteClicked,
             )
         }
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))

@@ -54,6 +54,7 @@ fun ListBoard(
         contentPadding = contentPadding,
         verticalArrangement = Arrangement.spacedBy(3.dp),
     ) {
+//        item { Text(text = "확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인") }
         items(
             items = boardUiState.boardList.reversed(),
             key = { board ->
