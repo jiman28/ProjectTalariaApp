@@ -14,6 +14,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
@@ -38,8 +39,11 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
+import com.example.projecttravel.ui.screens.boards.boarddialogs.NullCommentDialog
+import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
@@ -50,17 +54,17 @@ import kotlinx.coroutines.launch
 @Composable
 fun ViewReply(
     boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
     userUiState: UserUiState,
     currentArticleNo: String,
     onContentRefreshClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismissAlert = { isLoadingState = null } )
-            false -> GlobalErrorDialog( onDismissAlert = { isLoadingState = null } )
+            true -> GlobalLoadingDialog(onDismissAlert = { isLoadingState = null })
+            false -> GlobalErrorDialog(onDismissAlert = { isLoadingState = null })
             else -> isLoadingState = null
         }
     }
@@ -101,7 +105,7 @@ fun ViewReply(
                     horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                 ) {
                     Column(
-//                        modifier = Modifier.weight(8f)
+                        modifier = Modifier.weight(8f)
                     ) {
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
@@ -129,7 +133,11 @@ fun ViewReply(
                             }
                         }
                         Column {
-                            Text(fontSize = 15.sp, text = reply.replyContent)
+                            Text(
+                                modifier = Modifier.padding(start = 3.dp),
+                                fontSize = 15.sp,
+                                text = reply.replyContent
+                            )
                         }
                     }
 //                    Column(
@@ -143,6 +151,46 @@ fun ViewReply(
 //                            contentDescription = "EditComment"
 //                        )
 //                    }
+                    Column(
+                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                        modifier = Modifier.weight(1f)
+                    ) {
+//                        userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
+//                        Text(text = "리플 ${reply.userId}")
+                        var isRemoveCommentDialog by remember { mutableStateOf(false) }
+                        if (userUiState.currentLogin?.id == reply.userId) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(15.dp)
+                                    .clickable {
+                                        isRemoveCommentDialog = true
+                                    },
+                                imageVector = Icons.Filled.Cancel,
+                                contentDescription = "CancelComment"
+                            )
+                        }
+                        if (isRemoveCommentDialog) {
+                            val removeComment = RemoveComment(
+                                tabTitle = tabtitle,
+                                articleNo = currentArticleNo,
+                                replyNo = reply.replyNo,
+                            )
+                            RemoveCommentDialog(
+                                removeComment = removeComment,
+                                onContentRefreshClicked = onContentRefreshClicked,
+                                onDismiss = {
+                                    isRemoveCommentDialog = false
+                                },
+                                onLoadingStarted = {
+                                    isLoadingState = true
+                                },
+                                onErrorOccurred = {
+                                    isLoadingState = false
+                                },
+                            )
+                        }
+                    }
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
                 Spacer(modifier = Modifier.padding(3.dp))
@@ -151,7 +199,7 @@ fun ViewReply(
         Spacer(modifier = Modifier.padding(7.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Column {
-
+            var isNullCommentDialog by remember { mutableStateOf(false) }
             var commentContent by remember { mutableStateOf("") }
             var remainingCharacters by remember { mutableStateOf(200) } // 남은 문자 수를 나타내는 변수 추가
             Row(
@@ -170,30 +218,34 @@ fun ViewReply(
                         modifier = Modifier
                             .size(30.dp)
                             .clickable {
-                                scope.launch {
-                                    val sendComment = userUiState.currentLogin?.let {
-                                        SendComment(
-                                            tabTitle = tabtitle,
-                                            articleNo = currentArticleNo,
-                                            replyContent = commentContent,
-                                            email = it.email,
-                                        )
-                                    }
-                                    Log.d("xxxx1xxxxxxxxxxxxxxxx", sendComment.toString())
-                                    isLoadingState = true
-                                    // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
-                                    if (sendComment != null) {
-                                        val commentDeferred = async {
-                                            sendCommentToDb(sendComment)
+                                if (commentContent == "") {
+                                    isNullCommentDialog = true
+                                } else {
+                                    scope.launch {
+                                        val sendComment = userUiState.currentLogin?.let {
+                                            SendComment(
+                                                tabTitle = tabtitle,
+                                                articleNo = currentArticleNo,
+                                                replyContent = commentContent,
+                                                email = it.email,
+                                            )
                                         }
+                                        Log.d("xxxx1xxxxxxxxxxxxxxxx", sendComment.toString())
+                                        isLoadingState = true
+                                        // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
+                                        if (sendComment != null) {
+                                            val commentDeferred = async {
+                                                sendCommentToDb(sendComment)
+                                            }
 
-                                        // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                        val isCommentComplete = commentDeferred.await()
-                                        // 모든 작업이 완료되었을 때만 실행합니다.
-                                        if (isCommentComplete) {
-                                            onContentRefreshClicked()
-                                        } else {
-                                            isLoadingState = false
+                                            // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                                            val isCommentComplete = commentDeferred.await()
+                                            // 모든 작업이 완료되었을 때만 실행합니다.
+                                            if (isCommentComplete) {
+                                                onContentRefreshClicked()
+                                            } else {
+                                                isLoadingState = false
+                                            }
                                         }
                                     }
                                 }
@@ -201,9 +253,13 @@ fun ViewReply(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = "EditComment"
                     )
+                    if (isNullCommentDialog) {
+                        NullCommentDialog(
+                            onDismiss = { isNullCommentDialog = false }
+                        )
+                    }
                 }
             }
-
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {

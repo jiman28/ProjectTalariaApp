@@ -98,7 +98,16 @@ fun ViewContentsBoard(
         is Trade -> currentBoard.userId
         else -> ""
     }
+
+    val tabtitle: String = when (boardSelectUiState.currentSelectedBoard) {
+        R.string.board -> stringResource(R.string.boardTitle)
+        R.string.trade -> stringResource(R.string.tradeTitle)
+        R.string.company -> stringResource(R.string.companyTitle)
+        else -> ""
+    }
+
     val scrollState = rememberScrollState()
+
     Column (
         modifier = Modifier
             .verticalScroll(scrollState)
@@ -191,10 +200,14 @@ fun ViewContentsBoard(
             Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             Spacer(modifier = Modifier.padding(5.dp))
 
+//            Column {
+//                userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
+//                Text(text = "게시글 $currentUserId")
+//            }
+
             Column {
                 ViewReply(
                     boardSelectUiState = boardSelectUiState,
-                    boardSelectViewModel = boardSelectViewModel,
                     userUiState = userUiState,
                     currentArticleNo = currentArticleNo,
                     onContentRefreshClicked = onContentRefreshClicked,

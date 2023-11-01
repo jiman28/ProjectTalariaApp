@@ -17,6 +17,7 @@ import com.example.projecttravel.model.plan.SpotDtoResponse
 import com.example.projecttravel.model.plan.WeatherCallSend
 import com.example.projecttravel.model.plan.WeatherResponseGet
 import com.example.projecttravel.model.user.UserInfo
+import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import retrofit2.Call
 import retrofit2.http.Body
@@ -104,7 +105,11 @@ interface TravelApiService {
 
     // write comment,reply
     @POST("sendreply")
-    fun sendReply(@Body sendComment: SendComment): Call<SendComment>
+    fun sendReply(@Body sendComment: SendComment): Call<Boolean>
+
+    // delete comment,reply
+    @POST("removereply")
+    fun removeReply(@Body removeComment: RemoveComment): Call<Boolean>
 
 }
 
