@@ -40,9 +40,7 @@ import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
-import com.example.projecttravel.ui.screens.boards.boarddialogs.CommentConfirmDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.selection.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
