@@ -1,6 +1,7 @@
 package com.example.projecttravel.ui.screens
 
 import android.app.Activity
+import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.annotation.StringRes
@@ -245,6 +246,9 @@ fun TravelScreenHome(
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
                     onNextButtonClicked = { },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
+                )
+                BackHandler(
+                    onBack = { navController.navigate(TravelScreen.Page2.name) },
                 )
             }
             /** 3-1. 경로 확인 화면 ====================*/

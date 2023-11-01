@@ -2,41 +2,11 @@ package com.example.projecttravel.ui.screens.boards.boardapi
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderGetMap
-import com.example.projecttravel.data.RetrofitBuilderString
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.resume
-
-/** ======================================================================================== */
-/** synchronous codes ===================================================================== */
-// update view count
-fun viewCounter (
-    tabtitle: String,
-    articleNo: String,
-){
-    val call = RetrofitBuilderString.travelStringApiService.setView(tabtitle = tabtitle, articleNo = articleNo)
-    call.enqueue(object : Callback<String> {
-        override fun onResponse(call: Call<String>, response: Response<String>) {
-            if (response.isSuccessful) {
-                // 통신 및 응답 성공
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response Success")
-                Log.d("YYYYYYYYYYYYYYYYYYYY", call.toString())
-                Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
-            } else {
-                // 통신은 성공하였으나 응답 실패
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response FAILURE")
-                Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
-            }
-        }
-        override fun onFailure(call: Call<String>, t: Throwable) {
-            // 통신 실패
-            Log.d("YYYYYYYYYYYYYYYYYYYY", "Request FAILURE")
-            Log.d("YYYYYYYYYYYYYYYYYYYY", "checking: $call")
-        }
-    })
-}
 
 /** ======================================================================================== */
 /** asynchronous codes ===================================================================== */

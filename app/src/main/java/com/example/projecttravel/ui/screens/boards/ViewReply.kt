@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.boards
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -69,8 +70,7 @@ fun ViewReply(
         }
     }
 
-    val replyListViewModel: ViewModelListReply =
-        viewModel(factory = ViewModelListReply.ReplyFactory)
+    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
     val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val filteredReplyList = replyUiState?.replyList?.filter {
@@ -98,105 +98,119 @@ fun ViewReply(
             Text(fontSize = 18.sp, text = "(${filteredReplyList?.size ?: 0})") // 크기를 출력
         }
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-        Column {
-            filteredReplyList?.forEach { reply ->
-                Row(
-                    verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                    horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        Spacer(modifier = Modifier.padding(5.dp))
+        if (filteredReplyList != null) {
+            if (filteredReplyList.isEmpty()) {
+
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
-                    Column(
-                        modifier = Modifier.weight(8f)
-                    ) {
+                    Text(fontSize = 15.sp, text = "댓글이 없네용\n첫 번째 댓글을 작성해주세요!")
+                }
+            } else  {
+                Column {
+                    filteredReplyList.forEach { reply ->
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                         ) {
-                            Row {
-                                Icon(
-                                    modifier = Modifier.size(15.dp),
-                                    imageVector = Icons.Filled.AccountCircle,
-                                    contentDescription = "Account"
-                                )
-                                Spacer(modifier = Modifier.padding(1.dp))
-                                Text(fontSize = 12.sp, text = reply.writeId)
+                            Column(
+                                modifier = Modifier.weight(8f)
+                            ) {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                ) {
+                                    Row {
+                                        Icon(
+                                            modifier = Modifier.size(15.dp),
+                                            imageVector = Icons.Filled.AccountCircle,
+                                            contentDescription = "Account"
+                                        )
+                                        Spacer(modifier = Modifier.padding(1.dp))
+                                        Text(fontSize = 12.sp, text = reply.writeId)
 
-                                Spacer(modifier = Modifier.padding(5.dp))
+                                        Spacer(modifier = Modifier.padding(5.dp))
 
-                                Icon(
-                                    modifier = Modifier.size(15.dp),
-                                    imageVector = Icons.Filled.AccessTime,
-                                    contentDescription = "WriteDate"
-                                )
-                                Spacer(modifier = Modifier.padding(1.dp))
-                                Text(fontSize = 12.sp, text = reply.writeDate)
+                                        Icon(
+                                            modifier = Modifier.size(15.dp),
+                                            imageVector = Icons.Filled.AccessTime,
+                                            contentDescription = "WriteDate"
+                                        )
+                                        Spacer(modifier = Modifier.padding(1.dp))
+                                        Text(fontSize = 12.sp, text = reply.writeDate)
+                                    }
+                                    Row {
+                                    }
+                                }
+                                Column {
+                                    Text(
+                                        modifier = Modifier.padding(start = 3.dp),
+                                        fontSize = 15.sp,
+                                        text = reply.replyContent
+                                    )
+                                }
                             }
-                            Row {
+                            //                    Column(
+                            //                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                            //                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                            //                        modifier = Modifier.weight(1f)
+                            //                    ) {
+                            //                        Icon(
+                            //                            modifier = Modifier.size(15.dp),
+                            //                            imageVector = Icons.Filled.Edit,
+                            //                            contentDescription = "EditComment"
+                            //                        )
+                            //                    }
+                            Column(
+                                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                //                        userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
+                                //                        Text(text = "리플 ${reply.userId}")
+                                var isRemoveCommentDialog by remember { mutableStateOf(false) }
+                                if (userUiState.currentLogin?.id == reply.userId) {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(15.dp)
+                                            .clickable {
+                                                isRemoveCommentDialog = true
+                                            },
+                                        imageVector = Icons.Filled.Cancel,
+                                        contentDescription = "CancelComment"
+                                    )
+                                }
+                                if (isRemoveCommentDialog) {
+                                    val removeComment = RemoveComment(
+                                        tabTitle = tabtitle,
+                                        articleNo = currentArticleNo,
+                                        replyNo = reply.replyNo,
+                                    )
+                                    RemoveCommentDialog(
+                                        removeComment = removeComment,
+                                        onContentRefreshClicked = onContentRefreshClicked,
+                                        onDismiss = {
+                                            isRemoveCommentDialog = false
+                                        },
+                                        onLoadingStarted = {
+                                            isLoadingState = true
+                                        },
+                                        onErrorOccurred = {
+                                            isLoadingState = false
+                                        },
+                                    )
+                                }
                             }
                         }
-                        Column {
-                            Text(
-                                modifier = Modifier.padding(start = 3.dp),
-                                fontSize = 15.sp,
-                                text = reply.replyContent
-                            )
-                        }
-                    }
-//                    Column(
-//                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-//                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-//                        modifier = Modifier.weight(1f)
-//                    ) {
-//                        Icon(
-//                            modifier = Modifier.size(15.dp),
-//                            imageVector = Icons.Filled.Edit,
-//                            contentDescription = "EditComment"
-//                        )
-//                    }
-                    Column(
-                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                        modifier = Modifier.weight(1f)
-                    ) {
-//                        userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
-//                        Text(text = "리플 ${reply.userId}")
-                        var isRemoveCommentDialog by remember { mutableStateOf(false) }
-                        if (userUiState.currentLogin?.id == reply.userId) {
-                            Icon(
-                                modifier = Modifier
-                                    .size(15.dp)
-                                    .clickable {
-                                        isRemoveCommentDialog = true
-                                    },
-                                imageVector = Icons.Filled.Cancel,
-                                contentDescription = "CancelComment"
-                            )
-                        }
-                        if (isRemoveCommentDialog) {
-                            val removeComment = RemoveComment(
-                                tabTitle = tabtitle,
-                                articleNo = currentArticleNo,
-                                replyNo = reply.replyNo,
-                            )
-                            RemoveCommentDialog(
-                                removeComment = removeComment,
-                                onContentRefreshClicked = onContentRefreshClicked,
-                                onDismiss = {
-                                    isRemoveCommentDialog = false
-                                },
-                                onLoadingStarted = {
-                                    isLoadingState = true
-                                },
-                                onErrorOccurred = {
-                                    isLoadingState = false
-                                },
-                            )
-                        }
+                        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+                        Spacer(modifier = Modifier.padding(3.dp))
                     }
                 }
-                Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-                Spacer(modifier = Modifier.padding(3.dp))
             }
         }
-        Spacer(modifier = Modifier.padding(7.dp))
+        Spacer(modifier = Modifier.padding(5.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Column {
             var isNullCommentDialog by remember { mutableStateOf(false) }
@@ -266,7 +280,7 @@ fun ViewReply(
                 Column(
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                    modifier = Modifier.weight(8f)
+                    modifier = Modifier.weight(8f),
                 ) {
                     val maxCharacters = 200
                     TextField(

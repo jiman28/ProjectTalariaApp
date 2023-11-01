@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -15,6 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -29,10 +30,13 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.ui.screens.boards.boardapi.EllipsisTextBoard
 import com.example.projecttravel.ui.screens.boards.boardapi.viewCounter
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
+import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListBoard
+import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 
 @Composable
 fun ListBoard(
@@ -44,6 +48,9 @@ fun ListBoard(
 ) {
     val boardListViewModel: ViewModelListBoard = viewModel(factory = ViewModelListBoard.BoardFactory)
     val boardUiState = (boardListViewModel.boardUiState as? BoardUiState.BoardSuccess)
+
+    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
+    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val tabtitle: String = stringResource(R.string.boardTitle)
 
@@ -78,14 +85,45 @@ fun ListBoard(
                         Column(
                             modifier = Modifier.weight(7f)
                         ) {
-                            TextButton(
-                                onClick = {
-                                    viewCounter(tabtitle, board.articleNo)
-                                    onBoardClicked()
-                                    boardSelectViewModel.setSelectedBoard(board)
-                                }
+                            Row (
+                                verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                                horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                             ) {
-                                Text(fontSize = 20.sp, text = board.title)
+                                Column (
+                                    modifier = Modifier.weight(8f)
+                                ) {
+                                    TextButton(
+                                        onClick = {
+                                            viewCounter(tabtitle, board.articleNo)
+                                            onBoardClicked()
+                                            boardSelectViewModel.setSelectedBoard(board)
+                                        }
+                                    ) {
+//                                        Text(fontSize = 20.sp, text = board.title)
+                                        EllipsisTextBoard(text = board.title, maxLength = 10, modifier = Modifier.fillMaxWidth())
+                                    }
+                                }
+                                Column (
+                                    verticalArrangement = Arrangement.Bottom, // 수직 가운데 정렬
+                                    modifier = Modifier.fillMaxHeight().weight(2f),
+                                ) {
+                                    Row (
+                                        verticalAlignment = Alignment.Bottom, // 수직 가운데 정렬
+                                        horizontalArrangement = Arrangement.End, // 수평 가운데 정렬
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        val filteredReplyList = replyUiState?.replyList?.filter {
+                                            it.boardEntity == board.articleNo
+                                        }
+                                        Icon(
+                                            modifier = Modifier.size(15.dp),
+                                            imageVector = Icons.Filled.Comment,
+                                            contentDescription = "comments"
+                                        )
+                                        Spacer(modifier = Modifier.padding(2.dp))
+                                        Text(fontSize = 15.sp, text = "${filteredReplyList?.size ?: 0}") // 크기를 출력
+                                    }
+                                }
                             }
                             Row (verticalAlignment = Alignment.CenterVertically,) {
                                 Row (
@@ -130,5 +168,7 @@ fun ListBoard(
                 }
             }
         }
-    } else { Text(text = "아직 아무도 글 안 썻다우")}
+    } else {
+        Text(text = "아직 아무도 글 안 썻다우")
+    }
 }
