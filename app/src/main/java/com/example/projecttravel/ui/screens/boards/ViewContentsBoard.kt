@@ -4,11 +4,13 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ScrollView
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -16,11 +18,19 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,6 +47,12 @@ import com.example.projecttravel.model.board.AllBoards
 import com.example.projecttravel.model.board.Board
 import com.example.projecttravel.model.board.Company
 import com.example.projecttravel.model.board.Trade
+import com.example.projecttravel.ui.screens.GlobalErrorDialog
+import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
+import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
+import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveArticleDialog
+import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import org.jsoup.Jsoup
@@ -104,6 +120,15 @@ fun ViewContentsBoard(
         R.string.trade -> stringResource(R.string.tradeTitle)
         R.string.company -> stringResource(R.string.companyTitle)
         else -> ""
+    }
+
+    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
+    Surface {
+        when (isLoadingState) {
+            true -> GlobalLoadingDialog(onDismissAlert = { isLoadingState = null })
+            false -> GlobalErrorDialog(onDismissAlert = { isLoadingState = null })
+            else -> isLoadingState = null
+        }
     }
 
     val scrollState = rememberScrollState()
@@ -195,16 +220,55 @@ fun ViewContentsBoard(
                 // Compose의 WebView에 표시
                 HTMLContentWithImage(modifiedContent)
             }
-
-            Spacer(modifier = Modifier.padding(10.dp))
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             Spacer(modifier = Modifier.padding(5.dp))
 
-//            Column {
-//                userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
-//                Text(text = "게시글 $currentUserId")
-//            }
-
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.End, // 수평 가운데 정렬
+            ) {
+                var isRemoveArticleDialog by remember { mutableStateOf(false) }
+                if (userUiState.currentLogin?.id == currentUserId) {
+                    Button(
+                        onClick = { isRemoveArticleDialog = true }
+                    ) {
+                        Row (
+                            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(15.dp),
+                                imageVector = Icons.Filled.Cancel,
+                                contentDescription = "CancelComment"
+                            )
+                            Spacer(modifier = Modifier.padding(2.dp))
+                            Text(text = "게시글 삭제")
+                        }
+                    }
+                    Spacer(modifier = Modifier.padding(5.dp))
+                }
+                if (isRemoveArticleDialog) {
+                    val removeArticle = RemoveArticle(
+                        tabTitle = tabtitle,
+                        articleNo = currentArticleNo,
+                    )
+                    RemoveArticleDialog(
+                        removeArticle = removeArticle,
+                        onBackButtonClicked = onBackButtonClicked,
+                        onDismiss = {
+                            isRemoveArticleDialog = false
+                        },
+                        onLoadingStarted = {
+                            isLoadingState = true
+                        },
+                        onErrorOccurred = {
+                            isLoadingState = false
+                        },
+                    )
+                }
+            }
+            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+            Spacer(modifier = Modifier.padding(5.dp))
             Column {
                 ViewReply(
                     boardSelectUiState = boardSelectUiState,
