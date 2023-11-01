@@ -17,6 +17,13 @@ class ViewModelPlan : ViewModel() {
     private val _uiState = MutableStateFlow(PlanUiState())
     val planUiState: StateFlow<PlanUiState> = _uiState.asStateFlow()
 
+    /** setWeatherSwitch Object */
+    fun setWeatherSwitch(onOff: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(weatherSwitch = onOff)
+        }
+    }
+
     /** setPlanDateRange Object */
     fun setPlanDateRange(desiredDateRange: ClosedRange<LocalDate>?) {
         _uiState.update { currentState ->

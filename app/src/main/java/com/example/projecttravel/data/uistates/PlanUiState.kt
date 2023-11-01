@@ -6,6 +6,7 @@ import com.example.projecttravel.model.plan.WeatherResponseGet
 import java.time.LocalDate
 
 data class PlanUiState(
+    val weatherSwitch: Boolean = false,
     val planDateRange: ClosedRange<LocalDate>? = null,
     val currentPlanDate: LocalDate? = null,
     val planTourAttractionAll: List<TourAttractionAll> = emptyList(),

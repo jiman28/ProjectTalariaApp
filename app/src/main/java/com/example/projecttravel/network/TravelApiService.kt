@@ -21,6 +21,7 @@ import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
 import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
 import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
+import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -83,6 +84,10 @@ interface TravelApiService {
     // send date to get AttrList by City ~ OnWorking
     @POST("sendAttrCity")
     fun getDateCityAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
+
+    // delete Article
+    @POST("saveplan")
+    fun addplan(@Body setPlan: SetPlan): Call<Boolean>
 
 
     // Board DB ==============================

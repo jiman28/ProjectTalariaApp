@@ -241,10 +241,11 @@ fun TravelScreenHome(
             /** 3. 여행 플랜 짜기 화면 ====================*/
             composable(route = TravelScreen.Page3.name) {
                 PlanPage(
+                    userUiState = userUiState,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
-                    onPlanCompleteClicked = { },
+                    onPlanCompleteClicked = { navController.navigate(TravelScreen.Page1.name) },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
                 BackHandler(

@@ -38,25 +38,28 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.plan.SpotDto
+import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
 @Composable
 fun PlanPage(
     modifier: Modifier = Modifier,
+    userUiState: UserUiState,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
 ) {
-
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
     var weatherSwitchChecked by remember { mutableStateOf(false) }
     Column {
         /** Buttons ====================*/
         Column {
             PlanPageButtons(
+                userUiState = userUiState,
+                planUiState = planUiState,
                 planViewModel = planViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,
                 onPlanCompleteClicked = onPlanCompleteClicked,
@@ -93,8 +96,15 @@ fun PlanPage(
             ) {
                 Switch(
                     checked = weatherSwitchChecked,
-                    onCheckedChange = {
-                        weatherSwitchChecked = it
+                    onCheckedChange = { newCheckedState ->
+                        weatherSwitchChecked = newCheckedState
+                        if (newCheckedState) {
+                            // 스위치가 켜졌을 때 실행할 작업
+                            planViewModel.setWeatherSwitch(true)
+                        } else {
+                            // 스위치가 꺼졌을 때 실행할 작업
+                            planViewModel.setWeatherSwitch(false)
+                        }
                     },
                     thumbContent = if (weatherSwitchChecked) {
                         {
@@ -125,6 +135,7 @@ fun PlanPage(
                         selectedPlanDate = clickedDate
                     })
             }
+            /** ================================================== */
 
             Text(text = selectedPlanDate.toString())
             Text(text = planUiState.currentPlanDate.toString())
@@ -143,6 +154,8 @@ fun PlanPage(
                     Text(text = "지도 보장")
                 }
             }
+
+            /** ================================================== */
             Column {
                 val selectedDateWeather: List<SpotDto> = if (weatherSwitchChecked) {
                     val selectedDate = selectedPlanDate.toString()
@@ -184,24 +197,28 @@ fun PlanPage(
                     }
                 )
             }
-
-            Text(text = selectedPlanDate.toString())
-            Text(text = planUiState.currentPlanDate.toString())
-
-            Column {
-                OutlinedButton(
-                    modifier = Modifier
-                        .padding(3.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Blue,
-                        contentColor = Color.White
-                    ),
-                    onClick = onRouteClicked
-                ) {
-                    Text(text = "지도 보장")
+            /** ================================================== */
+            /** 가운데 편집중================================== */
+            Row {
+                Column {
+                    Text(text = planUiState.currentPlanDate.toString())
+                }
+                Column {
+                    OutlinedButton(
+                        modifier = Modifier
+                            .padding(3.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Blue,
+                            contentColor = Color.White
+                        ),
+                        onClick = onRouteClicked
+                    ) {
+                        Text(text = "지도 보장")
+                    }
                 }
             }
+            /** ================================================== */
             Column {
                 val selectedDateAttrs: List<SpotDto> = if (!weatherSwitchChecked) {
                     val selectedDate = selectedPlanDate.toString()

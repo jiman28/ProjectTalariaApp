@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,16 +16,34 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.ui.screens.GlobalErrorDialog
+import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
+import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 
 @Composable
 fun PlanPageButtons (
+    userUiState: UserUiState,
+    planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,
     onPlanCompleteClicked: () -> Unit,
 ) {
     var isResetPlanDialogVisible by remember { mutableStateOf(false) }
+    var isSavePlanDialogVisible by remember { mutableStateOf(false) }
+
+    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
+    Surface {
+        when (isLoadingState) {
+            true -> GlobalLoadingDialog( onDismissAlert = { isLoadingState = null } )
+            false -> GlobalErrorDialog( onDismissAlert = { isLoadingState = null } )
+            else -> isLoadingState = null
+        }
+    }
+
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
@@ -54,11 +73,27 @@ fun PlanPageButtons (
                 .weight(1f)
                 .padding(3.dp),
             onClick = {
-
+                isSavePlanDialogVisible = true
             }
         ) {
-//                    Text(stringResource(R.string.reset_button))
             Text(text = "계획 다짬!")
+            if (isSavePlanDialogVisible) {
+                SavePlanDialog(
+                    userUiState = userUiState,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    onPlanCompleteClicked = onPlanCompleteClicked,
+                    onDismiss = {
+                        isSavePlanDialogVisible = false
+                    },
+                    onLoadingStarted = {
+                        isLoadingState = true
+                    },
+                    onErrorOccurred = {
+                        isLoadingState = false
+                    },
+                )
+            }
         }
     }
 }

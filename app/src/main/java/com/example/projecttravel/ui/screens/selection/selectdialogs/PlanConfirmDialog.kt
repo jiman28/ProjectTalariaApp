@@ -41,7 +41,6 @@ fun PlanConfirmDialog(
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit
 ) {
-
     val scope = rememberCoroutineScope()
     if (selectUiState.selectDateRange == null) {
         AlertDialog(
