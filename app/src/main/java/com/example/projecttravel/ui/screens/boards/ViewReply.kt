@@ -40,11 +40,11 @@ import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextErrorDialog
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
-import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
+import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
-import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 import kotlinx.coroutines.async

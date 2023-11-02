@@ -39,22 +39,22 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.ui.screens.viewmodels.homepage.TravelUiState
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageUiState
 
 @Composable
 fun ShowCountryInfos(
-    travelUiState: TravelUiState,
+    homepageUiState: HomepageUiState,
     retryAction: () -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
     countryCardClicked: (CountryInfo) -> Unit
 ) {
-    when (travelUiState) {
-        is TravelUiState.Loading -> LoadingScreen(modifier.size(200.dp))
-        is TravelUiState.Success ->
+    when (homepageUiState) {
+        is HomepageUiState.Loading -> LoadingScreen(modifier.size(200.dp))
+        is HomepageUiState.Success ->
             CountryListScreen(
-                countryInfo = travelUiState.countryInfo,
+                countryInfo = homepageUiState.countryInfo,
                 modifier = modifier
                     .padding(
                         start = dimensionResource(R.dimen.padding_medium),

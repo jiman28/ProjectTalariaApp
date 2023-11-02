@@ -1,7 +1,8 @@
-package com.example.projecttravel.ui.screens.login.data
+package com.example.projecttravel.ui.screens.viewmodels
 
-import android.window.BackEvent
 import androidx.lifecycle.ViewModel
+import com.example.projecttravel.model.UserResponse
+import com.example.projecttravel.data.uistates.UserUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -35,12 +35,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.model.plan.SpotDto
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.model.SpotDto
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
@@ -229,7 +228,7 @@ fun PlanPage(
             Column {
                 val selectedDateAttrs: List<SpotDto> = if (!weatherSwitchChecked) {
                     val selectedDate = selectedPlanDate.toString()
-                    val selectedDateAttrs = planUiState.dateToAttrByRandom
+                    val selectedDateAttrs = planUiState.dateToAttrByCity
                         .find { it.date == selectedDate }?.list ?: emptyList()
                     selectedDateAttrs
                 } else {

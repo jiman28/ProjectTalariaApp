@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.select.TourAttractionListRepository
-import com.example.projecttravel.model.select.TourAttractionInfo
+import com.example.projecttravel.model.TourAttractionInfo
 import kotlinx.coroutines.launch
 
 sealed interface TourAttractionUiState {

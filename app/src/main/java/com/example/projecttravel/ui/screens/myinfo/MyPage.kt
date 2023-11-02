@@ -14,8 +14,8 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.user.UserInfoUiState
 import com.example.projecttravel.ui.screens.viewmodels.user.ViewModelListUserInfo
 

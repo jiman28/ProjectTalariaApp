@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.write
+package com.example.projecttravel.ui.screens.boardwrite
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column

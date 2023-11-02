@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.boardapi
+package com.example.projecttravel.model
 
 import kotlinx.serialization.Serializable
 

@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.select.InterestListRepository
-import com.example.projecttravel.model.select.InterestInfo
+import com.example.projecttravel.model.InterestInfo
 import kotlinx.coroutines.launch
 
 sealed interface InterestUiState {

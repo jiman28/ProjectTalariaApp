@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.board.CompanyListRepository
-import com.example.projecttravel.model.board.Company
+import com.example.projecttravel.model.Company
 import kotlinx.coroutines.launch
 //import retrofit2.HttpException
 //import java.io.IOException

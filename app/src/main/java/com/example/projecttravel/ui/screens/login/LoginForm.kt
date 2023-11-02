@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.login.Forms
+package com.example.projecttravel.ui.screens.login
 
 import android.content.Context
 import android.util.Log
@@ -47,10 +47,10 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
+import com.example.projecttravel.model.User
 import com.example.projecttravel.ui.screens.login.api.loginApiCall
-import com.example.projecttravel.ui.screens.login.data.User
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.emailKey
 import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.pwdKey

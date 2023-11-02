@@ -2,12 +2,12 @@ package com.example.projecttravel.ui.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.TourAttractionSearchInfo
-import com.example.projecttravel.model.select.CityInfo
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.select.TourAttractionInfo
-import com.example.projecttravel.model.select.TourAttractionAll
+import com.example.projecttravel.model.TourAttractionSearchInfo
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.model.InterestInfo
+import com.example.projecttravel.model.TourAttractionInfo
+import com.example.projecttravel.model.TourAttractionAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 

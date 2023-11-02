@@ -2,9 +2,9 @@ package com.example.projecttravel.ui.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.model.board.Board
-import com.example.projecttravel.model.board.Company
-import com.example.projecttravel.model.board.Trade
+import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.Company
+import com.example.projecttravel.model.Trade
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

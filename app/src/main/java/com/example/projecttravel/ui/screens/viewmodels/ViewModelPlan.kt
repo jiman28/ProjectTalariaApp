@@ -2,10 +2,10 @@ package com.example.projecttravel.ui.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.model.plan.SpotDto
-import com.example.projecttravel.model.plan.SpotDtoResponse
-import com.example.projecttravel.model.plan.WeatherResponseGet
+import com.example.projecttravel.model.TourAttractionAll
+import com.example.projecttravel.model.SpotDto
+import com.example.projecttravel.model.SpotDtoResponse
+import com.example.projecttravel.model.WeatherResponseGet
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -60,9 +60,9 @@ class ViewModelPlan : ViewModel() {
     }
 
     /** setDateToAttrByRandom Object */
-    fun setDateToAttrByRandom(desiredTourAttraction: List<SpotDtoResponse>) {
+    fun setDateToAttrByCity(desiredTourAttraction: List<SpotDtoResponse>) {
         _uiState.update { currentState ->
-            currentState.copy(dateToAttrByRandom = desiredTourAttraction)
+            currentState.copy(dateToAttrByCity = desiredTourAttraction)
         }
     }
 
@@ -125,12 +125,12 @@ class ViewModelPlan : ViewModel() {
     fun removeAttrByRandom(sourceDate: LocalDate, spotDtoToMove: SpotDto) {
         _uiState.update { currentState ->
             // 복사본 생성
-            val updatedAttrByRandom = currentState.dateToAttrByRandom.toMutableList()
+            val updatedAttrByRandom = currentState.dateToAttrByCity.toMutableList()
             // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
             val sourceSpotDtoResponse = updatedAttrByRandom.find { it.date == sourceDate.toString() }
             (sourceSpotDtoResponse?.list as MutableList<SpotDto>).remove(spotDtoToMove)
             // destinationSpotDtoResponse에 spotDtoToMove 추가
-            currentState.copy(dateToAttrByRandom = updatedAttrByRandom)
+            currentState.copy(dateToAttrByCity = updatedAttrByRandom)
         }
     }
 
@@ -138,14 +138,13 @@ class ViewModelPlan : ViewModel() {
     fun addAttrByRandom(destinationDate: LocalDate, spotDtoToMove: SpotDto) {
         _uiState.update { currentState ->
             // 복사본 생성
-            val updatedAttrByRandom = currentState.dateToAttrByRandom.toMutableList()
+            val updatedAttrByRandom = currentState.dateToAttrByCity.toMutableList()
             // sourceDate와 destinationDate에 해당하는 SpotDtoResponse 찾기
             val destinationSpotDtoResponse = updatedAttrByRandom.find { it.date == destinationDate.toString() }
             (destinationSpotDtoResponse?.list as MutableList<SpotDto>).add(spotDtoToMove)
-            currentState.copy(dateToAttrByRandom = updatedAttrByRandom)
+            currentState.copy(dateToAttrByCity = updatedAttrByRandom)
         }
     }
-
 
     /** reset all Objects */
     fun resetAllPlanUiState() {

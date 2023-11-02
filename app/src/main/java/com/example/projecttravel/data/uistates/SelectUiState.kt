@@ -1,10 +1,10 @@
 package com.example.projecttravel.data.uistates
 
-import com.example.projecttravel.model.select.TourAttractionSearchInfo
-import com.example.projecttravel.model.select.CityInfo
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.select.TourAttractionAll
+import com.example.projecttravel.model.TourAttractionSearchInfo
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.model.InterestInfo
+import com.example.projecttravel.model.TourAttractionAll
 import java.time.LocalDate
 
 data class SelectUiState(

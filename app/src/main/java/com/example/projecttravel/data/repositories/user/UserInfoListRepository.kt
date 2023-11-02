@@ -1,7 +1,6 @@
 package com.example.projecttravel.data.repositories.user
 
-import com.example.projecttravel.model.board.Reply
-import com.example.projecttravel.model.user.UserInfo
+import com.example.projecttravel.model.UserInfo
 import com.example.projecttravel.network.TravelApiService
 
 /**

@@ -5,7 +5,7 @@ import android.util.Log
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.TourAttractionSearchInfo
+import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.google.android.gms.common.api.ApiException
 import com.google.android.libraries.places.api.Places

@@ -2,6 +2,8 @@ package com.example.projecttravel.ui.screens.boards.boardapi
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.model.SendComment
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback

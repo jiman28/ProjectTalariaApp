@@ -1,6 +1,6 @@
 package com.example.projecttravel.data.repositories.board
 
-import com.example.projecttravel.model.board.Board
+import com.example.projecttravel.model.Board
 import com.example.projecttravel.network.TravelApiService
 
 /**

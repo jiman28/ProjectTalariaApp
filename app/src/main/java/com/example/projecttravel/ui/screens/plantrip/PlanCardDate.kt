@@ -27,7 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.model.plan.WeatherResponseGet
+import com.example.projecttravel.model.WeatherResponseGet
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 

@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.TextErrorDialog
-import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
@@ -52,7 +52,7 @@ fun SavePlanDialog(
         val selectedPlan = if (planUiState.weatherSwitch) {
             planUiState.dateToAttrByWeather
         } else {
-            planUiState.dateToAttrByRandom
+            planUiState.dateToAttrByCity
         }
         SetPlan(
             planName = planTitle,

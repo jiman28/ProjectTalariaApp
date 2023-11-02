@@ -45,10 +45,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.CityInfo
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.select.TourAttractionInfo
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.model.InterestInfo
+import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
 

@@ -1,7 +1,5 @@
 package com.example.projecttravel.ui.screens
 
-import android.app.Activity
-import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -35,8 +33,8 @@ import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 //import com.example.projecttravel.zdump.LoginActivity
 import com.example.projecttravel.R
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.login.datastore.DataStore
 import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
 import kotlinx.coroutines.CoroutineScope

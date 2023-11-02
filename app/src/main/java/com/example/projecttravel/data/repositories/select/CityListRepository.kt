@@ -1,6 +1,6 @@
 package com.example.projecttravel.data.repositories.select
 
-import com.example.projecttravel.model.select.CityInfo
+import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.network.TravelApiService
 
 /**

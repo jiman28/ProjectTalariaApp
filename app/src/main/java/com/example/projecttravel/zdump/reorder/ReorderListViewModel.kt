@@ -1,18 +1,5 @@
 package com.example.projecttravel.zdump.reorder
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.model.plan.SpotDto
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import org.burnoutcrew.reorderable.ItemPosition
-
 //class ReorderListViewModel : ViewModel() {
 //    /** all selection */
 //    private val _uiState = MutableStateFlow(PlanUiState())

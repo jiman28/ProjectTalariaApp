@@ -36,15 +36,15 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.model.board.AllBoards
-import com.example.projecttravel.model.board.Board
-import com.example.projecttravel.model.board.Company
-import com.example.projecttravel.model.board.Trade
+import com.example.projecttravel.model.AllBoards
+import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.Company
+import com.example.projecttravel.model.Trade
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
+import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveArticleDialog
-import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.data.uistates.UserUiState
 import org.jsoup.Jsoup
 
 @Composable

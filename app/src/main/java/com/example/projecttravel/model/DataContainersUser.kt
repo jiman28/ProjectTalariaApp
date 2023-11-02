@@ -1,6 +1,20 @@
-package com.example.projecttravel.model.user
+package com.example.projecttravel.model
 
 import kotlinx.serialization.Serializable
+
+@Serializable
+data class User (
+    val email: String,
+    val password: String,
+)
+
+@Serializable
+data class UserResponse (
+    val id: String,
+    val email: String,
+    val name: String,
+    val picture: String?,
+)
 
 @Serializable
 data class UserInfo (

@@ -1,8 +1,8 @@
 package com.example.projecttravel.data.uistates
 
-import com.example.projecttravel.model.select.TourAttractionAll
-import com.example.projecttravel.model.plan.SpotDtoResponse
-import com.example.projecttravel.model.plan.WeatherResponseGet
+import com.example.projecttravel.model.TourAttractionAll
+import com.example.projecttravel.model.SpotDtoResponse
+import com.example.projecttravel.model.WeatherResponseGet
 import java.time.LocalDate
 
 data class PlanUiState(
@@ -12,6 +12,6 @@ data class PlanUiState(
     val planTourAttractionAll: List<TourAttractionAll> = emptyList(),
     val dateToWeather: List<WeatherResponseGet> = emptyList(),
     val dateToAttrByWeather: List<SpotDtoResponse> = emptyList(),
-    val dateToAttrByRandom: List<SpotDtoResponse> = emptyList(),
+    val dateToAttrByCity: List<SpotDtoResponse> = emptyList(),
     val dateToSelectedTourAttrMap: Map<LocalDate, List<TourAttractionAll>> = emptyMap(),
 )

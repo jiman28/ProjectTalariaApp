@@ -10,7 +10,7 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.select.CountryListRepository
-import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.model.CountryInfo
 import kotlinx.coroutines.launch
 
 sealed interface CountryUiState {

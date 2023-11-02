@@ -29,14 +29,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.ui.screens.boards.boardapi.EllipsisTextBoard
-import com.example.projecttravel.ui.screens.boards.boardapi.viewCounter
+import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
+import com.example.projecttravel.ui.screens.boardwrite.writeapi.viewCounter
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListTrade
 
 @Composable
 fun ListTrade(

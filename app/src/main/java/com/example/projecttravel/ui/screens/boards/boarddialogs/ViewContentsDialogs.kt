@@ -14,9 +14,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
-import com.example.projecttravel.ui.screens.boards.boardapi.removeArticleFromDb
+import com.example.projecttravel.model.RemoveArticle
+import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.ui.screens.boardwrite.writeapi.removeArticleFromDb
 import com.example.projecttravel.ui.screens.boards.boardapi.removeCommentFromDb
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

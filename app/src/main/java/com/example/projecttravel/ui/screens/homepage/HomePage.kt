@@ -16,9 +16,9 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.homepage.TravelViewModel
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageViewModel
 
 @Composable
 fun HomePage(
@@ -54,12 +54,12 @@ fun HomePage(
         }
         Column(
         ) {
-            val travelViewModel: TravelViewModel =
-                viewModel(factory = TravelViewModel.Factory)
+            val homepageViewModel: HomepageViewModel =
+                viewModel(factory = HomepageViewModel.Factory)
             ShowCountryInfos(
-                travelUiState = travelViewModel.travelUiState,
+                homepageUiState = homepageViewModel.homepageUiState,
                 countryCardClicked = countryCardClicked,
-                retryAction = travelViewModel::getCountry,
+                retryAction = homepageViewModel::getCountry,
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(0.dp)
             )

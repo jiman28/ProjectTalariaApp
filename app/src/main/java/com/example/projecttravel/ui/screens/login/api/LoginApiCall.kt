@@ -1,11 +1,11 @@
 package com.example.projecttravel.ui.screens.login.api
 
 import android.util.Log
-import com.example.projecttravel.ui.screens.login.data.User
-import com.example.projecttravel.ui.screens.login.data.UserResponse
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.model.User
+import com.example.projecttravel.model.UserResponse
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback

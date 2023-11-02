@@ -1,6 +1,6 @@
 package com.example.projecttravel.ui.screens.plantrip.planapi
 
-import com.example.projecttravel.model.plan.SpotDtoResponse
+import com.example.projecttravel.model.SpotDtoResponse
 import kotlinx.serialization.Serializable
 
 @Serializable

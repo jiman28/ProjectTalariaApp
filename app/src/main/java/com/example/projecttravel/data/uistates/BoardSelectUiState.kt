@@ -1,10 +1,9 @@
 package com.example.projecttravel.data.uistates
 
 import com.example.projecttravel.R
-import com.example.projecttravel.model.board.AllBoards
-import com.example.projecttravel.model.board.Board
-import com.example.projecttravel.model.board.Company
-import com.example.projecttravel.model.board.Trade
+import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.Company
+import com.example.projecttravel.model.Trade
 
 data class BoardSelectUiState(
     val currentSelectedBoard: Int = R.string.board,

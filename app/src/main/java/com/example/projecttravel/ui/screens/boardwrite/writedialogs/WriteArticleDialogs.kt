@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.boarddialogs
+package com.example.projecttravel.ui.screens.boardwrite.writedialogs
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
-import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
-import com.example.projecttravel.ui.screens.boards.boardapi.sendArticleToDb
-import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
+import com.example.projecttravel.model.SendArticle
+import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

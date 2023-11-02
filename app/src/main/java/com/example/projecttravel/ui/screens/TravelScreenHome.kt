@@ -29,10 +29,10 @@ import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boards.AllBoardsPage
 import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
-import com.example.projecttravel.ui.screens.boards.write.WriteArticlePage
-import com.example.projecttravel.ui.screens.login.Forms.LoginForm
-import com.example.projecttravel.ui.screens.login.Forms.SignInForm
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
+import com.example.projecttravel.ui.screens.login.LoginForm
+import com.example.projecttravel.ui.screens.login.SignInForm
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.homepage.HomePage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage

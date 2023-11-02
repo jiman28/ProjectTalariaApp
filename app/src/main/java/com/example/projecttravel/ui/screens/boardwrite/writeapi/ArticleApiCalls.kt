@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.boardapi
+package com.example.projecttravel.ui.screens.boardwrite.writeapi
 
 import android.util.Log
 import androidx.compose.material3.Text
@@ -7,6 +7,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.RetrofitBuilderGetMap
 import com.example.projecttravel.data.RetrofitBuilderString
+import com.example.projecttravel.model.RemoveArticle
+import com.example.projecttravel.model.SendArticle
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
@@ -104,7 +106,7 @@ suspend fun sendArticleToDb(
 
 /** ======================================================================================== */
 /** asynchronous codes ===================================================================== */
-// remove Comment From Db
+// remove Article From Db
 suspend fun removeArticleFromDb (
     removeArticle: RemoveArticle,
 ): Boolean {

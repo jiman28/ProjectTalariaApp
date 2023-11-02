@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.write
+package com.example.projecttravel.ui.screens.boardwrite
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,11 +23,11 @@ import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextErrorDialog
-import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
-import com.example.projecttravel.ui.screens.boards.boarddialogs.ArticleConfirmDialog
-import com.example.projecttravel.ui.screens.boards.boarddialogs.CancelWriteArticleDialog
-import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.login.data.ViewModelUser
+import com.example.projecttravel.model.SendArticle
+import com.example.projecttravel.ui.screens.boardwrite.writedialogs.ArticleConfirmDialog
+import com.example.projecttravel.ui.screens.boardwrite.writedialogs.CancelWriteArticleDialog
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 
 @Composable
@@ -50,11 +50,10 @@ fun WritePageButtons(
         )
     }
     var txtErrorMsg by remember { mutableStateOf("") }
+    var isTextErrorDialog by remember { mutableStateOf(false) }
 
     var isCancelWriteArticleDialog by remember { mutableStateOf(false) }
     var isAddArticleDialog by remember { mutableStateOf(false) }
-    var isTextErrorDialog by remember { mutableStateOf(false) }
-
 
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {

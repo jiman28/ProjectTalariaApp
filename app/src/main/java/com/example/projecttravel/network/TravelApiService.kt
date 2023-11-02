@@ -1,26 +1,26 @@
 package com.example.projecttravel.network
 
-import com.example.projecttravel.model.board.Board
-import com.example.projecttravel.model.board.Company
-import com.example.projecttravel.model.board.Reply
-import com.example.projecttravel.model.board.Trade
-import com.example.projecttravel.model.select.CityInfo
-import com.example.projecttravel.model.select.CountryInfo
-import com.example.projecttravel.model.select.InterestInfo
-import com.example.projecttravel.model.select.TourAttractionSearchInfo
-import com.example.projecttravel.model.select.TourAttractionInfo
+import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.Company
+import com.example.projecttravel.model.Reply
+import com.example.projecttravel.model.Trade
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.model.GetAttrWeather
+import com.example.projecttravel.model.InterestInfo
+import com.example.projecttravel.model.TourAttractionSearchInfo
+import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.zdump.dtsample.Form
-import com.example.projecttravel.ui.screens.login.data.User
-import com.example.projecttravel.ui.screens.login.data.UserResponse
-import com.example.projecttravel.ui.screens.selection.selectapi.GetAttrWeather
-import com.example.projecttravel.model.plan.SpotDtoResponse
-import com.example.projecttravel.model.plan.WeatherCallSend
-import com.example.projecttravel.model.plan.WeatherResponseGet
-import com.example.projecttravel.model.user.UserInfo
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
-import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
-import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
+import com.example.projecttravel.model.SpotDtoResponse
+import com.example.projecttravel.model.User
+import com.example.projecttravel.model.UserInfo
+import com.example.projecttravel.model.UserResponse
+import com.example.projecttravel.model.WeatherCallSend
+import com.example.projecttravel.model.WeatherResponseGet
+import com.example.projecttravel.model.RemoveArticle
+import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.model.SendArticle
+import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
 import retrofit2.Call
 import retrofit2.http.Body
@@ -79,7 +79,7 @@ interface TravelApiService {
 
     // send date to get AttrList by Weather
     @POST("sendAttrWeather")
-    fun getDateAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
+    fun getDateWeatherAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
 
     // send date to get AttrList by City ~ OnWorking
     @POST("sendAttrCity")

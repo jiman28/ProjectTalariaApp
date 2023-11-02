@@ -10,23 +10,23 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.select.CountryListRepository
-import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.model.CountryInfo
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 /** UI state for the Home screen */
-sealed interface TravelUiState {
+sealed interface HomepageUiState {
 
-    data class Success(val countryInfo: List<CountryInfo>) : TravelUiState
-    object Error : TravelUiState
-    object Loading : TravelUiState
+    data class Success(val countryInfo: List<CountryInfo>) : HomepageUiState
+    object Error : HomepageUiState
+    object Loading : HomepageUiState
 }
 
 /** ViewModel containing the app data and method to retrieve the data */
-class TravelViewModel(private val countryListRepository: CountryListRepository) : ViewModel() {
+class HomepageViewModel(private val countryListRepository: CountryListRepository) : ViewModel() {
 
-    var travelUiState: TravelUiState by mutableStateOf(TravelUiState.Loading)
+    var homepageUiState: HomepageUiState by mutableStateOf(HomepageUiState.Loading)
         private set
 
     init {
@@ -35,13 +35,13 @@ class TravelViewModel(private val countryListRepository: CountryListRepository) 
 
     fun getCountry() {
         viewModelScope.launch {
-            travelUiState = TravelUiState.Loading
-            travelUiState = try {
-                TravelUiState.Success(countryListRepository.getCountryList())
+            homepageUiState = HomepageUiState.Loading
+            homepageUiState = try {
+                HomepageUiState.Success(countryListRepository.getCountryList())
             } catch (e: IOException) {
-                TravelUiState.Error
+                HomepageUiState.Error
             } catch (e: HttpException) {
-                TravelUiState.Error
+                HomepageUiState.Error
             }
         }
     }
@@ -52,7 +52,7 @@ class TravelViewModel(private val countryListRepository: CountryListRepository) 
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val travelRepository = application.container.countryListRepository
-                TravelViewModel(countryListRepository = travelRepository)
+                HomepageViewModel(countryListRepository = travelRepository)
             }
         }
     }

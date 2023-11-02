@@ -20,6 +20,7 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.TextErrorDialog
 import com.example.projecttravel.ui.screens.selection.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.selection.selectdialogs.ResetConfirmDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
@@ -36,6 +37,9 @@ fun SelectPageButtons (
 ) {
     var isResetDialogVisible by remember { mutableStateOf(false) }
     var isPlanConfirmVisible by remember { mutableStateOf(false) }
+
+    var txtErrorMsg by remember { mutableStateOf("") }
+    var isTextErrorDialog by remember { mutableStateOf(false) }
 
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
@@ -83,10 +87,26 @@ fun SelectPageButtons (
                 .weight(1f)
                 .padding(3.dp),
             onClick = {
-                isPlanConfirmVisible = true
+                if (selectUiState.selectDateRange == null) {
+                    txtErrorMsg = "날짜를 고르세요"
+                    isTextErrorDialog = true
+                } else if (selectUiState.selectTourAttractions.isEmpty()) {
+                    txtErrorMsg = "관광지를 1개 이상 고르세요"
+                    isTextErrorDialog = true
+                } else {
+                    isPlanConfirmVisible = true
+                }
             }
         ) {
             Text(stringResource(R.string.next_button))
+            if (isTextErrorDialog) {
+                TextErrorDialog(
+                    txtErrorMsg = txtErrorMsg,
+                    onDismiss = {
+                        isTextErrorDialog = false
+                    },
+                )
+            }
             if (isPlanConfirmVisible) {
                 PlanConfirmDialog(
                     planUiState = planUiState,

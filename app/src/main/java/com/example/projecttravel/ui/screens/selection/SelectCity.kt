@@ -23,8 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.CityInfo
-import com.example.projecttravel.model.select.CountryInfo
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 

@@ -42,9 +42,9 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.model.select.TourAttractionInfo
-import com.example.projecttravel.model.select.TourAttractionSearchInfo
-import com.example.projecttravel.model.select.TourAttractionAll
+import com.example.projecttravel.model.TourAttractionInfo
+import com.example.projecttravel.model.TourAttractionSearchInfo
+import com.example.projecttravel.model.TourAttractionAll
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 
 @Composable
