@@ -18,7 +18,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -46,6 +48,8 @@ fun SavePlanDialog(
     var isTextErrorDialog by remember { mutableStateOf(false) }
 
     var planTitle by remember { mutableStateOf("") }
+    var remainingCharacters by remember { mutableStateOf(30) } // 남은 문자 수를 나타내는 변수 추가
+
     val scope = rememberCoroutineScope()
 
     val setPlan = userUiState.currentLogin?.let {
@@ -76,20 +80,23 @@ fun SavePlanDialog(
                         .padding(10.dp) // 원하는 여백을 추가).
                         .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
                 )
+                val maxCharacters = 30
                 TextField(
                     value = planTitle,
-                    onValueChange = { newValue -> planTitle = newValue },
-                    label = { Text(text = "계획의 이름을 적어주세요!") },
+                    onValueChange = {
+                        // 문자 수 제한 로직 추가
+                        if (it.length <= maxCharacters) {
+                            planTitle = it
+                            remainingCharacters = maxCharacters - it.length
+                        }
+                    },
+                    label = { Text(text = "문자 수 제한: $remainingCharacters / 30") },
+                    placeholder = { Text(text = "계획의 이름을 적어주세요!") },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
                     keyboardOptions = KeyboardOptions(
                         imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            // 여기에 Done 액션 처리를 추가할 수 있습니다.
-                        }
                     ),
                 )
             }
@@ -108,7 +115,10 @@ fun SavePlanDialog(
                             if (setPlan != null) {
                                 scope.launch {
                                     Log.d("xxxsetPlansetPlan", setPlan.toString())
-                                    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
+                                    Log.d(
+                                        "xxxweatherSwitchweatherSwitch",
+                                        planUiState.weatherSwitch.toString()
+                                    )
                                     onLoadingStarted()
                                     // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                                     val planDeferred = async { savePlanToMongoDb(setPlan) }
@@ -116,7 +126,10 @@ fun SavePlanDialog(
                                     // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                                     val isPlanComplete = planDeferred.await()
                                     // 모든 작업이 완료되었을 때만 실행합니다.
-                                    Log.d("xxxxx1xxxxxisPlanCompleteisPlanCompletexxxxxxxxxx", isPlanComplete.toString())
+                                    Log.d(
+                                        "xxxxx1xxxxxisPlanCompleteisPlanCompletexxxxxxxxxx",
+                                        isPlanComplete.toString()
+                                    )
                                     if (isPlanComplete) {
                                         planViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
                                         onDismiss()

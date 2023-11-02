@@ -37,10 +37,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -187,7 +189,7 @@ fun checkCredentials(creds: Credentials, context: Context): Boolean {
     return if (creds.isNotEmpty()) {
         true
     } else {
-        Toast.makeText(context, "잘못된 형식입니당", Toast.LENGTH_SHORT).show()
+        Toast.makeText(context, "잘못된 형식입니다", Toast.LENGTH_SHORT).show()
         false
     }
 }
@@ -244,9 +246,11 @@ fun LoginField(
         onValueChange = onChange,
         modifier = modifier,
         leadingIcon = leadingIcon,
-        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+        keyboardOptions = KeyboardOptions(
+            imeAction = ImeAction.Next // 다음 버튼 활성화
+        ),
         keyboardActions = KeyboardActions(
-            onNext = { focusManager.moveFocus(FocusDirection.Down) }
+            onNext = { focusManager.moveFocus(FocusDirection.Down) } // 다음 버튼 클릭시 다음 TextField로 커서 이동
         ),
         placeholder = { Text(placeholder) },
         label = { Text(label) },
@@ -255,6 +259,7 @@ fun LoginField(
     )
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun PasswordField(
     value: String,
@@ -284,6 +289,8 @@ fun PasswordField(
         }
     }
 
+    val keyboardController = LocalSoftwareKeyboardController.current
+
     TextField(
         value = value,
         onValueChange = onChange,
@@ -291,11 +298,14 @@ fun PasswordField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         keyboardOptions = KeyboardOptions(
-            imeAction = ImeAction.Done,
-            keyboardType = KeyboardType.Password
+            imeAction = ImeAction.Done, // 완료 버튼 활성화
+            keyboardType = KeyboardType.Password // 비밀번호 모드 활성화
         ),
         keyboardActions = KeyboardActions(
-            onDone = { submit() }
+            onDone = {
+                submit()
+                keyboardController?.hide() // 완료 버튼 클릭 시 키보드 숨김 (없어도 되지만 다른 함수도 같이 사용해야 할때 필요)
+            }
         ),
         placeholder = { Text(placeholder) },
         label = { Text(label) },

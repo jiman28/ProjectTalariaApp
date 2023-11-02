@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.text.KeyboardOptions
@@ -68,7 +69,8 @@ fun ViewReply(
         }
     }
 
-    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
+    val replyListViewModel: ViewModelListReply =
+        viewModel(factory = ViewModelListReply.ReplyFactory)
     val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val filteredReplyList = replyUiState?.replyList?.filter {
@@ -105,9 +107,9 @@ fun ViewReply(
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
-                    Text(fontSize = 15.sp, text = "댓글이 없네용\n첫 번째 댓글을 작성해주세요!")
+                    Text(fontSize = 15.sp, text = "댓글이 없네요\n첫 번째 댓글을 작성해주세요!")
                 }
-            } else  {
+            } else {
                 Column {
                     filteredReplyList.forEach { reply ->
                         Row(
@@ -215,7 +217,8 @@ fun ViewReply(
             var isTextErrorDialog by remember { mutableStateOf(false) }
 
             var commentContent by remember { mutableStateOf("") }
-            var remainingCharacters by remember { mutableStateOf(200) } // 남은 문자 수를 나타내는 변수 추가
+            var remainingCharacters by remember { mutableStateOf(100) } // 남은 문자 수를 나타내는 변수 추가
+
             Row(
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -286,7 +289,7 @@ fun ViewReply(
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                     modifier = Modifier.weight(8f),
                 ) {
-                    val maxCharacters = 200
+                    val maxCharacters = 100
                     TextField(
                         value = commentContent,
                         onValueChange = {
@@ -296,16 +299,17 @@ fun ViewReply(
                                 remainingCharacters = maxCharacters - it.length
                             }
                         },
-                        label = { Text(text = "남은 문자 수: $remainingCharacters / 200") },
+                        label = { Text(text = "문자 수 제한: $remainingCharacters / 100") },
                         placeholder = { Text(text = "댓글을 작성해주세요.") },
                         trailingIcon = {
 
                         },
                         modifier = Modifier
                             .padding(16.dp)
+                            .height(150.dp) // 높이 조절
                             .fillMaxWidth(),
-                        keyboardOptions = KeyboardOptions(
-                            imeAction = ImeAction.Done
+                        keyboardOptions = KeyboardOptions.Default.copy(
+                            imeAction = ImeAction.Default // 줄 바꿈 버튼 활성화
                         ),
                     )
                 }

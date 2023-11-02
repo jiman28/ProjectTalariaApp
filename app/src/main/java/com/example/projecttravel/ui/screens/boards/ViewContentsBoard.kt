@@ -121,12 +121,12 @@ fun ViewContentsBoard(
 
     val scrollState = rememberScrollState()
 
-    Column (
+    Column(
         modifier = Modifier
             .verticalScroll(scrollState)
             .padding(start = 15.dp, end = 15.dp, top = 15.dp),
     ) {
-        Row (
+        Row(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
         ) {
             Text(
@@ -147,7 +147,7 @@ fun ViewContentsBoard(
 
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
-        Column (
+        Column(
             modifier = Modifier.padding(start = 15.dp, end = 15.dp),
         ) {
             Column {
@@ -210,7 +210,7 @@ fun ViewContentsBoard(
             }
             Spacer(modifier = Modifier.padding(5.dp))
 
-            Column (
+            Column(
                 modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.End, // 수평 가운데 정렬
@@ -220,7 +220,7 @@ fun ViewContentsBoard(
                     Button(
                         onClick = { isRemoveArticleDialog = true }
                     ) {
-                        Row (
+                        Row(
                             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
                             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                         ) {

@@ -46,4 +46,7 @@
     <string name="tradeTitle">거래시스템</string>
     <string name="replyTitle">Comments</string>
 
+    <string name="noSearchFound">검색 결과가 없습니다.</string>
+    <string name="noArticlesFound">게시글이 아직 없습니다.</string>
+
 </resources>

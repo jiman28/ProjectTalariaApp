@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
+import com.example.projecttravel.model.Board
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.viewCounter
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect

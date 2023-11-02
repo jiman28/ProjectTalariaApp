@@ -4,9 +4,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -16,9 +19,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
@@ -37,12 +42,19 @@ fun WriteArticlePage(
     onBackButtonClicked: () -> Unit,
 ) {
     var title by remember { mutableStateOf("") }
+    var remainingCharacters by remember { mutableStateOf(30) } // 남은 문자 수를 나타내는 변수 추가
     var content by remember { mutableStateOf("") }
-    
+
+    val focusManager = LocalFocusManager.current
+
+    val scrollState = rememberScrollState()
+
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-        modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+        modifier = Modifier
+            .verticalScroll(scrollState)
+            .padding(start = 15.dp, end = 15.dp),
     ) {
         Column {
             WritePageButtons(
@@ -70,12 +82,12 @@ fun WriteArticlePage(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
         ) {
-            Column (
+            Column(
                 modifier = Modifier.weight(3f)
             ) {
                 Text(text = "게시판 선택")
             }
-            Column (
+            Column(
                 modifier = Modifier.weight(8f)
             ) {
                 BoardDropDownMenu(
@@ -92,25 +104,34 @@ fun WriteArticlePage(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
         ) {
-            Column (
+            Column(
                 modifier = Modifier.weight(2f)
             ) {
                 Text(text = "제목")
             }
-            Column (
+            Column(
                 modifier = Modifier.weight(8f)
             ) {
-                val focusManager = LocalFocusManager.current
+                val maxCharacters = 30
                 TextField(
                     value = title,
-                    onValueChange = { newValue -> title = newValue },
-                    label = { Text(text = "게시판 제목") },
+                    onValueChange = {
+                        // 문자 수 제한 로직 추가
+                        if (it.length <= maxCharacters) {
+                            title = it
+                            remainingCharacters = maxCharacters - it.length
+                        }
+                    },
+                    label = { Text(text = "문자 수 제한: $remainingCharacters / 30") },
+                    placeholder = { Text(text = "제목을 작성해주세요.") },
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                    keyboardOptions = KeyboardOptions(
+                        imeAction = ImeAction.Next // 다음 버튼 활성화
+                    ),
                     keyboardActions = KeyboardActions(
-                        onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                        onNext = { focusManager.moveFocus(FocusDirection.Down) } // 다음 버튼 클릭시 다음 TextField로 커서 이동
                     ),
                 )
             }
@@ -126,15 +147,14 @@ fun WriteArticlePage(
                 TextField(
                     value = content,
                     onValueChange = { newValue -> content = newValue },
-                    label = { Text(text = "게시판 내용") },
+                    label = { },
+                    placeholder = { Text(text = "내용을 작성해주세요.") },
                     modifier = Modifier
                         .padding(16.dp)
+                        .height(600.dp) // 높이 조절
                         .fillMaxWidth(),
-                    keyboardOptions = KeyboardOptions(
-                        imeAction = ImeAction.Done
-                    ),
-                    keyboardActions = KeyboardActions(
-                        onDone = {  }
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Default // 줄 바꿈 버튼 활성화
                     ),
                 )
             }
