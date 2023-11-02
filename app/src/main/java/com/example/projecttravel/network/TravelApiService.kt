@@ -10,7 +10,6 @@ import com.example.projecttravel.model.GetAttrWeather
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionInfo
-import com.example.projecttravel.zdump.dtsample.Form
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.User
 import com.example.projecttravel.model.UserInfo
@@ -21,7 +20,7 @@ import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.SendComment
-import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
+import com.example.projecttravel.model.SetPlan
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -37,8 +36,8 @@ interface TravelApiService {
 
     // SignIn Call
     @POST("androidsignin")
-    fun setFormResponse(@Body form: Form): Call<String>
-
+    @FormUrlEncoded
+    fun androidSignIn(@Field("email") email: String?, @Field("name") name: String?, @Field("password") password: String?): Call<String>
 
     // UserInfo DB ==============================
     @GET("userinfo")

@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection
+package com.example.projecttravel.ui.screens.select
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background

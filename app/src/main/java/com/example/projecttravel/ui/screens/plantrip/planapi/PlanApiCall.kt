@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens.plantrip.planapi
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.model.SetPlan
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback

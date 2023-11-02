@@ -3,6 +3,15 @@ package com.example.projecttravel.model
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class SetPlan (
+    var planName: String,
+    var email: String,
+    var startDay: String,
+    var endDay: String,
+    var plans: List<SpotDtoResponse>
+)
+
+@Serializable
 data class SpotDtoResponse(
     var date: String,
     var list: List<SpotDto>

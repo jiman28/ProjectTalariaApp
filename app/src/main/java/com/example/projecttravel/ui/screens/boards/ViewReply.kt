@@ -40,7 +40,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.TextErrorDialog
+import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
@@ -63,7 +63,7 @@ fun ViewReply(
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog(onDismiss = { isLoadingState = null })
+            true -> GlobalLoadingDialog()
             false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
             else -> isLoadingState = null
         }
@@ -272,7 +272,7 @@ fun ViewReply(
                         contentDescription = "EditComment"
                     )
                     if (isTextErrorDialog) {
-                        TextErrorDialog(
+                        TextMsgErrorDialog(
                             txtErrorMsg = txtErrorMsg,
                             onDismiss = {
                                 isTextErrorDialog = false

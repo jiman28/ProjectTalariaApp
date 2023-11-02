@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection.selectapi
+package com.example.projecttravel.ui.screens.select.selectapi
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderGetMap

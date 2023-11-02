@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection
+package com.example.projecttravel.ui.screens.select
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,9 +20,9 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.TextErrorDialog
-import com.example.projecttravel.ui.screens.selection.selectdialogs.PlanConfirmDialog
-import com.example.projecttravel.ui.screens.selection.selectdialogs.ResetConfirmDialog
+import com.example.projecttravel.ui.screens.TextMsgErrorDialog
+import com.example.projecttravel.ui.screens.select.selectdialogs.PlanConfirmDialog
+import com.example.projecttravel.ui.screens.select.selectdialogs.ResetConfirmDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 
@@ -44,7 +44,7 @@ fun SelectPageButtons (
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
+            true -> GlobalLoadingDialog()
             false -> GlobalErrorDialog( onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }
@@ -100,7 +100,7 @@ fun SelectPageButtons (
         ) {
             Text(stringResource(R.string.next_button))
             if (isTextErrorDialog) {
-                TextErrorDialog(
+                TextMsgErrorDialog(
                     txtErrorMsg = txtErrorMsg,
                     onDismiss = {
                         isTextErrorDialog = false

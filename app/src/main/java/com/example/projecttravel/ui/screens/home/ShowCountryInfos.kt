@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.homepage
+package com.example.projecttravel.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

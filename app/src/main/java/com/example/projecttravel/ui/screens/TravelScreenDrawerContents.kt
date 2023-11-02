@@ -35,8 +35,8 @@ import androidx.navigation.NavHostController
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.login.datastore.DataStore
-import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

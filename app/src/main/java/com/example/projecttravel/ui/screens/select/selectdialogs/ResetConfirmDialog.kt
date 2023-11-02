@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection.selectdialogs
+package com.example.projecttravel.ui.screens.select.selectdialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row

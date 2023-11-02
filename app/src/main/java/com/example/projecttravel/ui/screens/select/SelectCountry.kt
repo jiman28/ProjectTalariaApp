@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection
+package com.example.projecttravel.ui.screens.select
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement

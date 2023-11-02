@@ -40,7 +40,7 @@ fun PlanPageButtons (
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
+            true -> GlobalLoadingDialog()
             false -> GlobalErrorDialog( onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }

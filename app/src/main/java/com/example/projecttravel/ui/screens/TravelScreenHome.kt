@@ -30,15 +30,15 @@ import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boards.AllBoardsPage
 import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
-import com.example.projecttravel.ui.screens.login.LoginForm
-import com.example.projecttravel.ui.screens.login.SignInForm
+import com.example.projecttravel.ui.screens.auth.LoginForm
+import com.example.projecttravel.ui.screens.auth.SignInForm
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.homepage.HomePage
+import com.example.projecttravel.ui.screens.home.HomePage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
-import com.example.projecttravel.ui.screens.selection.SelectPage
-import com.example.projecttravel.ui.screens.myinfo.MyPage
+import com.example.projecttravel.ui.screens.select.SelectPage
+import com.example.projecttravel.ui.screens.infome.MyPage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
@@ -136,6 +136,8 @@ fun TravelScreenHome(
             /** 0A. 회원 가입 화면 ====================*/
             composable(route = TravelScreen.Page0A.name) {
                 SignInForm(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
                     onCancelButtonClicked = {
                         navController.navigate(TravelScreen.Page0.name)
                     },

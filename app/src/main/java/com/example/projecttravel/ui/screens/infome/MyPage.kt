@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.myinfo
+package com.example.projecttravel.ui.screens.infome
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

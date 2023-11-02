@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.homepage
+package com.example.projecttravel.ui.screens.home
 
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement

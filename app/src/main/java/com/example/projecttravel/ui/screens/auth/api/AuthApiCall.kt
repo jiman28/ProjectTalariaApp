@@ -1,9 +1,11 @@
-package com.example.projecttravel.ui.screens.login.api
+package com.example.projecttravel.ui.screens.auth.api
 
 import android.util.Log
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderString
+import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.model.User
 import com.example.projecttravel.model.UserResponse
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -56,6 +58,54 @@ suspend fun loginApiCall(
                 Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
                 Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
                 continuation.resume(false) // 작업 실패 시 false 반환
+            }
+        })
+    }
+}
+
+suspend fun signInApiCall(
+    sendSignIn: SendSignIn,
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
+): String {
+    return suspendCancellableCoroutine { continuation ->
+        val call = RetrofitBuilderString.travelStringApiService.androidSignIn(email = sendSignIn.email, name = sendSignIn.name, password = sendSignIn.password)
+        call.enqueue(object : Callback<String> {
+            override fun onResponse(
+                call: Call<String>,
+                response: Response<String>
+            ) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Log.d("xxxxx1xxxxxxxxxxxxxxx", "Request Success + Response Success")
+                        Log.d("xxxxx1xxxxxxxxxxxxxxx", call.toString())
+                        Log.d("xxxxx1111111xxxxxxxxxxxxxxx", response.body().toString())
+                        // 원인을 알아낸것 같음 => 계속 null 값이 들어갔던 문제.
+                        // 비동기 처리가 문제인것 같음. => loginApiCall  도 비동기 함수 내에서는 null 로 처리가 되지만 어쨋든 값은 정상적으로 들어옴.
+                        // recomposition 이 문제인것 같음.
+                        // 나중에 java쪽 서버도 스트링으로 다시바꾸고   이 함수 내에서 return 을 boolean 이 아닌 string 으로 바꾸면 될것같음.
+                        continuation.resume(response.body().toString()) // 작업 성공 시 return 반환
+//                        continuation.resume(false) // 오류 확인용 false
+                    } else {
+                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        continuation.resume("d") // 작업 실패 시 return 반환
+                    }
+                } else {
+                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    continuation.resume("d") // 작업 실패 시 return 반환
+                }
+            }
+
+            override fun onFailure(call: Call<String>, t: Throwable) {
+                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                continuation.resume("d") // 작업 실패 시 return 반환
             }
         })
     }

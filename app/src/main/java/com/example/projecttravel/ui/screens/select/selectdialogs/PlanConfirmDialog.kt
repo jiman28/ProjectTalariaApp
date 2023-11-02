@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.selection.selectdialogs
+package com.example.projecttravel.ui.screens.select.selectdialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -20,9 +20,9 @@ import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.ui.screens.selection.selectapi.getDateToAttrByCity
-import com.example.projecttravel.ui.screens.selection.selectapi.getDateToAttrByWeather
-import com.example.projecttravel.ui.screens.selection.selectapi.getDateToWeather
+import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByCity
+import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByWeather
+import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

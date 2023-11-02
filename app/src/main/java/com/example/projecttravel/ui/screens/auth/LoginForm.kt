@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.login
+package com.example.projecttravel.ui.screens.auth
 
 import android.content.Context
 import android.util.Log
@@ -50,14 +50,14 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
 import com.example.projecttravel.model.User
-import com.example.projecttravel.ui.screens.login.api.loginApiCall
+import com.example.projecttravel.ui.screens.auth.api.loginApiCall
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.emailKey
-import com.example.projecttravel.ui.screens.login.datastore.DataStore.Companion.pwdKey
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.emailKey
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.pwdKey
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.LoginErrorDialog
+import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -75,6 +75,7 @@ fun LoginForm(
 
     var credentials by remember { mutableStateOf(Credentials()) }
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
+    var logInErrorMsg by remember { mutableStateOf("") }
 
     // 정규 이메일 표현식 패턴
     val emailPattern = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
@@ -97,6 +98,7 @@ fun LoginForm(
                         Log.d("isUserComplete1111111111", userUiState.currentLogin.toString())
                         onLoginSuccess()
                     } else {
+                        logInErrorMsg = "로그인 실패\n다시 시도해주세요"
                         isLoadingState = false
                     }
                 }
@@ -106,8 +108,8 @@ fun LoginForm(
 
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
-            false -> LoginErrorDialog( onDismissAlert = { isLoadingState = null } )
+            true -> GlobalLoadingDialog()
+            false -> TextMsgErrorDialog( txtErrorMsg = logInErrorMsg, onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }
     }

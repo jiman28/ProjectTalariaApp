@@ -9,6 +9,13 @@ data class User (
 )
 
 @Serializable
+data class SendSignIn (
+    val email: String,
+    val name: String,
+    val password: String,
+)
+
+@Serializable
 data class UserResponse (
     val id: String,
     val email: String,

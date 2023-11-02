@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
@@ -18,17 +17,15 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.ui.screens.TextErrorDialog
+import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
+import com.example.projecttravel.model.SetPlan
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import kotlinx.coroutines.async
@@ -153,7 +150,7 @@ fun SavePlanDialog(
                     Text(text = "취소", fontSize = 20.sp)
                 }
                 if (isTextErrorDialog) {
-                    TextErrorDialog(
+                    TextMsgErrorDialog(
                         txtErrorMsg = txtErrorMsg,
                         onDismiss = {
                             isTextErrorDialog = false
