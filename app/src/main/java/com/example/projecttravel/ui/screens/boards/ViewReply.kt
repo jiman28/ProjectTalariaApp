@@ -301,9 +301,7 @@ fun ViewReply(
                         },
                         label = { Text(text = "문자 수 제한: $remainingCharacters / 100") },
                         placeholder = { Text(text = "댓글을 작성해주세요.") },
-                        trailingIcon = {
-
-                        },
+                        trailingIcon = {  },
                         modifier = Modifier
                             .padding(16.dp)
                             .height(150.dp) // 높이 조절

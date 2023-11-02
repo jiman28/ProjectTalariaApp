@@ -41,11 +41,12 @@ fun WritePageButtons(
     onBackButtonClicked: () -> Unit,
 ) {
     val tabTitle = stringResource(boardSelectUiState.selectedWriteBoardMenu)
+    val transformedContent = convertTextToHtml(content)
     val sendArticle = userUiState.currentLogin?.let {
         SendArticle(
             tabTitle = tabTitle,
             title = title,
-            content = content,
+            content = transformedContent,
             email = it.email,
         )
     }
@@ -154,3 +155,8 @@ fun WritePageButtons(
     }
 }
 
+fun convertTextToHtml(text: String): String {
+    val lines = text.split("\n")
+    val htmlLines = lines.map { "<p>$it</p>" }
+    return htmlLines.joinToString("")
+}

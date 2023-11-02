@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.boardwrite
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -44,9 +45,7 @@ fun WriteArticlePage(
     var title by remember { mutableStateOf("") }
     var remainingCharacters by remember { mutableStateOf(30) } // 남은 문자 수를 나타내는 변수 추가
     var content by remember { mutableStateOf("") }
-
     val focusManager = LocalFocusManager.current
-
     val scrollState = rememberScrollState()
 
     Column(
@@ -72,7 +71,6 @@ fun WriteArticlePage(
 
         Column {
             Text(text = "게시글 작성")
-//            Text(text = "R.string 확인 ${R.string.selectMenu}")
         }
 
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
@@ -123,6 +121,7 @@ fun WriteArticlePage(
                         }
                     },
                     label = { Text(text = "문자 수 제한: $remainingCharacters / 30") },
+                    maxLines = 2,
                     placeholder = { Text(text = "제목을 작성해주세요.") },
                     modifier = Modifier
                         .padding(16.dp)
@@ -148,15 +147,18 @@ fun WriteArticlePage(
                     value = content,
                     onValueChange = { newValue -> content = newValue },
                     label = { },
+                    singleLine = false,
                     placeholder = { Text(text = "내용을 작성해주세요.") },
                     modifier = Modifier
                         .padding(16.dp)
-                        .height(600.dp) // 높이 조절
+//                        .verticalScroll(scrollState)
+                        .height(400.dp) // 높이 조절
                         .fillMaxWidth(),
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Default // 줄 바꿈 버튼 활성화
                     ),
                 )
+                Spacer(modifier = Modifier.padding(150.dp))
             }
         }
     }
