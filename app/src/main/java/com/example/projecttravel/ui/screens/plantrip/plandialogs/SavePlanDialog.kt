@@ -24,6 +24,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.ui.screens.TextErrorDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
 import com.example.projecttravel.ui.screens.plantrip.planapi.SetPlan
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
@@ -41,7 +42,9 @@ fun SavePlanDialog(
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit,
 ) {
-    var isNullTitleDialog by remember { mutableStateOf(false) }
+    var txtErrorMsg by remember { mutableStateOf("") }
+    var isTextErrorDialog by remember { mutableStateOf(false) }
+
     var planTitle by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
 
@@ -99,7 +102,8 @@ fun SavePlanDialog(
                 TextButton(
                     onClick = {
                         if (planTitle == "") {
-                            isNullTitleDialog = true
+                            txtErrorMsg = "제목을 작성해주세요"
+                            isTextErrorDialog = true
                         } else {
                             if (setPlan != null) {
                                 scope.launch {
@@ -135,40 +139,14 @@ fun SavePlanDialog(
                 ) {
                     Text(text = "취소", fontSize = 20.sp)
                 }
-                if (isNullTitleDialog) {
-                    NullTitleDialog(
-                        onDismiss = { isNullTitleDialog = false }
+                if (isTextErrorDialog) {
+                    TextErrorDialog(
+                        txtErrorMsg = txtErrorMsg,
+                        onDismiss = {
+                            isTextErrorDialog = false
+                        },
                     )
                 }
-            }
-        },
-    )
-}
-
-@Composable
-fun NullTitleDialog(
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        text = {
-            Text(
-                text = "계획의 이름이 비었습니다!",
-                fontSize = 20.sp,
-                lineHeight = 20.sp,
-                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
-                modifier = Modifier
-                    .padding(10.dp) // 원하는 여백을 추가).
-                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
-                }
-            ) {
-                Text(text = "확인", fontSize = 20.sp)
             }
         },
     )

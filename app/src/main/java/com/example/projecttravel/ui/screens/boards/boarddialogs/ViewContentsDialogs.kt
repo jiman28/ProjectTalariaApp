@@ -22,35 +22,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
-fun NullCommentDialog(
-    onDismiss: () -> Unit,
-) {
-    AlertDialog(
-        onDismissRequest = onDismiss,
-        text = {
-            Text(
-                text = "댓글을 작성하세요!",
-                fontSize = 20.sp,
-                lineHeight = 20.sp,
-                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
-                modifier = Modifier
-                    .padding(10.dp) // 원하는 여백을 추가).
-                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
-            )
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    onDismiss()
-                }
-            ) {
-                Text(text = "확인", fontSize = 20.sp)
-            }
-        },
-    )
-}
-
-@Composable
 fun RemoveArticleDialog(
     removeArticle: RemoveArticle,
     onBackButtonClicked: () -> Unit,

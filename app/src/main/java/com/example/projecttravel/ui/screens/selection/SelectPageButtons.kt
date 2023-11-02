@@ -40,8 +40,8 @@ fun SelectPageButtons (
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismissAlert = { isLoadingState = null } )
-            false -> GlobalErrorDialog( onDismissAlert = { isLoadingState = null } )
+            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
+            false -> GlobalErrorDialog( onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }
     }

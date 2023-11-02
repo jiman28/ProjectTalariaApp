@@ -2,14 +2,10 @@ package com.example.projecttravel.ui.screens.boards
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
-import android.widget.ScrollView
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,7 +21,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -33,7 +28,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,7 +36,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.board.AllBoards
 import com.example.projecttravel.model.board.Board
 import com.example.projecttravel.model.board.Company
@@ -50,11 +43,8 @@ import com.example.projecttravel.model.board.Trade
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.boards.boardapi.RemoveArticle
-import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveArticleDialog
-import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import org.jsoup.Jsoup
 
 @Composable
@@ -123,8 +113,8 @@ fun ViewContentsBoard(
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog(onDismissAlert = { isLoadingState = null })
-            false -> GlobalErrorDialog(onDismissAlert = { isLoadingState = null })
+            true -> GlobalLoadingDialog(onDismiss = { isLoadingState = null })
+            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
             else -> isLoadingState = null
         }
     }

@@ -25,11 +25,13 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 
 @Composable
 fun WriteArticlePage(
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     boardSelectUiState: BoardSelectUiState,
     boardSelectViewModel: ViewModelBoardSelect,
     onBackButtonClicked: () -> Unit,
@@ -47,6 +49,7 @@ fun WriteArticlePage(
                 title = title,
                 content = content,
                 userUiState = userUiState,
+                userViewModel = userViewModel,
                 boardSelectUiState = boardSelectUiState,
                 boardSelectViewModel = boardSelectViewModel,
                 onBackButtonClicked = onBackButtonClicked
@@ -57,6 +60,7 @@ fun WriteArticlePage(
 
         Column {
             Text(text = "게시글 작성")
+//            Text(text = "R.string 확인 ${R.string.selectMenu}")
         }
 
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))

@@ -242,6 +242,7 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page3.name) {
                 PlanPage(
                     userUiState = userUiState,
+                    userViewModel = userViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
@@ -249,7 +250,7 @@ fun TravelScreenHome(
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
                 BackHandler(
-                    onBack = { navController.navigate(TravelScreen.Page2.name) },
+                    onBack = { userViewModel.setBackHandlerClick(true) },
                 )
             }
             /** 3-1. 경로 확인 화면 ====================*/
@@ -314,13 +315,14 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page4B.name) {
                 WriteArticlePage(
                     userUiState = userUiState,
+                    userViewModel = userViewModel,
                     boardSelectUiState = boardSelectUiState,
                     boardSelectViewModel = boardSelectViewModel,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = {  },
+                    onBack = { userViewModel.setBackHandlerClick(true) },
                 )
             }
         }

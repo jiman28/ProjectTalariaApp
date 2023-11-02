@@ -3,7 +3,6 @@ package com.example.projecttravel.ui.screens.boards
 import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,13 +39,12 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.TextErrorDialog
 import com.example.projecttravel.ui.screens.boards.boardapi.RemoveComment
 import com.example.projecttravel.ui.screens.boards.boardapi.SendComment
 import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
-import com.example.projecttravel.ui.screens.boards.boarddialogs.NullCommentDialog
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
 import kotlinx.coroutines.async
@@ -64,8 +62,8 @@ fun ViewReply(
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog(onDismissAlert = { isLoadingState = null })
-            false -> GlobalErrorDialog(onDismissAlert = { isLoadingState = null })
+            true -> GlobalLoadingDialog(onDismiss = { isLoadingState = null })
+            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
             else -> isLoadingState = null
         }
     }
@@ -213,7 +211,9 @@ fun ViewReply(
         Spacer(modifier = Modifier.padding(5.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Column {
-            var isNullCommentDialog by remember { mutableStateOf(false) }
+            var txtErrorMsg by remember { mutableStateOf("") }
+            var isTextErrorDialog by remember { mutableStateOf(false) }
+
             var commentContent by remember { mutableStateOf("") }
             var remainingCharacters by remember { mutableStateOf(200) } // 남은 문자 수를 나타내는 변수 추가
             Row(
@@ -233,7 +233,8 @@ fun ViewReply(
                             .size(30.dp)
                             .clickable {
                                 if (commentContent == "") {
-                                    isNullCommentDialog = true
+                                    txtErrorMsg = "댓글을 작성하세요!"
+                                    isTextErrorDialog = true
                                 } else {
                                     scope.launch {
                                         val sendComment = userUiState.currentLogin?.let {
@@ -267,9 +268,12 @@ fun ViewReply(
                         imageVector = Icons.Filled.Edit,
                         contentDescription = "EditComment"
                     )
-                    if (isNullCommentDialog) {
-                        NullCommentDialog(
-                            onDismiss = { isNullCommentDialog = false }
+                    if (isTextErrorDialog) {
+                        TextErrorDialog(
+                            txtErrorMsg = txtErrorMsg,
+                            onDismiss = {
+                                isTextErrorDialog = false
+                            },
                         )
                     }
                 }

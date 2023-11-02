@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.sp
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
 @Composable
 fun GlobalLoadingDialog(
-    onDismissAlert: () -> Unit
+    onDismiss: () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = { },
@@ -58,6 +58,44 @@ fun GlobalLoadingDialog(
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
 @Composable
 fun GlobalErrorDialog(
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = {
+            onDismiss()
+        },
+        text = {
+            Text(
+                text = "오류가 발생했습니다\n불편을 드려 죄송합니다",
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+            }
+        },
+    )
+}
+
+/** ===================================================================== */
+/** ResetConfirmDialog to ask whether to reset or not ====================*/
+@Composable
+fun LoginErrorDialog(
     onDismissAlert: () -> Unit,
 ) {
     AlertDialog(
@@ -66,9 +104,9 @@ fun GlobalErrorDialog(
         },
         text = {
             Text(
-                text = "아따 오류가 터져부렸네 ㅈㅅ ㅈㅅ",
-                fontSize = 50.sp,
-                lineHeight = 50.sp,
+                text = "로그인 실패\n다시 시도해주세요",
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
                     .padding(10.dp) // 원하는 여백을 추가).
@@ -95,18 +133,19 @@ fun GlobalErrorDialog(
 /** ===================================================================== */
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
 @Composable
-fun LoginErrorDialog(
-    onDismissAlert: () -> Unit,
+fun TextErrorDialog(
+    txtErrorMsg: String,
+    onDismiss: () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = {
-            onDismissAlert()
+            onDismiss()
         },
         text = {
             Text(
-                text = "로그인 실패염",
-                fontSize = 50.sp,
-                lineHeight = 50.sp,
+                text = txtErrorMsg,
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
                     .padding(10.dp) // 원하는 여백을 추가).
@@ -120,7 +159,7 @@ fun LoginErrorDialog(
             ) {
                 TextButton(
                     onClick = {
-                        onDismissAlert()
+                        onDismiss()
                     }
                 ) {
                     Text(text = "확인", fontSize = 20.sp)

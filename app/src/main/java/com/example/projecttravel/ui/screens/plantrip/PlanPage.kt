@@ -40,6 +40,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.plan.SpotDto
 import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
@@ -47,6 +48,7 @@ import java.time.LocalDate
 fun PlanPage(
     modifier: Modifier = Modifier,
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
@@ -63,6 +65,7 @@ fun PlanPage(
         Column {
             PlanPageButtons(
                 userUiState = userUiState,
+                userViewModel = userViewModel,
                 planUiState = planUiState,
                 planViewModel = planViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,

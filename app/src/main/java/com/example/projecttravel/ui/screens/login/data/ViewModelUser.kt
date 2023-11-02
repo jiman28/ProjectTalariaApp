@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.login.data
 
+import android.window.BackEvent
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,13 @@ class ViewModelUser : ViewModel() {
     fun setUser (currentUser: UserResponse) {
         _uiState.update { currentState ->
             currentState.copy(currentLogin = currentUser)
+        }
+    }
+
+    /** setName Object */
+    fun setBackHandlerClick (backClick: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(isBackHandlerClick = backClick)
         }
     }
 

@@ -22,10 +22,12 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.TextErrorDialog
 import com.example.projecttravel.ui.screens.boards.boardapi.SendArticle
 import com.example.projecttravel.ui.screens.boards.boarddialogs.ArticleConfirmDialog
 import com.example.projecttravel.ui.screens.boards.boarddialogs.CancelWriteArticleDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 
 @Composable
@@ -33,6 +35,7 @@ fun WritePageButtons(
     title: String,
     content: String,
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     boardSelectUiState: BoardSelectUiState,
     boardSelectViewModel: ViewModelBoardSelect,
     onBackButtonClicked: () -> Unit,
@@ -46,15 +49,18 @@ fun WritePageButtons(
             email = it.email,
         )
     }
+    var txtErrorMsg by remember { mutableStateOf("") }
 
     var isCancelWriteArticleDialog by remember { mutableStateOf(false) }
     var isAddArticleDialog by remember { mutableStateOf(false) }
+    var isTextErrorDialog by remember { mutableStateOf(false) }
+
 
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog(onDismissAlert = { isLoadingState = null })
-            false -> GlobalErrorDialog(onDismissAlert = { isLoadingState = null })
+            true -> GlobalLoadingDialog(onDismiss = { isLoadingState = null })
+            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
             else -> isLoadingState = null
         }
     }
@@ -89,7 +95,18 @@ fun WritePageButtons(
                     .weight(1f)
                     .padding(1.dp),
                 onClick = {
-                    isAddArticleDialog = true
+                    if (boardSelectUiState.selectedWriteBoardMenu == R.string.selectMenu) {
+                        txtErrorMsg = "게시판을 고르세요"
+                        isTextErrorDialog = true
+                    } else if (title == "") {
+                        txtErrorMsg = "제목을 적으세요"
+                        isTextErrorDialog = true
+                    } else if (content == "") {
+                        txtErrorMsg = "내용을 작성하세요"
+                        isTextErrorDialog = true
+                    } else {
+                        isAddArticleDialog = true
+                    }
                 },
                 shape = RoundedCornerShape(0.dp),
             ) {
@@ -113,8 +130,28 @@ fun WritePageButtons(
                         )
                     }
                 }
+                if (isTextErrorDialog) {
+                    TextErrorDialog(
+                        txtErrorMsg = txtErrorMsg,
+                        onDismiss = {
+                            isTextErrorDialog = false
+                        },
+                    )
+                }
             }
         }
+    }
+
+    /** ================================================== */
+    /** Bottom BackHandler Click Action ====================*/
+    if (userUiState.isBackHandlerClick) {
+        CancelWriteArticleDialog(
+            onBackButtonClicked = onBackButtonClicked,
+            boardSelectViewModel = boardSelectViewModel,
+            onDismiss = {
+                userViewModel.setBackHandlerClick(false)
+            },
+        )
     }
 }
 

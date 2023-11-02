@@ -20,6 +20,7 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.login.data.UserUiState
+import com.example.projecttravel.ui.screens.login.data.ViewModelUser
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
@@ -27,6 +28,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 @Composable
 fun PlanPageButtons (
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onCancelButtonClicked: () -> Unit,
@@ -38,8 +40,8 @@ fun PlanPageButtons (
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismissAlert = { isLoadingState = null } )
-            false -> GlobalErrorDialog( onDismissAlert = { isLoadingState = null } )
+            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
+            false -> GlobalErrorDialog( onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }
     }
@@ -95,5 +97,17 @@ fun PlanPageButtons (
                 )
             }
         }
+    }
+
+    /** ================================================== */
+    /** Bottom BackHandler Click Action ====================*/
+    if (userUiState.isBackHandlerClick) {
+        ResetPlanDialog(
+            planViewModel = planViewModel,
+            onCancelButtonClicked = onCancelButtonClicked,
+            onDismiss = {
+                userViewModel.setBackHandlerClick(false)
+            }
+        )
     }
 }

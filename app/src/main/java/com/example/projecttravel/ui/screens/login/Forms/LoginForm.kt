@@ -104,7 +104,7 @@ fun LoginForm(
 
     Surface {
         when (isLoadingState) {
-            true -> GlobalLoadingDialog( onDismissAlert = { isLoadingState = null } )
+            true -> GlobalLoadingDialog( onDismiss = { isLoadingState = null } )
             false -> LoginErrorDialog( onDismissAlert = { isLoadingState = null } )
             else -> isLoadingState = null
         }
