@@ -34,10 +34,10 @@ class ViewModelListPlan(private val userPlanListRepository: UserPlanListReposito
             try {
                 val planList = userPlanListRepository.getUserPlansList()
                 planListUiState = PlanListUiState.PlanListSuccess(planList)
-                Log.d("hippolog", "$planList")
+                Log.d("jiman=111", "$planList")
             } catch (e: Exception) {
                 // Handle the error case if necessary
-                Log.d("hippolog", "${e.message}")
+                Log.d("jiman=111", "${e.message}")
             }
         }
     }
