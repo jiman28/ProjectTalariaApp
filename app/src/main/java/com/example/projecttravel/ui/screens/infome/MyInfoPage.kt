@@ -20,7 +20,7 @@ import com.example.projecttravel.ui.screens.viewmodels.user.UserInfoUiState
 import com.example.projecttravel.ui.screens.viewmodels.user.ViewModelListUserInfo
 
 @Composable
-fun MyPage(
+fun MyInfoPage(
     userUiState: UserUiState,
     userViewModel: ViewModelUser,
 ) {

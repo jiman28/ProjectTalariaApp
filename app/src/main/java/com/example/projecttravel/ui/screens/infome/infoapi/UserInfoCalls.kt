@@ -1,0 +1,50 @@
+package com.example.projecttravel.ui.screens.infome.infoapi
+
+import android.util.Log
+import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.model.SendArticle
+import com.example.projecttravel.model.UserResponse
+import kotlinx.coroutines.suspendCancellableCoroutine
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import kotlin.coroutines.resume
+
+/** ======================================================================================== */
+/** asynchronous codes ===================================================================== */
+// send Article To Db
+suspend fun getPeopleLikeMe(
+    userResponse: UserResponse,
+): List<UserResponse> {
+    return suspendCancellableCoroutine { continuation ->
+        val call = RetrofitBuilderGetMap.travelGetMapApiService.getLikeMeUser(userResponse)
+        call.enqueue(object : Callback<List<UserResponse>> {
+            override fun onResponse(
+                call: Call<List<UserResponse>>,
+                response: Response<List<UserResponse>>
+            ) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
+                        continuation.resume(loginResponse) // 작업 성공 시 true 반환
+//                        continuation.resume(false) // 오류 확인용 false
+                    } else {
+                        Log.d("jiman=222", "Response body is null")
+                        continuation.resume(emptyList()) // 작업 실패 시 false 반환
+                    }
+                } else {
+                    Log.d("jiman=333", "Failure")
+                    continuation.resume(emptyList()) // 작업 실패 시 false 반환
+                }
+            }
+
+            override fun onFailure(call: Call<List<UserResponse>>, t: Throwable) {
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
+                continuation.resume(emptyList()) // 작업 실패 시 false 반환
+            }
+        })
+    }
+}

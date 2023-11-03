@@ -29,6 +29,13 @@ class ViewModelUser : ViewModel() {
     }
 
     /** setName Object */
+    fun setLikeUsers (currentUser: List<UserResponse>) {
+        _uiState.update { currentState ->
+            currentState.copy( checkLikeUsers = currentUser)
+        }
+    }
+
+    /** setName Object */
     fun setBackHandlerClick (backClick: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(isBackHandlerClick = backClick)

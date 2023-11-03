@@ -21,6 +21,7 @@ import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.model.PlansData
+import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.SendInterest
 import retrofit2.Call
 import retrofit2.http.Body
@@ -44,9 +45,16 @@ interface TravelApiService {
     @POST("androidfirstinterest")
     fun saveFirstInterest(@Body sendInterest: SendInterest): Call<Boolean>
 
+    // likeme
+    @POST("likeme")
+    fun getLikeMeUser(@Body userResponse: UserResponse): Call<List<UserResponse>>
+
     // UserInfo DB ==============================
     @GET("userinfo")
     suspend fun getUserInfoList(): List<UserInfo>
+
+    @GET("planlist")
+    suspend fun getUserPlansDataList(): List<PlansDataRead>
 
 
     // Travel DB ==============================
@@ -62,7 +70,7 @@ interface TravelApiService {
     @GET("tourattraction")
     suspend fun getTourAttractionList(): List<TourAttractionInfo>
 
-    @GET("searc")
+    @GET("search")
     suspend fun getTourAttrSearchList(): List<TourAttractionSearchInfo>
 
 

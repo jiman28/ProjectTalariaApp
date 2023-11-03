@@ -77,6 +77,8 @@ fun sendName(
     searchViewModel: ViewModelSearch,
     updateUiPageClicked: () -> Unit = {},
 ) {
+    Log.d("jiman=111", selectUiState.selectCity?.cityId.toString())
+    Log.d("jiman=111", searchedPlace.name.toString())
 
     val call = RetrofitBuilderString.travelStringApiService.setPlaceName(placeName = searchedPlace.name, cityId = selectUiState.selectCity?.cityId)
     call.enqueue(

@@ -7,5 +7,6 @@ data class UserUiState(
     val currentLogin: UserResponse? = null,
     val currentSignIn: SendSignIn? =null,
     val checkOtherUser: UserResponse? = null,
+    val checkLikeUsers: List<UserResponse> = emptyList(),
     val isBackHandlerClick: Boolean = false,
 )

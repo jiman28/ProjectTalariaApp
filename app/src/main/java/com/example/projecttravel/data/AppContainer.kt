@@ -20,11 +20,12 @@ import com.example.projecttravel.data.repositories.select.InterestListRepository
 import com.example.projecttravel.data.repositories.select.TourAttrSearchListRepository
 import com.example.projecttravel.data.repositories.select.TourAttractionListRepository
 import com.example.projecttravel.data.repositories.user.DefaultUserInfoListRepository
+import com.example.projecttravel.data.repositories.user.DefaultUserPlanListRepository
 import com.example.projecttravel.data.repositories.user.UserInfoListRepository
+import com.example.projecttravel.data.repositories.user.UserPlanListRepository
 import com.example.projecttravel.network.TravelApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonArray
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -45,6 +46,7 @@ interface AppContainer {
     val tradeListRepository: TradeListRepository
     val replyListRepository: ReplyListRepository
     val userInfoListRepository: UserInfoListRepository
+    val userPlanListRepository: UserPlanListRepository
 }
 
 /**
@@ -105,6 +107,11 @@ class DefaultAppContainer : AppContainer {
     override val userInfoListRepository: UserInfoListRepository by lazy {
         DefaultUserInfoListRepository(retrofitService)
     }
+
+    override val userPlanListRepository: UserPlanListRepository by lazy {
+        DefaultUserPlanListRepository(retrofitService)
+    }
+
 }
 
 /**

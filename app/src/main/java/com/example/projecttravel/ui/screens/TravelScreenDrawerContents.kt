@@ -96,6 +96,13 @@ fun DrawerContents (
             Text(text = "마이 페이지", fontSize = 25.sp)
         }
 
+        TextButton(onClick = {
+            navController.navigate(TravelScreen.Page1B.name)
+            scope.launch { drawerState.close() }
+        }) {
+            Text(text = "내 계획 임시", fontSize = 25.sp)
+        }
+
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {

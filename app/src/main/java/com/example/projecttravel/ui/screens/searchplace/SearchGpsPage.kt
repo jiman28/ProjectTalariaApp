@@ -1,6 +1,7 @@
 package com.example.projecttravel.ui.screens.searchplace
 
 import android.location.Geocoder
+import android.util.Log
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
@@ -19,6 +20,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -52,8 +54,18 @@ import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
+import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.ui.screens.select.SelectCity
+import com.example.projecttravel.ui.screens.select.SelectCountry
+import com.example.projecttravel.ui.screens.select.SelectInterest
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
+import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
+import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchUiState
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchViewModel
 import com.google.android.gms.maps.model.CameraPosition
@@ -76,10 +88,14 @@ fun SearchGpsPage(
     onBackButtonClicked: () -> Unit = {},
     updateUiPageClicked: () -> Unit = {},
 ) {
-    val tourAttrSearchViewModel: TourAttrSearchViewModel =
-        viewModel(factory = TourAttrSearchViewModel.TourAttrSearchFactory)
-    val tourAttrSearchUiState =
-        (tourAttrSearchViewModel.tourAttrSearchUiState as? TourAttrSearchUiState.TourAttrSearchSuccess)
+    val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
+    val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
+
+    val selectedCountry by remember { mutableStateOf<CountryInfo?>(null) }
+    val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
+
+    val tourAttrSearchViewModel: TourAttrSearchViewModel = viewModel(factory = TourAttrSearchViewModel.TourAttrSearchFactory)
+    val tourAttrSearchUiState = (tourAttrSearchViewModel.tourAttrSearchUiState as? TourAttrSearchUiState.TourAttrSearchSuccess)
     if (tourAttrSearchUiState != null) {
         findSearchListByName(
             searchUiState.searchedPlace?.name,
@@ -147,9 +163,57 @@ fun SearchGpsPage(
 
         }
         /** selected City */
-        Column {
-            Text(text = selectUiState.selectCity?.cityName.toString())
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+        Row(
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
+            /** ================================================== */
+            /** Country Selection */
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(3.dp),
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            ) {
+                val countryUiState =
+                    (countryViewModel.countryUiState as? CountryUiState.CountrySuccess)
+                if (countryUiState != null) {
+                    SelectCountry(
+                        selectUiState = selectUiState,
+                        countryUiState = countryUiState,
+                        selectViewModel = selectViewModel,
+                        selectedCountry = selectedCountry,
+                    )
+                }
+            }
+            /** ================================================== */
+            /** City Selection */
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(3.dp),
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            ) {
+                val cityUiState =
+                    (cityViewModel.cityUiState as? CityUiState.CitySuccess)
+                if (cityUiState != null) {
+                    SelectCity(
+                        selectUiState = selectUiState,
+                        cityUiState = cityUiState,
+                        selectViewModel = selectViewModel,
+                        selectedCountry = selectUiState.selectCountry,
+                        selectedCity = selectedCity,
+                    )
+                }
+            }
+            /** ================================================== */
         }
+
+
+
+
         /** Searched Place */
         Column {
             Column(
