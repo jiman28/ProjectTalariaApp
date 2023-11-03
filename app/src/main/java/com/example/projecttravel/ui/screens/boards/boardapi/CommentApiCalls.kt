@@ -26,29 +26,23 @@ suspend fun sendCommentToDb (
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", "Request Success + Response Success")
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", call.toString())
-                        Log.d("xxxxx1111111xxxxxxxxxxxxxxx", response.body().toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("jiman=333", "Failure")
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
 
             override fun onFailure(call: Call<Boolean>, t: Throwable) {
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })

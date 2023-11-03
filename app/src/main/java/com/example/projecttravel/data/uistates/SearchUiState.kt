@@ -1,6 +1,6 @@
 package com.example.projecttravel.data.uistates
 
-import com.example.projecttravel.ui.screens.searchplace.SearchedPlace
+import com.example.projecttravel.model.SearchedPlace
 
 data class SearchUiState(
     val errorMsg: String? = null,

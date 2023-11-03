@@ -35,3 +35,14 @@ data class UserInfo (
     val food: String,
     val religion: String,
 )
+
+@Serializable
+data class SendInterest (
+    val email: String,
+    val sights: String,
+    val nature: String,
+    val culture: String,
+    val history: String,
+    val food: String,
+    val religion: String,
+)

@@ -20,7 +20,8 @@ import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.SendComment
-import com.example.projecttravel.model.SetPlan
+import com.example.projecttravel.model.PlansData
+import com.example.projecttravel.model.SendInterest
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -38,6 +39,10 @@ interface TravelApiService {
     @POST("androidsignin")
     @FormUrlEncoded
     fun androidSignIn(@Field("email") email: String?, @Field("name") name: String?, @Field("password") password: String?): Call<String>
+
+    // Saving First Interest rate
+    @POST("androidfirstinterest")
+    fun saveFirstInterest(@Body sendInterest: SendInterest): Call<Boolean>
 
     // UserInfo DB ==============================
     @GET("userinfo")
@@ -86,7 +91,7 @@ interface TravelApiService {
 
     // delete Article
     @POST("saveplan")
-    fun addplan(@Body setPlan: SetPlan): Call<Boolean>
+    fun addplan(@Body plansData: PlansData): Call<Boolean>
 
 
     // Board DB ==============================

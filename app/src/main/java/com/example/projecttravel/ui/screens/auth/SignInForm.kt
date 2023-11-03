@@ -56,7 +56,7 @@ import kotlinx.coroutines.launch
 fun SignInForm(
     userUiState: UserUiState,
     userViewModel: ViewModelUser,
-    onCancelButtonClicked: () -> Unit,
+    onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
@@ -64,6 +64,9 @@ fun SignInForm(
     var signCredentials by remember { mutableStateOf(SignCredentials()) }
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     var signInErrorMsg by remember { mutableStateOf("") }
+
+    // 정규 이메일 표현식 패턴
+    val emailPattern = "^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{1,})"
 
     Column {
         Column(
@@ -125,41 +128,38 @@ fun SignInForm(
                                 name = signCredentials.name, // Consider changing the names here if needed
                                 password = signCredentials.pwd, // Consider changing the names here if needed
                             )
-                            val signInDeferred = async { signInApiCall(sendSignIn, userUiState, userViewModel) }
+                            val signInDeferred =
+                                async { signInApiCall(sendSignIn, userUiState, userViewModel) }
                             val signInComplete = signInDeferred.await()
-                            Log.d("xxx통신성공통신성공통신성공", signInComplete.toString())
 
                             when (signInComplete) {
                                 "a" -> {
-                                    Log.d("xxx회원가입 성공", signInComplete)
-                                    isLoadingState =null
-                                    onCancelButtonClicked()
+                                    isLoadingState = null
+                                    userViewModel.setCurrentSignIn(sendSignIn)
+                                    onNextButtonClicked()
                                 }
+
                                 "b" -> {
-                                    Log.d("xxx중복된 이메일", signInComplete)
-                                    signInErrorMsg = "중복된 이메일"
+                                    signInErrorMsg = "중복된 E-mail입니다"
                                     isLoadingState = false
                                 }
-                                "c" -> {
-                                    Log.d("xxx중복된 닉네임", signInComplete)
-                                    signInErrorMsg = "중복된 닉네임"
-                                    isLoadingState = false
-                                }
+
                                 "d" -> {
-                                    Log.d("xxx회원가입 실패", signInComplete)
-                                    signInErrorMsg = "회원가입 실패"
+                                    signInErrorMsg = "회원가입 실패\n다시 시도해주세요 "
                                     isLoadingState = false
-                                } else -> {
-                                signInErrorMsg = "오류 발생"
-                                isLoadingState = false
-                            }
+                                }
+
+                                else -> {
+                                    signInErrorMsg = "오류 발생"
+                                    isLoadingState = false
+                                }
                             }
                         } else {
-                            signInErrorMsg = "비밀번호가 다릅니다"
-                            isLoadingState = false
+                            Toast.makeText(context, "비밀번호가 다릅니다.", Toast.LENGTH_SHORT).show()
                         }
                     }
                 },
+                enabled = signCredentials.isNotEmpty() && signCredentials.email.matches(emailPattern.toRegex()),
                 shape = RoundedCornerShape(5.dp),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -170,7 +170,10 @@ fun SignInForm(
     Surface {
         when (isLoadingState) {
             true -> GlobalLoadingDialog()
-            false -> TextMsgErrorDialog( txtErrorMsg = signInErrorMsg, onDismiss = { isLoadingState = null } )
+            false -> TextMsgErrorDialog(
+                txtErrorMsg = signInErrorMsg,
+                onDismiss = { isLoadingState = null })
+
             else -> isLoadingState = null
         }
     }

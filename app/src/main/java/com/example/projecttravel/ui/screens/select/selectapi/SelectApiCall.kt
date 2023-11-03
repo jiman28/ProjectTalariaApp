@@ -17,8 +17,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import kotlin.coroutines.resume
 
-private const val TAG = "AAAAA"
-
 /** ======================================================================================== */
 /** asynchronous codes ===================================================================== */
 /** function for getting Weather ====================*/
@@ -53,23 +51,23 @@ suspend fun getDateToWeather(
                     val weatherResponse = response.body()
                     if (weatherResponse != null) {
                         planViewModel.setDateToWeather(weatherResponse)
-                        Log.d("xxxxxxxxxxxxxxxxxxxx", "Request Success + Response Success")
-                        Log.d("xxxxxxxxxxxxxxxxxxxx", call.toString())
-                        Log.d("xxxxxxxxxxxxxxxxxxxx", response.body().toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {
-                        Log.d("xxxxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
-                    Log.d("xxxxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("jiman=333", "Failure")
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
 
             override fun onFailure(call: Call<List<WeatherResponseGet>>, t: Throwable) {
-                Log.d("xxxxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
@@ -110,24 +108,24 @@ suspend fun getDateToAttrByWeather(
                     val attrResponse = response.body()
                     if (attrResponse != null) {
                         planViewModel.setDateToAttrByWeather(attrResponse)
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response Success")
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
                     } else {
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
                     // 통신은 성공하였으나 응답 실패
-                    Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response FAILURE")
-                    Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
+                    Log.d("jiman=333", "Request Success + Response FAILURE")
+                    Log.d("jiman=333", response.body().toString())
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
             override fun onFailure(call: Call<List<SpotDtoResponse>>, t: Throwable) {
                 // 통신 실패
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "Request FAILURE")
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "checking: $call")
+                Log.d("jiman=444", "Request FAILURE")
+                Log.d("jiman=444", "checking: $call")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
@@ -168,24 +166,24 @@ suspend fun getDateToAttrByCity(
                     val attrResponse = response.body()
                     if (attrResponse != null) {
                         planViewModel.setDateToAttrByCity(attrResponse)
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response Success")
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
                     } else {
-                        Log.d("YYYYYYYYYYYYYYYYYYYY", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
                     // 통신은 성공하였으나 응답 실패
-                    Log.d("YYYYYYYYYYYYYYYYYYYY", "Request Success + Response FAILURE")
-                    Log.d("YYYYYYYYYYYYYYYYYYYY", response.body().toString())
+                    Log.d("jiman=333", "Request Success + Response FAILURE")
+                    Log.d("jiman=333", response.body().toString())
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
             override fun onFailure(call: Call<List<SpotDtoResponse>>, t: Throwable) {
                 // 통신 실패
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "Request FAILURE")
-                Log.d("YYYYYYYYYYYYYYYYYYYY", "checking: $call")
+                Log.d("jiman=444", "Request FAILURE")
+                Log.d("jiman=444", "checking: $call")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })

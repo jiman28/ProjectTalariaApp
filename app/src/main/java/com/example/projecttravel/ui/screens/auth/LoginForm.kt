@@ -93,9 +93,7 @@ fun LoginForm(
                     )
                     val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
                     val isUserComplete = userDeferred.await()
-//                    if (isUserComplete && userUiState.currentLogin != null) { // 로그에는 null 이 들어오는데 정상적으로 데이터는 들어옴. 뭔가 이상함.
                     if (isUserComplete) {
-                        Log.d("isUserComplete1111111111", userUiState.currentLogin.toString())
                         onLoginSuccess()
                     } else {
                         logInErrorMsg = "로그인 실패\n다시 시도해주세요"
@@ -126,6 +124,9 @@ fun LoginForm(
             onChange = { data -> credentials = credentials.copy(email = data) },
             modifier = Modifier.fillMaxWidth()
         )
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         PasswordField(
             value = credentials.pwd,
             onChange = { data -> credentials = credentials.copy(pwd = data) },
@@ -134,7 +135,9 @@ fun LoginForm(
             },
             modifier = Modifier.fillMaxWidth()
         )
-        Spacer(modifier = Modifier.height(10.dp))
+
+        Spacer(modifier = Modifier.height(20.dp))
+
         LabeledCheckbox(
             label = "Remember Me",
             onCheckChanged = {
@@ -142,6 +145,7 @@ fun LoginForm(
             },
             isChecked = credentials.remember
         )
+
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
@@ -162,7 +166,6 @@ fun LoginForm(
                     val isUserComplete = userDeferred.await()
 //                    if (isUserComplete && userUiState.currentLogin != null) { // 로그에는 null 이 들어오는데 정상적으로 데이터는 들어옴. 뭔가 이상함.
                     if (isUserComplete) {
-                        Log.d("isUserComplete1111111111", userUiState.currentLogin.toString())
                         onLoginSuccess()
                     } else {
                         isLoadingState = false
@@ -184,6 +187,7 @@ fun LoginForm(
         ) {
             Text("Sign in")
         }
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }
 

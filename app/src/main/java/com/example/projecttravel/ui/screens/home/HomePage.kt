@@ -27,7 +27,6 @@ fun HomePage(
     onNextButtonClicked: () -> Unit,    // 매개변수 추가
     modifier: Modifier = Modifier,
 ) {
-    Log.d("isUserComplete2222222222", userUiState.currentLogin.toString())
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween

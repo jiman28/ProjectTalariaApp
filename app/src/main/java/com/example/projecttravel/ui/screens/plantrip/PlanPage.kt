@@ -56,9 +56,6 @@ fun PlanPage(
 ) {
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
     var weatherSwitchChecked by remember { mutableStateOf(false) }
-    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
-    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
-    Log.d("xxxweatherSwitchweatherSwitch", planUiState.weatherSwitch.toString())
     Column {
         /** Buttons ====================*/
         Column {

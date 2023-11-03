@@ -3,7 +3,7 @@ package com.example.projecttravel.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetPlan (
+data class PlansData (
     var planName: String,
     var email: String,
     var startDay: String,

@@ -1,5 +1,6 @@
 package com.example.projecttravel.model
 
+import com.google.android.gms.maps.model.LatLng
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -59,4 +60,10 @@ data class InterestInfo (
     val interestType: String,
     val interestImg: String,
     // 다음에 이 데이터가 안 뽑히면 jar 파일에서 카멜표기법으로 제대로 변환시켜서 그런거임
+)
+
+data class SearchedPlace(
+    val name: String? = null,
+    val address: String? = null,
+    val latLng: LatLng? = null, // 이 값은 Serializable 어노테이션이 불가능함
 )

@@ -27,6 +27,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
+import com.example.projecttravel.ui.screens.auth.InterestForm
 import com.example.projecttravel.ui.screens.boards.AllBoardsPage
 import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
@@ -49,8 +50,9 @@ import kotlinx.coroutines.launch
 enum class TravelScreen(@StringRes val title: Int) {
     Page0(title = R.string.pageLogin),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page0A(title = R.string.pageSignIn),
-    Page1(title = R.string.page1),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
-    Page1A(title = R.string.pageUser),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
+    Page0B(title = R.string.pageSignInComplete),
+    Page1(title = R.string.page1),
+    Page1A(title = R.string.pageUser),
     Page2(title = R.string.page2),
     Page2A(title = R.string.pageGps),
     Page3(title = R.string.page3),
@@ -88,6 +90,7 @@ fun TravelScreenHome(
     showTopBar = when (currentScreen) {
         TravelScreen.Page0 -> false     // on this screen topBar should be hidden
         TravelScreen.Page0A -> false    // on this screen topBar should be hidden
+        TravelScreen.Page0B -> false    // on this screen topBar should be hidden
         TravelScreen.Page2 -> false     // on this screen topBar should be hidden
         TravelScreen.Page2A -> false    // on this screen topBar should be hidden
         TravelScreen.Page3 -> false     // on this screen topBar should be hidden
@@ -115,6 +118,7 @@ fun TravelScreenHome(
         NavHost(    // NavHost 컴포저블을 추가
             navController = navController,
             startDestination = TravelScreen.Page0.name,
+//            startDestination = TravelScreen.Page0B.name, // 화면 만들기 확인용
             modifier = Modifier.padding(innerPadding)
         ) {     // 최종 매개변수에 빈 후행 람다를 전달
             /** ============================================================ */
@@ -138,9 +142,23 @@ fun TravelScreenHome(
                 SignInForm(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    onCancelButtonClicked = {
+                    onNextButtonClicked = {
+                        navController.navigate(TravelScreen.Page0B.name)
+                    },
+                )
+            }
+            /** 0A. 회원 가입 성공 후 선호도 조사 ====================*/
+            composable(route = TravelScreen.Page0B.name) {
+                InterestForm(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    onCompleteButtonClicked = {
                         navController.navigate(TravelScreen.Page0.name)
                     },
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {  },    // 바로 전 페이지로 이동
                 )
             }
 

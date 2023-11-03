@@ -4,6 +4,7 @@
     <!--Page Enum class-->
     <string name="pageLogin">Login page</string>
     <string name="pageSignIn">SignIn page</string>
+    <string name="pageSignInComplete">Interest Check page</string>
     <string name="pageTestDS">Data Store test page</string>
     <string name="page1">Homepage</string>
     <string name="pageUser">View Your Infos</string>

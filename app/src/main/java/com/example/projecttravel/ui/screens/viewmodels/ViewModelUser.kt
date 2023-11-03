@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.viewmodels
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.model.SendSignIn
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,6 +22,13 @@ class ViewModelUser : ViewModel() {
     }
 
     /** setName Object */
+    fun setCurrentSignIn (currentUser: SendSignIn) {
+        _uiState.update { currentState ->
+            currentState.copy(currentSignIn = currentUser)
+        }
+    }
+
+    /** setName Object */
     fun setBackHandlerClick (backClick: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(isBackHandlerClick = backClick)
@@ -31,5 +39,4 @@ class ViewModelUser : ViewModel() {
     fun resetUser() {
         _uiState.value = UserUiState() // UserUiState를 기본 값(null)으로 재설정
     }
-
 }

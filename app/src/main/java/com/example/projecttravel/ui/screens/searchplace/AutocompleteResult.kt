@@ -9,8 +9,6 @@ import com.google.android.libraries.places.api.net.PlacesClient
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-private const val TAG = "AAAAA"
-
 /** data class for saving Auto Complete Data Results ====================*/
 data class AutocompleteResult (
     val placeId: String,

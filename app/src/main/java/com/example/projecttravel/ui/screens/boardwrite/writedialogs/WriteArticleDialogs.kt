@@ -54,7 +54,6 @@ fun ArticleConfirmDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
-                            Log.d("xxxx1xxxxxxxxxxxxxxxx", sendArticle.toString())
                             onLoadingStarted()
                             // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                             val articleDeferred = async { sendArticleToDb(sendArticle) }

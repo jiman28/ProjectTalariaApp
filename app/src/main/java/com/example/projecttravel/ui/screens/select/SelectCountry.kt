@@ -94,9 +94,6 @@ fun CountryDropDownMenu(
                                         selectViewModel.setCity(null) // 나라를 변경하면 다른 값들 초기화
                                         selectViewModel.setInterest(null) // 나라를 변경하면 다른 값들 초기화
                                         isDropDownMenuExpanded = false // 메뉴 닫기
-
-                                        Log.d(TAG, selectUiState.selectCountry?.countryName.toString())
-
                                     }
                                 ),
                             ) {

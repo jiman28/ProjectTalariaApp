@@ -5,6 +5,7 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.data.RetrofitBuilderGetMap
 import com.example.projecttravel.data.RetrofitBuilderString
+import com.example.projecttravel.model.SendInterest
 import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.model.User
 import com.example.projecttravel.model.UserResponse
@@ -27,36 +28,30 @@ suspend fun loginApiCall(
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
                 call: Call<UserResponse>,
-                response: Response<UserResponse>
+                response: Response<UserResponse>,
             ) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
                         userViewModel.setUser(loginResponse)
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", "Request Success + Response Success")
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", call.toString())
-                        Log.d("xxxxx1111111xxxxxxxxxxxxxxx", response.body().toString())
-                        Log.d("xxxxx1222221xxxxxxxxxxxxxxx", userUiState.currentLogin.toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
+                        Log.d("jiman=111", userUiState.currentLogin.toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("jiman=333", "Failure")
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
 
             override fun onFailure(call: Call<UserResponse>, t: Throwable) {
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
@@ -69,18 +64,22 @@ suspend fun signInApiCall(
     userViewModel: ViewModelUser,
 ): String {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderString.travelStringApiService.androidSignIn(email = sendSignIn.email, name = sendSignIn.name, password = sendSignIn.password)
+        val call = RetrofitBuilderString.travelStringApiService.androidSignIn(
+            email = sendSignIn.email,
+            name = sendSignIn.name,
+            password = sendSignIn.password
+        )
         call.enqueue(object : Callback<String> {
             override fun onResponse(
                 call: Call<String>,
-                response: Response<String>
+                response: Response<String>,
             ) {
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", "Request Success + Response Success")
-                        Log.d("xxxxx1xxxxxxxxxxxxxxx", call.toString())
-                        Log.d("xxxxx1111111xxxxxxxxxxxxxxx", response.body().toString())
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
                         // 원인을 알아낸것 같음 => 계속 null 값이 들어갔던 문제.
                         // 비동기 처리가 문제인것 같음. => loginApiCall  도 비동기 함수 내에서는 null 로 처리가 되지만 어쨋든 값은 정상적으로 들어옴.
                         // recomposition 이 문제인것 같음.
@@ -88,24 +87,57 @@ suspend fun signInApiCall(
                         continuation.resume(response.body().toString()) // 작업 성공 시 return 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
-                        Log.d("xx2xxxxxxxxxxxxxxxxxx", "Response body is null")
+                        Log.d("jiman=222", "Response body is null")
                         continuation.resume("d") // 작업 실패 시 return 반환
                     }
                 } else {
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
-                    Log.d("xx3xxxxxxxxxxxxxxxxxx", "Failure")
+                    Log.d("jiman=333", "Failure")
                     continuation.resume("d") // 작업 실패 시 return 반환
                 }
             }
 
             override fun onFailure(call: Call<String>, t: Throwable) {
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
-                Log.d("xx4xxxxxxxxxxxxxxxxxx", t.localizedMessage ?: "Unknown error")
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
                 continuation.resume("d") // 작업 실패 시 return 반환
+            }
+        })
+    }
+}
+
+suspend fun interestSaveApiCall(
+    sendInterest: SendInterest,
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
+): Boolean {
+    return suspendCancellableCoroutine { continuation ->
+        val call = RetrofitBuilderGetMap.travelGetMapApiService.saveFirstInterest(sendInterest)
+        call.enqueue(object : Callback<Boolean> {
+            override fun onResponse(
+                call: Call<Boolean>,
+                response: Response<Boolean>,
+            ) {
+                if (response.isSuccessful) {
+                    val loginResponse = response.body()
+                    if (loginResponse != null) {
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
+                        Log.d("jiman=111", userUiState.currentSignIn.toString())
+                        continuation.resume(true) // 작업 성공 시 true 반환
+//                        continuation.resume(false) // 오류 확인용 false
+                    } else {
+                        Log.d("jiman=222", "Response body is null")
+                        continuation.resume(false) // 작업 실패 시 false 반환
+                    }
+                } else {
+                    Log.d("jiman=333", "Failure")
+                    continuation.resume(false) // 작업 실패 시 false 반환
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
+                continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
     }

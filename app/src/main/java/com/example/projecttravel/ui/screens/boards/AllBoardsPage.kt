@@ -316,23 +316,3 @@ fun NoArticlesFoundScreen(
 ){
     Text(text = stringResource(R.string.noArticlesFound))
 }
-
-@Composable
-fun ScrollableTextField(
-    value: String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    maxLines: Int = 1
-) {
-    val offset by remember { mutableStateOf(0) }
-    val scrollState = rememberScrollState()
-
-    BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        modifier = modifier
-            .horizontalScroll(scrollState)
-            .padding(16.dp),
-        maxLines = maxLines
-    )
-}

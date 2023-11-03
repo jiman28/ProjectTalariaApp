@@ -25,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.model.SetPlan
+import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import kotlinx.coroutines.async
@@ -49,13 +49,13 @@ fun SavePlanDialog(
 
     val scope = rememberCoroutineScope()
 
-    val setPlan = userUiState.currentLogin?.let {
+    val plansData = userUiState.currentLogin?.let {
         val selectedPlan = if (planUiState.weatherSwitch) {
             planUiState.dateToAttrByWeather
         } else {
             planUiState.dateToAttrByCity
         }
-        SetPlan(
+        PlansData(
             planName = planTitle,
             email = it.email,
             startDay = planUiState.planDateRange?.start.toString(),
@@ -109,24 +109,15 @@ fun SavePlanDialog(
                             txtErrorMsg = "제목을 작성해주세요"
                             isTextErrorDialog = true
                         } else {
-                            if (setPlan != null) {
+                            if (plansData != null) {
                                 scope.launch {
-                                    Log.d("xxxsetPlansetPlan", setPlan.toString())
-                                    Log.d(
-                                        "xxxweatherSwitchweatherSwitch",
-                                        planUiState.weatherSwitch.toString()
-                                    )
                                     onLoadingStarted()
                                     // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
-                                    val planDeferred = async { savePlanToMongoDb(setPlan) }
+                                    val planDeferred = async { savePlanToMongoDb(plansData) }
 
                                     // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                                     val isPlanComplete = planDeferred.await()
                                     // 모든 작업이 완료되었을 때만 실행합니다.
-                                    Log.d(
-                                        "xxxxx1xxxxxisPlanCompleteisPlanCompletexxxxxxxxxx",
-                                        isPlanComplete.toString()
-                                    )
                                     if (isPlanComplete) {
                                         planViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
                                         onDismiss()
