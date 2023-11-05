@@ -1,17 +1,13 @@
 package com.example.projecttravel.ui.screens.infome
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -22,15 +18,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
-import com.example.projecttravel.ui.screens.auth.api.signInApiCall
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.user.PlanListUiState
@@ -109,7 +101,7 @@ fun MyPlansPage(
             val planListUiState =
                 (userPlanListViewModel.planListUiState as? PlanListUiState.PlanListSuccess)
             if (planListUiState != null) {
-                MyPlanList(
+                UserPlanList(
                     planListUiState = planListUiState,
                     contentPadding = PaddingValues(0.dp),
                 )

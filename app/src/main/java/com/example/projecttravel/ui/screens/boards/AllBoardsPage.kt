@@ -104,8 +104,6 @@ fun AllBoardsPage(
             BoardsPageTabButtons(
                 boardSelectUiState = boardSelectUiState,
                 boardSelectViewModel = boardSelectViewModel,
-                userUiState = userUiState,
-                planUiState = planUiState,
             )
         }
         Column {
@@ -240,11 +238,11 @@ fun AllBoardsPage(
                             NoArticlesFoundScreen()
                         }
                     }
-                    else -> {
-                        CheckReply(
-                            contentPadding = PaddingValues(0.dp),
-                        )
-                    }
+//                    else -> {
+//                        CheckReply(
+//                            contentPadding = PaddingValues(0.dp),
+//                        )
+//                    }
                 }
 
             // 검색 안했을때
@@ -303,11 +301,11 @@ fun AllBoardsPage(
                             NoArticlesFoundScreen()
                         }
                     }
-                    else -> {
-                        CheckReply(
-                            contentPadding = PaddingValues(0.dp),
-                        )
-                    }
+//                    else -> {
+//                        CheckReply(
+//                            contentPadding = PaddingValues(0.dp),
+//                        )
+//                    }
                 }
             }
         }

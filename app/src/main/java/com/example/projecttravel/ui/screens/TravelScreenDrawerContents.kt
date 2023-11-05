@@ -68,7 +68,9 @@ fun DrawerContents (
             modifier = Modifier.selectable(
                 selected = false,
                 onClick = {
-//                            navController.navigate(TravelScreen.PageTwo.name)
+                    userViewModel.previousScreenWasPageOneA(true)
+                    userViewModel.setUserPageInfo(userUiState.currentLogin)
+                    navController.navigate(TravelScreen.Page1A.name)
                     scope.launch { drawerState.close() }
                 }
             )
@@ -90,6 +92,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {
+            userViewModel.previousScreenWasPageOneA(true)
             userViewModel.setUserPageInfo(userUiState.currentLogin)
             navController.navigate(TravelScreen.Page1A.name)
             scope.launch { drawerState.close() }
@@ -98,6 +101,7 @@ fun DrawerContents (
         }
 
         TextButton(onClick = {
+            userViewModel.previousScreenWasPageOneA(false)
             navController.navigate(TravelScreen.Page1B.name)
             scope.launch { drawerState.close() }
         }) {
@@ -107,6 +111,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {
+            userViewModel.previousScreenWasPageOneA(false)
             isLogOutState = true
             scope.launch {
                 drawerState.close()
@@ -119,6 +124,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {
+            userViewModel.previousScreenWasPageOneA(false)
             navController.navigate(TravelScreen.Page2.name)
             scope.launch { drawerState.close() }
         }) {
@@ -128,6 +134,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {
+            userViewModel.previousScreenWasPageOneA(false)
             navController.navigate(TravelScreen.Page4.name)
             scope.launch { drawerState.close() }
         }) {

@@ -107,6 +107,7 @@ fun UserDropDownMenu(
                     if (isOtherIdComplete != null) {
                         isLoadingState = null
                         userViewModel.setUserPageInfo(isOtherIdComplete)
+                        userViewModel.previousScreenWasPageOneA(true)
                         onUserButtonClicked()
                     } else {
                         isLoadingState = false

@@ -14,35 +14,51 @@ class ViewModelUser : ViewModel() {
     private val _uiState = MutableStateFlow(UserUiState())
     val userUiState: StateFlow<UserUiState> = _uiState.asStateFlow()
 
-    /** setName Object */
+    /** setUser Object */
     fun setUser (currentUser: UserResponse) {
         _uiState.update { currentState ->
             currentState.copy(currentLogin = currentUser)
         }
     }
 
-    /** setName Object */
+    /** setCurrentSignIn Object */
     fun setCurrentSignIn (currentUser: SendSignIn) {
         _uiState.update { currentState ->
             currentState.copy(currentSignIn = currentUser)
         }
     }
 
-    /** setName Object */
+    /** setLikeUsers Object */
     fun setLikeUsers (currentUser: List<UserResponse>) {
         _uiState.update { currentState ->
             currentState.copy( checkLikeUsers = currentUser)
         }
     }
 
-    /** setName Object */
+    /** setUserPageInfo Object */
     fun setUserPageInfo (currentUser: UserResponse?) {
         _uiState.update { currentState ->
             currentState.copy( checkOtherUser = currentUser)
         }
     }
 
-    /** setName Object */
+    /** setUserPageTab Object */
+    fun setUserPageTab (currentTab: Int) {
+        _uiState.update { currentState ->
+            currentState.copy( currentSelectedUserTab = currentTab)
+        }
+    }
+
+
+    /** ========================================   */
+    /** setPreviousPage1A Object */
+    fun previousScreenWasPageOneA (click: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(previousScreenWasPageOneA = click)
+        }
+    }
+
+    /** setName setBackHandlerClick */
     fun setBackHandlerClick (backClick: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(isBackHandlerClick = backClick)

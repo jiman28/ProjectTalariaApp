@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
@@ -21,7 +19,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.viewmodels.user.PlanListUiState
 
 @Composable
-fun MyPlanList(
+fun UserPlanList(
     planListUiState: PlanListUiState.PlanListSuccess,
     contentPadding: PaddingValues,
 ) {

@@ -19,6 +19,7 @@ import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -89,6 +90,7 @@ fun ArticleConfirmDialog(
 @Composable
 fun CancelWriteArticleDialog(
     boardSelectViewModel: ViewModelBoardSelect,
+    userViewModel: ViewModelUser,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -114,6 +116,7 @@ fun CancelWriteArticleDialog(
                     onClick = {
                         onDismiss()
                         boardSelectViewModel.setWriteBoardMenu(R.string.selectMenu)
+                        userViewModel.setBackHandlerClick(false)
                         onBackButtonClicked()
                     }
                 ) {

@@ -52,4 +52,11 @@
     <string name="noSearchFound">검색 결과가 없습니다.</string>
     <string name="noArticlesFound">게시글이 아직 없습니다.</string>
 
+    <!--User -->
+    <string name="userTabMenuBoard">작성한 게시물</string>
+    <string name="userTabMenuPlans">저장한 여행 계획</string>
+    <string name="userPageOn">On</string>
+    <string name="userPageOff">Off</string>
+
+
 </resources>

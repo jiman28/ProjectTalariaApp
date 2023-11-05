@@ -62,6 +62,7 @@ fun PlanPageButtons (
             if (isResetPlanDialogVisible) {
                 ResetPlanDialog(
                     planViewModel = planViewModel,
+                    userViewModel = userViewModel,
                     onCancelButtonClicked = onCancelButtonClicked,
                     onDismiss = {
                         isResetPlanDialogVisible = false
@@ -102,12 +103,6 @@ fun PlanPageButtons (
     /** ================================================== */
     /** Bottom BackHandler Click Action ====================*/
     if (userUiState.isBackHandlerClick) {
-        ResetPlanDialog(
-            planViewModel = planViewModel,
-            onCancelButtonClicked = onCancelButtonClicked,
-            onDismiss = {
-                userViewModel.setBackHandlerClick(false)
-            }
-        )
+        isResetPlanDialogVisible = true
     }
 }

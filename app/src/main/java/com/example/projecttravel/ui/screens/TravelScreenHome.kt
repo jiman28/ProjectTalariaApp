@@ -151,7 +151,7 @@ fun TravelScreenHome(
                     },
                 )
             }
-            /** 0A. 회원 가입 성공 후 선호도 조사 ====================*/
+            /** 0B. 회원 가입 성공 후 선호도 조사 ====================*/
             composable(route = TravelScreen.Page0B.name) {
                 InterestForm(
                     userUiState = userUiState,
@@ -162,7 +162,7 @@ fun TravelScreenHome(
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = {  },    // 바로 전 페이지로 이동
+                    onBack = { },    // 바로 전 페이지로 이동
                 )
             }
 
@@ -221,10 +221,17 @@ fun TravelScreenHome(
                     MyInfoPage(
                         userUiState = userUiState,
                         userViewModel = userViewModel,
+                        planUiState = planUiState,
+                        boardSelectUiState = boardSelectUiState,
+                        boardSelectViewModel = boardSelectViewModel,
+                        navController = navController,
                     )
                     BackHandler(
                         enabled = drawerState.isClosed,
-                        onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
+                        onBack = {
+                            navController.navigate(TravelScreen.Page1.name)
+                            userViewModel.previousScreenWasPageOneA(false)
+                        },
                     )
                 }
             }
@@ -387,12 +394,24 @@ fun TravelScreenHome(
                     userViewModel = userViewModel,
                     boardSelectUiState = boardSelectUiState,
                     onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
-                    onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                    onBackButtonClicked = {
+                        if (userUiState.previousScreenWasPageOneA) {
+                            navController.navigate(TravelScreen.Page1A.name)
+                        } else {
+                            navController.navigate(TravelScreen.Page4.name)
+                        }
+                    },
                     onUserButtonClicked = { navController.navigate(TravelScreen.Page1A.name) }
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page4.name) },
+                    onBack = {
+                        if (userUiState.previousScreenWasPageOneA) {
+                            navController.navigate(TravelScreen.Page1A.name)
+                        } else {
+                            navController.navigate(TravelScreen.Page4.name)
+                        }
+                    },
                 )
             }
             /** 4-2. 게시판 작성 화면 ====================*/

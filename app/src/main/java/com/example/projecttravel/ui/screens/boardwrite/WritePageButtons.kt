@@ -82,8 +82,9 @@ fun WritePageButtons(
                 Text(text = stringResource(R.string.cancel_button))
                 if (isCancelWriteArticleDialog) {
                     CancelWriteArticleDialog(
-                        onBackButtonClicked = onBackButtonClicked,
                         boardSelectViewModel = boardSelectViewModel,
+                        userViewModel = userViewModel,
+                        onBackButtonClicked = onBackButtonClicked,
                         onDismiss = {
                             isCancelWriteArticleDialog = false
                         },
@@ -145,13 +146,7 @@ fun WritePageButtons(
     /** ================================================== */
     /** Bottom BackHandler Click Action ====================*/
     if (userUiState.isBackHandlerClick) {
-        CancelWriteArticleDialog(
-            onBackButtonClicked = onBackButtonClicked,
-            boardSelectViewModel = boardSelectViewModel,
-            onDismiss = {
-                userViewModel.setBackHandlerClick(false)
-            },
-        )
+        isCancelWriteArticleDialog = true
     }
 }
 

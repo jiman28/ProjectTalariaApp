@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards
+package com.example.projecttravel.ui.screens.infome
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,15 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 
 @Composable
-fun BoardsPageTabButtons(
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+fun MyInfoPageTabButtons(
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
 ) {
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -33,35 +31,24 @@ fun BoardsPageTabButtons(
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.board) },
+                onClick = { userViewModel.setUserPageTab(R.string.userTabMenuBoard) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.board) Color.Yellow else Color.White,
+                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color.Yellow else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.boardTitle))
+                Text(text = stringResource(R.string.userTabMenuBoard))
             }
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.company) },
+                onClick = { userViewModel.setUserPageTab(R.string.userTabMenuPlans) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.company) Color.Yellow else Color.White,
+                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color.Yellow else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.companyTitle))
-            }
-            OutlinedButton(
-                modifier = Modifier
-                    .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.trade) },
-                shape = RoundedCornerShape(0.dp),
-                colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.trade) Color.Yellow else Color.White,
-                )
-            ) {
-                Text(text = stringResource(R.string.tradeTitle))
+                Text(text = stringResource(R.string.userTabMenuPlans))
             }
         }
     }
