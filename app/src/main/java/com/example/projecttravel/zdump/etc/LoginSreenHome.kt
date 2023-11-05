@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump
+package com.example.projecttravel.zdump.etc
 
 //import com.example.projecttravel.zdump.dtsample.SettingPage
 

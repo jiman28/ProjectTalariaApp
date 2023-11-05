@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump
+package com.example.projecttravel.zdump.etc
 
 //@Composable
 //fun PlanTourDateRandomCard(

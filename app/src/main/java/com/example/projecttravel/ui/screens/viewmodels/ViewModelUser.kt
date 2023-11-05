@@ -36,6 +36,13 @@ class ViewModelUser : ViewModel() {
     }
 
     /** setName Object */
+    fun setUserPageInfo (currentUser: UserResponse?) {
+        _uiState.update { currentState ->
+            currentState.copy( checkOtherUser = currentUser)
+        }
+    }
+
+    /** setName Object */
     fun setBackHandlerClick (backClick: Boolean) {
         _uiState.update { currentState ->
             currentState.copy(isBackHandlerClick = backClick)

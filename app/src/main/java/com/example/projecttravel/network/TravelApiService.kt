@@ -1,6 +1,7 @@
 package com.example.projecttravel.network
 
 import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Reply
 import com.example.projecttravel.model.Trade
@@ -48,6 +49,10 @@ interface TravelApiService {
     // likeme
     @POST("likeme")
     fun getLikeMeUser(@Body userResponse: UserResponse): Call<List<UserResponse>>
+
+    // userpage
+    @POST("seepersonalpage")
+    fun getOtherUserInfo(@Body checkOtherUserById: CheckOtherUserById): Call<UserResponse>
 
     // UserInfo DB ==============================
     @GET("userinfo")

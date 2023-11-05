@@ -384,9 +384,11 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page4A.name) {
                 ViewContentsBoard(
                     userUiState = userUiState,
+                    userViewModel = userViewModel,
                     boardSelectUiState = boardSelectUiState,
                     onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
+                    onUserButtonClicked = { navController.navigate(TravelScreen.Page1A.name) }
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,

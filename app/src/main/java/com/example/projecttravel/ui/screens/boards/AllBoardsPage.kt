@@ -246,17 +246,23 @@ fun AllBoardsPage(
                         )
                     }
                 }
+
             // 검색 안했을때
             } else {
                 when (boardSelectUiState.currentSelectedBoard) {
                     R.string.board -> {
                         if (boardUiState != null) {
-                            ListBoard(
-                                boardUiState = boardUiState,
-                                boardSelectViewModel = boardSelectViewModel,
-                                onBoardClicked = onBoardClicked,
-                                contentPadding = PaddingValues(0.dp),
-                            )
+                            if (boardUiState.boardList.isNotEmpty()) {
+                                ListBoard(
+                                    boardUiState = boardUiState,
+                                    boardSelectViewModel = boardSelectViewModel,
+                                    onBoardClicked = onBoardClicked,
+                                    contentPadding = PaddingValues(0.dp),
+                                )
+                            }
+                            else {
+                                NoArticlesFoundScreen()
+                            }
                         } else {
                             NoArticlesFoundScreen()
                         }
@@ -264,12 +270,17 @@ fun AllBoardsPage(
 
                     R.string.company -> {
                         if (companyUiState != null) {
-                            ListCompany(
-                                companyUiState = companyUiState,
-                                boardSelectViewModel = boardSelectViewModel,
-                                onBoardClicked = onBoardClicked,
-                                contentPadding = PaddingValues(0.dp),
-                            )
+                            if (companyUiState.companyList.isNotEmpty()) {
+                                ListCompany(
+                                    companyUiState = companyUiState,
+                                    boardSelectViewModel = boardSelectViewModel,
+                                    onBoardClicked = onBoardClicked,
+                                    contentPadding = PaddingValues(0.dp),
+                                )
+                            }
+                            else {
+                                NoArticlesFoundScreen()
+                            }
                         } else {
                             NoArticlesFoundScreen()
                         }
@@ -277,12 +288,17 @@ fun AllBoardsPage(
 
                     R.string.trade -> {
                         if (tradeUiState != null) {
-                            ListTrade(
-                                tradeUiState = tradeUiState,
-                                boardSelectViewModel = boardSelectViewModel,
-                                onBoardClicked = onBoardClicked,
-                                contentPadding = PaddingValues(0.dp),
-                            )
+                            if (tradeUiState.tradeList.isNotEmpty()) {
+                                ListTrade(
+                                    tradeUiState = tradeUiState,
+                                    boardSelectViewModel = boardSelectViewModel,
+                                    onBoardClicked = onBoardClicked,
+                                    contentPadding = PaddingValues(0.dp),
+                                )
+                            }
+                            else {
+                                NoArticlesFoundScreen()
+                            }
                         } else {
                             NoArticlesFoundScreen()
                         }

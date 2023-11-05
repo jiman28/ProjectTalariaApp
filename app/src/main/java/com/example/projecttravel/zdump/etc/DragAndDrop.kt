@@ -1,4 +1,4 @@
-package com.example.projecttravel.zdump
+package com.example.projecttravel.zdump.etc
 
 import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Box

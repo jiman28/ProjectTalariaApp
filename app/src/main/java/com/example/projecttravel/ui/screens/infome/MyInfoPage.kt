@@ -28,12 +28,14 @@ fun MyInfoPage(
 
     Column {
         Column {
-            if (userUiState.currentLogin != null) {
-                Row {
-                    Text(text = userUiState.currentLogin.name, modifier = Modifier.padding(5.dp))
-                    Text(text = userUiState.currentLogin.id, modifier = Modifier.padding(5.dp))
-                    Text(text = userUiState.currentLogin.email, modifier = Modifier.padding(5.dp))
-                    if (userUiState.currentLogin.picture != null) Text(text = userUiState.currentLogin.picture)
+            if (userUiState.checkOtherUser != null) {
+                Column {
+
+                    Text(text = "현재 확인 중인 아이디", modifier = Modifier.padding(5.dp))
+                    Text(text = "현재 이름${userUiState.checkOtherUser.name}", modifier = Modifier.padding(5.dp))
+                    Text(text = "현재 아이디${userUiState.checkOtherUser.id}", modifier = Modifier.padding(5.dp))
+                    Text(text = "현재 이메일${userUiState.checkOtherUser.email}", modifier = Modifier.padding(5.dp))
+                    if (userUiState.checkOtherUser.picture != null) Text(text = userUiState.checkOtherUser.picture)
                 }
             }
 

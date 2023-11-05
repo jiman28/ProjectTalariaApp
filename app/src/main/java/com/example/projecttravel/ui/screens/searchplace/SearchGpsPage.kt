@@ -75,9 +75,6 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
-private const val TAG1 = "AAAAA"
-private const val TAG2 = "BBBBB"
-
 @Composable
 fun SearchGpsPage(
     modifier: Modifier = Modifier,
@@ -208,12 +205,12 @@ fun SearchGpsPage(
                     )
                 }
             }
-            /** ================================================== */
+
         }
 
 
 
-
+        /** result comes out here ================================================== */
         /** Searched Place */
         Column {
             Column(
@@ -248,6 +245,7 @@ fun SearchGpsPage(
                 }
             }
         }
+        /** this is where you find the place ================================================== */
         /** GoogleMapSheet*/
         GoogleMapSheet(
             selectUiState = selectUiState,

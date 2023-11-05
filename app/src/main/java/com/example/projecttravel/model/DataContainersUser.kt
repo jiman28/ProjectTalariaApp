@@ -46,3 +46,9 @@ data class SendInterest (
     val food: String,
     val religion: String,
 )
+
+@Serializable
+data class CheckOtherUserById (
+    val id: String,
+)
+

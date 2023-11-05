@@ -90,6 +90,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 
         TextButton(onClick = {
+            userViewModel.setUserPageInfo(userUiState.currentLogin)
             navController.navigate(TravelScreen.Page1A.name)
             scope.launch { drawerState.close() }
         }) {

@@ -21,6 +21,7 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -45,14 +46,18 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveArticleDialog
 import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.boardwrite.BoardDropDownMenu
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import org.jsoup.Jsoup
 
 @Composable
 fun ViewContentsBoard(
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     boardSelectUiState: BoardSelectUiState,
     onContentRefreshClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
+    onUserButtonClicked: () -> Unit,
 ) {
     val currentBoard: AllBoards? = when (boardSelectUiState.currentSelectedBoard) {
         R.string.board -> boardSelectUiState.selectedBoardContent
@@ -169,8 +174,12 @@ fun ViewContentsBoard(
                     contentDescription = "Account"
                 )
                 Spacer(modifier = Modifier.padding(1.dp))
-                Text(fontSize = 12.sp, text = currentWriteId)
-
+                UserDropDownMenu(
+                    boardSelectUiState = boardSelectUiState,
+                    userViewModel = userViewModel,
+                    onUserButtonClicked = onUserButtonClicked,
+                )
+//                Text(fontSize = 12.sp, text = currentWriteId)
                 Spacer(modifier = Modifier.padding(5.dp))
 
                 Icon(
