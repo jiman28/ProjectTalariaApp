@@ -58,5 +58,7 @@
     <string name="userPageOn">On</string>
     <string name="userPageOff">Off</string>
 
+    <string name="noPlansFound">여행 계획이 아직 없습니다.</string>
+
 
 </resources>

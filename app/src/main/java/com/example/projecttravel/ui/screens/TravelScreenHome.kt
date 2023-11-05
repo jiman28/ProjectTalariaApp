@@ -40,7 +40,6 @@ import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
-import com.example.projecttravel.ui.screens.infome.MyPlansPage
 import com.example.projecttravel.ui.screens.infome.MyUserLikePage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
@@ -225,6 +224,7 @@ fun TravelScreenHome(
                         boardSelectUiState = boardSelectUiState,
                         boardSelectViewModel = boardSelectViewModel,
                         navController = navController,
+                        onNextButtonClicked = { navController.navigate(TravelScreen.Page1C.name) },
                     )
                     BackHandler(
                         enabled = drawerState.isClosed,
@@ -237,36 +237,36 @@ fun TravelScreenHome(
             }
             /** 1B. 내 여행 계획 화면 ====================*/
             composable(route = TravelScreen.Page1B.name) {
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        DrawerContents(
-                            onLogOutClicked = {
-                                navController.navigate(TravelScreen.Page0.name)
-                            },
-                            userUiState = userUiState,
-                            userViewModel = userViewModel,
-                            navController = navController,
-                            drawerState = drawerState,
-                            scope = scope,
-                        )
-                    },
-                ) {
-                    MyPlansPage(
-                        userUiState = userUiState,
-                        userViewModel = userViewModel,
-                        onNextButtonClicked = {
-                            navController.navigate(TravelScreen.Page1C.name)
-                        },
-                    )
-                    BackHandler(
-                        enabled = drawerState.isClosed,
-                        onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
-                    )
-                }
+//                ModalNavigationDrawer(
+//                    drawerState = drawerState,
+//                    drawerContent = {
+//                        DrawerContents(
+//                            onLogOutClicked = {
+//                                navController.navigate(TravelScreen.Page0.name)
+//                            },
+//                            userUiState = userUiState,
+//                            userViewModel = userViewModel,
+//                            navController = navController,
+//                            drawerState = drawerState,
+//                            scope = scope,
+//                        )
+//                    },
+//                ) {
+//                    MyPlansPage(
+//                        userUiState = userUiState,
+//                        userViewModel = userViewModel,
+//                        onNextButtonClicked = {
+//                            navController.navigate(TravelScreen.Page1C.name)
+//                        },
+//                    )
+//                    BackHandler(
+//                        enabled = drawerState.isClosed,
+//                        onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
+//                    )
+//                }
             }
 
-            /** 1C. 나랑 같은 친구들 ====================*/
+            /** 1C. 나랑 비슷한 친구들 찾기 ====================*/
             composable(route = TravelScreen.Page1C.name) {
                 ModalNavigationDrawer(
                     drawerState = drawerState,

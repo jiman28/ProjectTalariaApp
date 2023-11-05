@@ -14,13 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
+import com.example.projecttravel.model.PlansDataRead
+import com.example.projecttravel.ui.screens.boards.ListBoard
+import com.example.projecttravel.ui.screens.boards.NoArticlesFoundScreen
+import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.user.PlanListUiState
 
 @Composable
 fun UserPlanList(
-    planListUiState: PlanListUiState.PlanListSuccess,
+    filteredPlanList: List<PlansDataRead>?,
     contentPadding: PaddingValues,
 ) {
 
@@ -33,22 +38,30 @@ fun UserPlanList(
             .verticalScroll(scrollState)
             .padding(start = 15.dp, end = 15.dp),
     ) {
-        planListUiState.planList.forEach { userPlan ->
-            Text(text = "1. email = ${userPlan.email}")
-            Text(text = "2. planName = ${userPlan.planName}")
-            Text(text = "3. endDay = ${userPlan.endDay}")
-            Text(text = "4. startDay = ${userPlan.startDay}")
-            Divider(thickness = 1.dp)
-            Text(text = "5. List<SpotDto>")
-            userPlan.plans.forEach { plan ->
-                Text(text = "ㄴ Date: ${plan.date}")
-                plan.list.forEach { spot ->
-                    Text(text = "ㄴㄴ Name: ${spot.name}")
+        if (filteredPlanList != null) {
+            if (filteredPlanList.isNotEmpty()) {
+                filteredPlanList.forEach { userPlan ->
+                    Text(text = "1. email = ${userPlan.email}")
+                    Text(text = "2. planName = ${userPlan.planName}")
+                    Text(text = "3. endDay = ${userPlan.endDay}")
+                    Text(text = "4. startDay = ${userPlan.startDay}")
+                    Divider(thickness = 1.dp)
+                    Text(text = "5. List<SpotDto>")
+                    userPlan.plans.forEach { plan ->
+                        Text(text = "ㄴ Date: ${plan.date}")
+                        plan.list.forEach { spot ->
+                            Text(text = "ㄴㄴ Name: ${spot.name}")
+                        }
+                        Divider(thickness = 1.dp)
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
                 }
-                Divider(thickness = 1.dp)
+            } else {
+                NoPlansFoundScreen()
             }
-            Spacer(modifier = Modifier.height(16.dp))
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+        } else {
+            NoPlansFoundScreen()
         }
     }
 
@@ -84,3 +97,11 @@ fun UserPlanList(
 //    }
 
 }
+
+// 계획에 글이 없을 시
+@Composable
+fun NoPlansFoundScreen(
+){
+    Text(text = stringResource(R.string.noPlansFound))
+}
+
