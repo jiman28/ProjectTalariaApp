@@ -140,22 +140,13 @@ fun TourAttrScreen(
     contentPadding: PaddingValues,
 ) {
     Column {
-        Text(
-            text = "여행할 관광지를 고르세요",
-            textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
-                .padding(3.dp) // 원하는 여백을 추가
-        )
-    }
-    Column {
         OutlinedButton(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(3.dp),
             onClick = onGpsClicked
         ) {
-            Text(text = "다른데 갈랭")
+            Text(text = "다른 관광지 검색하기")
         }
     }
     LazyColumn(

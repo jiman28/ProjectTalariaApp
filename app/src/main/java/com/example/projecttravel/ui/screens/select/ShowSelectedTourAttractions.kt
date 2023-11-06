@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,6 +39,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
@@ -45,7 +48,10 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
+import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun SelectedTourAttractions(
@@ -53,7 +59,7 @@ fun SelectedTourAttractions(
     selectViewModel: ViewModelSelect,
     contentPadding: PaddingValues,
 ) {
-    if (selectUiState.selectTourAttractions.isNotEmpty()) {
+    if (selectUiState.selectCountry != null && selectUiState.selectCity != null) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -87,9 +93,7 @@ fun SelectedTourAttractionsMenu(
     Button(
         onClick = { isOpenTourAttrDialog = true }
     ) {
-        Text(
-            text = "선택한 관광지 확인"
-        )
+        Text(text = "선택한 관광지 확인")
     }
     if (isOpenTourAttrDialog) {
         SelectedTourAttrDialog(
@@ -114,31 +118,67 @@ fun SelectedTourAttrDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         modifier = Modifier
-            .background(Color.DarkGray, RoundedCornerShape(12.dp))
-    ) {
-        LazyColumn(
-            modifier = Modifier,
-            contentPadding = contentPadding,
-            verticalArrangement = Arrangement.spacedBy(5.dp)
-        ) {
-            items(
-                items = selectUiState.selectTourAttractions,
-                key = { tourAttractionAll ->
-                    when (tourAttractionAll) {
-                        is TourAttractionInfo -> tourAttractionAll.placeName
-                        is TourAttractionSearchInfo -> tourAttractionAll.name
-                        else -> {}
+            .background(Color.DarkGray, RoundedCornerShape(12.dp)),
+        content = {
+            if (selectUiState.selectTourAttractions.isNotEmpty()) {
+                LazyColumn(
+                    modifier = Modifier,
+                    contentPadding = contentPadding,
+                    verticalArrangement = Arrangement.spacedBy(5.dp)
+                ) {
+                    items(
+                        items = selectUiState.selectTourAttractions,
+                        key = { tourAttractionAll ->
+                            when (tourAttractionAll) {
+                                is TourAttractionInfo -> tourAttractionAll.placeName
+                                is TourAttractionSearchInfo -> tourAttractionAll.name
+                                else -> {}
+                            }
+                        }
+                    ) { tourAttractionAll ->
+                        SelectedTourAttrCard(
+                            tourAttractionAll = tourAttractionAll,
+                            selectViewModel = selectViewModel,
+                        )
+                    }
+                    item {
+                        Row(
+                            horizontalArrangement = Arrangement.SpaceEvenly,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Button(
+                                onClick = {
+                                    onDismiss()
+                                }
+                            ) {
+                                Text(text = "총 ${selectUiState.selectTourAttractions.size} 개 선택 확인", fontSize = 20.sp)
+                            }
+                        }
                     }
                 }
-            ) { tourAttractionAll ->
-                SelectedTourAttrCard(
-                    tourAttractionAll = tourAttractionAll,
-                    selectViewModel = selectViewModel,
-                    modifier = Modifier.fillMaxSize(),
-                )
+            } else {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                    ) {
+                        Text(text = "관광지를 고르세요.",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(dimensionResource(R.dimen.padding_medium)),
+                            fontSize = 25.sp,
+                            style = MaterialTheme.typography.titleLarge,
+                            fontWeight = FontWeight.Bold,
+                            textAlign = TextAlign.Center
+                        )
+                    }
+                }
             }
-        }
-    }
+        },
+    )
     BackHandler(
         onBack = { onDismiss() }
     )
@@ -150,7 +190,7 @@ fun extractLastName(selectUiState: SelectUiState): String {
     return when (val lastAttraction = selectUiState.selectTourAttractions.lastOrNull()) {
         is TourAttractionInfo -> lastAttraction.placeName
         is TourAttractionSearchInfo -> lastAttraction.name
-        else -> "관광지 골라 골라"
+        else -> "관광지를 고르세요"
     }
 }
 
@@ -160,10 +200,9 @@ fun extractLastName(selectUiState: SelectUiState): String {
 fun SelectedTourAttrCard(
     tourAttractionAll: TourAttractionAll,
     selectViewModel: ViewModelSelect,
-    modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(8.dp)
     ) {
         Row(
