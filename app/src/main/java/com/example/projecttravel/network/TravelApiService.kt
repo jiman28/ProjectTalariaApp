@@ -83,7 +83,7 @@ interface TravelApiService {
     // send placeName to searchedPlaceInfo
     @POST("sendplacename")
     @FormUrlEncoded
-    fun setPlaceName(@Field("placeName") placeName: String?, @Field("cityId") cityId: String?,): Call<String>
+    fun setPlaceName(@Field("placeName") placeName: String?, @Field("cityId") cityId: String?, @Field("stateInOut") stateInOut: String,): Call<String>
 
     // send inout Info to DB
     @POST("sendinout")

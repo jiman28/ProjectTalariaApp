@@ -27,6 +27,20 @@ class ViewModelSearch : ViewModel() {
         }
     }
 
+    /** setInOutChecker */
+    fun setInOutChecker (check: String) {
+        _uiState.update { currentState ->
+            currentState.copy(inOutChecker = check)
+        }
+    }
+
+    /** setInOutChecker */
+    fun setInOutBoolean (check: Boolean) {
+        _uiState.update { currentState ->
+            currentState.copy(inOutCheckerBoolean = check)
+        }
+    }
+
     /** reset all Objects */
     fun resetAllSearchUiState() {
         _uiState.value = SearchUiState() // DailyPlanUiState를 기본 값으로 재설정

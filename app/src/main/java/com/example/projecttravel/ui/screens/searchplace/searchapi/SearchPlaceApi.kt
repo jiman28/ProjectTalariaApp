@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.searchplace
+package com.example.projecttravel.ui.screens.searchplace.searchapi
 
 import android.content.Context
 import android.util.Log
@@ -18,9 +18,19 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/** Function for finding Searched Place from DB by name ====================*/
+fun findSearchListByName(
+    searchName: String?,
+    tourAttrSearchList: List<TourAttractionSearchInfo>,
+): TourAttractionSearchInfo? {
+    val searched = tourAttrSearchList.find { it.name == searchName }
+    return searched
+}
+
 /** Function for finding placeInfos by placeId ====================*/
 fun getPlaceInfo(
-    placeId: String,
+    searchedPlaceId: String,
+    stateInOut: String,
     context: Context,
     selectUiState: SelectUiState,
     searchViewModel: ViewModelSearch,
@@ -41,7 +51,7 @@ fun getPlaceInfo(
     )
 
     // FetchPlaceRequest 객체 생성. placeId 와 필드 값을 넘겨준다
-    val request = FetchPlaceRequest.newInstance(placeId, placeFields)
+    val request = FetchPlaceRequest.newInstance(searchedPlaceId, placeFields)
 
     // request 객체를
     placesClient.fetchPlace(request)
@@ -51,7 +61,7 @@ fun getPlaceInfo(
             val latLng = place.latLng
             val formattedAddress = place.address
             val searchedPlace = SearchedPlace(name = name, address = formattedAddress, latLng = latLng)
-            sendName(selectUiState, searchedPlace, searchViewModel, updateUiPageClicked)
+            sendName(stateInOut, selectUiState, searchedPlace, searchViewModel, updateUiPageClicked)
         }
         .addOnFailureListener { exception: Exception ->
             if (exception is ApiException) {
@@ -70,8 +80,9 @@ fun getPlaceInfo(
         }
 }
 
-/** Function for sending placeName to request placeImg ====================*/
+/** Function for sending placeName to Django to request placeImg ====================*/
 fun sendName(
+    stateInOut: String,
     selectUiState: SelectUiState,
     searchedPlace: SearchedPlace,
     searchViewModel: ViewModelSearch,
@@ -80,7 +91,9 @@ fun sendName(
     Log.d("jiman=111", selectUiState.selectCity?.cityId.toString())
     Log.d("jiman=111", searchedPlace.name.toString())
 
-    val call = RetrofitBuilderString.travelStringApiService.setPlaceName(placeName = searchedPlace.name, cityId = selectUiState.selectCity?.cityId)
+    val call = RetrofitBuilderString
+        .travelStringApiService
+        .setPlaceName(placeName = searchedPlace.name, cityId = selectUiState.selectCity?.cityId, stateInOut = stateInOut)
     call.enqueue(
         object : Callback<String> { // 비동기 방식 통신 메소드
             override fun onResponse(
@@ -115,7 +128,8 @@ fun sendName(
     )
 }
 
-/** Function for sending InOut number by string to write DB ====================*/
+/** ===Dump?============================================================================= */
+/** Function for sending InOut number by string to write DB ==================== */
 fun sendInOut(
     placeName: String?,
     stateInOut: String?
@@ -145,12 +159,4 @@ fun sendInOut(
         // placeName 또는 stateInOut이 null일 때 처리
         Log.d("jiman=444", "placeName or stateInOut is null")
     }
-}
-/** Function for finding Searched Place from DB by name ====================*/
-fun findSearchListByName(
-    searchName: String?,
-    tourAttrSearchList: List<TourAttractionSearchInfo>,
-): TourAttractionSearchInfo? {
-    val searched = tourAttrSearchList.find { it.name == searchName }
-    return searched
 }
