@@ -5,7 +5,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.SendArticle
@@ -66,7 +66,7 @@ suspend fun sendArticleToDb(
     sendArticle: SendArticle,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.sendArticle(sendArticle)
+        val call = RetrofitBuilderJson.travelJsonApiService.sendArticle(sendArticle)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,
@@ -105,7 +105,7 @@ suspend fun removeArticleFromDb (
     removeArticle: RemoveArticle,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.removeArticle(removeArticle)
+        val call = RetrofitBuilderJson.travelJsonApiService.removeArticle(removeArticle)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,

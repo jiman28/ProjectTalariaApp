@@ -1,7 +1,7 @@
 package com.example.projecttravel.ui.screens.boards.boardapi
 
 import android.util.Log
-import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendComment
 import kotlinx.coroutines.suspendCancellableCoroutine
@@ -17,7 +17,7 @@ suspend fun sendCommentToDb (
     sendComment: SendComment,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.sendReply(sendComment)
+        val call = RetrofitBuilderJson.travelJsonApiService.sendReply(sendComment)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,
@@ -56,7 +56,7 @@ suspend fun removeCommentFromDb (
     removeComment: RemoveComment,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.removeReply(removeComment)
+        val call = RetrofitBuilderJson.travelJsonApiService.removeReply(removeComment)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,

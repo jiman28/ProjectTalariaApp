@@ -1,9 +1,8 @@
 package com.example.projecttravel.ui.screens.infome.infoapi
 
 import android.util.Log
-import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.model.CheckOtherUserById
-import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.UserResponse
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -18,7 +17,7 @@ suspend fun getPeopleLikeMe(
     userResponse: UserResponse,
 ): List<UserResponse> {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.getLikeMeUser(userResponse)
+        val call = RetrofitBuilderJson.travelJsonApiService.getLikeMeUser(userResponse)
         call.enqueue(object : Callback<List<UserResponse>> {
             override fun onResponse(
                 call: Call<List<UserResponse>>,
@@ -57,7 +56,7 @@ suspend fun getUserPageById(
     checkOtherUserById: CheckOtherUserById,
 ): UserResponse? {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.getOtherUserInfo(checkOtherUserById)
+        val call = RetrofitBuilderJson.travelJsonApiService.getOtherUserInfo(checkOtherUserById)
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
                 call: Call<UserResponse>,

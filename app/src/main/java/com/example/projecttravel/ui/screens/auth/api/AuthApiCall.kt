@@ -3,7 +3,7 @@ package com.example.projecttravel.ui.screens.auth.api
 import android.util.Log
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.model.SendInterest
 import com.example.projecttravel.model.SendSignIn
@@ -24,7 +24,7 @@ suspend fun loginApiCall(
     userViewModel: ViewModelUser,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.checkLogin(user)
+        val call = RetrofitBuilderJson.travelJsonApiService.checkLogin(user)
         call.enqueue(object : Callback<UserResponse> {
             override fun onResponse(
                 call: Call<UserResponse>,
@@ -110,7 +110,7 @@ suspend fun interestSaveApiCall(
     userViewModel: ViewModelUser,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.saveFirstInterest(sendInterest)
+        val call = RetrofitBuilderJson.travelJsonApiService.saveFirstInterest(sendInterest)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,

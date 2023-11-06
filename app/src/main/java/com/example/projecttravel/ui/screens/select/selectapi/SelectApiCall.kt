@@ -1,7 +1,6 @@
 package com.example.projecttravel.ui.screens.select.selectapi
 
 import android.util.Log
-import com.example.projecttravel.data.RetrofitBuilderGetMap
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.GetAttrWeather
@@ -94,7 +93,7 @@ suspend fun getDateToAttrByWeather(
         finds = finds,
         selectedDate = selectedDate,
     )
-    val call = RetrofitBuilderGetMap.travelGetMapApiService.getDateWeatherAttr(
+    val call = RetrofitBuilderJson.travelJsonApiService.getDateWeatherAttr(
         getAttrWeather
     )
     return suspendCancellableCoroutine { continuation ->
@@ -152,7 +151,7 @@ suspend fun getDateToAttrByCity(
         finds = finds,
         selectedDate = selectedDate,
     )
-    val call = RetrofitBuilderGetMap.travelGetMapApiService.getDateCityAttr(
+    val call = RetrofitBuilderJson.travelJsonApiService.getDateCityAttr(
         getAttrWeather
     )
     return suspendCancellableCoroutine { continuation ->

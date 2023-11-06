@@ -27,9 +27,11 @@ import com.example.projecttravel.network.TravelApiService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
+import java.util.concurrent.TimeUnit
 
 /** localhost IPv4 BuildConfig for Retrofit */
 private val BASE_URL = BuildConfig.BASE_URL
@@ -49,10 +51,8 @@ interface AppContainer {
     val userPlanListRepository: UserPlanListRepository
 }
 
-/**
- * Implementation for the Dependency Injection container at the application level.
- * Variables are initialized lazily and the same instance is shared across the whole app.
- */
+/** Implementation for the Dependency Injection container at the application level.
+ * Variables are initialized lazily and the same instance is shared across the whole app. */
 class DefaultAppContainer : AppContainer {
     /** Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter */
     private val retrofit: Retrofit = Retrofit.Builder()
@@ -113,25 +113,7 @@ class DefaultAppContainer : AppContainer {
     }
 
 }
-
-/**
- * object for transfer data to server as JSON
- */
-object RetrofitBuilderJson {
-    var travelJsonApiService: TravelApiService
-
-    init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL) // 요청 보내는 API 서버 url. /로 끝나야 함
-            .addConverterFactory(Json.asConverterFactory("application/json".toMediaType())) // Gson을 역직렬화
-            .build()
-        travelJsonApiService = retrofit.create(TravelApiService::class.java)
-    }
-}
-
-/**
- * object for transfer data to server as STRING
- */
+/** object for transfer data to server as STRING */
 object RetrofitBuilderString {
     var travelStringApiService: TravelApiService
 
@@ -144,17 +126,57 @@ object RetrofitBuilderString {
     }
 }
 
-/**
- * object for transfer data to server as Map
- */
-object RetrofitBuilderGetMap {
-    var travelGetMapApiService: TravelApiService
+/** object for transfer data to server as Map */
+object RetrofitBuilderJson {
+    var travelJsonApiService: TravelApiService
 
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()) // Gson 컨버터 사용
             .build()
-        travelGetMapApiService = retrofit.create(TravelApiService::class.java)
+        travelJsonApiService = retrofit.create(TravelApiService::class.java)
     }
 }
+
+/** Custom String ApiService (for timeout error -> edit server call time to 30 sec) */
+object RetrofitBuilderStringCustom {
+    var travelStringApiCustomService: TravelApiService
+
+    init {
+        val customHttpClient = OkHttpClient.Builder()
+            .connectTimeout(30, TimeUnit.SECONDS) // 연결 timeout 시간 설정 (초 단위)
+            .readTimeout(30, TimeUnit.SECONDS)    // 읽기 timeout 시간 설정 (초 단위)
+            .writeTimeout(30, TimeUnit.SECONDS)   // 쓰기 timeout 시간 설정 (초 단위)
+            .build()
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(BASE_URL) // 요청 보내는 API 서버 URL. /로 끝나야 함
+            .client(customHttpClient) // 커스텀 OkHttpClient 사용 설정
+            .addConverterFactory(ScalarsConverterFactory.create())  // String 등 처리시
+            .build()
+
+        travelStringApiCustomService = retrofit.create(TravelApiService::class.java)
+    }
+}
+
+///** Custom Json ApiService (for timeout error -> edit server call time to 30 sec) */
+//object RetrofitBuilderJsonCustom {
+//    var travelJsonApiCustomService: TravelApiService
+//
+//    init {
+//        val customHttpClient = OkHttpClient.Builder()
+//            .connectTimeout(30, TimeUnit.SECONDS) // 연결 timeout 시간 설정 (초 단위)
+//            .readTimeout(30, TimeUnit.SECONDS)    // 읽기 timeout 시간 설정 (초 단위)
+//            .writeTimeout(30, TimeUnit.SECONDS)   // 쓰기 timeout 시간 설정 (초 단위)
+//            .build()
+//
+//        val retrofit = Retrofit.Builder()
+//            .baseUrl(BASE_URL) // 요청 보내는 API 서버 URL. /로 끝나야 함
+//            .client(customHttpClient) // 커스텀 OkHttpClient 사용 설정
+//            .addConverterFactory(ScalarsConverterFactory.create())  // String 등 처리시
+//            .build()
+//
+//        travelJsonApiCustomService = retrofit.create(TravelApiService::class.java)
+//    }
+//}

@@ -1,7 +1,7 @@
 package com.example.projecttravel.ui.screens.plantrip.planapi
 
 import android.util.Log
-import com.example.projecttravel.data.RetrofitBuilderGetMap
+import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.model.PlansData
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -16,7 +16,7 @@ suspend fun savePlanToMongoDb (
     plansData: PlansData,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderGetMap.travelGetMapApiService.addplan(plansData)
+        val call = RetrofitBuilderJson.travelJsonApiService.addplan(plansData)
         call.enqueue(object : Callback<Boolean> {
             override fun onResponse(
                 call: Call<Boolean>,

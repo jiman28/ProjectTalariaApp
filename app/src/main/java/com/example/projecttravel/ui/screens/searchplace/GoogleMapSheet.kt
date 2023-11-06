@@ -2,7 +2,6 @@ package com.example.projecttravel.ui.screens.searchplace
 
 import android.location.Geocoder
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -32,8 +30,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,9 +41,9 @@ import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
-import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.searchplace.searchapi.LocationViewModel
 import com.example.projecttravel.ui.screens.searchplace.searchapi.getPlaceInfo
+import com.example.projecttravel.ui.screens.searchplace.searchapi.sendPlaceNameDjango
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.libraries.places.api.Places
@@ -126,35 +122,25 @@ fun GoogleMapSheet(
             ) {
                 OutlinedButton(
                     onClick = {
-//                        scope.launch {
-//                            isLoadingState = true
-//                            val peopleDeferred = async { getPeopleLikeMe(currentUserInfo) }
-//                            val peopleComplete = peopleDeferred.await()
-//                            if (peopleComplete.isNotEmpty()) {
-//                                isLoadingState = null
-//                                userViewModel.setLikeUsers(peopleComplete)
-//                                onNextButtonClicked()
-//                            } else {
-//                                peopleErrorMsg = "서버 오류"
-//                                isLoadingState = false
-//                            }
-//                        }
-
-
-
-
-
-
-
-                        searchViewModel.setErrorMsg("loading")
-                        getPlaceInfo(
-                            searchedPlaceId,
-                            searchUiState.inOutChecker,
-                            context,
-                            selectUiState,
-                            searchViewModel,
-                            updateUiPageClicked,
-                        )
+                        scope.launch {
+                            isLoadingState = true
+                            val gpsDeferred = async { getPlaceInfo(searchedPlaceId = searchedPlaceId, context = context) }
+                            val gpsComplete = gpsDeferred.await()
+                            if (gpsComplete != null) {
+                                val djangoDeferred = async { sendPlaceNameDjango(selectUiState = selectUiState,searchedPlace = gpsComplete, stateInOut = searchUiState.inOutChecker,) }
+                                val djangoComplete = djangoDeferred.await()
+                                if (djangoComplete != null) {
+                                    searchViewModel.setSearched(gpsComplete)
+                                    updateUiPageClicked()
+                                } else {
+                                    errorMsg = "서버 오류"
+                                    isLoadingState = false
+                                }
+                            } else {
+                                errorMsg = "서버 오류"
+                                isLoadingState = false
+                            }
+                        }
                     },
                     shape = RoundedCornerShape(0.dp),
                 ) {
@@ -198,28 +184,8 @@ fun GoogleMapSheet(
             verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
             horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
         ) {
-            when (searchUiState.errorMsg) {
-                "loading" -> Image(
-                    painter = painterResource(R.drawable.loading_img),
-                    contentDescription = stringResource(R.string.loading),
-                    modifier = Modifier.size(150.dp),
-                )
-
-                null -> {
-                    if (selectUiState.selectSearch != null) {
-                        SearchedTourAttrCard(selectUiState)
-                    }
-                }
-                else -> Text(
-                    text = searchUiState.errorMsg,
-                    textAlign = TextAlign.Center,
-                    lineHeight = 50.sp,    // 줄간 간격 = 왠만하면 fontSize 에 맞추도록 한다
-                    fontSize = 50.sp,
-                    style = MaterialTheme.typography.titleMedium,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(dimensionResource(R.dimen.padding_medium)),
-                )
+            if (selectUiState.selectSearch != null) {
+                SearchedTourAttrCard(selectUiState)
             }
         }
     }
@@ -241,10 +207,10 @@ fun GoogleMapSheet(
             }
         } else {
             Text(
-                text = "검색하면 지도가 나와용",
+                text = "검색하면\n지도가\n나옵니다.",
                 textAlign = TextAlign.Center,
-                lineHeight = 100.sp,    // 줄간 간격 = 왠만하면 fontSize 에 맞추도록 한다
-                fontSize = 100.sp,
+                lineHeight = 80.sp,    // 줄간 간격 = 왠만하면 fontSize 에 맞추도록 한다
+                fontSize = 80.sp,
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .fillMaxWidth()

@@ -20,13 +20,6 @@ class ViewModelSearch : ViewModel() {
         }
     }
 
-    /** setErrorMsg */
-    fun setErrorMsg (error: String?) {
-        _uiState.update { currentState ->
-            currentState.copy(errorMsg = error)
-        }
-    }
-
     /** setInOutChecker */
     fun setInOutChecker (check: String) {
         _uiState.update { currentState ->
