@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -100,15 +101,9 @@ fun DrawerContents (
             Text(text = "마이 페이지", fontSize = 25.sp)
         }
 
-        TextButton(onClick = {
-            userViewModel.previousScreenWasPageOneA(false)
-            navController.navigate(TravelScreen.Page1B.name)
-            scope.launch { drawerState.close() }
-        }) {
-            Text(text = "내 계획 임시", fontSize = 25.sp)
-        }
-
+        Spacer(modifier = Modifier.padding(2.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         TextButton(onClick = {
             userViewModel.previousScreenWasPageOneA(false)
@@ -121,7 +116,9 @@ fun DrawerContents (
             Text(text = "로그아웃", fontSize = 25.sp)
         }
 
+        Spacer(modifier = Modifier.padding(2.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         TextButton(onClick = {
             userViewModel.previousScreenWasPageOneA(false)
@@ -131,7 +128,9 @@ fun DrawerContents (
             Text(text = "여행 계획하기", fontSize = 25.sp)
         }
 
+        Spacer(modifier = Modifier.padding(2.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
 
         TextButton(onClick = {
             userViewModel.previousScreenWasPageOneA(false)

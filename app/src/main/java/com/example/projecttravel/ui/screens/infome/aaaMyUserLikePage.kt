@@ -37,6 +37,4 @@ fun MyUserLikePage(
             Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         }
     }
-
-
 }

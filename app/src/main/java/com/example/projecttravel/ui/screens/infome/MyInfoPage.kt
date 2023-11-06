@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.infome
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -56,7 +57,7 @@ fun MyInfoPage(
     navController: NavHostController,
     onNextButtonClicked: () -> Unit,
 ) {
-    val scope = rememberCoroutineScope()
+
 
     val userInfoListViewModel: ViewModelListUserInfo = viewModel(factory = ViewModelListUserInfo.UserInfoFactory)
     val userPlanListViewModel: ViewModelListPlan = viewModel(factory = ViewModelListPlan.PlanListFactory)
@@ -70,19 +71,6 @@ fun MyInfoPage(
     val companyUiState = (companyListViewModel.companyUiState as? CompanyUiState.CompanySuccess)
     val tradeUiState = (tradeListViewModel.tradeUiState as? TradeUiState.TradeSuccess)
 
-    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
-    var peopleErrorMsg by remember { mutableStateOf("") }
-    Surface {
-        when (isLoadingState) {
-            true -> GlobalLoadingDialog()
-            false -> TextMsgErrorDialog(
-                txtErrorMsg = peopleErrorMsg,
-                onDismiss = { isLoadingState = null })
-
-            else -> isLoadingState = null
-        }
-    }
-
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
@@ -92,66 +80,51 @@ fun MyInfoPage(
         if (userUiState.checkOtherUser != null) {
             val currentUserMenuId = userUiState.checkOtherUser.id
             val currentUserMenuEmail = userUiState.checkOtherUser.email
-            /** filtered Lists for User Menus */
+            val currentUserMenuName = userUiState.checkOtherUser.name
+            val currentUserMenuPicture = userUiState.checkOtherUser.picture
+            /** filtered Lists for User Menus (perfectly matching => equals) */
             val filteredInfoGraph = userInfoUiState?.userInfoList?.filter { userInfoItem ->
                 val idTag = userInfoItem.user
-                val boardMatchesId = idTag.contains(currentUserMenuId, ignoreCase = true)
+                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
                 boardMatchesId
             }
             val filteredPlanList = planListUiState?.planList?.filter { planItem ->
                 val emailTag = planItem.email
-                val boardMatchesId = emailTag.contains(currentUserMenuEmail, ignoreCase = true)
+                val boardMatchesId = emailTag.equals(currentUserMenuEmail, ignoreCase = true)
                 boardMatchesId
             }
             val filteredBoardList = boardUiState?.boardList?.filter { boardItem ->
                 val idTag = boardItem.userId
-                val boardMatchesId = idTag.contains(currentUserMenuId, ignoreCase = true)
+                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
                 boardMatchesId
             }
             val filteredCompanyList = companyUiState?.companyList?.filter { companyItem ->
                 val idTag = companyItem.userId
-                val companyMatchesId = idTag.contains(currentUserMenuId, ignoreCase = true)
+                val companyMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
                 companyMatchesId
             }
 
             val filteredTradeList = tradeUiState?.tradeList?.filter { tradeItem ->
                 val idTag = tradeItem.userId
-                val tradeMatchesId = idTag.contains(currentUserMenuId, ignoreCase = true)
+                val tradeMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
                 tradeMatchesId
             }
+
+            val filteredAllBoardCount = countAllBoardsOfUser(filteredBoardList,filteredCompanyList,filteredTradeList)
 
             /** User Menus */
             Column {
                 /** ================================================== */
                 /** UserInfos */
                 Column {
-                    Button(
-                        onClick = {
-                            scope.launch {
-                                isLoadingState = true
-                                val peopleDeferred = async { userUiState.currentLogin?.let { getPeopleLikeMe(it) } }
-                                val peopleComplete = peopleDeferred.await()
-                                if (peopleComplete != null) {
-                                    isLoadingState = null
-                                    userViewModel.setLikeUsers(peopleComplete)
-                                    onNextButtonClicked()
-                                } else {
-                                    peopleErrorMsg = "에러터짐"
-                                    isLoadingState = false
-                                }
-                            }
-                        },
-                    ) {
-                        Text("나랑 비슷한 성향 찾기")
-                    }
-                }
-                Column {
-                    Text(text = "현재 확인 중인 아이디", modifier = Modifier.padding(5.dp))
-                    Text(text = "현재 이름 : ${userUiState.checkOtherUser.name}", modifier = Modifier.padding(5.dp))
-                    Text(text = "현재 아이디 : ${userUiState.checkOtherUser.id}", modifier = Modifier.padding(5.dp))
-                    Text(text = "현재 이메일 : ${userUiState.checkOtherUser.email}", modifier = Modifier.padding(5.dp))
-                    if (userUiState.checkOtherUser.picture != null) Text(text = "현재 사진 : ${userUiState.checkOtherUser.picture}")
-                    Text(text = "현재 게시글 개수 : ${allBoardsCount(filteredBoardList,filteredCompanyList,filteredTradeList)}", modifier = Modifier.padding(5.dp))
+                    Spacer(modifier = Modifier.padding(5.dp))
+                    UserProfiles(
+                        currentUserInfo = userUiState.checkOtherUser,
+                        allBoardsCounts = filteredAllBoardCount,
+                        userUiState = userUiState,
+                        userViewModel = userViewModel,
+                        onNextButtonClicked = onNextButtonClicked,
+                    )
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
@@ -198,7 +171,7 @@ fun MyInfoPage(
     }
 }
 
-fun allBoardsCount(
+fun countAllBoardsOfUser(
     filteredBoardList: List<Board>?,
     filteredCompanyList: List<Company>?,
     filteredTradeList: List<Trade>?
