@@ -53,10 +53,13 @@ fun DrawerContents (
     scope: CoroutineScope,
 ) {
     var isLogOutState by remember { mutableStateOf(false) }
-
     Surface {
         if (isLogOutState) {
-            LogOutDialog(onDismissAlert = { isLogOutState = false }, onLogOutClicked = onLogOutClicked)
+            LogOutDialog(
+                userViewModel = userViewModel,
+                onDismissAlert = { isLogOutState = false },
+                onLogOutClicked = onLogOutClicked
+            )
         }
     }
 
@@ -106,11 +109,9 @@ fun DrawerContents (
         Spacer(modifier = Modifier.padding(2.dp))
 
         TextButton(onClick = {
-            userViewModel.previousScreenWasPageOneA(false)
             isLogOutState = true
             scope.launch {
                 drawerState.close()
-                userViewModel.resetUser()
             }
         }) {
             Text(text = "로그아웃", fontSize = 25.sp)
@@ -146,6 +147,7 @@ fun DrawerContents (
 /** LogOutDialog to ask whether to logout or not ====================*/
 @Composable
 fun LogOutDialog(
+    userViewModel: ViewModelUser,
     onLogOutClicked: () -> Unit,
     onDismissAlert: () -> Unit,
 ) {
@@ -158,9 +160,9 @@ fun LogOutDialog(
         },
         text = {
             Text(
-                text = "로그아웃 할꺼임",
-                fontSize = 50.sp,
-                lineHeight = 50.sp,
+                text = "로그아웃\n하시겠습니까?",
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
                     .padding(10.dp) // 원하는 여백을 추가).
@@ -175,6 +177,7 @@ fun LogOutDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
+                            userViewModel.resetUser()
                             dataStore.edit { preferences ->
                                 preferences[DataStore.emailKey] = ""
                                 preferences[DataStore.pwdKey] = ""

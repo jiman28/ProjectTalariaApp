@@ -186,6 +186,10 @@ fun TravelScreenHome(
                 ) {
                     HomePage(
                         userUiState = userUiState,
+                        userViewModel = userViewModel,
+                        onLogOutClicked = {
+                            navController.navigate(TravelScreen.Page0.name)
+                        },
                         onNextButtonClicked = {
                             navController.navigate(TravelScreen.Page2.name)
                         },

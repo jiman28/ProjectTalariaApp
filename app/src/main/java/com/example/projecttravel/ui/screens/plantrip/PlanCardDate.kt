@@ -52,42 +52,54 @@ fun PlanCardDate(
             modifier = Modifier
                 .padding(6.dp)
                 .shadow(elevation = 4.dp, shape = RoundedCornerShape(16.dp))
-                .width(width = 120.dp)
-                .height(200.dp)
+                .width(120.dp)
+                .height(240.dp)
                 .background(Color.White, RoundedCornerShape(16.dp)),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             // 날짜 표시
-            Text(
-                text = date.toString(),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(3.dp)
-            )
-            if (weatherResponseGet != null) {
-                AsyncImage(
-                    modifier = Modifier
-                        .size(80.dp)
-                        .clip(RoundedCornerShape(8.dp)),
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(
-                            weatherResponseGet.icon
-                        )
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.no_image_country),
-                    placeholder = painterResource(id = R.drawable.loading_img)
-                )
-            } else {
+            Column (
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(1f).padding(1.dp),
+            ) {
                 Text(
-                    text = "현재 데이터 없음",
+                    text = date.toString(),
                     fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(3.dp)
                 )
+            }
+            Column (
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
+                modifier = Modifier.weight(2f).padding(1.dp),
+            ) {
+                if (weatherResponseGet != null) {
+                    AsyncImage(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .clip(RoundedCornerShape(8.dp)),
+                        model = ImageRequest.Builder(context = LocalContext.current)
+                            .data(
+                                weatherResponseGet.icon
+                            )
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        error = painterResource(id = R.drawable.no_image_country),
+                        placeholder = painterResource(id = R.drawable.loading_img)
+                    )
+                } else {
+                    Text(
+                        text = "데이터 없음",
+                        fontSize = 15.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.padding(3.dp)
+                    )
+                }
             }
         }
     }

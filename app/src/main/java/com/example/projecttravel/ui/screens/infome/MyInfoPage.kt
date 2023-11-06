@@ -57,8 +57,6 @@ fun MyInfoPage(
     navController: NavHostController,
     onNextButtonClicked: () -> Unit,
 ) {
-
-
     val userInfoListViewModel: ViewModelListUserInfo = viewModel(factory = ViewModelListUserInfo.UserInfoFactory)
     val userPlanListViewModel: ViewModelListPlan = viewModel(factory = ViewModelListPlan.PlanListFactory)
     val boardListViewModel: ViewModelListBoard = viewModel(factory = ViewModelListBoard.BoardFactory)

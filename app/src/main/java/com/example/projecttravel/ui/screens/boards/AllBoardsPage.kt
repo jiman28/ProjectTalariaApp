@@ -238,11 +238,6 @@ fun AllBoardsPage(
                             NoArticlesFoundScreen()
                         }
                     }
-//                    else -> {
-//                        CheckReply(
-//                            contentPadding = PaddingValues(0.dp),
-//                        )
-//                    }
                 }
 
             // 검색 안했을때
@@ -301,11 +296,6 @@ fun AllBoardsPage(
                             NoArticlesFoundScreen()
                         }
                     }
-//                    else -> {
-//                        CheckReply(
-//                            contentPadding = PaddingValues(0.dp),
-//                        )
-//                    }
                 }
             }
         }

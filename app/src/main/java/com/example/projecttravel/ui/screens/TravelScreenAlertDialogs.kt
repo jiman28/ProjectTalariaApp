@@ -11,12 +11,19 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.datastore.preferences.core.edit
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore
+import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import kotlinx.coroutines.launch
 
 /** ===================================================================== */
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
@@ -121,6 +128,53 @@ fun TextMsgErrorDialog(
                 TextButton(
                     onClick = {
                         onDismiss()
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+            }
+        },
+    )
+}
+
+/** ===================================================================== */
+/** ResetConfirmDialog to ask whether to reset or not ====================*/
+@Composable
+fun LoginErrorDialog(
+    userViewModel: ViewModelUser,
+    onLogOutClicked: () -> Unit,
+) {
+    val scope = rememberCoroutineScope()
+    val context = LocalContext.current
+    val dataStore = (context).dataStore
+    AlertDialog(
+        onDismissRequest = {},
+        text = {
+            Text(
+                text = "로그인 과정에서\n오류가 발생했습니다.",
+                fontSize = 30.sp,
+                lineHeight = 30.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        scope.launch {
+                            userViewModel.resetUser()
+                            dataStore.edit { preferences ->
+                                preferences[DataStore.emailKey] = ""
+                                preferences[DataStore.pwdKey] = ""
+                            }
+                            onLogOutClicked()
+                        }
                     }
                 ) {
                     Text(text = "확인", fontSize = 20.sp)

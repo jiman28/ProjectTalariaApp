@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.home
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -8,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Button
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,16 +18,28 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.screens.LoginErrorDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageViewModel
 
 @Composable
 fun HomePage(
     userUiState: UserUiState,
+    userViewModel: ViewModelUser,
+    onLogOutClicked: () -> Unit,
     countryCardClicked: (CountryInfo) -> Unit,
     onNextButtonClicked: () -> Unit,    // 매개변수 추가
     modifier: Modifier = Modifier,
 ) {
+    if (userUiState.currentLogin == null) {
+        Surface {
+            LoginErrorDialog(
+                userViewModel = userViewModel,
+                onLogOutClicked = onLogOutClicked
+            )
+        }
+    }
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.SpaceBetween
