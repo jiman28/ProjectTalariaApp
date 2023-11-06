@@ -62,6 +62,7 @@ fun SearchGpsPage(
         Column(
             verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
             horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
         ) {
             /** Buttons */
             Column {

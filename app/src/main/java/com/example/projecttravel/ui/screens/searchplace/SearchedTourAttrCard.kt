@@ -1,12 +1,12 @@
 package com.example.projecttravel.ui.screens.searchplace
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -30,17 +30,19 @@ import com.example.projecttravel.data.uistates.SelectUiState
 fun SearchedTourAttrCard(
     selectUiState: SelectUiState,
 ) {
-    Column (
-        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+    Card(
+        modifier = Modifier.fillMaxWidth().padding(start = 5.dp, end = 5.dp, bottom = 10.dp),
+        shape = RoundedCornerShape(8.dp)
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
-            modifier = Modifier.padding(10.dp)
+            modifier = Modifier.fillMaxWidth().padding(start = 10.dp, end = 5.dp),
         ) {
             AsyncImage(
                 modifier = Modifier
+                    .weight(1f)
+                    .fillMaxWidth()
                     .size(50.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 model = ImageRequest.Builder(context = LocalContext.current)
@@ -55,6 +57,7 @@ fun SearchedTourAttrCard(
             Text(
                 text = selectUiState.selectSearch?.name.toString(),
                 modifier = Modifier
+                    .weight(4f)
                     .fillMaxWidth()
                     .padding(dimensionResource(R.dimen.padding_medium)),
                 style = MaterialTheme.typography.titleLarge,

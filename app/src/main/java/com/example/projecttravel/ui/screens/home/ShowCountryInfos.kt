@@ -87,7 +87,7 @@ private fun CountryListScreen(
                 countryInfo.countryName
             }
         ) { countryInfo ->
-            TravelCard(countryInfo = countryInfo, modifier = Modifier.fillMaxSize()) {
+            TravelCard(countryInfo = countryInfo) {
                 countryCardClicked(countryInfo)
             }
         }
@@ -97,12 +97,11 @@ private fun CountryListScreen(
 @Composable
 fun TravelCard(
     countryInfo: CountryInfo,
-    modifier: Modifier = Modifier,
     onClick: (CountryInfo) -> Unit,
 ) {
     var isCountryInfoDialogVisible by remember { mutableStateOf(false) }
     Card(
-        modifier = modifier,
+        modifier = Modifier.fillMaxSize(),
         shape = RoundedCornerShape(8.dp)
     ) {
         Column(
