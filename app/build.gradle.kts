@@ -86,7 +86,7 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
-    // JSoup
+    // JSoup - HTML Parser
     implementation("org.jsoup:jsoup:1.14.3")
 
     // datastore
@@ -95,9 +95,6 @@ dependencies {
 
     // Icons
     implementation("androidx.compose.material:material-icons-extended:1.5.4")
-
-    // reorder
-    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
 
     // Retrofit
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")

@@ -35,7 +35,6 @@ import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.home.HomePage
-import com.example.projecttravel.ui.screens.infome.MyHexaGraph
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
@@ -80,8 +79,7 @@ fun TravelScreenHome(
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen =
-        TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
+    val currentScreen = TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
 
     val userUiState by userViewModel.userUiState.collectAsState()
     val selectUiState by selectViewModel.selectUiState.collectAsState()
@@ -91,17 +89,17 @@ fun TravelScreenHome(
 
     /** State of topBar, set state to false on each currentScreens */
     var showTopBar by rememberSaveable { mutableStateOf(true) }
-    showTopBar = when (currentScreen) {
-        TravelScreen.Page0 -> false     // on this screen topBar should be hidden
-        TravelScreen.Page0A -> false    // on this screen topBar should be hidden
-        TravelScreen.Page0B -> false    // on this screen topBar should be hidden
-        TravelScreen.Page2 -> false     // on this screen topBar should be hidden
-        TravelScreen.Page2A -> false    // on this screen topBar should be hidden
-        TravelScreen.Page3 -> false     // on this screen topBar should be hidden
-        TravelScreen.Page3A -> false    // on this screen topBar should be hidden
-        TravelScreen.Page4A -> false    // on this screen topBar should be hidden
-        TravelScreen.Page4B -> false    // on this screen topBar should be hidden
-        else -> true    // in all other cases show bottom bar
+    showTopBar = when (currentScreen) { // on this screens topBar should be hidden
+        TravelScreen.Page0 -> false
+        TravelScreen.Page0A -> false
+        TravelScreen.Page0B -> false
+        TravelScreen.Page2 -> false
+        TravelScreen.Page2A -> false
+        TravelScreen.Page3 -> false
+        TravelScreen.Page3A -> false
+        TravelScreen.Page4A -> false
+        TravelScreen.Page4B -> false
+        else -> true // in all other cases show bottom bar
     }
 
     /** All Screens => All contents */
@@ -162,7 +160,7 @@ fun TravelScreenHome(
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = { },    // 바로 전 페이지로 이동
+                    onBack = { },    // 바로 전 페이지로 이동을 막아야함
                 )
             }
 
@@ -207,79 +205,34 @@ fun TravelScreenHome(
             }
             /** 1A. 내 정보 화면 ====================*/
             composable(route = TravelScreen.Page1A.name) {
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        DrawerContents(
-                            onLogOutClicked = {
-                                navController.navigate(TravelScreen.Page0.name)
-                            },
-                            userUiState = userUiState,
-                            userViewModel = userViewModel,
-                            navController = navController,
-                            drawerState = drawerState,
-                            scope = scope,
-                        )
+                MyInfoPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    boardSelectUiState = boardSelectUiState,
+                    boardSelectViewModel = boardSelectViewModel,
+                    navController = navController,
+                    onNextButtonClicked = { navController.navigate(TravelScreen.Page1C.name) },
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        navController.navigateUp()      // 바로 직전 페이지로 이동 (딱히 필요한 동작을 하지 않기 때문)
+//                            navController.navigate(TravelScreen.Page1.name)
+                        userViewModel.previousScreenWasPageOneA(false)
                     },
-                ) {
-                    MyInfoPage(
-                        userUiState = userUiState,
-                        userViewModel = userViewModel,
-                        planUiState = planUiState,
-                        boardSelectUiState = boardSelectUiState,
-                        boardSelectViewModel = boardSelectViewModel,
-                        navController = navController,
-                        onNextButtonClicked = { navController.navigate(TravelScreen.Page1C.name) },
-                    )
-                    BackHandler(
-                        enabled = drawerState.isClosed,
-                        onBack = {
-                            navController.navigate(TravelScreen.Page1.name)
-                            userViewModel.previousScreenWasPageOneA(false)
-                        },
-                    )
-                }
+                )
             }
-            /** 1B. 내 여행 계획 화면 ====================*/
-            composable(route = TravelScreen.Page1B.name) {
-                MyHexaGraph(
+            /** 1C. 나랑 비슷한 친구들 찾기 ====================*/
+            composable(route = TravelScreen.Page1C.name) {
+                MyUserLikePage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = {
-                        navController.navigateUp()
-                    },
+                    onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
                 )
-            }
-
-            /** 1C. 나랑 비슷한 친구들 찾기 ====================*/
-            composable(route = TravelScreen.Page1C.name) {
-                ModalNavigationDrawer(
-                    drawerState = drawerState,
-                    drawerContent = {
-                        DrawerContents(
-                            onLogOutClicked = {
-                                navController.navigate(TravelScreen.Page0.name)
-                            },
-                            userUiState = userUiState,
-                            userViewModel = userViewModel,
-                            navController = navController,
-                            drawerState = drawerState,
-                            scope = scope,
-                        )
-                    },
-                ) {
-                    MyUserLikePage(
-                        userUiState = userUiState,
-                        userViewModel = userViewModel,
-                    )
-                    BackHandler(
-                        enabled = drawerState.isClosed,
-                        onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
-                    )
-                }
             }
 
             /** ============================================================ */
@@ -395,9 +348,9 @@ fun TravelScreenHome(
                     enabled = drawerState.isClosed,
                     onBack = {
                         if (userUiState.previousScreenWasPageOneA) {
-                            navController.navigate(TravelScreen.Page1A.name)
+                            navController.navigate(TravelScreen.Page1A.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
                         } else {
-                            navController.navigate(TravelScreen.Page4.name)
+                            navController.navigate(TravelScreen.Page4.name)    // MainBoard 에서 글을 보는 경우 Back 할 시 다시 MainBoard 로 가야함.
                         }
                     },
                 )

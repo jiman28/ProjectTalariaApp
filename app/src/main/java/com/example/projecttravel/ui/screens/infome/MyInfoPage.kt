@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.infome
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
@@ -81,7 +82,12 @@ fun MyInfoPage(
             val currentUserMenuName = userUiState.checkOtherUser.name
             val currentUserMenuPicture = userUiState.checkOtherUser.picture
             /** filtered Lists for User Menus (perfectly matching => equals) */
-            val filteredInfoGraph = userInfoUiState?.userInfoList?.filter { userInfoItem ->
+//            val filteredInfoGraph = userInfoUiState?.userInfoList?.filter { userInfoItem ->
+//                val idTag = userInfoItem.user
+//                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
+//                boardMatchesId
+//            }
+            val filteredInfoGraph = userInfoUiState?.userInfoList?.firstOrNull { userInfoItem ->
                 val idTag = userInfoItem.user
                 val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
                 boardMatchesId
@@ -114,16 +120,23 @@ fun MyInfoPage(
             Column {
                 /** ================================================== */
                 /** UserInfos */
-                Column {
+                Row {
+                    Column {
+                        UserProfiles(
+                            filteredInfoGraph = filteredInfoGraph,
+                            currentUserInfo = userUiState.checkOtherUser,
+                            allBoardsCounts = filteredAllBoardCount,
+                            userUiState = userUiState,
+                            userViewModel = userViewModel,
+                            navController = navController,
+                            onNextButtonClicked = onNextButtonClicked,
+                        )
+                    }
+
                     Spacer(modifier = Modifier.padding(5.dp))
-                    UserProfiles(
-                        currentUserInfo = userUiState.checkOtherUser,
-                        allBoardsCounts = filteredAllBoardCount,
-                        userUiState = userUiState,
-                        userViewModel = userViewModel,
-                        navController = navController,
-                        onNextButtonClicked = onNextButtonClicked,
-                    )
+                    Column {
+
+                    }
                 }
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 

@@ -52,3 +52,12 @@ data class CheckOtherUserById (
     val id: String,
 )
 
+@Serializable
+data class UserRadarChartInfo (
+    val sights: Float,
+    val nature: Float,
+    val culture: Float,
+    val history: Float,
+    val food: Float,
+    val religion: Float,
+)
