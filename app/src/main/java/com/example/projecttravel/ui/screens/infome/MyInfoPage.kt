@@ -121,6 +121,7 @@ fun MyInfoPage(
                         allBoardsCounts = filteredAllBoardCount,
                         userUiState = userUiState,
                         userViewModel = userViewModel,
+                        navController = navController,
                         onNextButtonClicked = onNextButtonClicked,
                     )
                 }

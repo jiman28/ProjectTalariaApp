@@ -30,6 +30,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
@@ -37,6 +38,7 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
+import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import kotlinx.coroutines.async
@@ -48,6 +50,7 @@ fun UserProfiles(
     allBoardsCounts: Int,
     userUiState: UserUiState,
     userViewModel: ViewModelUser,
+    navController: NavHostController,
     onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -117,6 +120,7 @@ fun UserProfiles(
                         .clip(RoundedCornerShape(50.dp))
                         .padding(2.dp),
                     onClick = {
+                        navController.navigate(TravelScreen.Page1B.name)
                     },
                 ) {
                     Text(text = "성향")
