@@ -66,8 +66,7 @@ fun HomePage(
         }
         Column(
         ) {
-            val homepageViewModel: HomepageViewModel =
-                viewModel(factory = HomepageViewModel.Factory)
+            val homepageViewModel: HomepageViewModel = viewModel(factory = HomepageViewModel.Factory)
             ShowCountryInfos(
                 homepageUiState = homepageViewModel.homepageUiState,
                 countryCardClicked = countryCardClicked,

@@ -28,6 +28,7 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -36,6 +37,7 @@ fun SavePlanDialog(
     userUiState: UserUiState,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
+    selectViewModel: ViewModelSelect,
     onPlanCompleteClicked: () -> Unit = {},
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -120,6 +122,7 @@ fun SavePlanDialog(
                                     // 모든 작업이 완료되었을 때만 실행합니다.
                                     if (isPlanComplete) {
                                         planViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
+                                        selectViewModel.resetAllSelectUiState() // select 관련 창들을 전부 초기화
                                         onDismiss()
                                         onPlanCompleteClicked()
                                     } else {

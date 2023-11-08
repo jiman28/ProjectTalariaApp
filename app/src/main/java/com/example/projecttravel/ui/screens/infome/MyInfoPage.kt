@@ -2,20 +2,12 @@ package com.example.projecttravel.ui.screens.infome
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
@@ -29,10 +21,9 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
-import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.TextMsgErrorDialog
+import com.example.projecttravel.ui.screens.GlobalErrorScreen
+import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 import com.example.projecttravel.ui.screens.TravelScreen
-import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
@@ -45,8 +36,6 @@ import com.example.projecttravel.ui.screens.viewmodels.user.PlanListUiState
 import com.example.projecttravel.ui.screens.viewmodels.user.UserInfoUiState
 import com.example.projecttravel.ui.screens.viewmodels.user.ViewModelListPlan
 import com.example.projecttravel.ui.screens.viewmodels.user.ViewModelListUserInfo
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 @Composable
 fun MyInfoPage(
@@ -65,7 +54,7 @@ fun MyInfoPage(
     val tradeListViewModel: ViewModelListTrade = viewModel(factory = ViewModelListTrade.TradeFactory)
 
     val userInfoUiState = (userInfoListViewModel.userInfoUiState as? UserInfoUiState.UserInfoSuccess)
-    val planListUiState = (userPlanListViewModel.planListUiState as? PlanListUiState.PlanListSuccess)
+//    val planListUiState = (userPlanListViewModel.planListUiState as? PlanListUiState.PlanListSuccess)
     val boardUiState = (boardListViewModel.boardUiState as? BoardUiState.BoardSuccess)
     val companyUiState = (companyListViewModel.companyUiState as? CompanyUiState.CompanySuccess)
     val tradeUiState = (tradeListViewModel.tradeUiState as? TradeUiState.TradeSuccess)
@@ -82,19 +71,9 @@ fun MyInfoPage(
             val currentUserMenuName = userUiState.checkOtherUser.name
             val currentUserMenuPicture = userUiState.checkOtherUser.picture
             /** filtered Lists for User Menus (perfectly matching => equals) */
-//            val filteredInfoGraph = userInfoUiState?.userInfoList?.filter { userInfoItem ->
-//                val idTag = userInfoItem.user
-//                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
-//                boardMatchesId
-//            }
             val filteredInfoGraph = userInfoUiState?.userInfoList?.firstOrNull { userInfoItem ->
                 val idTag = userInfoItem.user
                 val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
-                boardMatchesId
-            }
-            val filteredPlanList = planListUiState?.planList?.filter { planItem ->
-                val emailTag = planItem.email
-                val boardMatchesId = emailTag.equals(currentUserMenuEmail, ignoreCase = true)
                 boardMatchesId
             }
             val filteredBoardList = boardUiState?.boardList?.filter { boardItem ->
@@ -168,10 +147,22 @@ fun MyInfoPage(
                         }
 
                         R.string.userTabMenuPlans -> {
-                            UserPlanList(
-                                filteredPlanList = filteredPlanList,
-                                contentPadding = PaddingValues(0.dp),
-                            )
+                            when (userPlanListViewModel.planListUiState) {
+                                is PlanListUiState.Loading -> GlobalLoadingScreen()
+                                is PlanListUiState.PlanListSuccess -> {
+                                    val planListUiState = (userPlanListViewModel.planListUiState as PlanListUiState.PlanListSuccess)
+                                    val filteredPlanList = planListUiState.planList.filter { planItem ->
+                                        val emailTag = planItem.email
+                                        val boardMatchesId = emailTag.equals(currentUserMenuEmail, ignoreCase = true)
+                                        boardMatchesId
+                                    }
+                                    UserPlanList(
+                                        navController = navController,
+                                        filteredPlanList = filteredPlanList,
+                                    )
+                                }
+                                else -> GlobalErrorScreen(userPlanListViewModel::getPlanList)
+                            }
                         }
                     }
                 }

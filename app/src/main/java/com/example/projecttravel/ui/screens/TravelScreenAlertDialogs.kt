@@ -1,12 +1,15 @@
 package com.example.projecttravel.ui.screens
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -16,14 +19,61 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
+import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import kotlinx.coroutines.launch
+
+/** The screen displaying the loading message.*/
+@Composable
+fun GlobalLoadingScreen() {
+//    Image(
+//        painter = painterResource(R.drawable.loading_img),
+//        contentDescription = stringResource(R.string.loading),
+//        modifier = Modifier.size(200.dp)
+//    )
+    Column (
+        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.padding(15.dp))
+        Column {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .size(200.dp)
+                    .padding(5.dp),
+                color = Color.Blue
+            )
+        }
+    }
+}
+
+/** The screen displaying error message with re-attempt button.*/
+@Composable
+fun GlobalErrorScreen(retryAction: () -> Unit) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Spacer(modifier = Modifier.padding(15.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
+        )
+        Text(stringResource(R.string.loading_failed))
+        Button(onClick = retryAction) {
+            Text(stringResource(R.string.retry))
+        }
+    }
+}
 
 /** ===================================================================== */
 /** ResetConfirmDialog to ask whether to reset or not ====================*/

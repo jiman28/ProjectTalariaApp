@@ -13,11 +13,13 @@ import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.user.UserPlanListRepository
 import com.example.projecttravel.model.PlansDataRead
 import kotlinx.coroutines.launch
+import retrofit2.HttpException
+import java.io.IOException
 
 sealed interface PlanListUiState {
     data class PlanListSuccess(val planList: List<PlansDataRead>) : PlanListUiState
-//    object Error : PlanListUiState
-//    object Loading : PlanListUiState
+    object Error : PlanListUiState
+    object Loading : PlanListUiState
 }
 
 class ViewModelListPlan(private val userPlanListRepository: UserPlanListRepository) : ViewModel() {
@@ -29,31 +31,31 @@ class ViewModelListPlan(private val userPlanListRepository: UserPlanListReposito
         getPlanList()
     }
 
-    fun getPlanList() {
-        viewModelScope.launch {
-            try {
-                val planList = userPlanListRepository.getUserPlansList()
-                planListUiState = PlanListUiState.PlanListSuccess(planList)
-                Log.d("jimanLog=111", "$planList")
-            } catch (e: Exception) {
-                // Handle the error case if necessary
-                Log.d("jimanLog=111", "${e.message}")
-            }
-        }
-    }
-
-//    fun getBoard() {
+//    fun getPlanList() {
 //        viewModelScope.launch {
-//            boardUiState = BoardUiState.Loading
-//            boardUiState = try {
-//                BoardUiState.BoardSuccess(boardListRepository.getBoardList())
-//            } catch (e: IOException) {
-//                BoardUiState.Error
-//            } catch (e: HttpException) {
-//                BoardUiState.Error
+//            try {
+//                val planList = userPlanListRepository.getUserPlansList()
+//                planListUiState = PlanListUiState.PlanListSuccess(planList)
+//                Log.d("jimanLog=111", "$planList")
+//            } catch (e: Exception) {
+//                // Handle the error case if necessary
+//                Log.d("jimanLog=111", "${e.message}")
 //            }
 //        }
 //    }
+
+    fun getPlanList() {
+        viewModelScope.launch {
+            planListUiState = PlanListUiState.Loading
+            planListUiState = try {
+                PlanListUiState.PlanListSuccess(userPlanListRepository.getUserPlansList())
+            } catch (e: IOException) {
+                PlanListUiState.Error
+            } catch (e: HttpException) {
+                PlanListUiState.Error
+            }
+        }
+    }
 
     companion object {
         val PlanListFactory: ViewModelProvider.Factory = viewModelFactory {

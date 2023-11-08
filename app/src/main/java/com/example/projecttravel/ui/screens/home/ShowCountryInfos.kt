@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -13,7 +12,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -40,6 +38,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.ui.screens.GlobalErrorScreen
+import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageUiState
 
 @Composable
@@ -51,7 +51,7 @@ fun ShowCountryInfos(
     countryCardClicked: (CountryInfo) -> Unit
 ) {
     when (homepageUiState) {
-        is HomepageUiState.Loading -> LoadingScreen(modifier.size(200.dp))
+        is HomepageUiState.Loading -> GlobalLoadingScreen()
         is HomepageUiState.Success ->
             CountryListScreen(
                 countryInfo = homepageUiState.countryInfo,
@@ -65,7 +65,7 @@ fun ShowCountryInfos(
                 countryCardClicked = countryCardClicked // countryCardClicked 함수를 전달
             )
 
-        else -> ErrorScreen(retryAction, modifier)
+        else -> GlobalErrorScreen(retryAction)
     }
 }
 
@@ -208,32 +208,4 @@ fun CountryInfoDialog(
             }
         },
     )
-}
-
-/** The home screen displaying the loading message.*/
-@Composable
-fun LoadingScreen(modifier: Modifier = Modifier) {
-    Image(
-        painter = painterResource(R.drawable.loading_img),
-        contentDescription = stringResource(R.string.loading),
-        modifier = modifier
-    )
-}
-
-/** The home screen displaying error message with re-attempt button.*/
-@Composable
-fun ErrorScreen(retryAction: () -> Unit, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
-        )
-        Text(stringResource(R.string.loading_failed))
-        Button(onClick = retryAction) {
-            Text(stringResource(R.string.retry))
-        }
-    }
 }

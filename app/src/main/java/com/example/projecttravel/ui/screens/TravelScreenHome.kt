@@ -217,8 +217,8 @@ fun TravelScreenHome(
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = {
-                        navController.navigateUp()      // 바로 직전 페이지로 이동 (딱히 필요한 동작을 하지 않기 때문)
-//                            navController.navigate(TravelScreen.Page1.name)
+//                        navController.navigateUp()      // 바로 직전 페이지로 이동 (딱히 필요한 동작을 하지 않기 때문)
+                        navController.navigate(TravelScreen.Page1.name)
                         userViewModel.previousScreenWasPageOneA(false)
                     },
                 )
@@ -275,6 +275,7 @@ fun TravelScreenHome(
                     userViewModel = userViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
+                    selectViewModel = selectViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
                     onPlanCompleteClicked = { navController.navigate(TravelScreen.Page1.name) },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },

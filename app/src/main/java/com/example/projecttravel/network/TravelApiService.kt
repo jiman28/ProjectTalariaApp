@@ -102,9 +102,14 @@ interface TravelApiService {
     @POST("sendAttrCity")
     fun getDateCityAttr(@Body getAttrWeather: GetAttrWeather): Call<List<SpotDtoResponse>>
 
-    // delete Article
+    // save plan
     @POST("saveplan")
-    fun addplan(@Body plansData: PlansData): Call<Boolean>
+    fun addPlan(@Body plansData: PlansData): Call<Boolean>
+
+    // delete plan
+    @POST("deleteplan")
+    @FormUrlEncoded
+    fun deletePlan(@Field("planId") planId: String,): Call<String>
 
 
     // Board DB ==============================

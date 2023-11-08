@@ -24,6 +24,7 @@ import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 
 @Composable
 fun PlanPageButtons (
@@ -31,6 +32,7 @@ fun PlanPageButtons (
     userViewModel: ViewModelUser,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
+    selectViewModel: ViewModelSelect,
     onCancelButtonClicked: () -> Unit,
     onPlanCompleteClicked: () -> Unit,
 ) {
@@ -85,6 +87,7 @@ fun PlanPageButtons (
                     userUiState = userUiState,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
+                    selectViewModel = selectViewModel,
                     onPlanCompleteClicked = onPlanCompleteClicked,
                     onDismiss = {
                         isSavePlanDialogVisible = false

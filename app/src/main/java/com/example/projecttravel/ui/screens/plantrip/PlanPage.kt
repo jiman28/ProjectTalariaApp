@@ -30,6 +30,7 @@ import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 
 @Composable
 fun PlanPage(
@@ -37,6 +38,7 @@ fun PlanPage(
     userViewModel: ViewModelUser,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
+    selectViewModel: ViewModelSelect,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
@@ -55,6 +57,7 @@ fun PlanPage(
                 userViewModel = userViewModel,
                 planUiState = planUiState,
                 planViewModel = planViewModel,
+                selectViewModel = selectViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,
                 onPlanCompleteClicked = onPlanCompleteClicked,
             )
