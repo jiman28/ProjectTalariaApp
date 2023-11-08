@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 // Container for saving to Server
 @Serializable
 data class PlansData (
-    var planName: String?,
+    var planName: String,
     var email: String,
     var startDay: String,
     var endDay: String,
@@ -54,7 +54,8 @@ data class GetAttrWeather (
 // Container for reading from Server in MyPage
 @Serializable
 data class PlansDataRead (
-    val planName: String?,
+    var id: String,
+    val planName: String,
     val email: String,
     val startDay: String,
     val endDay: String,

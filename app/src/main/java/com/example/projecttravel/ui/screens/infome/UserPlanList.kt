@@ -41,6 +41,7 @@ fun UserPlanList(
         if (filteredPlanList != null) {
             if (filteredPlanList.isNotEmpty()) {
                 filteredPlanList.forEach { userPlan ->
+                    Text(text = "0. id = ${userPlan.id}")
                     Text(text = "1. email = ${userPlan.email}")
                     Text(text = "2. planName = ${userPlan.planName}")
                     Text(text = "3. endDay = ${userPlan.endDay}")
