@@ -18,16 +18,21 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
+import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
+import com.example.projecttravel.ui.screens.select.selectdialogs.CancelSelectDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.ResetConfirmDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 
 @Composable
 fun SelectPageButtons (
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     selectUiState: SelectUiState,
@@ -35,6 +40,8 @@ fun SelectPageButtons (
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
 ) {
+    var isCancelSelectDialogVisible by remember { mutableStateOf(false) }
+
     var isResetDialogVisible by remember { mutableStateOf(false) }
     var isPlanConfirmVisible by remember { mutableStateOf(false) }
 
@@ -58,9 +65,19 @@ fun SelectPageButtons (
             modifier = Modifier
                 .weight(1f)
                 .padding(3.dp),
-            onClick = onCancelButtonClicked
+            onClick = { isCancelSelectDialogVisible = true }
         ) {
             Text(stringResource(R.string.cancel_button))
+            if (isCancelSelectDialogVisible) {
+                CancelSelectDialog(
+                    selectViewModel = selectViewModel,
+                    userViewModel = userViewModel,
+                    onCancelButtonClicked = onCancelButtonClicked,
+                    onDismiss = {
+                        isCancelSelectDialogVisible = false
+                    }
+                )
+            }
         }
         /** Reset all selected options ====================*/
         OutlinedButton(
@@ -125,5 +142,11 @@ fun SelectPageButtons (
                 )
             }
         }
+    }
+
+    /** ================================================== */
+    /** Bottom BackHandler Click Action ====================*/
+    if (userUiState.isBackHandlerClick) {
+        isCancelSelectDialogVisible = true
     }
 }

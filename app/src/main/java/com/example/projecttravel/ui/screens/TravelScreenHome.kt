@@ -35,12 +35,12 @@ import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.home.HomePage
+import com.example.projecttravel.ui.screens.infomeplan.CheckMyPlanPage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
-import com.example.projecttravel.ui.screens.infome.MyUserLikePage
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
@@ -55,7 +55,6 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page1(title = R.string.page1),
     Page1A(title = R.string.pageUser),
     Page1B(title = R.string.pageUserPlans),
-    Page1C(title = R.string.pageUsersLike),
     Page2(title = R.string.page2),
     Page2A(title = R.string.pageGps),
     Page3(title = R.string.page3),
@@ -79,7 +78,8 @@ fun TravelScreenHome(
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen = TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
+    val currentScreen =
+        TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
 
     val userUiState by userViewModel.userUiState.collectAsState()
     val selectUiState by selectViewModel.selectUiState.collectAsState()
@@ -92,6 +92,8 @@ fun TravelScreenHome(
     showTopBar = when (currentScreen) { // on this screens topBar should be hidden
         TravelScreen.Page0 -> false
         TravelScreen.Page0A -> false
+        TravelScreen.Page1A -> false
+        TravelScreen.Page1B -> false
         TravelScreen.Page0B -> false
         TravelScreen.Page2 -> false
         TravelScreen.Page2A -> false
@@ -203,35 +205,40 @@ fun TravelScreenHome(
                     ExitAppWhenBackOnPressed(drawerState)
                 }
             }
-            /** 1A. 내 정보 화면 ====================*/
+            /** 1A. 내 정보 화면 (다른 유저 혼용) ====================*/
             composable(route = TravelScreen.Page1A.name) {
                 MyInfoPage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
                     planUiState = planUiState,
+                    planViewModel = planViewModel,
                     boardSelectUiState = boardSelectUiState,
                     boardSelectViewModel = boardSelectViewModel,
                     navController = navController,
-                    onNextButtonClicked = { navController.navigate(TravelScreen.Page1C.name) },
+                    onNextButtonClicked = { navController.navigate(TravelScreen.Page1B.name) },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = {
-//                        navController.navigateUp()      // 바로 직전 페이지로 이동 (딱히 필요한 동작을 하지 않기 때문)
                         navController.navigate(TravelScreen.Page1.name)
                         userViewModel.previousScreenWasPageOneA(false)
                     },
                 )
             }
-            /** 1C. 나랑 비슷한 친구들 찾기 ====================*/
-            composable(route = TravelScreen.Page1C.name) {
-                MyUserLikePage(
+            /** 1B. 내가 만든 계획 확인 (다른 유저 혼용) ====================*/
+            composable(route = TravelScreen.Page1B.name) {
+                CheckMyPlanPage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    onBackButtonClicked = {
+                        navController.navigate(TravelScreen.Page1A.name)
+                    },
+                    onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
                 BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigateUp() },    // 바로 전 페이지로 이동
+                    onBack = { navController.navigate(TravelScreen.Page1A.name) },    // 바로 전 페이지로 이동
                 )
             }
 
@@ -239,6 +246,8 @@ fun TravelScreenHome(
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
                 SelectPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectUiState = selectUiState,
@@ -248,8 +257,8 @@ fun TravelScreenHome(
                     onGpsClicked = { navController.navigate(TravelScreen.Page2A.name) },
                 )
                 BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page1.name) },
+                    onBack = { userViewModel.setBackHandlerClick(true) },
+//                    onBack = { navController.navigate(TravelScreen.Page1.name) },
                 )
             }
             /** 2-1. GPS 선택 화면 ====================*/
@@ -287,12 +296,21 @@ fun TravelScreenHome(
             /** 3-1. 경로 확인 화면 ====================*/
             composable(route = TravelScreen.Page3A.name) {
                 RouteGpsPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
                     planUiState = planUiState,
-                    onBackButtonClicked = { navController.navigate(TravelScreen.Page3.name) },
+                    planViewModel = planViewModel,
+                    onBackButtonClicked = {
+                        planViewModel.setGpsPage(null)
+                        navController.navigateUp()
+                    },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = { navController.navigate(TravelScreen.Page3.name) },
+                    onBack = {
+                        planViewModel.setGpsPage(null)
+                        navController.navigateUp()
+                    },
                 )
             }
 

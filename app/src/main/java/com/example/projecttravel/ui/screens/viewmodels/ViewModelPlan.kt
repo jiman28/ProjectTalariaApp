@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.model.CheckSingleDayTrip
 import com.example.projecttravel.model.TourAttractionAll
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.model.SpotDtoResponse
@@ -143,6 +144,13 @@ class ViewModelPlan : ViewModel() {
             val destinationSpotDtoResponse = updatedAttrByRandom.find { it.date == destinationDate.toString() }
             (destinationSpotDtoResponse?.list as MutableList<SpotDto>).add(spotDtoToMove)
             currentState.copy(dateToAttrByCity = updatedAttrByRandom)
+        }
+    }
+
+    /** setGpsPage Object */
+    fun setGpsPage(singleDay: CheckSingleDayTrip?) {
+        _uiState.update { currentState ->
+            currentState.copy(checkSingleDayGps = singleDay)
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.plantrip.plandialogs
+package com.example.projecttravel.ui.screens.select.selectdialogs
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -12,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 
 /** ===================================================================== */
-/** ResetPlanDialog to ask whether to select other plans or not ====================*/
+/** CancelSelectDialog to ask whether to cancel Selection and reset All ====================*/
 @Composable
-fun ResetPlanDialog(
-    planViewModel: ViewModelPlan,
+fun CancelSelectDialog(
+    selectViewModel: ViewModelSelect,
     userViewModel: ViewModelUser,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onDismiss: () -> Unit,
@@ -31,7 +31,7 @@ fun ResetPlanDialog(
         },
         text = {
             Text(
-                text = "관광지를\n다시 고릅니다",
+                text = "취소하시겠습니까?\n취소하면 지금까지 고른 것들이 모두 초기화됩니다.",
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
@@ -46,7 +46,7 @@ fun ResetPlanDialog(
             ) {
                 TextButton(
                     onClick = {
-                        planViewModel.resetAllPlanUiState()
+                        selectViewModel.resetAllSelectUiState()
                         userViewModel.setBackHandlerClick(false)
                         onCancelButtonClicked()
                         onDismiss()

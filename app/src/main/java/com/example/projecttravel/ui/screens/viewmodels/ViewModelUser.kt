@@ -3,7 +3,9 @@ package com.example.projecttravel.ui.screens.viewmodels
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.SendSignIn
+import com.example.projecttravel.model.SpotDtoResponseRead
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -42,13 +44,26 @@ class ViewModelUser : ViewModel() {
         }
     }
 
+    /** setUserPageInfo Object */
+    fun setCheckUserPlanDataPage (currentPlan: PlansDataRead?) {
+        _uiState.update { currentState ->
+            currentState.copy( checkMyPageTrip = currentPlan)
+        }
+    }
+
+    /** setUserPageInfo Object */
+    fun setUserPlanDate (currentPlanDate: String?) {
+        _uiState.update { currentState ->
+            currentState.copy( currentMyPlanDate = currentPlanDate)
+        }
+    }
+
     /** setUserPageTab Object */
     fun setUserPageTab (currentTab: Int) {
         _uiState.update { currentState ->
             currentState.copy( currentSelectedUserTab = currentTab)
         }
     }
-
 
     /** ========================================   */
     /** setPreviousPage1A Object */

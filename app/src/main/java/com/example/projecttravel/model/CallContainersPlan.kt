@@ -16,7 +16,7 @@ data class PlansData (
 data class SpotDtoResponse(
     var date: String,
     var list: List<SpotDto>
-)
+): CheckSingleDayTrip
 
 @Serializable
 data class SpotDto (
@@ -66,7 +66,7 @@ data class PlansDataRead (
 data class SpotDtoResponseRead(
     val date: String,
     val list: List<SpotDtoRead>
-)
+): CheckSingleDayTrip
 
 @Serializable
 data class SpotDtoRead (
@@ -78,3 +78,7 @@ data class SpotDtoRead (
     val inOut: Int,
     val cityId: Int,
 )
+
+// Container for checking Single Day
+interface CheckSingleDayTrip {
+}

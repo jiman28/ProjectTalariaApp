@@ -12,11 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import java.time.LocalDate
 
 @Composable
 fun PlanDateList(
+    allAttrList: List<SpotDtoResponse>,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     onDateClick: (LocalDate) -> Unit,
@@ -24,7 +26,7 @@ fun PlanDateList(
     val sortedDates = planUiState.dateToSelectedTourAttrMap.keys.sorted()
     LazyRow(
         modifier = Modifier
-            .height(120.dp)
+            .height(160.dp)
             .fillMaxWidth()
             .background(
                 Color.LightGray,
@@ -33,24 +35,30 @@ fun PlanDateList(
         horizontalArrangement = Arrangement.Center
     ) {
         items(sortedDates) { date ->
-            val weatherResponseGet =
-                planUiState.dateToWeather.find { it.day == date.toString() }
-            if (weatherResponseGet != null) {
-                PlanCardDate(
-                    date = date,
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    weatherResponseGet = weatherResponseGet,
-                    onClick = { onDateClick(date) } // Update selectedPlanDate
-                )
-            } else {
-                PlanCardDate(
-                    date = date,
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    weatherResponseGet = null,
-                    onClick = { onDateClick(date) } // Update selectedPlanDate
-                )
+            val weatherResponseGet = planUiState.dateToWeather.find { it.day == date.toString() }
+            val allAttrListByDate = allAttrList.find { it.date == date.toString() }
+            val allAttrListSize = allAttrListByDate?.list?.size
+
+            if (allAttrListSize != null) {
+                if (weatherResponseGet != null) {
+                    PlanCardDate(
+                        date = date,
+                        size = allAttrListSize,
+                        planUiState = planUiState,
+                        planViewModel = planViewModel,
+                        weatherResponseGet = weatherResponseGet,
+                        onClick = { onDateClick(date) } // Update selectedPlanDate
+                    )
+                } else {
+                    PlanCardDate(
+                        date = date,
+                        size = allAttrListSize,
+                        planUiState = planUiState,
+                        planViewModel = planViewModel,
+                        weatherResponseGet = null,
+                        onClick = { onDateClick(date) } // Update selectedPlanDate
+                    )
+                }
             }
         }
     }

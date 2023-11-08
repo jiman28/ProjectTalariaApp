@@ -36,7 +36,9 @@ import com.example.projecttravel.model.UserInfo
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
+import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
+import com.example.projecttravel.ui.screens.infome.infodialog.UserSimilarToMeDialog
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -49,7 +51,6 @@ fun UserProfiles(
     userUiState: UserUiState,
     userViewModel: ViewModelUser,
     navController: NavHostController,
-    onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
 
@@ -70,7 +71,20 @@ fun UserProfiles(
     if (isMyHexaGraph && filteredInfoGraph != null) {
         MyInterestGraph(
             filteredInfoGraph = filteredInfoGraph,
-            onDismiss ={isMyHexaGraph = false},
+            onDismiss = { isMyHexaGraph = false },
+        )
+    }
+
+    var isSimilarToMe by remember { mutableStateOf(false) }
+    if (isSimilarToMe) {
+        UserSimilarToMeDialog(
+            userUiState = userUiState,
+            userViewModel = userViewModel,
+            onUserClicked = {
+                isSimilarToMe = false
+                navController.navigate(TravelScreen.Page1A.name)
+            },
+            onDismiss = { isSimilarToMe = false },
         )
     }
 
@@ -151,7 +165,7 @@ fun UserProfiles(
                             if (peopleComplete.isNotEmpty()) {
                                 isLoadingState = null
                                 userViewModel.setLikeUsers(peopleComplete)
-                                onNextButtonClicked()
+                                isSimilarToMe = true
                             } else {
                                 peopleErrorMsg = "서버 오류"
                                 isLoadingState = false

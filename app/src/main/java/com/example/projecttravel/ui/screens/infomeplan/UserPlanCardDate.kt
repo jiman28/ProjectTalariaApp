@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.plantrip
+package com.example.projecttravel.ui.screens.infomeplan
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -28,17 +28,15 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import java.time.LocalDate
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 
 @Composable
-fun PlanCardDate(
-    date: LocalDate,
+fun UserPlanCardDate(
+    date: String,
     size: Int,
-    planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    userViewModel: ViewModelUser,
     weatherResponseGet: WeatherResponseGet?,
-    onClick: (LocalDate) -> Unit, // 클릭 시 호출될 콜백 함수
+    onClick: (String) -> Unit
 ) {
     Card(
         shape = RoundedCornerShape(24.dp),
@@ -46,7 +44,7 @@ fun PlanCardDate(
             .padding(8.dp)
             .clickable {
                 onClick(date) // 클릭 시 해당 날짜를 콜백 함수로 전달
-                planViewModel.setCurrentPlanDate(date)
+                userViewModel.setUserPlanDate(date)
             },
     ) {
         Column(
@@ -68,7 +66,7 @@ fun PlanCardDate(
                 Text(
                     text = date.toString(),
                     fontSize = 15.sp,
-                    fontWeight = FontWeight.ExtraBold,
+                    fontWeight = FontWeight.Bold,
                     modifier = Modifier.padding(3.dp)
                 )
             }

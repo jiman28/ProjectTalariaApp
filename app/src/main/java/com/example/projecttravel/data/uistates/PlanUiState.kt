@@ -1,5 +1,6 @@
 package com.example.projecttravel.data.uistates
 
+import com.example.projecttravel.model.CheckSingleDayTrip
 import com.example.projecttravel.model.TourAttractionAll
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.WeatherResponseGet
@@ -14,4 +15,5 @@ data class PlanUiState(
     val dateToAttrByWeather: List<SpotDtoResponse> = emptyList(),
     val dateToAttrByCity: List<SpotDtoResponse> = emptyList(),
     val dateToSelectedTourAttrMap: Map<LocalDate, List<TourAttractionAll>> = emptyMap(),
+    val checkSingleDayGps: CheckSingleDayTrip? = null,
 )

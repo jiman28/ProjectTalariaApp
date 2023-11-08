@@ -95,7 +95,10 @@ fun CancelWriteArticleDialog(
     onDismiss: () -> Unit,
 ) {
     AlertDialog(
-        onDismissRequest = onDismiss,
+        onDismissRequest = {
+            userViewModel.setBackHandlerClick(false)
+            onDismiss()
+        },
         text = {
             Text(
                 text = "작성을 취소하시겠습니까?\n지금까지 작성한 내용들은 저장되지 않습니다.",
@@ -124,6 +127,7 @@ fun CancelWriteArticleDialog(
                 }
                 TextButton(
                     onClick = {
+                        userViewModel.setBackHandlerClick(false)
                         onDismiss()
                     }
                 ) {

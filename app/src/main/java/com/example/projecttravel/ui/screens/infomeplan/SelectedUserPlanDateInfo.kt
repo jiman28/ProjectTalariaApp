@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.plantrip
+package com.example.projecttravel.ui.screens.infomeplan
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,14 +17,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 
 @Composable
-fun SelectedPlanDateInfo(
-    planUiState: PlanUiState,
+fun SelectedUserPlanDateInfo(
+    allUserAttrList: List<SpotDtoResponseRead>,
+    userUiState: UserUiState,
+    userViewModel: ViewModelUser,
     planViewModel: ViewModelPlan,
-    onRouteClicked: () -> Unit = {},
+    onRouteClicked: () -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
@@ -39,7 +43,7 @@ fun SelectedPlanDateInfo(
                 .padding(3.dp),
         ) {
             Text(
-                text = planUiState.currentPlanDate.toString(),
+                text = userUiState.currentMyPlanDate.toString(),
                 fontSize = 25.sp,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
@@ -63,17 +67,13 @@ fun SelectedPlanDateInfo(
 //                            contentColor = Color.White
 //                        ),
                 onClick = {
-                    if (planUiState.weatherSwitch) {
-                        planViewModel.setGpsPage(planUiState.dateToAttrByWeather.find { it.date == planUiState.currentPlanDate.toString() })
-                        onRouteClicked()
-                    } else {
-                        planViewModel.setGpsPage(planUiState.dateToAttrByCity.find { it.date == planUiState.currentPlanDate.toString() })
-                        onRouteClicked()
-                    }
+                    planViewModel.setGpsPage(allUserAttrList.find { it.date == userUiState.currentMyPlanDate.toString() })
+                    onRouteClicked()
                 }
             ) {
                 Text(text = "지도 확인")
             }
         }
     }
+
 }

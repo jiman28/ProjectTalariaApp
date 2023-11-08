@@ -25,6 +25,7 @@ import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
@@ -42,6 +43,7 @@ fun MyInfoPage(
     userUiState: UserUiState,
     userViewModel: ViewModelUser,
     planUiState: PlanUiState,
+    planViewModel: ViewModelPlan,
     boardSelectUiState: BoardSelectUiState,
     boardSelectViewModel: ViewModelBoardSelect,
     navController: NavHostController,
@@ -96,7 +98,10 @@ fun MyInfoPage(
             val filteredAllBoardCount = countAllBoardsOfUser(filteredBoardList,filteredCompanyList,filteredTradeList)
 
             /** User Menus */
-            Column {
+            Column (
+
+            ) {
+                Spacer(modifier = Modifier.padding(5.dp))
                 /** ================================================== */
                 /** UserInfos */
                 Row {
@@ -108,7 +113,6 @@ fun MyInfoPage(
                             userUiState = userUiState,
                             userViewModel = userViewModel,
                             navController = navController,
-                            onNextButtonClicked = onNextButtonClicked,
                         )
                     }
 
@@ -157,8 +161,12 @@ fun MyInfoPage(
                                         boardMatchesId
                                     }
                                     UserPlanList(
+                                        userUiState = userUiState,
+                                        userViewModel = userViewModel,
+                                        planViewModel = planViewModel,
                                         navController = navController,
                                         filteredPlanList = filteredPlanList,
+                                        onNextButtonClicked = onNextButtonClicked,
                                     )
                                 }
                                 else -> GlobalErrorScreen(userPlanListViewModel::getPlanList)

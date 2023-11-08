@@ -4,6 +4,8 @@ import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.GetAttrWeather
+import com.example.projecttravel.model.PlansDataRead
+import com.example.projecttravel.model.SpotDtoRead
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.WeatherCallSend
 import com.example.projecttravel.model.WeatherResponseGet
@@ -20,56 +22,95 @@ import kotlin.coroutines.resume
 /** asynchronous codes ===================================================================== */
 /** function for getting Weather ====================*/
 suspend fun getDateToWeather(
-    selectUiState: SelectUiState,
+//    selectUiState: SelectUiState,
+    selection: Any,
     planViewModel: ViewModelPlan
 ): Boolean {
-    val firstCity = selectUiState.selectTourAttractions.first()
-    val weatherCallSend = WeatherCallSend(
-        startDate = selectUiState.selectDateRange?.start.toString(),
-        endDate = selectUiState.selectDateRange?.endInclusive.toString(),
-        lat = when (firstCity) {
-            is TourAttractionSearchInfo -> firstCity.lat
-            is TourAttractionInfo -> firstCity.lat
-            else -> "몰루"
-        },
-        lng = when (firstCity) {
-            is TourAttractionSearchInfo -> firstCity.lng
-            is TourAttractionInfo -> firstCity.lan
-            else -> "몰루"
+
+    val firstCity: Any? = when (selection) {
+        is SelectUiState -> selection.selectTourAttractions.first()
+        is PlansDataRead -> selection.plans[0].list[0]
+        else -> null
+    }
+
+    val weatherCallSend = when (selection) {
+        is SelectUiState -> selection.selectDateRange?.start.toString()
+        is PlansDataRead -> selection.startDay
+
+        else -> null
+    }?.let {
+        when (selection) {
+            is SelectUiState -> selection.selectDateRange?.endInclusive.toString()
+        is PlansDataRead -> selection.endDay
+
+            else -> null
+        }?.let { it1 ->
+            WeatherCallSend(
+            startDate = it,
+            endDate = it1,
+            lat = when (firstCity) {
+                is TourAttractionSearchInfo -> firstCity.lat
+                is TourAttractionInfo -> firstCity.lat
+                is SpotDtoRead -> firstCity.lat
+                else -> "몰루"
+            },
+            lng = when (firstCity) {
+                is TourAttractionSearchInfo -> firstCity.lng
+                is TourAttractionInfo -> firstCity.lan
+                is SpotDtoRead -> firstCity.lan
+                else -> "몰루"
+            }
+        )
         }
-    )
+    }
+
+//    val firstCity = selectUiState.selectTourAttractions.first()
+//    val weatherCallSend = WeatherCallSend(
+//        startDate = selectUiState.selectDateRange?.start.toString(),
+//        endDate = selectUiState.selectDateRange?.endInclusive.toString(),
+//        lat = when (firstCity) {
+//            is TourAttractionSearchInfo -> firstCity.lat
+//            is TourAttractionInfo -> firstCity.lat
+//            else -> "몰루"
+//        },
+//        lng = when (firstCity) {
+//            is TourAttractionSearchInfo -> firstCity.lng
+//            is TourAttractionInfo -> firstCity.lan
+//            else -> "몰루"
+//        }
+//    )
 
     return suspendCancellableCoroutine { continuation ->
-        val call = RetrofitBuilderJson.travelJsonApiService.getDateWeather(weatherCallSend)
-        call.enqueue(object : Callback<List<WeatherResponseGet>> {
-            override fun onResponse(
-                call: Call<List<WeatherResponseGet>>,
-                response: Response<List<WeatherResponseGet>>
-            ) {
-                if (response.isSuccessful) {
-                    val weatherResponse = response.body()
-                    if (weatherResponse != null) {
-                        planViewModel.setDateToWeather(weatherResponse)
-                        Log.d("jiman=111", "Request Success + Response Success")
-                        Log.d("jiman=111", call.toString())
-                        Log.d("jiman=111", response.body().toString())
-                        continuation.resume(true) // 작업 성공 시 true 반환
-//                        continuation.resume(false) // 오류 확인용 false
+        weatherCallSend?.let { RetrofitBuilderJson.travelJsonApiService.getDateWeather(it) }
+            ?.enqueue(object : Callback<List<WeatherResponseGet>> {
+                override fun onResponse(
+                    call: Call<List<WeatherResponseGet>>,
+                    response: Response<List<WeatherResponseGet>>
+                ) {
+                    if (response.isSuccessful) {
+                        val weatherResponse = response.body()
+                        if (weatherResponse != null) {
+                            planViewModel.setDateToWeather(weatherResponse)
+                            Log.d("jiman=111", "Request Success + Response Success")
+                            Log.d("jiman=111", call.toString())
+                            Log.d("jiman=111", response.body().toString())
+                            continuation.resume(true) // 작업 성공 시 true 반환
+                            //                        continuation.resume(false) // 오류 확인용 false
+                        } else {
+                            Log.d("jiman=222", "Response body is null")
+                            continuation.resume(false) // 작업 실패 시 false 반환
+                        }
                     } else {
-                        Log.d("jiman=222", "Response body is null")
+                        Log.d("jiman=333", "Failure")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
-                } else {
-                    Log.d("jiman=333", "Failure")
+                }
+
+                override fun onFailure(call: Call<List<WeatherResponseGet>>, t: Throwable) {
+                    Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
-            }
-
-            override fun onFailure(call: Call<List<WeatherResponseGet>>, t: Throwable) {
-                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
-                continuation.resume(false) // 작업 실패 시 false 반환
-            }
-        })
+            })
     }
 }
 

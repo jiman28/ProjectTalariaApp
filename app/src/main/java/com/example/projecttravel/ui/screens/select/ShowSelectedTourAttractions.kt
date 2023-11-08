@@ -17,12 +17,10 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +38,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
@@ -48,10 +45,7 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 @Composable
 fun SelectedTourAttractions(
@@ -107,7 +101,6 @@ fun SelectedTourAttractionsMenu(
 
 /** ===================================================================== */
 /** SelectedTourAttrDialog to check SelectedTourAttr for trip ====================*/
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SelectedTourAttrDialog(
     selectUiState: SelectUiState,
@@ -119,7 +112,7 @@ fun SelectedTourAttrDialog(
         onDismissRequest = onDismiss,
         modifier = Modifier
             .background(Color.DarkGray, RoundedCornerShape(12.dp)),
-        content = {
+        text = {
             if (selectUiState.selectTourAttractions.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier,
@@ -141,20 +134,6 @@ fun SelectedTourAttrDialog(
                             selectViewModel = selectViewModel,
                         )
                     }
-                    item {
-                        Row(
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Button(
-                                onClick = {
-                                    onDismiss()
-                                }
-                            ) {
-                                Text(text = "총 ${selectUiState.selectTourAttractions.size} 개 선택 확인", fontSize = 20.sp)
-                            }
-                        }
-                    }
                 }
             } else {
                 Card(
@@ -175,6 +154,20 @@ fun SelectedTourAttrDialog(
                             textAlign = TextAlign.Center
                         )
                     }
+                }
+            }
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = "총 ${selectUiState.selectTourAttractions.size} 개 선택 확인", fontSize = 20.sp)
                 }
             }
         },
@@ -242,7 +235,9 @@ fun SelectedTourAttrCard(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(dimensionResource(R.dimen.padding_medium)),
-                style = MaterialTheme.typography.titleLarge,
+                fontSize = 15.sp,   // font 의 크기
+                lineHeight = 15.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                style = MaterialTheme.typography.bodyMedium,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start
             )

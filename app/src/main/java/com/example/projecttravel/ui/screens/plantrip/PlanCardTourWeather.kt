@@ -47,7 +47,6 @@ import java.time.LocalDate
 
 @Composable
 fun PlanCardTourWeather(
-    modifier: Modifier = Modifier,
     planUiState: PlanUiState,
     planViewModel: ViewModelPlan,
     spotDto: SpotDto,
