@@ -45,12 +45,12 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun SelectedTourAttractions(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     contentPadding: PaddingValues,
 ) {
     if (selectUiState.selectCountry != null && selectUiState.selectCity != null) {
@@ -78,7 +78,7 @@ fun SelectedTourAttractions(
 @Composable
 fun SelectedTourAttractionsMenu(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     contentPadding: PaddingValues,
 ) {
     // 1. AlertDialog 펼쳐짐 상태 정의
@@ -104,7 +104,7 @@ fun SelectedTourAttractionsMenu(
 @Composable
 fun SelectedTourAttrDialog(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     contentPadding: PaddingValues,
     onDismiss: () -> Unit,
 ) {
@@ -192,7 +192,7 @@ fun extractLastName(selectUiState: SelectUiState): String {
 @Composable
 fun SelectedTourAttrCard(
     tourAttractionAll: TourAttractionAll,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
 ) {
     Card(
         modifier = Modifier.fillMaxSize(),

@@ -18,12 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 
 @Composable
 fun SelectedPlanDateInfo(
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     onRouteClicked: () -> Unit = {},
 ) {
     Row(

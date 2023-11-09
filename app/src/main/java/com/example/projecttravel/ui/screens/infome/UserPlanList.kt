@@ -49,16 +49,16 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infodialog.DeletePlanDialog
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserPlanList(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    planViewModel: ViewModelPlan,
+    userViewModel: UserViewModel,
+    planViewModel: PlanViewModel,
     navController: NavHostController,
     filteredPlanList: List<PlansDataRead>?,
     onNextButtonClicked: () -> Unit,

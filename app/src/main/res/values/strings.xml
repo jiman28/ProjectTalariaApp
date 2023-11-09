@@ -2,6 +2,7 @@
     <string name="app_name">ProjectTravel</string>
 
     <!--Page Enum class-->
+    <string name="pageTest">TestTestTestTestTestTestTest</string>
     <string name="pageLogin">Login page</string>
     <string name="pageSignIn">SignIn page</string>
     <string name="pageSignInComplete">Interest Check page</string>
@@ -18,7 +19,6 @@
     <string name="pageViewBoard">View Board</string>
     <string name="pageWriteBoard">Write Board</string>
     <string name="pageEditBoard">Edit Board</string>
-    <string name="page5">hohoho</string>
 
     <!--Buttons-->
     <string name="back_button">BACK</string>

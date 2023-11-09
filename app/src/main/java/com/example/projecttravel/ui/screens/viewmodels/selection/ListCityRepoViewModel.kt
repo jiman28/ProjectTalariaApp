@@ -18,7 +18,7 @@ sealed interface CityUiState {
     data class CitySuccess(val cityList: List<CityInfo>) : CityUiState
 }
 
-class CityViewModel(private val cityListRepository: CityListRepository) : ViewModel() {
+class ListCityRepoViewModel(private val cityListRepository: CityListRepository) : ViewModel() {
 
     var cityUiState: CityUiState by mutableStateOf(CityUiState.CitySuccess(emptyList()))
         private set
@@ -44,7 +44,7 @@ class CityViewModel(private val cityListRepository: CityListRepository) : ViewMo
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val cityRepository = application.container.cityListRepository
-                CityViewModel(cityListRepository = cityRepository)
+                ListCityRepoViewModel(cityListRepository = cityRepository)
             }
         }
     }

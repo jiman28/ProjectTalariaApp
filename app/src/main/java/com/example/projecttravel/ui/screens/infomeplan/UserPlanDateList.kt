@@ -12,16 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.ui.screens.plantrip.PlanCardDate
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 @Composable
 fun UserPlanDateList(
     allUserAttrList: List<SpotDtoResponseRead>,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     planUiState: PlanUiState,
     onDateClick: (String) -> Unit
 ) {

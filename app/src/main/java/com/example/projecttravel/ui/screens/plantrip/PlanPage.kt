@@ -30,17 +30,17 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPage(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
-    selectViewModel: ViewModelSelect,
+    planViewModel: PlanViewModel,
+    selectViewModel: SelectViewModel,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
@@ -203,7 +203,6 @@ fun PlanPage(
                                 planUiState = planUiState,
                                 planViewModel = planViewModel,
                                 spotDto = spotDto,
-                                modifier = Modifier.fillMaxSize(),
                                 onDateClick = { clickedDate ->
                                     selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
                                 }

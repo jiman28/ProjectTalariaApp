@@ -24,7 +24,7 @@ package com.example.projecttravel.zdump.mypagedump
 //import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 //import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 //import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
-//import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+//import com.example.projecttravel.data.viewmodels.ViewModelUser
 //import com.example.projecttravel.ui.screens.viewmodels.user.PlanListUiState
 //import com.example.projecttravel.ui.screens.viewmodels.user.ViewModelListPlan
 //import kotlinx.coroutines.async

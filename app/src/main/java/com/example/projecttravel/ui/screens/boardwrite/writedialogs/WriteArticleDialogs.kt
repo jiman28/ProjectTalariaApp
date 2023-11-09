@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.boardwrite.writedialogs
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,19 +14,17 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun ArticleConfirmDialog(
     sendArticle: SendArticle,
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageViewModel: BoardPageViewModel,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -63,7 +60,7 @@ fun ArticleConfirmDialog(
                             val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isArticleComplete) {
-                                boardSelectViewModel.setWriteBoardMenu(R.string.selectMenu)
+                                boardPageViewModel.setWriteBoardMenu(R.string.selectMenu)
                                 onDismiss()
                                 onBackButtonClicked()
                             } else {
@@ -89,8 +86,8 @@ fun ArticleConfirmDialog(
 
 @Composable
 fun CancelWriteArticleDialog(
-    boardSelectViewModel: ViewModelBoardSelect,
-    userViewModel: ViewModelUser,
+    boardPageViewModel: BoardPageViewModel,
+    userViewModel: UserViewModel,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -118,7 +115,7 @@ fun CancelWriteArticleDialog(
                 TextButton(
                     onClick = {
                         onDismiss()
-                        boardSelectViewModel.setWriteBoardMenu(R.string.selectMenu)
+                        boardPageViewModel.setWriteBoardMenu(R.string.selectMenu)
                         userViewModel.setBackHandlerClick(false)
                         onBackButtonClicked()
                     }

@@ -44,7 +44,7 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.searchplace.searchapi.LocationViewModel
 import com.example.projecttravel.ui.screens.searchplace.searchapi.getPlaceInfo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.sendPlaceNameDjango
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
+import com.example.projecttravel.data.viewmodels.SearchViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.libraries.places.api.Places
 import com.google.maps.android.compose.GoogleMap
@@ -60,7 +60,7 @@ fun GoogleMapSheet(
     searchedPlaceId: String,
     selectUiState: SelectUiState,
     searchUiState: SearchUiState,
-    searchViewModel: ViewModelSearch,
+    searchViewModel: SearchViewModel,
     updateUiPageClicked: () -> Unit = {},
     onPlaceIdChanged: (String) -> Unit,
 ) {

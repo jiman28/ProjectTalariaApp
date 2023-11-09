@@ -26,15 +26,14 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 @Composable
 fun UserPlanCardDate(
     date: String,
     size: Int,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     weatherResponseGet: WeatherResponseGet?,
     onClick: (String) -> Unit
 ) {

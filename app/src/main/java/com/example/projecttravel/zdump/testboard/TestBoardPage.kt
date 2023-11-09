@@ -22,7 +22,7 @@ package com.example.projecttravel.zdump.testboard
 //import androidx.compose.ui.unit.dp
 //import com.example.projecttravel.R
 //import com.example.projecttravel.data.uistates.SelectUiState
-//import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+//import com.example.projecttravel.data.viewmodels.ViewModelSelect
 //
 //private const val TAG = "AAAAA"
 //

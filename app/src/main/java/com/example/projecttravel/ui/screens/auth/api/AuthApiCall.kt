@@ -2,7 +2,7 @@ package com.example.projecttravel.ui.screens.auth.api
 
 import android.util.Log
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.model.SendInterest
@@ -21,7 +21,7 @@ import kotlin.coroutines.resume
 suspend fun loginApiCall(
     user: User,
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
         val call = RetrofitBuilderJson.travelJsonApiService.checkLogin(user)
@@ -60,8 +60,6 @@ suspend fun loginApiCall(
 
 suspend fun signInApiCall(
     sendSignIn: SendSignIn,
-    userUiState: UserUiState,
-    userViewModel: ViewModelUser,
 ): String {
     return suspendCancellableCoroutine { continuation ->
         val call = RetrofitBuilderString.travelStringApiService.androidSignIn(
@@ -107,7 +105,6 @@ suspend fun signInApiCall(
 suspend fun interestSaveApiCall(
     sendInterest: SendInterest,
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
         val call = RetrofitBuilderJson.travelJsonApiService.saveFirstInterest(sendInterest)

@@ -12,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 /** ===================================================================== */
 /** CancelSelectDialog to ask whether to cancel Selection and reset All ====================*/
 @Composable
 fun CancelSelectDialog(
-    selectViewModel: ViewModelSelect,
-    userViewModel: ViewModelUser,
+    selectViewModel: SelectViewModel,
+    userViewModel: UserViewModel,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onDismiss: () -> Unit,
 ) {

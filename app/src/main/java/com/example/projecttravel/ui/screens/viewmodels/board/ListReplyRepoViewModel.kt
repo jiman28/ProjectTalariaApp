@@ -21,7 +21,7 @@ sealed interface ReplyUiState {
 //    object Loading : ReplyUiState
 }
 
-class ViewModelListReply(private val replyListRepository: ReplyListRepository) : ViewModel() {
+class ListReplyRepoViewModel(private val replyListRepository: ReplyListRepository) : ViewModel() {
 
     var replyUiState: ReplyUiState by mutableStateOf(ReplyUiState.ReplySuccess(emptyList()))
         private set
@@ -60,7 +60,7 @@ class ViewModelListReply(private val replyListRepository: ReplyListRepository) :
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val replyRepository = application.container.replyListRepository
-                ViewModelListReply(replyListRepository = replyRepository)
+                ListReplyRepoViewModel(replyListRepository = replyRepository)
             }
         }
     }

@@ -14,15 +14,15 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
+import com.example.projecttravel.ui.screens.viewmodels.board.ListReplyRepoViewModel
 
 @Composable
 fun CheckReply(
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {
-    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
-    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
+    val listReplyRepoViewModel: ListReplyRepoViewModel = viewModel(factory = ListReplyRepoViewModel.ReplyFactory)
+    val replyUiState = (listReplyRepoViewModel.replyUiState as? ReplyUiState.ReplySuccess)
     if (replyUiState != null) {
         LazyColumn(
             modifier = modifier,

@@ -20,13 +20,13 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.uistates.BoardPageUiState
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 
 @Composable
 fun BoardDropDownMenu(
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
 ){
 // 1. DropDownMenu의 펼쳐짐 상태 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
@@ -37,7 +37,7 @@ fun BoardDropDownMenu(
         onClick = { isDropDownMenuExpanded = true }
     ) {
         Text(
-            text = stringResource(boardSelectUiState.selectedWriteBoardMenu)
+            text = stringResource(boardPageUiState.selectedWriteBoardMenu)
         )
     }
 
@@ -51,7 +51,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardSelectViewModel.setWriteBoardMenu(R.string.boardTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.boardTitle)
             },
         ) {
             Text(
@@ -66,7 +66,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardSelectViewModel.setWriteBoardMenu(R.string.companyTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.companyTitle)
             },
         ) {
             Text(
@@ -81,7 +81,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardSelectViewModel.setWriteBoardMenu(R.string.tradeTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.tradeTitle)
             },
         ) {
             Text(

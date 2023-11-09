@@ -21,7 +21,7 @@ sealed interface CompanyUiState {
 //    object Loading : CompanyUiState
 }
 
-class ViewModelListCompany(private val companyListRepository: CompanyListRepository) : ViewModel() {
+class ListCompanyRepoViewModel(private val companyListRepository: CompanyListRepository) : ViewModel() {
 
     var companyUiState: CompanyUiState by mutableStateOf(CompanyUiState.CompanySuccess(emptyList()))
         private set
@@ -60,7 +60,7 @@ class ViewModelListCompany(private val companyListRepository: CompanyListReposit
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val companyRepository = application.container.companyListRepository
-                ViewModelListCompany(companyListRepository = companyRepository)
+                ListCompanyRepoViewModel(companyListRepository = companyRepository)
             }
         }
     }

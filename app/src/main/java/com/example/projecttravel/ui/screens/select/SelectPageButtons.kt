@@ -25,18 +25,17 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.CancelSelectDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.ResetConfirmDialog
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 @Composable
 fun SelectPageButtons (
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    userViewModel: UserViewModel,
+    planViewModel: PlanViewModel,
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
 ) {
@@ -126,7 +125,6 @@ fun SelectPageButtons (
             }
             if (isPlanConfirmVisible) {
                 PlanConfirmDialog(
-                    planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectUiState = selectUiState,
                     onNextButtonClicked = onNextButtonClicked,

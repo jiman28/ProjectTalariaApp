@@ -11,7 +11,7 @@ import com.example.projecttravel.model.WeatherCallSend
 import com.example.projecttravel.model.WeatherResponseGet
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +24,7 @@ import kotlin.coroutines.resume
 suspend fun getDateToWeather(
 //    selectUiState: SelectUiState,
     selection: Any,
-    planViewModel: ViewModelPlan
+    planViewModel: PlanViewModel
 ): Boolean {
 
     val firstCity: Any? = when (selection) {
@@ -117,7 +117,7 @@ suspend fun getDateToWeather(
 /** function for getting Weather ====================*/
 suspend fun getDateToAttrByWeather(
     selectUiState: SelectUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
 ): Boolean {
     val selections = selectUiState.selectTourAttractions
     val placeId = selections
@@ -175,7 +175,7 @@ suspend fun getDateToAttrByWeather(
 /** function for getting Weather ====================*/
 suspend fun getDateToAttrByCity(
     selectUiState: SelectUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
 ): Boolean {
     val selections = selectUiState.selectTourAttractions
     val placeId = selections

@@ -13,15 +13,14 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SearchViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun SearchGpsPageButton(
     selectUiState: SelectUiState,
-    searchUiState: SearchUiState,
-    searchViewModel: ViewModelSearch,
-    selectViewModel: ViewModelSelect,
+    searchViewModel: SearchViewModel,
+    selectViewModel: SelectViewModel,
     onBackButtonClicked: () -> Unit = {},
     updateUiPageClicked: () -> Unit = {},
 ) {

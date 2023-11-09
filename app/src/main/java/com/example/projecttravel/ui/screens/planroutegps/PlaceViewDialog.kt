@@ -26,19 +26,19 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCityRepoViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCountryRepoViewModel
 
 @Composable
 fun PlaceViewDialog(
     selectedPlaceMarker: SpotDto,
     onDismiss: () -> Unit,
 ) {
-    val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
-    val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
-    val cityUiState = (cityViewModel.cityUiState as? CityUiState.CitySuccess)
-    val countryUiState = (countryViewModel.countryUiState as? CountryUiState.CountrySuccess)
+    val listCityRepoViewModel: ListCityRepoViewModel = viewModel(factory = ListCityRepoViewModel.CityFactory)
+    val listCountryRepoViewModel: ListCountryRepoViewModel = viewModel(factory = ListCountryRepoViewModel.CountryFactory)
+    val cityUiState = (listCityRepoViewModel.cityUiState as? CityUiState.CitySuccess)
+    val countryUiState = (listCountryRepoViewModel.countryUiState as? CountryUiState.CountrySuccess)
 
     val findCity = cityUiState?.cityList?.find { it.cityId == selectedPlaceMarker.cityId }
     val textCity = findCity?.cityName

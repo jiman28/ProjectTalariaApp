@@ -1,8 +1,9 @@
-package com.example.projecttravel.ui.screens.viewmodels
+package com.example.projecttravel.data.viewmodels
 
 import androidx.lifecycle.ViewModel
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -10,10 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ViewModelBoardSelect: ViewModel() {
+class BoardPageViewModel: ViewModel() {
     /** all selection */
-    private val _uiState = MutableStateFlow(BoardSelectUiState())
-    val boardSelectUiState: StateFlow<BoardSelectUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(BoardPageUiState())
+    val boardPageUiState: StateFlow<BoardPageUiState> = _uiState.asStateFlow()
 
     /** setCurrentBoardState Object */
     fun setCurrent(desiredBoard: Int) {
@@ -47,6 +48,13 @@ class ViewModelBoardSelect: ViewModel() {
     fun setWriteBoardMenu(desiredBoard: Int) {
         _uiState.update { currentState ->
             currentState.copy(selectedWriteBoardMenu = desiredBoard)
+        }
+    }
+
+    /** setWriteBoardMenu Object */
+    fun setBoardList(lists: BoardList) {
+        _uiState.update { currentState ->
+            currentState.copy(currentBoardList = lists)
         }
     }
 }

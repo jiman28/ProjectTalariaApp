@@ -42,14 +42,13 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 import java.time.LocalDate
 
 @Composable
 fun PlanCardTourAttr(
-    modifier: Modifier = Modifier,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     spotDto: SpotDto,
     onDateClick: (LocalDate) -> Unit,
 ) {

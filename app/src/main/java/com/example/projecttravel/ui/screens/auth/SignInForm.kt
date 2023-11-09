@@ -1,7 +1,6 @@
 package com.example.projecttravel.ui.screens.auth
 
 import android.content.Context
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -43,19 +42,17 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.auth.api.signInApiCall
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignInForm(
-    userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -129,7 +126,7 @@ fun SignInForm(
                                 password = signCredentials.pwd, // Consider changing the names here if needed
                             )
                             val signInDeferred =
-                                async { signInApiCall(sendSignIn, userUiState, userViewModel) }
+                                async { signInApiCall(sendSignIn) }
                             val signInComplete = signInDeferred.await()
 
                             when (signInComplete) {

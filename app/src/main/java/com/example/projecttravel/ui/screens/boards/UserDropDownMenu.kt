@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.model.AllBoards
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.CheckOtherUserById
@@ -30,23 +30,23 @@ import com.example.projecttravel.model.Trade
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun UserDropDownMenu(
-    boardSelectUiState: BoardSelectUiState,
-    userViewModel: ViewModelUser,
+    boardPageUiState: BoardPageUiState,
+    userViewModel: UserViewModel,
     onUserButtonClicked: () -> Unit,
 ){
     val scope = rememberCoroutineScope()
 
-    val currentBoard: AllBoards? = when (boardSelectUiState.currentSelectedBoard) {
-        R.string.board -> boardSelectUiState.selectedBoardContent
-        R.string.trade -> boardSelectUiState.selectedTradeContent
-        R.string.company -> boardSelectUiState.selectedCompanyContent
+    val currentBoard: AllBoards? = when (boardPageUiState.currentSelectedBoard) {
+        R.string.board -> boardPageUiState.selectedBoardContent
+        R.string.trade -> boardPageUiState.selectedTradeContent
+        R.string.company -> boardPageUiState.selectedCompanyContent
         else -> null
     }
     val currentWriteId: String = when (currentBoard) {

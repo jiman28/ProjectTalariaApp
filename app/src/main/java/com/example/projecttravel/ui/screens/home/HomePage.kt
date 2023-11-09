@@ -19,13 +19,13 @@ import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.LoginErrorDialog
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageRepoViewModel
 
 @Composable
 fun HomePage(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     onLogOutClicked: () -> Unit,
     countryCardClicked: (CountryInfo) -> Unit,
     onNextButtonClicked: () -> Unit,    // 매개변수 추가
@@ -66,11 +66,11 @@ fun HomePage(
         }
         Column(
         ) {
-            val homepageViewModel: HomepageViewModel = viewModel(factory = HomepageViewModel.Factory)
+            val homepageRepoViewModel: HomepageRepoViewModel = viewModel(factory = HomepageRepoViewModel.Factory)
             ShowCountryInfos(
-                homepageUiState = homepageViewModel.homepageUiState,
+                homepageUiState = homepageRepoViewModel.homepageUiState,
                 countryCardClicked = countryCardClicked,
-                retryAction = homepageViewModel::getCountry,
+                retryAction = homepageRepoViewModel::getCountry,
                 modifier = Modifier.fillMaxSize(),
                 contentPadding = PaddingValues(0.dp)
             )

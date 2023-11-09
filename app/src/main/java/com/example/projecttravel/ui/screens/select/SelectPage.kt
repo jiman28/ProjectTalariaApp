@@ -24,37 +24,34 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCountryRepoViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.InterestInfo
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCityRepoViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.InterestViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListInterestRepoViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionViewModel
-
-private const val TAG = "AAAAA"
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListTourAttrRepoViewModel
 
 @Composable
 fun SelectPage(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    userViewModel: UserViewModel,
+    planViewModel: PlanViewModel,
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     onGpsClicked: () -> Unit = {},
 ) {
-    val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
-    val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
-    val interestViewModel: InterestViewModel = viewModel(factory = InterestViewModel.InterestFactory)
-    val tourAttractionViewModel: TourAttractionViewModel = viewModel(factory = TourAttractionViewModel.TourAttractionFactory)
+    val listCountryRepoViewModel: ListCountryRepoViewModel = viewModel(factory = ListCountryRepoViewModel.CountryFactory)
+    val listCityRepoViewModel: ListCityRepoViewModel = viewModel(factory = ListCityRepoViewModel.CityFactory)
+    val listInterestRepoViewModel: ListInterestRepoViewModel = viewModel(factory = ListInterestRepoViewModel.InterestFactory)
+    val listTourAttrRepoViewModel: ListTourAttrRepoViewModel = viewModel(factory = ListTourAttrRepoViewModel.TourAttractionFactory)
 
     val selectedCountry by remember { mutableStateOf<CountryInfo?>(null) }
     val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
@@ -66,7 +63,6 @@ fun SelectPage(
             SelectPageButtons(
                 userUiState = userUiState,
                 userViewModel = userViewModel,
-                planUiState = planUiState,
                 planViewModel = planViewModel,
                 selectUiState = selectUiState,
                 selectViewModel = selectViewModel,
@@ -98,7 +94,7 @@ fun SelectPage(
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
                     val countryUiState =
-                        (countryViewModel.countryUiState as? CountryUiState.CountrySuccess)
+                        (listCountryRepoViewModel.countryUiState as? CountryUiState.CountrySuccess)
                     if (countryUiState != null) {
                         SelectCountry(
                             selectUiState = selectUiState,
@@ -118,7 +114,7 @@ fun SelectPage(
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
                     val cityUiState =
-                        (cityViewModel.cityUiState as? CityUiState.CitySuccess)
+                        (listCityRepoViewModel.cityUiState as? CityUiState.CitySuccess)
                     if (cityUiState != null) {
                         SelectCity(
                             selectUiState = selectUiState,
@@ -139,7 +135,7 @@ fun SelectPage(
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
                     val interestUiState =
-                        (interestViewModel.interestUiState as? InterestUiState.InterestSuccess)
+                        (listInterestRepoViewModel.interestUiState as? InterestUiState.InterestSuccess)
                     if (interestUiState != null) {
                         SelectInterest(
                             selectUiState = selectUiState,
@@ -174,7 +170,7 @@ fun SelectPage(
         Column(
         ) {
             val tourAttractionUiState =
-                (tourAttractionViewModel.tourAttractionUiState as? TourAttractionUiState.TourAttractionSuccess)
+                (listTourAttrRepoViewModel.tourAttractionUiState as? TourAttractionUiState.TourAttractionSuccess)
             if (tourAttractionUiState != null) {
                 ShowTourAttractionInfos(
                     onGpsClicked = onGpsClicked,

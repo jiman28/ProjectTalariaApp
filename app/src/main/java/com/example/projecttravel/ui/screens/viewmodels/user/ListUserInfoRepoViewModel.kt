@@ -21,7 +21,7 @@ sealed interface UserInfoUiState {
     object Loading : UserInfoUiState
 }
 
-class ViewModelListUserInfo(private val userInfoListRepository: UserInfoListRepository) : ViewModel() {
+class ListUserInfoRepoViewModel(private val userInfoListRepository: UserInfoListRepository) : ViewModel() {
 
     var userInfoUiState: UserInfoUiState by mutableStateOf(UserInfoUiState.UserInfoSuccess(emptyList()))
         private set
@@ -60,7 +60,7 @@ class ViewModelListUserInfo(private val userInfoListRepository: UserInfoListRepo
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val userInfoRepository = application.container.userInfoListRepository
-                ViewModelListUserInfo(userInfoListRepository = userInfoRepository)
+                ListUserInfoRepoViewModel(userInfoListRepository = userInfoRepository)
             }
         }
     }

@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.plantrip.plandialogs
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -27,8 +26,8 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -36,8 +35,8 @@ import kotlinx.coroutines.launch
 fun SavePlanDialog(
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
-    selectViewModel: ViewModelSelect,
+    planViewModel: PlanViewModel,
+    selectViewModel: SelectViewModel,
     onPlanCompleteClicked: () -> Unit = {},
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,

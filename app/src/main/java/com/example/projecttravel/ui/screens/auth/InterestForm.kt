@@ -1,7 +1,5 @@
 package com.example.projecttravel.ui.screens.auth
 
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -24,21 +22,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SendInterest
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.auth.api.interestSaveApiCall
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun InterestForm(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
     onCompleteButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -173,7 +168,7 @@ fun InterestForm(
                             religion = religionPosition.toInt().toString(),
                             )
                         val interestDeferred =
-                            async { interestSaveApiCall(sendInterest, userUiState, userViewModel) }
+                            async { interestSaveApiCall(sendInterest, userUiState) }
                         val interestComplete = interestDeferred.await()
 
                         if (interestComplete) {

@@ -25,34 +25,34 @@ import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.findSearchListByName
 import com.example.projecttravel.ui.screens.select.SelectCity
 import com.example.projecttravel.ui.screens.select.SelectCountry
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SearchViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CityViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCityRepoViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.CountryViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListCountryRepoViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttrSearchViewModel
+import com.example.projecttravel.ui.screens.viewmodels.selection.ListTourSearchRepoViewModel
 
 @Composable
 fun SearchGpsPage(
     selectUiState: SelectUiState,
     searchUiState: SearchUiState,
-    searchViewModel: ViewModelSearch,
-    selectViewModel: ViewModelSelect,
+    searchViewModel: SearchViewModel,
+    selectViewModel: SelectViewModel,
     onBackButtonClicked: () -> Unit = {},
     updateUiPageClicked: () -> Unit = {},
 ) {
     var searchedPlaceId: String by remember { mutableStateOf("") }
 
-    val countryViewModel: CountryViewModel = viewModel(factory = CountryViewModel.CountryFactory)
-    val cityViewModel: CityViewModel = viewModel(factory = CityViewModel.CityFactory)
+    val listCountryRepoViewModel: ListCountryRepoViewModel = viewModel(factory = ListCountryRepoViewModel.CountryFactory)
+    val listCityRepoViewModel: ListCityRepoViewModel = viewModel(factory = ListCityRepoViewModel.CityFactory)
 
     val selectedCountry by remember { mutableStateOf<CountryInfo?>(null) }
     val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
 
-    val tourAttrSearchViewModel: TourAttrSearchViewModel = viewModel(factory = TourAttrSearchViewModel.TourAttrSearchFactory)
-    val tourAttrSearchUiState = (tourAttrSearchViewModel.tourAttrSearchUiState as? TourAttrSearchUiState.TourAttrSearchSuccess)
+    val listTourSearchRepoViewModel: ListTourSearchRepoViewModel = viewModel(factory = ListTourSearchRepoViewModel.TourAttrSearchFactory)
+    val tourAttrSearchUiState = (listTourSearchRepoViewModel.tourAttrSearchUiState as? TourAttrSearchUiState.TourAttrSearchSuccess)
     if (tourAttrSearchUiState != null) {
         findSearchListByName(
             searchUiState.searchedPlace?.name,
@@ -68,7 +68,6 @@ fun SearchGpsPage(
             Column {
                 SearchGpsPageButton(
                     selectUiState = selectUiState,
-                    searchUiState = searchUiState,
                     searchViewModel = searchViewModel,
                     selectViewModel = selectViewModel,
                     onBackButtonClicked = onBackButtonClicked,
@@ -92,7 +91,7 @@ fun SearchGpsPage(
                         .padding(3.dp),
                 ) {
                     val countryUiState =
-                        (countryViewModel.countryUiState as? CountryUiState.CountrySuccess)
+                        (listCountryRepoViewModel.countryUiState as? CountryUiState.CountrySuccess)
                     if (countryUiState != null) {
                         SelectCountry(
                             selectUiState = selectUiState,
@@ -113,7 +112,7 @@ fun SearchGpsPage(
                         .padding(3.dp),
                 ) {
                     val cityUiState =
-                        (cityViewModel.cityUiState as? CityUiState.CitySuccess)
+                        (listCityRepoViewModel.cityUiState as? CityUiState.CitySuccess)
                     if (cityUiState != null) {
                         SelectCity(
                             selectUiState = selectUiState,

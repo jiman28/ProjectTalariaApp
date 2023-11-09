@@ -19,7 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
@@ -27,20 +27,20 @@ import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writedialogs.ArticleConfirmDialog
 import com.example.projecttravel.ui.screens.boardwrite.writedialogs.CancelWriteArticleDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 
 @Composable
 fun WritePageButtons(
     title: String,
     content: String,
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    userViewModel: UserViewModel,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
     onBackButtonClicked: () -> Unit,
 ) {
-    val tabTitle = stringResource(boardSelectUiState.selectedWriteBoardMenu)
+    val tabTitle = stringResource(boardPageUiState.selectedWriteBoardMenu)
     val transformedContent = convertTextToHtml(content)
     val sendArticle = userUiState.currentLogin?.let {
         SendArticle(
@@ -82,7 +82,7 @@ fun WritePageButtons(
                 Text(text = stringResource(R.string.cancel_button))
                 if (isCancelWriteArticleDialog) {
                     CancelWriteArticleDialog(
-                        boardSelectViewModel = boardSelectViewModel,
+                        boardPageViewModel = boardPageViewModel,
                         userViewModel = userViewModel,
                         onBackButtonClicked = onBackButtonClicked,
                         onDismiss = {
@@ -96,7 +96,7 @@ fun WritePageButtons(
                     .weight(1f)
                     .padding(1.dp),
                 onClick = {
-                    if (boardSelectUiState.selectedWriteBoardMenu == R.string.selectMenu) {
+                    if (boardPageUiState.selectedWriteBoardMenu == R.string.selectMenu) {
                         txtErrorMsg = "게시판을 고르세요"
                         isTextErrorDialog = true
                     } else if (title == "") {
@@ -116,8 +116,7 @@ fun WritePageButtons(
                     if (sendArticle != null) {
                         ArticleConfirmDialog(
                             sendArticle = sendArticle,
-                            boardSelectUiState = boardSelectUiState,
-                            boardSelectViewModel = boardSelectViewModel,
+                            boardPageViewModel = boardPageViewModel,
                             onBackButtonClicked = onBackButtonClicked,
                             onDismiss = {
                                 isAddArticleDialog = false

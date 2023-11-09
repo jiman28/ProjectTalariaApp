@@ -28,15 +28,14 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 import java.time.LocalDate
 
 @Composable
 fun PlanCardDate(
     date: LocalDate,
     size: Int,
-    planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     weatherResponseGet: WeatherResponseGet?,
     onClick: (LocalDate) -> Unit, // 클릭 시 호출될 콜백 함수
 ) {

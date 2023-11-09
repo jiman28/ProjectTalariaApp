@@ -49,14 +49,14 @@ import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.model.TourAttractionInfo
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
 
 @Composable
 fun ShowTourAttractionInfos(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     tourAttractionUiState: TourAttractionUiState.TourAttractionSuccess,
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
@@ -72,12 +72,6 @@ fun ShowTourAttractionInfos(
         selectedCountry = selectedCountry,
         selectedCity = selectedCity,
         selectedInterest = selectedInterest,
-        modifier = modifier
-            .padding(
-                start = dimensionResource(R.dimen.padding_medium),
-                top = dimensionResource(R.dimen.padding_medium),
-                end = dimensionResource(R.dimen.padding_medium)
-            ),
         contentPadding = contentPadding,
     )
 }
@@ -86,12 +80,11 @@ fun ShowTourAttractionInfos(
 private fun TourAttractionListScreen(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     tourAttractionInfo: List<TourAttractionInfo>,
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
     selectedInterest: InterestInfo?,
-    modifier: Modifier = Modifier,
     contentPadding: PaddingValues,
 ) {
     if (selectedCountry != null && selectedCity != null && selectedInterest == null) {
@@ -135,7 +128,7 @@ private fun TourAttractionListScreen(
 fun TourAttrScreen(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     filteredTourAttractionInfo: List<TourAttractionInfo>,
     contentPadding: PaddingValues,
 ) {

@@ -21,7 +21,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.model.AllBoards
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.Company
@@ -46,23 +45,22 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveArticleDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.boardwrite.BoardDropDownMenu
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import org.jsoup.Jsoup
 
 @Composable
 fun ViewContentsBoard(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    boardSelectUiState: BoardSelectUiState,
+    userViewModel: UserViewModel,
+    boardPageUiState: BoardPageUiState,
     onContentRefreshClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
     onUserButtonClicked: () -> Unit,
 ) {
-    val currentBoard: AllBoards? = when (boardSelectUiState.currentSelectedBoard) {
-        R.string.board -> boardSelectUiState.selectedBoardContent
-        R.string.trade -> boardSelectUiState.selectedTradeContent
-        R.string.company -> boardSelectUiState.selectedCompanyContent
+    val currentBoard: AllBoards? = when (boardPageUiState.currentSelectedBoard) {
+        R.string.board -> boardPageUiState.selectedBoardContent
+        R.string.trade -> boardPageUiState.selectedTradeContent
+        R.string.company -> boardPageUiState.selectedCompanyContent
         else -> null
     }
     val currentArticleNo: String = when (currentBoard) {
@@ -108,7 +106,7 @@ fun ViewContentsBoard(
         else -> ""
     }
 
-    val tabtitle: String = when (boardSelectUiState.currentSelectedBoard) {
+    val tabtitle: String = when (boardPageUiState.currentSelectedBoard) {
         R.string.board -> stringResource(R.string.boardTitle)
         R.string.trade -> stringResource(R.string.tradeTitle)
         R.string.company -> stringResource(R.string.companyTitle)
@@ -136,7 +134,7 @@ fun ViewContentsBoard(
         ) {
             Text(
                 fontSize = 40.sp,
-                text = when (boardSelectUiState.currentSelectedBoard) {
+                text = when (boardPageUiState.currentSelectedBoard) {
                     R.string.board -> stringResource(R.string.boardTitle)
                     R.string.trade -> stringResource(R.string.tradeTitle)
                     R.string.company -> stringResource(R.string.companyTitle)
@@ -175,7 +173,7 @@ fun ViewContentsBoard(
                 )
                 Spacer(modifier = Modifier.padding(1.dp))
                 UserDropDownMenu(
-                    boardSelectUiState = boardSelectUiState,
+                    boardPageUiState = boardPageUiState,
                     userViewModel = userViewModel,
                     onUserButtonClicked = onUserButtonClicked,
                 )
@@ -268,7 +266,7 @@ fun ViewContentsBoard(
             Spacer(modifier = Modifier.padding(5.dp))
             Column {
                 ViewReply(
-                    boardSelectUiState = boardSelectUiState,
+                    boardPageUiState = boardPageUiState,
                     userUiState = userUiState,
                     currentArticleNo = currentArticleNo,
                     onContentRefreshClicked = onContentRefreshClicked,

@@ -31,21 +31,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.viewCounter
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
+import com.example.projecttravel.ui.screens.viewmodels.board.ListReplyRepoViewModel
 
 @Composable
 fun ListTrade(
     modifier: Modifier = Modifier,
     tradeUiState: TradeUiState.TradeSuccess,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageViewModel: BoardPageViewModel,
     onBoardClicked: () -> Unit,
     contentPadding: PaddingValues,
 ) {
-    val replyListViewModel: ViewModelListReply = viewModel(factory = ViewModelListReply.ReplyFactory)
-    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
+    val listReplyRepoViewModel: ListReplyRepoViewModel = viewModel(factory = ListReplyRepoViewModel.ReplyFactory)
+    val replyUiState = (listReplyRepoViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val tabtitle: String = stringResource(R.string.tradeTitle)
 
@@ -90,7 +90,7 @@ fun ListTrade(
                                     onClick = {
                                         viewCounter(tabtitle, board.articleNo)
                                         onBoardClicked()
-                                        boardSelectViewModel.setSelectedTrade(board)
+                                        boardPageViewModel.setSelectedTrade(board)
                                     }
                                 ) {
 //                                        Text(fontSize = 20.sp, text = board.title)

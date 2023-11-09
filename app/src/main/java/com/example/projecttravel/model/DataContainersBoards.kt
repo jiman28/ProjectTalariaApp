@@ -1,6 +1,8 @@
 package com.example.projecttravel.model
 
 import kotlinx.serialization.Serializable
+import java.time.LocalDate
+import java.time.LocalDateTime
 
 interface AllBoards {
 }
@@ -48,4 +50,23 @@ data class Reply (
     val writeDate: String,
     val writeId: String,
     val userId: String,
+)
+
+// DataClass for Call
+@Serializable
+data class BoardList (
+    val pages: Int,
+    val list: List<Board>,
+)
+
+@Serializable
+data class CompanyList (
+    val pages: Int,
+    val list: List<Company>,
+)
+
+@Serializable
+data class TradeList (
+    val pages: Int,
+    val list: List<Trade>,
 )

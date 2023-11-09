@@ -21,7 +21,7 @@ sealed interface TradeUiState {
 //    object Loading : TradeUiState
 }
 
-class ViewModelListTrade(private val tradeListRepository: TradeListRepository) : ViewModel() {
+class ListTradeRepoViewModel(private val tradeListRepository: TradeListRepository) : ViewModel() {
 
     var tradeUiState: TradeUiState by mutableStateOf(TradeUiState.TradeSuccess(emptyList()))
         private set
@@ -60,7 +60,7 @@ class ViewModelListTrade(private val tradeListRepository: TradeListRepository) :
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val tradeRepository = application.container.tradeListRepository
-                ViewModelListTrade(tradeListRepository = tradeRepository)
+                ListTradeRepoViewModel(tradeListRepository = tradeRepository)
             }
         }
     }

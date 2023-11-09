@@ -3,8 +3,6 @@ package com.example.projecttravel.ui.screens.searchplace
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -21,13 +19,13 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.SearchUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
+import com.example.projecttravel.data.viewmodels.SearchViewModel
 
 /** Shows InOutButton ====================*/
 @Composable
 fun InOutSelect(
     searchUiState: SearchUiState,
-    searchViewModel: ViewModelSearch,
+    searchViewModel: SearchViewModel,
 ) {
     Column (
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬

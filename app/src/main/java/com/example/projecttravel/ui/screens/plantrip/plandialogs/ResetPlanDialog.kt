@@ -12,15 +12,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 /** ===================================================================== */
 /** ResetPlanDialog to ask whether to select other plans or not ====================*/
 @Composable
 fun ResetPlanDialog(
-    planViewModel: ViewModelPlan,
-    userViewModel: ViewModelUser,
+    planViewModel: PlanViewModel,
+    userViewModel: UserViewModel,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onDismiss: () -> Unit,
 ) {

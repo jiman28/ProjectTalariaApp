@@ -12,13 +12,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 /** ===================================================================== */
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
 @Composable
 fun ResetConfirmDialog(
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     onDismiss: () -> Unit,
 ) {
     AlertDialog(

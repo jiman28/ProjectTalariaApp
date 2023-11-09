@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.viewmodels
+package com.example.projecttravel.data.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.SearchUiState
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ViewModelSearch : ViewModel() {
+class SearchViewModel : ViewModel() {
     /** all selection */
     private val _uiState = MutableStateFlow(SearchUiState())
     val searchUiState: StateFlow<SearchUiState> = _uiState.asStateFlow()

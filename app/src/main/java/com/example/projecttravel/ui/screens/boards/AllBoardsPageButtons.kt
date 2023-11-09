@@ -15,15 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
-import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.uistates.BoardPageUiState
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 
 @Composable
 fun BoardsPageTabButtons(
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
 ) {
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -33,10 +31,10 @@ fun BoardsPageTabButtons(
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.board) },
+                onClick = { boardPageViewModel.setCurrent(R.string.board) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.board) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoard == R.string.board) Color.Yellow else Color.White,
                 )
             ) {
                 Text(text = stringResource(R.string.boardTitle))
@@ -44,10 +42,10 @@ fun BoardsPageTabButtons(
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.company) },
+                onClick = { boardPageViewModel.setCurrent(R.string.company) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.company) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoard == R.string.company) Color.Yellow else Color.White,
                 )
             ) {
                 Text(text = stringResource(R.string.companyTitle))
@@ -55,10 +53,10 @@ fun BoardsPageTabButtons(
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { boardSelectViewModel.setCurrent(R.string.trade) },
+                onClick = { boardPageViewModel.setCurrent(R.string.trade) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardSelectUiState.currentSelectedBoard == R.string.trade) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoard == R.string.trade) Color.Yellow else Color.White,
                 )
             ) {
                 Text(text = stringResource(R.string.tradeTitle))

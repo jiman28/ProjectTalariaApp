@@ -1,6 +1,8 @@
 package com.example.projecttravel.network
 
 import com.example.projecttravel.model.Board
+import com.example.projecttravel.model.BoardList
+import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Reply
@@ -125,6 +127,9 @@ interface TravelApiService {
     @GET("reply")
     suspend fun getReplyList(): List<Reply>
 
+    // Board DB Call Page ==============================TestTestTest
+    @POST("callboardlist")
+    fun callBoardList(@Body callBoard: CallBoard): Call<BoardList>
 
     // Board DB Edit Calls ==============================
     // viewCounter

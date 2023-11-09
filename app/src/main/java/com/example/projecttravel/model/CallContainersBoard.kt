@@ -3,6 +3,13 @@ package com.example.projecttravel.model
 import kotlinx.serialization.Serializable
 
 @Serializable
+data class CallBoard (
+    val kw: String,
+    val page: Int,
+    val type: String,
+)
+
+@Serializable
 data class SendArticle (
     val tabTitle: String,
     val title: String,

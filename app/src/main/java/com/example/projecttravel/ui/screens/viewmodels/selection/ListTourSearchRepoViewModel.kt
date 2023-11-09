@@ -19,7 +19,7 @@ sealed interface TourAttrSearchUiState {
         TourAttrSearchUiState
 }
 
-class TourAttrSearchViewModel(private val tourAttrSearchListRepository: TourAttrSearchListRepository) :
+class ListTourSearchRepoViewModel(private val tourAttrSearchListRepository: TourAttrSearchListRepository) :
     ViewModel() {
 
     var tourAttrSearchUiState: TourAttrSearchUiState by mutableStateOf(
@@ -52,7 +52,7 @@ class TourAttrSearchViewModel(private val tourAttrSearchListRepository: TourAttr
                         as TravelApplication)
                 val tourAttrSearchListRepository =
                     application.container.tourAttrSearchListRepository
-                TourAttrSearchViewModel(tourAttrSearchListRepository = tourAttrSearchListRepository)
+                ListTourSearchRepoViewModel(tourAttrSearchListRepository = tourAttrSearchListRepository)
             }
         }
     }

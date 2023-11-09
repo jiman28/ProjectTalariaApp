@@ -20,19 +20,19 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPageButtons (
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
-    selectViewModel: ViewModelSelect,
+    planViewModel: PlanViewModel,
+    selectViewModel: SelectViewModel,
     onCancelButtonClicked: () -> Unit,
     onPlanCompleteClicked: () -> Unit,
 ) {

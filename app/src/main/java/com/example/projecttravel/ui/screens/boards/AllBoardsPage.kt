@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
@@ -33,34 +32,34 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListBoard
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListCompany
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListTrade
+import com.example.projecttravel.ui.screens.viewmodels.board.ListBoardRepoViewModel
+import com.example.projecttravel.ui.screens.viewmodels.board.ListCompanyRepoViewModel
+import com.example.projecttravel.ui.screens.viewmodels.board.ListTradeRepoViewModel
 
 @Composable
 fun AllBoardsPage(
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
     onBoardClicked: () -> Unit,
     onWriteButtonClicked: () -> Unit,
     onBackButtonClicked: () -> Unit,
 ) {
-    val boardListViewModel: ViewModelListBoard = viewModel(factory = ViewModelListBoard.BoardFactory)
-    val companyListViewModel: ViewModelListCompany = viewModel(factory = ViewModelListCompany.CompanyFactory)
-    val tradeListViewModel: ViewModelListTrade = viewModel(factory = ViewModelListTrade.TradeFactory)
+    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
+    val listCompanyRepoViewModel: ListCompanyRepoViewModel = viewModel(factory = ListCompanyRepoViewModel.CompanyFactory)
+    val listTradeRepoViewModel: ListTradeRepoViewModel = viewModel(factory = ListTradeRepoViewModel.TradeFactory)
 
-    val boardUiState = (boardListViewModel.boardUiState as? BoardUiState.BoardSuccess)
-    val companyUiState = (companyListViewModel.companyUiState as? CompanyUiState.CompanySuccess)
-    val tradeUiState = (tradeListViewModel.tradeUiState as? TradeUiState.TradeSuccess)
+    val boardUiState = (listBoardRepoViewModel.boardUiState as? BoardUiState.BoardSuccess)
+    val companyUiState = (listCompanyRepoViewModel.companyUiState as? CompanyUiState.CompanySuccess)
+    val tradeUiState = (listTradeRepoViewModel.tradeUiState as? TradeUiState.TradeSuccess)
 
     var searchKeyWord by remember { mutableStateOf("") }
 
@@ -102,12 +101,12 @@ fun AllBoardsPage(
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Column {
             BoardsPageTabButtons(
-                boardSelectUiState = boardSelectUiState,
-                boardSelectViewModel = boardSelectViewModel,
+                boardPageUiState = boardPageUiState,
+                boardPageViewModel = boardPageViewModel,
             )
         }
         Column {
-            val title = when (boardSelectUiState.currentSelectedBoard) {
+            val title = when (boardPageUiState.currentSelectedBoard) {
                 R.string.board -> "여행 후기를 자유롭게 쓰세요!"
                 R.string.company -> "같이 여행 갈 사람 구합니다!"
                 R.string.trade -> "비행기 티켓 팔고 싶어요!"
@@ -181,14 +180,14 @@ fun AllBoardsPage(
                 }
 
                 // 필터링을 거친 리스트
-                when (boardSelectUiState.currentSelectedBoard) {
+                when (boardPageUiState.currentSelectedBoard) {
                     R.string.board -> {
                         if (boardUiState != null) {
                             if (filteredBoardList != null) {
                                 if (filteredBoardList.isNotEmpty()) {
                                     ListBoard(
                                         boardUiState = BoardUiState.BoardSuccess(filteredBoardList),
-                                        boardSelectViewModel = boardSelectViewModel,
+                                        boardPageViewModel = boardPageViewModel,
                                         onBoardClicked = onBoardClicked,
                                         contentPadding = PaddingValues(0.dp),
                                     )
@@ -207,7 +206,7 @@ fun AllBoardsPage(
                                 if (filteredCompanyList.isNotEmpty()) {
                                     ListCompany(
                                         companyUiState = CompanyUiState.CompanySuccess(filteredCompanyList),
-                                        boardSelectViewModel = boardSelectViewModel,
+                                        boardPageViewModel = boardPageViewModel,
                                         onBoardClicked = onBoardClicked,
                                         contentPadding = PaddingValues(0.dp),
                                     )
@@ -226,7 +225,7 @@ fun AllBoardsPage(
                                 if (filteredTradeList.isNotEmpty()) {
                                     ListTrade(
                                         tradeUiState = TradeUiState.TradeSuccess(filteredTradeList),
-                                        boardSelectViewModel = boardSelectViewModel,
+                                        boardPageViewModel = boardPageViewModel,
                                         onBoardClicked = onBoardClicked,
                                         contentPadding = PaddingValues(0.dp),
                                     )
@@ -242,13 +241,13 @@ fun AllBoardsPage(
 
             // 검색 안했을때
             } else {
-                when (boardSelectUiState.currentSelectedBoard) {
+                when (boardPageUiState.currentSelectedBoard) {
                     R.string.board -> {
                         if (boardUiState != null) {
                             if (boardUiState.boardList.isNotEmpty()) {
                                 ListBoard(
                                     boardUiState = boardUiState,
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )
@@ -266,7 +265,7 @@ fun AllBoardsPage(
                             if (companyUiState.companyList.isNotEmpty()) {
                                 ListCompany(
                                     companyUiState = companyUiState,
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )
@@ -284,7 +283,7 @@ fun AllBoardsPage(
                             if (tradeUiState.tradeList.isNotEmpty()) {
                                 ListTrade(
                                     tradeUiState = tradeUiState,
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )

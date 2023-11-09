@@ -21,7 +21,7 @@ sealed interface BoardUiState {
 //    object Loading : BoardUiState
 }
 
-class ViewModelListBoard(private val boardListRepository: BoardListRepository) : ViewModel() {
+class ListBoardRepoViewModel(private val boardListRepository: BoardListRepository) : ViewModel() {
 
     var boardUiState: BoardUiState by mutableStateOf(BoardUiState.BoardSuccess(emptyList()))
         private set
@@ -60,7 +60,7 @@ class ViewModelListBoard(private val boardListRepository: BoardListRepository) :
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val boardRepository = application.container.boardListRepository
-                ViewModelListBoard(boardListRepository = boardRepository)
+                ListBoardRepoViewModel(boardListRepository = boardRepository)
             }
         }
     }

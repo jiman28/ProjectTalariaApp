@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.boards
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -37,7 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
@@ -47,13 +46,13 @@ import com.example.projecttravel.ui.screens.boards.boardapi.sendCommentToDb
 import com.example.projecttravel.ui.screens.boards.boarddialogs.RemoveCommentDialog
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.ViewModelListReply
+import com.example.projecttravel.ui.screens.viewmodels.board.ListReplyRepoViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun ViewReply(
-    boardSelectUiState: BoardSelectUiState,
+    boardPageUiState: BoardPageUiState,
     userUiState: UserUiState,
     currentArticleNo: String,
     onContentRefreshClicked: () -> Unit,
@@ -69,12 +68,12 @@ fun ViewReply(
         }
     }
 
-    val replyListViewModel: ViewModelListReply =
-        viewModel(factory = ViewModelListReply.ReplyFactory)
-    val replyUiState = (replyListViewModel.replyUiState as? ReplyUiState.ReplySuccess)
+    val listReplyRepoViewModel: ListReplyRepoViewModel =
+        viewModel(factory = ListReplyRepoViewModel.ReplyFactory)
+    val replyUiState = (listReplyRepoViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
     val filteredReplyList = replyUiState?.replyList?.filter {
-        when (boardSelectUiState.currentSelectedBoard) {
+        when (boardPageUiState.currentSelectedBoard) {
             R.string.board -> it.boardEntity == currentArticleNo
             R.string.trade -> it.tradeEntity == currentArticleNo
             R.string.company -> it.companyEntity == currentArticleNo
@@ -82,7 +81,7 @@ fun ViewReply(
         }
     }
 
-    val tabtitle: String = when (boardSelectUiState.currentSelectedBoard) {
+    val tabtitle: String = when (boardPageUiState.currentSelectedBoard) {
         R.string.board -> stringResource(R.string.boardTitle)
         R.string.trade -> stringResource(R.string.tradeTitle)
         R.string.company -> stringResource(R.string.companyTitle)

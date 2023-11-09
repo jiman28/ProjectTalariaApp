@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.viewmodels
+package com.example.projecttravel.data.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 
-class ViewModelPlan : ViewModel() {
+class PlanViewModel : ViewModel() {
     /** all selection */
     private val _uiState = MutableStateFlow(PlanUiState())
     val planUiState: StateFlow<PlanUiState> = _uiState.asStateFlow()

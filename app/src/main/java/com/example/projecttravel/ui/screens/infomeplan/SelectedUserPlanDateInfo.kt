@@ -19,15 +19,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 
 @Composable
 fun SelectedUserPlanDateInfo(
     allUserAttrList: List<SpotDtoResponseRead>,
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     onRouteClicked: () -> Unit,
 ) {
     Row(

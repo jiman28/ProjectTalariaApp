@@ -32,7 +32,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
@@ -42,7 +42,7 @@ import java.util.Calendar
 @Composable
 fun SelectDateRange(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
 ) {
     DateRangePickerMenu(
         selectUiState = selectUiState,
@@ -54,7 +54,7 @@ fun SelectDateRange(
 @Composable
 fun DateRangePickerMenu(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
 ) {
     val dateRangePickerState = rememberDateRangePickerState()
     var isOpenDateRangePickerDialog by remember { mutableStateOf(false) }
@@ -92,7 +92,7 @@ fun DateRangePickerMenu(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateRangePickerCustom(
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     dateRangePickerState: DateRangePickerState,
     onDismiss: () -> Unit,
 ) {

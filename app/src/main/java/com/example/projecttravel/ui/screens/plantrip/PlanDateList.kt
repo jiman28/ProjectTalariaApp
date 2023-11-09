@@ -13,14 +13,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 import java.time.LocalDate
 
 @Composable
 fun PlanDateList(
     allAttrList: List<SpotDtoResponse>,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     onDateClick: (LocalDate) -> Unit,
 ) {
     val sortedDates = planUiState.dateToSelectedTourAttrMap.keys.sorted()
@@ -44,7 +44,6 @@ fun PlanDateList(
                     PlanCardDate(
                         date = date,
                         size = allAttrListSize,
-                        planUiState = planUiState,
                         planViewModel = planViewModel,
                         weatherResponseGet = weatherResponseGet,
                         onClick = { onDateClick(date) } // Update selectedPlanDate
@@ -53,7 +52,6 @@ fun PlanDateList(
                     PlanCardDate(
                         date = date,
                         size = allAttrListSize,
-                        planUiState = planUiState,
                         planViewModel = planViewModel,
                         weatherResponseGet = null,
                         onClick = { onDateClick(date) } // Update selectedPlanDate

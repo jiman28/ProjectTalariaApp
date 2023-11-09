@@ -28,13 +28,13 @@ import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 
 import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun SelectInterest(
     selectUiState: SelectUiState,
     interestUiState: InterestUiState.InterestSuccess,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
     selectedInterest: InterestInfo?,
@@ -52,7 +52,7 @@ fun SelectInterest(
 @Composable
 fun InterestDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
     selectedCountry: CountryInfo?, // 선택된 나라 정보 받기
     selectedCity: CityInfo?, // 선택된 도시 정보 받기
     selectedInterest: InterestInfo?,

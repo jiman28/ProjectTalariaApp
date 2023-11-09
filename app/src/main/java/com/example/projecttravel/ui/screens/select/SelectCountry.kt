@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.select
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,20 +20,18 @@ import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 
-private const val TAG = "AAAAA"
-
 @Composable
 fun SelectCountry(
     selectUiState: SelectUiState,
     countryUiState: CountryUiState.CountrySuccess,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     selectedCountry: CountryInfo?,
 ) {
     CountryDropDownMenu(
@@ -49,7 +46,7 @@ fun SelectCountry(
 @Composable
 fun CountryDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect,
+    selectViewModel: SelectViewModel,
     selectedCountry: CountryInfo?, // 선택된 나라 정보 받기
     countryList: List<CountryInfo>,
 ) {

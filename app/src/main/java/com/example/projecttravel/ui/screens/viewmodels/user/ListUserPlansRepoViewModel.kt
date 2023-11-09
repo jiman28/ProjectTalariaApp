@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.viewmodels.user
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -22,7 +21,7 @@ sealed interface PlanListUiState {
     object Loading : PlanListUiState
 }
 
-class ViewModelListPlan(private val userPlanListRepository: UserPlanListRepository) : ViewModel() {
+class ListUserPlansRepoViewModel(private val userPlanListRepository: UserPlanListRepository) : ViewModel() {
 
     var planListUiState: PlanListUiState by mutableStateOf(PlanListUiState.PlanListSuccess(emptyList()))
         private set
@@ -63,7 +62,7 @@ class ViewModelListPlan(private val userPlanListRepository: UserPlanListReposito
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val boardRepository = application.container.userPlanListRepository
-                ViewModelListPlan(userPlanListRepository = boardRepository)
+                ListUserPlansRepoViewModel(userPlanListRepository = boardRepository)
             }
         }
     }

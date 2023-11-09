@@ -33,7 +33,7 @@ import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
 import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import com.example.projecttravel.ui.screens.home.HomePage
 import com.example.projecttravel.ui.screens.infomeplan.CheckMyPlanPage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
@@ -41,14 +41,16 @@ import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSearch
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.SearchViewModel
+import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.ui.screens.ztestPage.TestPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 enum class TravelScreen(@StringRes val title: Int) {
+    PageTest(title = R.string.pageTest),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page0(title = R.string.pageLogin),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page0A(title = R.string.pageSignIn),
     Page0B(title = R.string.pageSignInComplete),
@@ -62,17 +64,16 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page4(title = R.string.page4),
     Page4A(title = R.string.pageViewBoard),
     Page4B(title = R.string.pageWriteBoard),
-    Page5(title = R.string.page5),
 }
 
 /** Composable that displays screens */
 @Composable
 fun TravelScreenHome(
-    userViewModel: ViewModelUser = viewModel(),
-    selectViewModel: ViewModelSelect = viewModel(),
-    searchViewModel: ViewModelSearch = viewModel(),
-    planViewModel: ViewModelPlan = viewModel(),
-    boardSelectViewModel: ViewModelBoardSelect = viewModel(),
+    userViewModel: UserViewModel = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
+    searchViewModel: SearchViewModel = viewModel(),
+    planViewModel: PlanViewModel = viewModel(),
+    boardPageViewModel: BoardPageViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -85,7 +86,7 @@ fun TravelScreenHome(
     val selectUiState by selectViewModel.selectUiState.collectAsState()
     val searchUiState by searchViewModel.searchUiState.collectAsState()
     val planUiState by planViewModel.planUiState.collectAsState()
-    val boardSelectUiState by boardSelectViewModel.boardSelectUiState.collectAsState()
+    val boardSelectUiState by boardPageViewModel.boardPageUiState.collectAsState()
 
     /** State of topBar, set state to false on each currentScreens */
     var showTopBar by rememberSaveable { mutableStateOf(true) }
@@ -144,7 +145,6 @@ fun TravelScreenHome(
             /** 0A. 회원 가입 화면 ====================*/
             composable(route = TravelScreen.Page0A.name) {
                 SignInForm(
-                    userUiState = userUiState,
                     userViewModel = userViewModel,
                     onNextButtonClicked = {
                         navController.navigate(TravelScreen.Page0B.name)
@@ -155,7 +155,6 @@ fun TravelScreenHome(
             composable(route = TravelScreen.Page0B.name) {
                 InterestForm(
                     userUiState = userUiState,
-                    userViewModel = userViewModel,
                     onCompleteButtonClicked = {
                         navController.navigate(TravelScreen.Page0.name)
                     },
@@ -179,6 +178,8 @@ fun TravelScreenHome(
                             },
                             userUiState = userUiState,
                             userViewModel = userViewModel,
+                            boardPageUiState = boardSelectUiState,
+                            boardPageViewModel = boardPageViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -210,10 +211,9 @@ fun TravelScreenHome(
                 MyInfoPage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    planUiState = planUiState,
                     planViewModel = planViewModel,
-                    boardSelectUiState = boardSelectUiState,
-                    boardSelectViewModel = boardSelectViewModel,
+                    boardPageUiState = boardSelectUiState,
+                    boardPageViewModel = boardPageViewModel,
                     navController = navController,
                     onNextButtonClicked = { navController.navigate(TravelScreen.Page1B.name) },
                 )
@@ -248,7 +248,6 @@ fun TravelScreenHome(
                 SelectPage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectUiState = selectUiState,
                     selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
@@ -326,6 +325,8 @@ fun TravelScreenHome(
                             },
                             userUiState = userUiState,
                             userViewModel = userViewModel,
+                            boardPageUiState = boardSelectUiState,
+                            boardPageViewModel = boardPageViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -335,8 +336,8 @@ fun TravelScreenHome(
                     AllBoardsPage(
                         userUiState = userUiState,
                         planUiState = planUiState,
-                        boardSelectUiState = boardSelectUiState,
-                        boardSelectViewModel = boardSelectViewModel,
+                        boardPageUiState = boardSelectUiState,
+                        boardPageViewModel = boardPageViewModel,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                         onWriteButtonClicked = { navController.navigate(TravelScreen.Page4B.name) },
                         onBackButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
@@ -352,7 +353,7 @@ fun TravelScreenHome(
                 ViewContentsBoard(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    boardSelectUiState = boardSelectUiState,
+                    boardPageUiState = boardSelectUiState,
                     onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
                     onBackButtonClicked = {
                         if (userUiState.previousScreenWasPageOneA) {
@@ -379,8 +380,8 @@ fun TravelScreenHome(
                 WriteArticlePage(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    boardSelectUiState = boardSelectUiState,
-                    boardSelectViewModel = boardSelectViewModel,
+                    boardPageUiState = boardSelectUiState,
+                    boardPageViewModel = boardPageViewModel,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                 )
                 BackHandler(
@@ -388,6 +389,22 @@ fun TravelScreenHome(
                     onBack = { userViewModel.setBackHandlerClick(true) },
                 )
             }
+
+            // Test ====================
+            /** Test ====================*/
+            composable(route = TravelScreen.PageTest.name) {
+                TestPage(
+                    boardPageUiState = boardSelectUiState,
+                    boardPageViewModel = boardPageViewModel,
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+                    },
+                )
+            }
+            // Test ====================
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */

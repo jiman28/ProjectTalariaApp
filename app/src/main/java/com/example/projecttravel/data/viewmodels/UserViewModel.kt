@@ -1,17 +1,16 @@
-package com.example.projecttravel.ui.screens.viewmodels
+package com.example.projecttravel.data.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.SendSignIn
-import com.example.projecttravel.model.SpotDtoResponseRead
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class ViewModelUser : ViewModel() {
+class UserViewModel : ViewModel() {
     /** all selection */
     private val _uiState = MutableStateFlow(UserUiState())
     val userUiState: StateFlow<UserUiState> = _uiState.asStateFlow()

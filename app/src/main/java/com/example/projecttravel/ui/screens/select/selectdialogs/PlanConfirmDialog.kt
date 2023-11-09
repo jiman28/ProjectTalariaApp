@@ -23,7 +23,7 @@ import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByCity
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByWeather
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
+import com.example.projecttravel.data.viewmodels.PlanViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -32,8 +32,7 @@ import java.time.LocalDate
 /** PlanConfirmDialog to ask whether to go planPage or not ====================*/
 @Composable
 fun PlanConfirmDialog(
-    planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     selectUiState: SelectUiState,
     onNextButtonClicked: () -> Unit = {},
     onDismiss: () -> Unit,

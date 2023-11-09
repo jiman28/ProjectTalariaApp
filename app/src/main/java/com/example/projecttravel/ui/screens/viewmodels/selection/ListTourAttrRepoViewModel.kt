@@ -19,7 +19,7 @@ sealed interface TourAttractionUiState {
         TourAttractionUiState
 }
 
-class TourAttractionViewModel(private val tourAttractionListRepository: TourAttractionListRepository) : ViewModel() {
+class ListTourAttrRepoViewModel(private val tourAttractionListRepository: TourAttractionListRepository) : ViewModel() {
 
     var tourAttractionUiState: TourAttractionUiState by mutableStateOf(
         TourAttractionUiState.TourAttractionSuccess(
@@ -50,7 +50,7 @@ class TourAttractionViewModel(private val tourAttractionListRepository: TourAttr
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val tourAttractionListRepository = application.container.tourAttractionListRepository
-                TourAttractionViewModel(tourAttractionListRepository = tourAttractionListRepository)
+                ListTourAttrRepoViewModel(tourAttractionListRepository = tourAttractionListRepository)
             }
         }
     }

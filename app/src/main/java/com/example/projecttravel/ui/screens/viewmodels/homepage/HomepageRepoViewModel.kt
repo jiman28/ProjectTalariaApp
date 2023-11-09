@@ -24,7 +24,7 @@ sealed interface HomepageUiState {
 }
 
 /** ViewModel containing the app data and method to retrieve the data */
-class HomepageViewModel(private val countryListRepository: CountryListRepository) : ViewModel() {
+class HomepageRepoViewModel(private val countryListRepository: CountryListRepository) : ViewModel() {
 
     var homepageUiState: HomepageUiState by mutableStateOf(HomepageUiState.Loading)
         private set
@@ -52,7 +52,7 @@ class HomepageViewModel(private val countryListRepository: CountryListRepository
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
                 val travelRepository = application.container.countryListRepository
-                HomepageViewModel(countryListRepository = travelRepository)
+                HomepageRepoViewModel(countryListRepository = travelRepository)
             }
         }
     }

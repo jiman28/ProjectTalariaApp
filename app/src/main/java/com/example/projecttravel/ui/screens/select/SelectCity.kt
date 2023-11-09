@@ -26,13 +26,13 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelSelect
+import com.example.projecttravel.data.viewmodels.SelectViewModel
 
 @Composable
 fun SelectCity(
     selectUiState: SelectUiState,
     cityUiState: CityUiState.CitySuccess,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
 ) {
@@ -48,7 +48,7 @@ fun SelectCity(
 @Composable
 fun CityDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: ViewModelSelect = viewModel(),
+    selectViewModel: SelectViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?, // 선택된 나라 정보 받기
     cityList: List<CityInfo>,

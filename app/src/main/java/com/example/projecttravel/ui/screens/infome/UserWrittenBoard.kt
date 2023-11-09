@@ -10,7 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.Board
@@ -21,7 +21,7 @@ import com.example.projecttravel.ui.screens.boards.ListBoard
 import com.example.projecttravel.ui.screens.boards.ListCompany
 import com.example.projecttravel.ui.screens.boards.ListTrade
 import com.example.projecttravel.ui.screens.boards.NoArticlesFoundScreen
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
@@ -29,12 +29,11 @@ import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
 @Composable
 fun UserWrittenBoard(
     userUiState: UserUiState,
-    planUiState: PlanUiState,
-    boardSelectUiState: BoardSelectUiState,
+    boardPageUiState: BoardPageUiState,
     filteredBoardList: List<Board>?,
     filteredCompanyList: List<Company>?,
     filteredTradeList: List<Trade>?,
-    boardSelectViewModel: ViewModelBoardSelect,
+    boardPageViewModel: BoardPageViewModel,
     onBoardClicked: () -> Unit,
 ) {
     Column (
@@ -43,8 +42,8 @@ fun UserWrittenBoard(
     ) {
         Column {
             BoardsPageTabButtons(
-                boardSelectUiState = boardSelectUiState,
-                boardSelectViewModel = boardSelectViewModel,
+                boardPageUiState = boardPageUiState,
+                boardPageViewModel = boardPageViewModel,
             )
         }
 
@@ -54,13 +53,13 @@ fun UserWrittenBoard(
             val currentUserMenuId = userUiState.checkOtherUser?.id
             if (currentUserMenuId != null) {
                 // 필터링을 거친 리스트
-                when (boardSelectUiState.currentSelectedBoard) {
+                when (boardPageUiState.currentSelectedBoard) {
                     R.string.board -> {
                         if (filteredBoardList != null) {
                             if (filteredBoardList.isNotEmpty()) {
                                 ListBoard(
                                     boardUiState = BoardUiState.BoardSuccess(filteredBoardList),
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )
@@ -77,7 +76,7 @@ fun UserWrittenBoard(
                             if (filteredCompanyList.isNotEmpty()) {
                                 ListCompany(
                                     companyUiState = CompanyUiState.CompanySuccess(filteredCompanyList),
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )
@@ -94,7 +93,7 @@ fun UserWrittenBoard(
                             if (filteredTradeList.isNotEmpty()) {
                                 ListTrade(
                                     tradeUiState = TradeUiState.TradeSuccess(filteredTradeList),
-                                    boardSelectViewModel = boardSelectViewModel,
+                                    boardPageViewModel = boardPageViewModel,
                                     onBoardClicked = onBoardClicked,
                                     contentPadding = PaddingValues(0.dp),
                                 )

@@ -25,8 +25,8 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelPlan
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
@@ -38,9 +38,9 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun RouteGpsPage(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     planUiState: PlanUiState,
-    planViewModel: ViewModelPlan,
+    planViewModel: PlanViewModel,
     onBackButtonClicked: () -> Unit = {},
 ) {
     val context = LocalContext.current

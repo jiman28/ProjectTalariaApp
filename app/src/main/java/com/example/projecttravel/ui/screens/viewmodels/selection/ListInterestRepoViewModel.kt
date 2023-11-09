@@ -9,29 +9,29 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
-import com.example.projecttravel.data.repositories.select.CountryListRepository
-import com.example.projecttravel.model.CountryInfo
+import com.example.projecttravel.data.repositories.select.InterestListRepository
+import com.example.projecttravel.model.InterestInfo
 import kotlinx.coroutines.launch
 
-sealed interface CountryUiState {
+sealed interface InterestUiState {
 
-    data class CountrySuccess(val countryList: List<CountryInfo>) : CountryUiState
+    data class InterestSuccess(val interestList: List<InterestInfo>) : InterestUiState
 }
 
-class CountryViewModel(private val countryListRepository: CountryListRepository) : ViewModel() {
+class ListInterestRepoViewModel(private val interestListRepository: InterestListRepository) : ViewModel() {
 
-    var countryUiState: CountryUiState by mutableStateOf(CountryUiState.CountrySuccess(emptyList()))
+    var interestUiState: InterestUiState by mutableStateOf(InterestUiState.InterestSuccess(emptyList()))
         private set
 
     init {
-        getCountry()
+        getInterest()
     }
 
-    fun getCountry() {
+    fun getInterest() {
         viewModelScope.launch {
             try {
-                val countryList = countryListRepository.getCountryList()
-                countryUiState = CountryUiState.CountrySuccess(countryList)
+                val interestList = interestListRepository.getInterestList()
+                interestUiState = InterestUiState.InterestSuccess(interestList)
             } catch (e: Exception) {
                 // Handle the error case if necessary
             }
@@ -39,12 +39,12 @@ class CountryViewModel(private val countryListRepository: CountryListRepository)
     }
 
     companion object {
-        val CountryFactory: ViewModelProvider.Factory = viewModelFactory {
+        val InterestFactory: ViewModelProvider.Factory = viewModelFactory {
             initializer {
                 val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
                         as TravelApplication)
-                val countryRepository = application.container.countryListRepository
-                CountryViewModel(countryListRepository = countryRepository)
+                val interestRepository = application.container.interestListRepository
+                ListInterestRepoViewModel(interestListRepository = interestRepository)
             }
         }
     }

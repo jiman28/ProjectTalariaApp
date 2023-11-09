@@ -27,17 +27,17 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardSelectUiState
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelBoardSelect
+import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 
 @Composable
 fun WriteArticlePage(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
-    boardSelectUiState: BoardSelectUiState,
-    boardSelectViewModel: ViewModelBoardSelect,
+    userViewModel: UserViewModel,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
     onBackButtonClicked: () -> Unit,
 ) {
     var title by remember { mutableStateOf("") }
@@ -59,8 +59,8 @@ fun WriteArticlePage(
                 content = content,
                 userUiState = userUiState,
                 userViewModel = userViewModel,
-                boardSelectUiState = boardSelectUiState,
-                boardSelectViewModel = boardSelectViewModel,
+                boardPageUiState = boardPageUiState,
+                boardPageViewModel = boardPageViewModel,
                 onBackButtonClicked = onBackButtonClicked
             )
         }
@@ -87,8 +87,8 @@ fun WriteArticlePage(
                 modifier = Modifier.weight(8f)
             ) {
                 BoardDropDownMenu(
-                    boardSelectUiState = boardSelectUiState,
-                    boardSelectViewModel = boardSelectViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
                 )
             }
         }

@@ -36,14 +36,14 @@ import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
-import com.example.projecttravel.ui.screens.viewmodels.ViewModelUser
+import com.example.projecttravel.data.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserSimilarToMeDialog(
     userUiState: UserUiState,
-    userViewModel: ViewModelUser,
+    userViewModel: UserViewModel,
     onUserClicked: () -> Unit = {},
     onDismiss: () -> Unit,
 ) {
