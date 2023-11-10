@@ -3,6 +3,7 @@
 
     <!--Page Enum class-->
     <string name="pageTest">TestTestTestTestTestTestTest</string>
+    <string name="pageTest2">TestTestTestTestTestTestTest</string>
     <string name="pageLogin">Login page</string>
     <string name="pageSignIn">SignIn page</string>
     <string name="pageSignInComplete">Interest Check page</string>
@@ -38,15 +39,22 @@
     <string name="title_colon">%s : %s</string>
 
     <!--Board -->
-    <string name="board">board</string>
-    <string name="company">company</string>
-    <string name="trade">trade</string>
-    <string name="reply">reply</string>
+<!--    <string name="board">board</string>-->
+<!--    <string name="company">company</string>-->
+<!--    <string name="trade">trade</string>-->
+<!--    <string name="reply">reply</string>-->
 
-    <string name="selectMenu">게시판을 선택하세요</string>
-    <string name="boardTitle">리뷰모음</string>
-    <string name="companyTitle">동행자구인</string>
-    <string name="tradeTitle">거래시스템</string>
+    <!--Board SearchType -->
+    <string name="selectSearchType">""</string>
+    <string name="title">title</string>
+    <string name="content">content</string>
+    <string name="writeuser">writeuser</string>
+
+    <!--Board tabTitle & Write -->
+    <string name="selectTabTitle">게시판을 선택하세요</string>
+    <string name="boardTabTitle">리뷰모음</string>
+    <string name="companyTabTitle">동행자구인</string>
+    <string name="tradeTabTitle">거래시스템</string>
     <string name="replyTitle">Comments</string>
 
     <string name="noSearchFound">검색 결과가 없습니다.</string>

@@ -11,16 +11,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
-import com.example.projecttravel.ui.screens.boards.BoardsPageTabButtons
-import com.example.projecttravel.ui.screens.boards.ListBoard
-import com.example.projecttravel.ui.screens.boards.ListCompany
-import com.example.projecttravel.ui.screens.boards.ListTrade
-import com.example.projecttravel.ui.screens.boards.NoArticlesFoundScreen
+import com.example.projecttravel.ui.screens.boardview.BoardsPageTabButtons
+import com.example.projecttravel.ui.screens.infome.tempboardlist.ListBoard
+import com.example.projecttravel.ui.screens.infome.tempboardlist.ListCompany
+import com.example.projecttravel.ui.screens.infome.tempboardlist.ListTrade
+import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
 import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
@@ -54,7 +53,7 @@ fun UserWrittenBoard(
             if (currentUserMenuId != null) {
                 // 필터링을 거친 리스트
                 when (boardPageUiState.currentSelectedBoard) {
-                    R.string.board -> {
+                    R.string.boardTabTitle -> {
                         if (filteredBoardList != null) {
                             if (filteredBoardList.isNotEmpty()) {
                                 ListBoard(
@@ -71,7 +70,7 @@ fun UserWrittenBoard(
                         }
                     }
 
-                    R.string.company -> {
+                    R.string.companyTabTitle -> {
                         if (filteredCompanyList != null) {
                             if (filteredCompanyList.isNotEmpty()) {
                                 ListCompany(
@@ -88,7 +87,7 @@ fun UserWrittenBoard(
                         }
                     }
 
-                    R.string.trade -> {
+                    R.string.tradeTabTitle -> {
                         if (filteredTradeList != null) {
                             if (filteredTradeList.isNotEmpty()) {
                                 ListTrade(

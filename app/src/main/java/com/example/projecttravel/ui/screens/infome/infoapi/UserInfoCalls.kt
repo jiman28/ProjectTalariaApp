@@ -3,6 +3,7 @@ package com.example.projecttravel.ui.screens.infome.infoapi
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.model.CheckOtherUserById
+import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.UserResponse
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
@@ -87,4 +88,47 @@ suspend fun getUserPageById(
         })
     }
 }
+
+/** ======================================================================================== */
+/** asynchronous codes ===================================================================== */
+// send Article To Db
+suspend fun callMyPlanList(
+    userResponse: UserResponse,
+): List<PlansDataRead> {
+    return suspendCancellableCoroutine { continuation ->
+        val call = RetrofitBuilderJson.travelJsonApiService.getMyPlanList(userResponse)
+        call.enqueue(object : Callback<List<PlansDataRead>> {
+            override fun onResponse(
+                call: Call<List<PlansDataRead>>,
+                response: Response<List<PlansDataRead>>
+            ) {
+                if (response.isSuccessful) {
+                    val planResponse = response.body()
+                    if (planResponse != null) {
+                        Log.d("jiman=111", "Request Success + Response Success")
+                        Log.d("jiman=111", call.toString())
+                        Log.d("jiman=111", response.body().toString())
+                        continuation.resume(planResponse) // 작업 성공 시 true 반환
+//                        continuation.resume(false) // 오류 확인용 false
+                    } else {
+                        Log.d("jiman=222", "Response body is null")
+                        continuation.resume(emptyList()) // 작업 실패 시 false 반환
+                    }
+                } else {
+                    Log.d("jiman=333", "Failure")
+                    continuation.resume(emptyList()) // 작업 실패 시 false 반환
+                }
+            }
+
+            override fun onFailure(call: Call<List<PlansDataRead>>, t: Throwable) {
+                Log.d("jiman=444", t.localizedMessage ?: "Unknown error")
+                continuation.resume(emptyList()) // 작업 실패 시 false 반환
+            }
+        })
+    }
+}
+
+
+
+
 

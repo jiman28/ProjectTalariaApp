@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.viewmodels.user
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -49,8 +50,10 @@ class ListUserPlansRepoViewModel(private val userPlanListRepository: UserPlanLis
             planListUiState = try {
                 PlanListUiState.PlanListSuccess(userPlanListRepository.getUserPlansList())
             } catch (e: IOException) {
+                Log.d("jimanLog=111", "${e.message}")
                 PlanListUiState.Error
             } catch (e: HttpException) {
+                Log.d("jimanLog=111", "${e.message}")
                 PlanListUiState.Error
             }
         }

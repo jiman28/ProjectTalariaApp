@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.ztestPage
+package com.example.projecttravel.ui.screens.boardread
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -6,50 +6,80 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Divider
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.model.CallBoard
+import com.example.projecttravel.ui.screens.GlobalErrorDialog
+import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.ui.screens.TravelScreen
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
-fun TestPage (
+fun TestPageSecond (
     boardPageUiState: BoardPageUiState,
     boardPageViewModel: BoardPageViewModel,
+    navController: NavHostController,
+    scope: CoroutineScope,
 ) {
-    if (boardPageUiState.currentBoardList != null) {
+    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
+    Surface {
+        when (isLoadingState) {
+            true -> GlobalLoadingDialog()
+            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
+            else -> isLoadingState = null
+        }
+    }
+
+    if (boardPageUiState.currentReplyList.isNotEmpty()) {
         Column {
 //            Text(text = "page = ${boardPageUiState.currentBoardList.page}")
 //            Text(text = "kw = ${boardPageUiState.currentBoardList.kw}")
 //            Text(text = "type = ${boardPageUiState.currentBoardList.type}")
 
-            Text(text = "pages = ${boardPageUiState.currentBoardList.pages}")
 
+//            Text(text = "pages = ${boardPageUiState.currentBoardList.pages}")
             Spacer(Modifier.size(10.dp))
             Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
             LazyColumn(
             ) {
                 items(
-                    items = boardPageUiState.currentBoardList.list,
-                    key = { board ->
-                        board.articleNo
+                    items = boardPageUiState.currentReplyList,
+                    key = { reply ->
+                        reply.replyNo
                     }
-                ) { board ->
-                    Text(fontSize = 12.sp, text = board.articleNo.toString())
-                    Text(fontSize = 12.sp, text = board.title)
-                    Text(fontSize = 12.sp, text = board.content)
-                    Text(fontSize = 12.sp, text = board.views.toString())
-                    Text(fontSize = 12.sp, text = board.writeDate.toString())
-                    Text(fontSize = 12.sp, text = board.writeId)
+                ) { reply ->
+                    Text(fontSize = 12.sp, text = reply.replyNo)
+                    Text(fontSize = 12.sp, text = reply.replyContent)
+                    Text(fontSize = 12.sp, text = reply.writeDate)
+                    Text(fontSize = 12.sp, text = reply.boardEntity)
+                    Text(fontSize = 12.sp, text = reply.companyEntity)
+                    Text(fontSize = 12.sp, text = reply.tradeEntity)
+                    Text(fontSize = 12.sp, text = reply.userId)
+                    Text(fontSize = 12.sp, text = reply.writeId)
                     Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+                    Spacer(Modifier.size(10.dp))
                 }
             }
         }
+    } else {
+        Text(text = "댓글 없당께롱")
     }
 }
 

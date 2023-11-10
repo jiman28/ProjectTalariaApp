@@ -7,8 +7,16 @@ data class CallBoard (
     val kw: String,
     val page: Int,
     val type: String,
+    val email: String,
 )
 
+@Serializable
+data class CallReply (
+    val tabtitle: String,
+    val articleNo: String,
+)
+
+//==========
 @Serializable
 data class SendArticle (
     val tabTitle: String,

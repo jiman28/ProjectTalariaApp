@@ -30,34 +30,6 @@ fun EllipsisTextBoard(
     Text(text = displayText, fontSize = 20.sp, modifier = modifier)
 }
 
-/** ======================================================================================== */
-/** synchronous codes ===================================================================== */
-// update view count
-fun viewCounter (
-    tabtitle: String,
-    articleNo: String,
-){
-    val call = RetrofitBuilderString.travelStringApiService.setView(tabtitle = tabtitle, articleNo = articleNo)
-    call.enqueue(object : Callback<String> {
-        override fun onResponse(call: Call<String>, response: Response<String>) {
-            if (response.isSuccessful) {
-                // 통신 및 응답 성공
-                Log.d("jiman=111", "Request Success + Response Success")
-                Log.d("jiman=111", call.toString())
-                Log.d("jiman=111", response.body().toString())
-            } else {
-                // 통신은 성공하였으나 응답 실패
-                Log.d("jiman=222", "Request Success + Response FAILURE")
-                Log.d("jiman=222", response.body().toString())
-            }
-        }
-        override fun onFailure(call: Call<String>, t: Throwable) {
-            // 통신 실패
-            Log.d("jiman=333", "Request FAILURE")
-            Log.d("jiman=333", "checking: $call")
-        }
-    })
-}
 
 /** ======================================================================================== */
 /** asynchronous codes ===================================================================== */

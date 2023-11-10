@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards
+package com.example.projecttravel.ui.screens.infome.tempboardlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,16 +30,16 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.viewCounter
 import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
+import com.example.projecttravel.ui.screens.viewmodels.board.CompanyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
-import com.example.projecttravel.ui.screens.viewmodels.board.TradeUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ListReplyRepoViewModel
 
 @Composable
-fun ListTrade(
+fun ListCompany(
     modifier: Modifier = Modifier,
-    tradeUiState: TradeUiState.TradeSuccess,
+    companyUiState: CompanyUiState.CompanySuccess,
     boardPageViewModel: BoardPageViewModel,
     onBoardClicked: () -> Unit,
     contentPadding: PaddingValues,
@@ -47,7 +47,7 @@ fun ListTrade(
     val listReplyRepoViewModel: ListReplyRepoViewModel = viewModel(factory = ListReplyRepoViewModel.ReplyFactory)
     val replyUiState = (listReplyRepoViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
-    val tabtitle: String = stringResource(R.string.tradeTitle)
+    val tabtitle: String = stringResource(R.string.companyTabTitle)
 
     LazyColumn(
         modifier = modifier,
@@ -55,7 +55,7 @@ fun ListTrade(
         verticalArrangement = Arrangement.spacedBy(3.dp),
     ) {
         items(
-            items = tradeUiState.tradeList.reversed(),
+            items = companyUiState.companyList.reversed(),
             key = { board ->
                 board.articleNo
             }
@@ -90,7 +90,7 @@ fun ListTrade(
                                     onClick = {
                                         viewCounter(tabtitle, board.articleNo)
                                         onBoardClicked()
-                                        boardPageViewModel.setSelectedTrade(board)
+//                                        boardPageViewModel.setSelectedCompany(board)
                                     }
                                 ) {
 //                                        Text(fontSize = 20.sp, text = board.title)
@@ -107,7 +107,7 @@ fun ListTrade(
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     val filteredReplyList = replyUiState?.replyList?.filter {
-                                        it.tradeEntity == board.articleNo
+                                        it.companyEntity == board.articleNo
                                     }
                                     Icon(
                                         modifier = Modifier.size(15.dp),

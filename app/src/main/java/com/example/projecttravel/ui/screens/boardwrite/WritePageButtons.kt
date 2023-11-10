@@ -96,7 +96,7 @@ fun WritePageButtons(
                     .weight(1f)
                     .padding(1.dp),
                 onClick = {
-                    if (boardPageUiState.selectedWriteBoardMenu == R.string.selectMenu) {
+                    if (boardPageUiState.selectedWriteBoardMenu == R.string.selectTabTitle) {
                         txtErrorMsg = "게시판을 고르세요"
                         isTextErrorDialog = true
                     } else if (title == "") {

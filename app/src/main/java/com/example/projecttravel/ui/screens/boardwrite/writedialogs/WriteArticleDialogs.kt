@@ -60,7 +60,7 @@ fun ArticleConfirmDialog(
                             val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isArticleComplete) {
-                                boardPageViewModel.setWriteBoardMenu(R.string.selectMenu)
+                                boardPageViewModel.setWriteBoardMenu(R.string.selectTabTitle)
                                 onDismiss()
                                 onBackButtonClicked()
                             } else {
@@ -115,7 +115,7 @@ fun CancelWriteArticleDialog(
                 TextButton(
                     onClick = {
                         onDismiss()
-                        boardPageViewModel.setWriteBoardMenu(R.string.selectMenu)
+                        boardPageViewModel.setWriteBoardMenu(R.string.selectTabTitle)
                         userViewModel.setBackHandlerClick(false)
                         onBackButtonClicked()
                     }

@@ -3,11 +3,13 @@ package com.example.projecttravel.network
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard
+import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Reply
 import com.example.projecttravel.model.Trade
 import com.example.projecttravel.model.CityInfo
+import com.example.projecttravel.model.CompanyList
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.GetAttrWeather
 import com.example.projecttravel.model.InterestInfo
@@ -25,7 +27,9 @@ import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.model.PlansDataRead
+import com.example.projecttravel.model.ReplyList
 import com.example.projecttravel.model.SendInterest
+import com.example.projecttravel.model.TradeList
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.Field
@@ -55,6 +59,11 @@ interface TravelApiService {
     // userpage
     @POST("seepersonalpage")
     fun getOtherUserInfo(@Body checkOtherUserById: CheckOtherUserById): Call<UserResponse>
+
+    // userpage
+    @POST("callplanlist")
+    fun getMyPlanList(@Body userResponse: UserResponse): Call<List<PlansDataRead>>
+
 
     // UserInfo DB ==============================
     @GET("userinfo")
@@ -130,6 +139,15 @@ interface TravelApiService {
     // Board DB Call Page ==============================TestTestTest
     @POST("callboardlist")
     fun callBoardList(@Body callBoard: CallBoard): Call<BoardList>
+
+    @POST("callcompanylist")
+    fun callCompanyList(@Body callBoard: CallBoard): Call<CompanyList>
+
+    @POST("calltradelist")
+    fun callTradeList(@Body callBoard: CallBoard): Call<TradeList>
+
+    @POST("callreplylist")
+    fun callReplyList(@Body callReply: CallReply): Call<List<ReplyList>>
 
     // Board DB Edit Calls ==============================
     // viewCounter

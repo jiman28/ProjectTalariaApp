@@ -51,11 +51,11 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.boardTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.boardTabTitle)
             },
         ) {
             Text(
-                text = stringResource(R.string.boardTitle),
+                text = stringResource(R.string.boardTabTitle),
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
@@ -66,11 +66,11 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.companyTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.companyTabTitle)
             },
         ) {
             Text(
-                text = stringResource(R.string.companyTitle),
+                text = stringResource(R.string.companyTabTitle),
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
@@ -81,11 +81,11 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.tradeTitle)
+                boardPageViewModel.setWriteBoardMenu(R.string.tradeTabTitle)
             },
         ) {
             Text(
-                text = stringResource(R.string.tradeTitle),
+                text = stringResource(R.string.tradeTabTitle),
                 fontSize = 30.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier

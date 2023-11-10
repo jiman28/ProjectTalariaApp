@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards
+package com.example.projecttravel.ui.screens.infome.tempboardlist
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -30,8 +30,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.viewCounter
 import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
 import com.example.projecttravel.ui.screens.viewmodels.board.BoardUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ReplyUiState
 import com.example.projecttravel.ui.screens.viewmodels.board.ListReplyRepoViewModel
@@ -47,7 +47,7 @@ fun ListBoard(
     val listReplyRepoViewModel: ListReplyRepoViewModel = viewModel(factory = ListReplyRepoViewModel.ReplyFactory)
     val replyUiState = (listReplyRepoViewModel.replyUiState as? ReplyUiState.ReplySuccess)
 
-    val tabtitle: String = stringResource(R.string.boardTitle)
+    val tabtitle: String = stringResource(R.string.boardTabTitle)
 
     LazyColumn(
         modifier = modifier,
@@ -91,7 +91,7 @@ fun ListBoard(
                                     onClick = {
                                         viewCounter(tabtitle, board.articleNo)
                                         onBoardClicked()
-                                        boardPageViewModel.setSelectedBoard(board)
+//                                        boardPageViewModel.setSelectedBoard(board)
                                     }
                                 ) {
 //                                        Text(fontSize = 20.sp, text = board.title)

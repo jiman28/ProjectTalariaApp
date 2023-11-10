@@ -44,6 +44,13 @@ class UserViewModel : ViewModel() {
     }
 
     /** setUserPageInfo Object */
+    fun setCheckUserPlanList (currentPlanList: List<PlansDataRead>) {
+        _uiState.update { currentState ->
+            currentState.copy( checkMyPlanList = currentPlanList)
+        }
+    }
+
+    /** setUserPageInfo Object */
     fun setCheckUserPlanDataPage (currentPlan: PlansDataRead?) {
         _uiState.update { currentState ->
             currentState.copy( checkMyPageTrip = currentPlan)

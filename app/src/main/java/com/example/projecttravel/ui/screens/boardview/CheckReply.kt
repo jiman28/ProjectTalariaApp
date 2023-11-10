@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards
+package com.example.projecttravel.ui.screens.boardview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

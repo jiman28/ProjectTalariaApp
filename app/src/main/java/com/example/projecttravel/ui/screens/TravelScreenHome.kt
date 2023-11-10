@@ -28,8 +28,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.auth.InterestForm
-import com.example.projecttravel.ui.screens.boards.AllBoardsPage
-import com.example.projecttravel.ui.screens.boards.ViewContentsBoard
+import com.example.projecttravel.ui.screens.boardlist.AllBoardsPage
+//import com.example.projecttravel.ui.screens.boardview.ViewContentsBoard
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
 import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
@@ -45,12 +45,14 @@ import com.example.projecttravel.data.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.viewmodels.PlanViewModel
 import com.example.projecttravel.data.viewmodels.SearchViewModel
 import com.example.projecttravel.data.viewmodels.SelectViewModel
-import com.example.projecttravel.ui.screens.ztestPage.TestPage
+import com.example.projecttravel.ui.screens.boardread.TestPage
+import com.example.projecttravel.ui.screens.boardread.TestPageSecond
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 enum class TravelScreen(@StringRes val title: Int) {
     PageTest(title = R.string.pageTest),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
+    PageTest2(title = R.string.pageTest2),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page0(title = R.string.pageLogin),   // 각 화면의 제목 텍스트에 해당하는 각 열거형 케이스에 대한 리소스 값을 추가합
     Page0A(title = R.string.pageSignIn),
     Page0B(title = R.string.pageSignInComplete),
@@ -180,6 +182,7 @@ fun TravelScreenHome(
                             userViewModel = userViewModel,
                             boardPageUiState = boardSelectUiState,
                             boardPageViewModel = boardPageViewModel,
+                            planViewModel = planViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -327,6 +330,7 @@ fun TravelScreenHome(
                             userViewModel = userViewModel,
                             boardPageUiState = boardSelectUiState,
                             boardPageViewModel = boardPageViewModel,
+                            planViewModel = planViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -340,7 +344,7 @@ fun TravelScreenHome(
                         boardPageViewModel = boardPageViewModel,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                         onWriteButtonClicked = { navController.navigate(TravelScreen.Page4B.name) },
-                        onBackButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
+                        onResetButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                     )
                     BackHandler(
                         enabled = drawerState.isClosed,
@@ -348,33 +352,33 @@ fun TravelScreenHome(
                     )
                 }
             }
-            /** 4-1. 단일 게시판 보기 화면 ====================*/
-            composable(route = TravelScreen.Page4A.name) {
-                ViewContentsBoard(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                    boardPageUiState = boardSelectUiState,
-                    onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
-                    onBackButtonClicked = {
-                        if (userUiState.previousScreenWasPageOneA) {
-                            navController.navigate(TravelScreen.Page1A.name)
-                        } else {
-                            navController.navigate(TravelScreen.Page4.name)
-                        }
-                    },
-                    onUserButtonClicked = { navController.navigate(TravelScreen.Page1A.name) }
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = {
-                        if (userUiState.previousScreenWasPageOneA) {
-                            navController.navigate(TravelScreen.Page1A.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-                        } else {
-                            navController.navigate(TravelScreen.Page4.name)    // MainBoard 에서 글을 보는 경우 Back 할 시 다시 MainBoard 로 가야함.
-                        }
-                    },
-                )
-            }
+//            /** 4-1. 단일 게시판 보기 화면 ====================*/
+//            composable(route = TravelScreen.Page4A.name) {
+//                ViewContentsBoard(
+//                    userUiState = userUiState,
+//                    userViewModel = userViewModel,
+//                    boardPageUiState = boardSelectUiState,
+//                    onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
+//                    onBackButtonClicked = {
+//                        if (userUiState.previousScreenWasPageOneA) {
+//                            navController.navigate(TravelScreen.Page1A.name)
+//                        } else {
+//                            navController.navigate(TravelScreen.Page4.name)
+//                        }
+//                    },
+//                    onUserButtonClicked = { navController.navigate(TravelScreen.Page1A.name) }
+//                )
+//                BackHandler(
+//                    enabled = drawerState.isClosed,
+//                    onBack = {
+//                        if (userUiState.previousScreenWasPageOneA) {
+//                            navController.navigate(TravelScreen.Page1A.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+//                        } else {
+//                            navController.navigate(TravelScreen.Page4.name)    // MainBoard 에서 글을 보는 경우 Back 할 시 다시 MainBoard 로 가야함.
+//                        }
+//                    },
+//                )
+//            }
             /** 4-2. 게시판 작성 화면 ====================*/
             composable(route = TravelScreen.Page4B.name) {
                 WriteArticlePage(
@@ -394,13 +398,33 @@ fun TravelScreenHome(
             /** Test ====================*/
             composable(route = TravelScreen.PageTest.name) {
                 TestPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
                     boardPageUiState = boardSelectUiState,
                     boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    scope = scope,
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = {
                         navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+                    },
+                )
+            }
+
+            composable(route = TravelScreen.PageTest2.name) {
+                TestPageSecond(
+                    boardPageUiState = boardSelectUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    scope = scope,
+                )
+                BackHandler(
+                    onBack = {
+                        navController.navigateUp()
                     },
                 )
             }

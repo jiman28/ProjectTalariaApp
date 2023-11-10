@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.viewmodels.board
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -36,6 +37,7 @@ class ListBoardRepoViewModel(private val boardListRepository: BoardListRepositor
                 val boardList = boardListRepository.getBoardList()
                 boardUiState = BoardUiState.BoardSuccess(boardList)
             } catch (e: Exception) {
+                Log.d("jimanLog=111", "${e.message}")
                 // Handle the error case if necessary
             }
         }

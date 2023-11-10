@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boards.boardapi
+package com.example.projecttravel.ui.screens.boardview.boardapi
 
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderJson
