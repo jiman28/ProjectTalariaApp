@@ -188,16 +188,16 @@ fun DrawerContents (
             scope.launch {
                 drawerState.close()
                 isLoadingState = true
-                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "idgod8451@gmail.com")
+                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "b@b.b")
                 val userResponse = UserResponse(id = "",email = "",name = "",picture = "")
-//                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
-                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
+                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+//                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
 //                val isDeferred = async { getBoardListMobile(callBoard) }
                 val isComplete = isDeferred.await()
                 // 모든 작업이 완료되었을 때만 실행합니다.
-                if (isComplete != null) {
+                if (isComplete) {
 //                    boardPageViewModel.setBoardList(isComplete)
-                    userViewModel.setCheckUserPlanList(isComplete)
+//                    userViewModel.setCheckUserPlanList(isComplete)
                     isLoadingState = null
                     navController.navigate(TravelScreen.PageTest.name)
                 } else {

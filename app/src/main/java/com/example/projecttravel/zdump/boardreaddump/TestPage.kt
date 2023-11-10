@@ -97,207 +97,207 @@ fun TestPage (
         }
     }
 
+    Column {
 
+        Column {
+            BoardsPageTabButtons(
+                boardPageUiState = boardPageUiState,
+                boardPageViewModel = boardPageViewModel,
+            )
+        }
 
-
-//    Column {
-//        BoardsPageTabButtons(
-//            boardPageUiState = boardPageUiState,
-//            boardPageViewModel = boardPageViewModel,
-//        )
-//    }
-
-    when (boardPageUiState.currentSelectedBoard) {
-        R.string.boardTabTitle -> {
-            if (boardPageUiState.currentBoardList != null) {
-                Column {
+        when (boardPageUiState.currentSelectedBoard) {
+            R.string.boardTabTitle -> {
+                if (boardPageUiState.currentBoardList != null) {
+                    Column {
 //            Text(text = "page = ${boardPageUiState.currentBoardList.page}")
 //            Text(text = "kw = ${boardPageUiState.currentBoardList.kw}")
 //            Text(text = "type = ${boardPageUiState.currentBoardList.type}")
 
-                    Text(text = "pages = ${boardPageUiState.currentBoardList.pages}")
+                        Text(text = "pages = ${boardPageUiState.currentBoardList.pages}")
 
-                    Spacer(Modifier.size(10.dp))
-                    Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+                        Spacer(Modifier.size(10.dp))
+                        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
-                    LazyColumn(
-                    ) {
-                        items(
-                            items = boardPageUiState.currentBoardList.list,
-                            key = { board ->
-                                board.articleNo
-                            }
-                        ) { board ->
-                            Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
-                            Text(fontSize = 12.sp, text = board.title)
-                            Text(fontSize = 12.sp, text = board.content)
-                            Text(fontSize = 12.sp, text = board.views.toString())
-                            Text(fontSize = 12.sp, text = board.writeDate.toString())
-                            Text(fontSize = 12.sp, text = board.writeId)
-                            Spacer(Modifier.size(10.dp))
-                            Text(fontSize = 12.sp, text = board.user.id.toString())
-                            Text(fontSize = 12.sp, text = board.user.email)
-                            board.user.password?.let { Text(fontSize = 12.sp, text = it) }
-                            Spacer(Modifier.size(10.dp))
-                            val counter = boardPageUiState.currentBoardList.replyCount.find { it.articleNo == board.articleNo }
-
-                            Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
-                            Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
-
-
-
-                            TextButton(onClick = {
-                                scope.launch {
-                                    isLoadingState = true
-                                    val callReply = CallReply(tabtitle = "리뷰모음", articleNo = board.articleNo.toString())
-                                    val isReplyDeferred = async { getReplyListMobile(callReply) }
-                                    // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                    val isReplyComplete = isReplyDeferred.await()
-                                    // 모든 작업이 완료되었을 때만 실행합니다.
-                                    if (isReplyComplete != null) {
-                                        boardPageViewModel.setReplyList(isReplyComplete)
-                                        isLoadingState = null
-                                        navController.navigate(TravelScreen.PageTest2.name)
-                                    } else {
-                                        isLoadingState = false
-                                    }
+                        LazyColumn(
+                        ) {
+                            items(
+                                items = boardPageUiState.currentBoardList.list,
+                                key = { board ->
+                                    board.articleNo
                                 }
-                            }) {
-                                Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                            ) { board ->
+                                Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
+                                Text(fontSize = 12.sp, text = board.title)
+                                Text(fontSize = 12.sp, text = board.content)
+                                Text(fontSize = 12.sp, text = board.views.toString())
+                                Text(fontSize = 12.sp, text = board.writeDate.toString())
+                                Text(fontSize = 12.sp, text = board.writeId)
+                                Spacer(Modifier.size(10.dp))
+                                Text(fontSize = 12.sp, text = board.user.id.toString())
+                                Text(fontSize = 12.sp, text = board.user.email)
+                                board.user.password?.let { Text(fontSize = 12.sp, text = it) }
+                                Spacer(Modifier.size(10.dp))
+                                val counter = boardPageUiState.currentBoardList.replyCount.find { it.articleNo == board.articleNo }
+
+                                Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
+                                Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
+
+
+
+                                TextButton(onClick = {
+                                    scope.launch {
+                                        isLoadingState = true
+                                        val callReply = CallReply(tabtitle = "리뷰모음", articleNo = board.articleNo.toString())
+                                        val isReplyDeferred = async { getReplyListMobile(callReply) }
+                                        // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                                        val isReplyComplete = isReplyDeferred.await()
+                                        // 모든 작업이 완료되었을 때만 실행합니다.
+                                        if (isReplyComplete != null) {
+                                            boardPageViewModel.setReplyList(isReplyComplete)
+                                            isLoadingState = null
+                                            navController.navigate(TravelScreen.PageTest2.name)
+                                        } else {
+                                            isLoadingState = false
+                                        }
+                                    }
+                                }) {
+                                    Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                                }
+
+                                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
                             }
-
-                            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-
                         }
                     }
                 }
             }
-        }
-        R.string.companyTabTitle -> {
-            if (boardPageUiState.currentCompanyList != null) {
-                Column {
+            R.string.companyTabTitle -> {
+                if (boardPageUiState.currentCompanyList != null) {
+                    Column {
 //            Text(text = "page = ${boardPageUiState.currentBoardList.page}")
 //            Text(text = "kw = ${boardPageUiState.currentBoardList.kw}")
 //            Text(text = "type = ${boardPageUiState.currentBoardList.type}")
 
-                    Text(text = "pages = ${boardPageUiState.currentCompanyList.pages}")
+                        Text(text = "pages = ${boardPageUiState.currentCompanyList.pages}")
 
-                    Spacer(Modifier.size(10.dp))
-                    Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+                        Spacer(Modifier.size(10.dp))
+                        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
-                    LazyColumn(
-                    ) {
-                        items(
-                            items = boardPageUiState.currentCompanyList.list,
-                            key = { board ->
-                                board.articleNo
-                            }
-                        ) { board ->
-                            Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
-                            Text(fontSize = 12.sp, text = board.title)
-                            Text(fontSize = 12.sp, text = board.content)
-                            Text(fontSize = 12.sp, text = board.views.toString())
-                            Text(fontSize = 12.sp, text = board.writeDate.toString())
-                            Text(fontSize = 12.sp, text = board.writeId)
-                            Spacer(Modifier.size(10.dp))
-                            Text(fontSize = 12.sp, text = board.user.id.toString())
-                            Text(fontSize = 12.sp, text = board.user.email)
-                            board.user.password?.let { Text(fontSize = 12.sp, text = it) }
-                            Spacer(Modifier.size(10.dp))
-                            val counter = boardPageUiState.currentCompanyList.replyCount.find { it.articleNo == board.articleNo }
-
-                            Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
-                            Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
-
-
-
-                            TextButton(onClick = {
-                                scope.launch {
-                                    isLoadingState = true
-                                    val callReply = CallReply(tabtitle = "동행자구인", articleNo = board.articleNo.toString())
-                                    val isReplyDeferred = async { getReplyListMobile(callReply) }
-                                    // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                    val isReplyComplete = isReplyDeferred.await()
-                                    // 모든 작업이 완료되었을 때만 실행합니다.
-                                    if (isReplyComplete != null) {
-                                        boardPageViewModel.setReplyList(isReplyComplete)
-                                        isLoadingState = null
-                                        navController.navigate(TravelScreen.PageTest2.name)
-                                    } else {
-                                        isLoadingState = false
-                                    }
+                        LazyColumn(
+                        ) {
+                            items(
+                                items = boardPageUiState.currentCompanyList.list,
+                                key = { board ->
+                                    board.articleNo
                                 }
-                            }) {
-                                Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                            ) { board ->
+                                Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
+                                Text(fontSize = 12.sp, text = board.title)
+                                Text(fontSize = 12.sp, text = board.content)
+                                Text(fontSize = 12.sp, text = board.views.toString())
+                                Text(fontSize = 12.sp, text = board.writeDate.toString())
+                                Text(fontSize = 12.sp, text = board.writeId)
+                                Spacer(Modifier.size(10.dp))
+                                Text(fontSize = 12.sp, text = board.user.id.toString())
+                                Text(fontSize = 12.sp, text = board.user.email)
+                                board.user.password?.let { Text(fontSize = 12.sp, text = it) }
+                                Spacer(Modifier.size(10.dp))
+                                val counter = boardPageUiState.currentCompanyList.replyCount.find { it.articleNo == board.articleNo }
+
+                                Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
+                                Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
+
+
+
+                                TextButton(onClick = {
+                                    scope.launch {
+                                        isLoadingState = true
+                                        val callReply = CallReply(tabtitle = "동행자구인", articleNo = board.articleNo.toString())
+                                        val isReplyDeferred = async { getReplyListMobile(callReply) }
+                                        // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                                        val isReplyComplete = isReplyDeferred.await()
+                                        // 모든 작업이 완료되었을 때만 실행합니다.
+                                        if (isReplyComplete != null) {
+                                            boardPageViewModel.setReplyList(isReplyComplete)
+                                            isLoadingState = null
+                                            navController.navigate(TravelScreen.PageTest2.name)
+                                        } else {
+                                            isLoadingState = false
+                                        }
+                                    }
+                                }) {
+                                    Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                                }
+
+                                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
                             }
-
-                            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-
                         }
                     }
                 }
             }
-        }
-        R.string.tradeTabTitle -> {
-            if (boardPageUiState.currentTradeList != null) {
-                Column {
+            R.string.tradeTabTitle -> {
+                if (boardPageUiState.currentTradeList != null) {
+                    Column {
 //            Text(text = "page = ${boardPageUiState.currentBoardList.page}")
 //            Text(text = "kw = ${boardPageUiState.currentBoardList.kw}")
 //            Text(text = "type = ${boardPageUiState.currentBoardList.type}")
 
-                    Text(text = "pages = ${boardPageUiState.currentTradeList.pages}")
+                        Text(text = "pages = ${boardPageUiState.currentTradeList.pages}")
 
-                    Spacer(Modifier.size(10.dp))
-                    Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+                        Spacer(Modifier.size(10.dp))
+                        Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
 
-                    LazyColumn(
-                    ) {
-                        items(
-                            items = boardPageUiState.currentTradeList.list,
-                            key = { board ->
-                                board.articleNo
-                            }
-                        ) { board ->
-                            Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
-                            Text(fontSize = 12.sp, text = board.title)
-                            Text(fontSize = 12.sp, text = board.content)
-                            Text(fontSize = 12.sp, text = board.views.toString())
-                            Text(fontSize = 12.sp, text = board.writeDate.toString())
-                            Text(fontSize = 12.sp, text = board.writeId)
-                            Spacer(Modifier.size(10.dp))
-                            Text(fontSize = 12.sp, text = board.user.id.toString())
-                            Text(fontSize = 12.sp, text = board.user.email)
-                            board.user.password?.let { Text(fontSize = 12.sp, text = it) }
-                            Spacer(Modifier.size(10.dp))
-                            val counter = boardPageUiState.currentTradeList.replyCount.find { it.articleNo == board.articleNo }
-
-                            Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
-                            Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
-
-
-
-                            TextButton(onClick = {
-                                scope.launch {
-                                    isLoadingState = true
-                                    val callReply = CallReply(tabtitle = "거래시스템", articleNo = board.articleNo.toString())
-                                    val isReplyDeferred = async { getReplyListMobile(callReply) }
-                                    // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                    val isReplyComplete = isReplyDeferred.await()
-                                    // 모든 작업이 완료되었을 때만 실행합니다.
-                                    if (isReplyComplete != null) {
-                                        boardPageViewModel.setReplyList(isReplyComplete)
-                                        isLoadingState = null
-                                        navController.navigate(TravelScreen.PageTest2.name)
-                                    } else {
-                                        isLoadingState = false
-                                    }
+                        LazyColumn(
+                        ) {
+                            items(
+                                items = boardPageUiState.currentTradeList.list,
+                                key = { board ->
+                                    board.articleNo
                                 }
-                            }) {
-                                Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                            ) { board ->
+                                Text(fontSize = 12.sp, text = "아티클 넘버 : ${board.articleNo.toString()}")
+                                Text(fontSize = 12.sp, text = board.title)
+                                Text(fontSize = 12.sp, text = board.content)
+                                Text(fontSize = 12.sp, text = board.views.toString())
+                                Text(fontSize = 12.sp, text = board.writeDate.toString())
+                                Text(fontSize = 12.sp, text = board.writeId)
+                                Spacer(Modifier.size(10.dp))
+                                Text(fontSize = 12.sp, text = board.user.id.toString())
+                                Text(fontSize = 12.sp, text = board.user.email)
+                                board.user.password?.let { Text(fontSize = 12.sp, text = it) }
+                                Spacer(Modifier.size(10.dp))
+                                val counter = boardPageUiState.currentTradeList.replyCount.find { it.articleNo == board.articleNo }
+
+                                Text(fontSize = 20.sp, text = "아티클 넘버 : ${counter?.articleNo}")
+                                Text(fontSize = 20.sp, text = "댓글개수 : ${counter?.replyCount}")
+
+
+
+                                TextButton(onClick = {
+                                    scope.launch {
+                                        isLoadingState = true
+                                        val callReply = CallReply(tabtitle = "거래시스템", articleNo = board.articleNo.toString())
+                                        val isReplyDeferred = async { getReplyListMobile(callReply) }
+                                        // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                                        val isReplyComplete = isReplyDeferred.await()
+                                        // 모든 작업이 완료되었을 때만 실행합니다.
+                                        if (isReplyComplete != null) {
+                                            boardPageViewModel.setReplyList(isReplyComplete)
+                                            isLoadingState = null
+                                            navController.navigate(TravelScreen.PageTest2.name)
+                                        } else {
+                                            isLoadingState = false
+                                        }
+                                    }
+                                }) {
+                                    Text(text = "reply 테스트 reply 테스트", fontSize = 25.sp)
+                                }
+
+                                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
                             }
-
-                            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-
                         }
                     }
                 }
