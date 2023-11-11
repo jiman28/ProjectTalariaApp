@@ -10,13 +10,18 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.ui.screens.TravelScreen
+import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.removeArticleFromDb
 import com.example.projecttravel.ui.screens.boardlist.readapi.removeCommentFromDb
@@ -26,12 +31,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun RemoveArticleDialog(
     removeArticle: RemoveArticle,
+    boardPageUiState: BoardPageUiState,
+    boardPageViewModel: BoardPageViewModel,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+
+    val callBoard = CallBoard(
+        kw = boardPageUiState.currentSearchKeyWord,
+        page = boardPageUiState.currentBoardPage,
+        type = stringResource(boardPageUiState.currentSearchType),
+        email = boardPageUiState.currentSearchUser
+    )
     AlertDialog(
         onDismissRequest = onDismiss,
         text = {
@@ -61,8 +75,15 @@ fun RemoveArticleDialog(
                             val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isArticleComplete) {
-                                onDismiss()
-                                onBackButtonClicked()
+                                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+                                val isComplete = isDeferred.await()
+                                // 모든 작업이 완료되었을 때만 실행합니다.
+                                if (isComplete) {
+                                    onDismiss()
+                                    onBackButtonClicked()
+                                } else {
+                                    onErrorOccurred()
+                                }
                             } else {
                                 onDismiss()
                                 onErrorOccurred()

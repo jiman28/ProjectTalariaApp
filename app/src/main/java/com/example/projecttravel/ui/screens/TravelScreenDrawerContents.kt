@@ -27,6 +27,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -151,11 +152,17 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
         Spacer(modifier = Modifier.padding(2.dp))
 
+        val callBoard = CallBoard(
+            kw = boardPageUiState.currentSearchKeyWord,
+            page = boardPageUiState.currentBoardPage,
+            type = stringResource(boardPageUiState.currentSearchType),
+            email = boardPageUiState.currentSearchUser
+        )
         TextButton(onClick = {
+
             scope.launch {
                 drawerState.close()
                 isLoadingState = true
-                val callBoard = CallBoard(kw = "",page = 0, type = "", email = "")
                 val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
                 val isComplete = isDeferred.await()
                 // 모든 작업이 완료되었을 때만 실행합니다.
