@@ -59,7 +59,6 @@ fun AllBoardsPage(
                 boardPageViewModel = boardPageViewModel,
                 onWriteButtonClicked = onWriteButtonClicked,
                 onResetButtonClicked = onResetButtonClicked,
-
                 )
         }
 
@@ -88,22 +87,22 @@ fun AllBoardsPage(
             )
         }
         Spacer(modifier = Modifier.padding(2.dp))
-        Column(
-            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-        ) {
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center,
-            ) {
-                Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = "글번호")
-                Text(modifier = Modifier.weight(7f), textAlign = TextAlign.Center, text = "제목")
-            }
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-        }
-        Spacer(modifier = Modifier.padding(2.dp))
+//        Column(
+//            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+//            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+//            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
+//        ) {
+//            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.Center,
+//            ) {
+//                Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = "글번호")
+//                Text(modifier = Modifier.weight(7f), textAlign = TextAlign.Center, text = "제목")
+//            }
+//            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+//        }
+//        Spacer(modifier = Modifier.padding(2.dp))
         /** Lists Show ====================*/
         Column(
             verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -114,7 +113,7 @@ fun AllBoardsPage(
             when (boardPageUiState.currentSelectedBoardTab) {
                 R.string.boardTabTitle -> {
 //                    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
-                    if (boardPageUiState.currentBoardList != null) {
+                    if (boardPageUiState.currentBoardList != null && boardPageUiState.currentBoardList.list.isNotEmpty()) {
                         ListBoardEntity(
                             boardList = boardPageUiState.currentBoardList,
                             userUiState = userUiState,
@@ -132,7 +131,7 @@ fun AllBoardsPage(
 
                 R.string.companyTabTitle -> {
 //                    val listCompanyRepoViewModel: ListCompanyRepoViewModel = viewModel(factory = ListCompanyRepoViewModel.CompanyFactory)
-                    if (boardPageUiState.currentCompanyList != null) {
+                    if (boardPageUiState.currentCompanyList != null && boardPageUiState.currentCompanyList.list.isNotEmpty()) {
                         ListCompanyEntity(
                             companyList = boardPageUiState.currentCompanyList,
                             userUiState = userUiState,
@@ -149,7 +148,7 @@ fun AllBoardsPage(
 
                 R.string.tradeTabTitle -> {
 //                    val listTradeRepoViewModel: ListTradeRepoViewModel = viewModel(factory = ListTradeRepoViewModel.TradeFactory)
-                    if (boardPageUiState.currentTradeList != null) {
+                    if (boardPageUiState.currentTradeList != null && boardPageUiState.currentTradeList.list.isNotEmpty()) {
                         ListTradeEntity(
                             tradeList = boardPageUiState.currentTradeList,
                             userUiState = userUiState,

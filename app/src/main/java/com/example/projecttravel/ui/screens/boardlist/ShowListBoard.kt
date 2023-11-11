@@ -1,14 +1,21 @@
 package com.example.projecttravel.ui.screens.boardview
 
+import android.util.Log
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -30,6 +37,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
@@ -48,12 +56,16 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.model.BoardList
+import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
+import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
+import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
+import com.example.projecttravel.ui.screens.boardlist.readapi.getBoardListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
 import kotlinx.coroutines.async
@@ -282,6 +294,57 @@ fun ListBoardEntity(
                                 Spacer(modifier = Modifier.padding(2.dp))
                                 Text(fontSize = 12.sp, text = board.views.toString())
                             }
+                        }
+                    }
+                }
+            }
+        }
+        item {
+            Column(
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                LazyRow {
+                    items(boardList.pages) { index ->
+                        // (index = boardList.pages - 1)까지의 값을 가지게 됩니다.
+                        val callBoard = CallBoard(
+                            kw = boardPageUiState.currentSearchKeyWord,
+                            page = index,
+                            type = stringResource(boardPageUiState.currentSearchType),
+                            email = ""
+                        )
+                        Box(
+                            modifier = Modifier
+                                .width(50.dp)
+                                .height(50.dp)
+                                .background(
+                                    if (boardPageUiState.currentBoardPage == index) Color.Yellow else Color.White
+                                )
+                                .clickable {
+                                    Log.d("jiman", "Clicked on page $index")
+                                    scope.launch {
+                                        isLoadingState = true
+
+                                        val isDeferred = async { getBoardListMobile(callBoard) }
+                                        val isComplete = isDeferred.await()
+                                        // 모든 작업이 완료되었을 때만 실행합니다.
+                                        if (isComplete != null) {
+                                            isLoadingState = null
+                                            boardPageViewModel.setBoardList(isComplete)
+                                            boardPageViewModel.setBoardPage(index)
+                                            onResetButtonClicked()
+                                        } else {
+                                            isLoadingState = false
+                                        }
+                                    }
+                                }
+                        ) {
+                            Text(
+                                text = (index + 1).toString(), // 1부터 시작하도록 표시
+//                                color = Color.White,
+                                modifier = Modifier.align(Alignment.Center)
+                            )
                         }
                     }
                 }

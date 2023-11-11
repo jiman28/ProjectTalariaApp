@@ -153,10 +153,10 @@ fun DrawerContents (
         Spacer(modifier = Modifier.padding(2.dp))
 
         val callBoard = CallBoard(
-            kw = boardPageUiState.currentSearchKeyWord,
-            page = boardPageUiState.currentBoardPage,
+            kw = "",
+            page = 0,
             type = stringResource(boardPageUiState.currentSearchType),
-            email = boardPageUiState.currentSearchUser
+            email = ""
         )
         TextButton(onClick = {
 
@@ -169,6 +169,7 @@ fun DrawerContents (
                 if (isComplete) {
                     isLoadingState = null
                     boardPageViewModel.setSearchKeyWord("")
+                    boardPageViewModel.setBoardPage(0)
                     userViewModel.previousScreenWasPageOneA(false)
                     navController.navigate(TravelScreen.Page4.name)
                 } else {

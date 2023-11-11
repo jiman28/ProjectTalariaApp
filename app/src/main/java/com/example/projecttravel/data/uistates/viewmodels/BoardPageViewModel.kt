@@ -30,12 +30,6 @@ class BoardPageViewModel: ViewModel() {
         }
     }
 
-    fun setBoardPage(page: Int) {
-        _uiState.update { currentState ->
-            currentState.copy(currentBoardPage = page)
-        }
-    }
-
     fun setSearchType(desiredBoard: Int) {
         _uiState.update { currentState ->
             currentState.copy(currentSearchType = desiredBoard)
@@ -45,6 +39,24 @@ class BoardPageViewModel: ViewModel() {
     fun setSearchUser(email: String) {
         _uiState.update { currentState ->
             currentState.copy(currentSearchUser = email)
+        }
+    }
+
+    fun setBoardPage(page: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(currentBoardPage = page)
+        }
+    }
+
+    fun setCompanyPage(page: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(currentCompanyPage = page)
+        }
+    }
+
+    fun setTradePage(page: Int) {
+        _uiState.update { currentState ->
+            currentState.copy(currentTradePage = page)
         }
     }
 
@@ -64,24 +76,6 @@ class BoardPageViewModel: ViewModel() {
     fun setViewBoard(viewBoard: AllBoardsEntity) {
         _uiState.update { currentState ->
             currentState.copy(selectedViewBoard = viewBoard)
-        }
-    }
-
-    fun setSelectedBoard(desiredBoard: BoardEntity) {
-        _uiState.update { currentState ->
-            currentState.copy(selectedBoardContent = desiredBoard)
-        }
-    }
-
-    fun setSelectedCompany(desiredBoard: CompanyEntity) {
-        _uiState.update { currentState ->
-            currentState.copy(selectedCompanyContent = desiredBoard)
-        }
-    }
-
-    fun setSelectedTrade(desiredBoard: TradeEntity) {
-        _uiState.update { currentState ->
-            currentState.copy(selectedTradeContent = desiredBoard)
         }
     }
 

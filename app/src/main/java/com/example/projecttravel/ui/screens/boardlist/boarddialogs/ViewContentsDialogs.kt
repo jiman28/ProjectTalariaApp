@@ -44,7 +44,7 @@ fun RemoveArticleDialog(
         kw = boardPageUiState.currentSearchKeyWord,
         page = boardPageUiState.currentBoardPage,
         type = stringResource(boardPageUiState.currentSearchType),
-        email = boardPageUiState.currentSearchUser
+        email = ""
     )
     AlertDialog(
         onDismissRequest = onDismiss,

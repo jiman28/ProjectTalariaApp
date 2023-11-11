@@ -17,28 +17,23 @@ data class BoardPageUiState(
 
     /** for Search ============================== */
     val currentSearchKeyWord: String = "",
-    val currentBoardPage: Int = 0,
     val currentSearchType: Int = R.string.selectSearchType,
     val currentSearchUser: String = "",
+
+    val currentBoardPage: Int = 0,
+    val currentCompanyPage: Int = 0,
+    val currentTradePage: Int = 0,
 
     /** for View Article ============================== */
     val currentSelectedBoardTab: Int = R.string.boardTabTitle,
     val currentSelectedArtcNum: String = "",
     val selectedViewBoard: AllBoardsEntity? = null,
 
-    val selectedBoardContent: BoardEntity? = null,
-    val selectedCompanyContent: CompanyEntity? = null,
-    val selectedTradeContent: TradeEntity? = null,
-
     /** for ~~ ============================== */
     /** for ~~ ============================== */
     /** for ~~ ============================== */
 
     val selectedWriteBoardMenu: Int = R.string.selectTabTitle,
-
-
-
-
 
     val currentBoardList: BoardList? = null,
     val currentCompanyList: CompanyList? = null,

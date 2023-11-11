@@ -116,6 +116,7 @@ fun WritePageButtons(
                     if (sendArticle != null) {
                         ArticleConfirmDialog(
                             sendArticle = sendArticle,
+                            boardPageUiState = boardPageUiState,
                             boardPageViewModel = boardPageViewModel,
                             onBackButtonClicked = onBackButtonClicked,
                             onDismiss = {

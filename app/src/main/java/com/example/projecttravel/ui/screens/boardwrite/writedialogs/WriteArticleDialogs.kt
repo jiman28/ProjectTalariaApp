@@ -10,20 +10,25 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
+import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.model.CallBoard
+import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun ArticleConfirmDialog(
     sendArticle: SendArticle,
+    boardPageUiState: BoardPageUiState,
     boardPageViewModel: BoardPageViewModel,
     onBackButtonClicked: () -> Unit,
     onDismiss: () -> Unit,
@@ -31,6 +36,13 @@ fun ArticleConfirmDialog(
     onErrorOccurred: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
+    val callBoard = CallBoard(
+        kw = boardPageUiState.currentSearchKeyWord,
+        page = boardPageUiState.currentBoardPage,
+        type = stringResource(boardPageUiState.currentSearchType),
+        email = ""
+    )
+
     AlertDialog(
         onDismissRequest = onDismiss,
         text = {
@@ -56,13 +68,21 @@ fun ArticleConfirmDialog(
                             // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                             val articleDeferred = async { sendArticleToDb(sendArticle) }
 
+
                             // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                             val isArticleComplete = articleDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isArticleComplete) {
-                                boardPageViewModel.setWriteBoardMenu(R.string.selectTabTitle)
-                                onDismiss()
-                                onBackButtonClicked()
+                                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+                                val isComplete = isDeferred.await()
+                                // 모든 작업이 완료되었을 때만 실행합니다.
+                                if (isComplete) {
+                                    boardPageViewModel.setWriteBoardMenu(R.string.selectTabTitle)
+                                    onDismiss()
+                                    onBackButtonClicked()
+                                } else {
+                                    onErrorOccurred()
+                                }
                             } else {
                                 onDismiss()
                                 onErrorOccurred()

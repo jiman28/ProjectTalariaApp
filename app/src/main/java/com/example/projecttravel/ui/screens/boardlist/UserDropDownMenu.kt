@@ -43,22 +43,16 @@ fun UserDropDownMenu(
 ){
     val scope = rememberCoroutineScope()
 
-    val currentBoard: AllBoardsEntity? = when (boardPageUiState.currentSelectedBoardTab) {
-        R.string.boardTabTitle -> boardPageUiState.selectedBoardContent
-        R.string.tradeTabTitle -> boardPageUiState.selectedTradeContent
-        R.string.companyTabTitle -> boardPageUiState.selectedCompanyContent
-        else -> null
-    }
-    val currentWriteId: String = when (currentBoard) {
-        is BoardEntity -> currentBoard.writeId
-        is CompanyEntity -> currentBoard.writeId
-        is TradeEntity -> currentBoard.writeId
+    val currentWriteId: String = when (boardPageUiState.selectedViewBoard) {
+        is BoardEntity -> boardPageUiState.selectedViewBoard.writeId
+        is CompanyEntity -> boardPageUiState.selectedViewBoard.writeId
+        is TradeEntity -> boardPageUiState.selectedViewBoard.writeId
         else -> ""
     }
-    val currentUserId: String = when (currentBoard) {
-        is BoardEntity -> currentBoard.user.id.toString()
-        is CompanyEntity -> currentBoard.user.id.toString()
-        is TradeEntity -> currentBoard.user.id.toString()
+    val currentUserId: String = when (boardPageUiState.selectedViewBoard) {
+        is BoardEntity -> boardPageUiState.selectedViewBoard.user.id.toString()
+        is CompanyEntity -> boardPageUiState.selectedViewBoard.user.id.toString()
+        is TradeEntity -> boardPageUiState.selectedViewBoard.user.id.toString()
         else -> ""
     }
 

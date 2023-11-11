@@ -112,24 +112,30 @@ fun BoardWriteSearchButton(
 //            modifier = Modifier
 //                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
             ) {
+                val callBoard = CallBoard(
+                    kw = searchKeyWord,
+                    page = 0,
+                    type = stringResource(boardPageUiState.currentSearchType),
+                    email = ""
+                )
+
                 OutlinedButton(
                     modifier = Modifier
                         .padding(1.dp),
                     onClick = {
                         scope.launch {
-//                            isLoadingState = true
-//                            val callBoard = CallBoard(kw = searchKeyWord, page = 0, type = selectedType, email = "")
-//                            val isDeferred =
-//                                async { getAllBoardDefault(callBoard, boardPageViewModel, scope) }
-//                            val isComplete = isDeferred.await()
-//                            // 모든 작업이 완료되었을 때만 실행합니다.
-//                            if (isComplete) {
-//                                isLoadingState = null
-//                                boardPageViewModel.setSearchKeyWord(searchKeyWord)
-//                                onResetButtonClicked()
-//                            } else {
-//                                isLoadingState = false
-//                            }
+                            isLoadingState = true
+                            val isDeferred =
+                                async { getAllBoardDefault(callBoard, boardPageViewModel, scope) }
+                            val isComplete = isDeferred.await()
+                            // 모든 작업이 완료되었을 때만 실행합니다.
+                            if (isComplete) {
+                                isLoadingState = null
+                                boardPageViewModel.setSearchKeyWord(searchKeyWord)
+                                onResetButtonClicked()
+                            } else {
+                                isLoadingState = false
+                            }
                         }
                     },
                     shape = RoundedCornerShape(0.dp),
