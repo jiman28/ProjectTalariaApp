@@ -20,11 +20,11 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPageButtons (

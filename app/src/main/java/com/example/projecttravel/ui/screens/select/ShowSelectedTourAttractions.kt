@@ -45,7 +45,7 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun SelectedTourAttractions(

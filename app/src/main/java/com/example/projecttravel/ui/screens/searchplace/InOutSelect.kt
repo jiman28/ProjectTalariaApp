@@ -19,7 +19,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.SearchUiState
-import com.example.projecttravel.data.viewmodels.SearchViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 
 /** Shows InOutButton ====================*/
 @Composable

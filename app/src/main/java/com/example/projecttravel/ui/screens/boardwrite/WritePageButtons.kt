@@ -27,8 +27,8 @@ import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writedialogs.ArticleConfirmDialog
 import com.example.projecttravel.ui.screens.boardwrite.writedialogs.CancelWriteArticleDialog
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.viewmodels.UserViewModel
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 
 @Composable
 fun WritePageButtons(

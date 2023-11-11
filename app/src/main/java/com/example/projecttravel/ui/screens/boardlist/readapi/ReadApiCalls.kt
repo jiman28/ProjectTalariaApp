@@ -3,7 +3,7 @@ package com.example.projecttravel.ui.screens.boardlist.readapi
 import android.util.Log
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply

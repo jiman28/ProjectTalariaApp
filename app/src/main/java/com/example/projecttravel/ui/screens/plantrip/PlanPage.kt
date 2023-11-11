@@ -30,9 +30,9 @@ import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.data.viewmodels.UserViewModel
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPage(

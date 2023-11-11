@@ -29,8 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.viewmodels.UserViewModel
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 
 @Composable
 fun WriteArticlePage(

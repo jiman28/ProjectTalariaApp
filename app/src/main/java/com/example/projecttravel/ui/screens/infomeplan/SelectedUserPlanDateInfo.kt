@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 @Composable
 fun SelectedUserPlanDateInfo(

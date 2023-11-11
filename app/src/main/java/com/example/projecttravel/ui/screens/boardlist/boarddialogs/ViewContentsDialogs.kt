@@ -13,10 +13,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.RemoveComment
+import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.removeArticleFromDb
-import com.example.projecttravel.ui.screens.boardview.boardapi.removeCommentFromDb
+import com.example.projecttravel.ui.screens.boardlist.readapi.removeCommentFromDb
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -84,6 +87,9 @@ fun RemoveArticleDialog(
 @Composable
 fun RemoveCommentDialog(
     removeComment: RemoveComment,
+    currentArticleNo: Int,
+    tabtitle: String,
+    boardPageViewModel: BoardPageViewModel,
     onContentRefreshClicked: () -> Unit,
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -119,8 +125,21 @@ fun RemoveCommentDialog(
                             val isCommentComplete = commentDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isCommentComplete) {
-                                onDismiss()
-                                onContentRefreshClicked()
+                                val callReply = CallReply(
+                                    tabtitle = tabtitle,
+                                    articleNo = currentArticleNo.toString()
+                                )
+                                val isReplyDeferred =
+                                    async { getReplyListMobile(callReply) }
+                                // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                                val isReplyComplete = isReplyDeferred.await()
+                                if (isReplyComplete != null) {
+                                    onDismiss()
+                                    boardPageViewModel.setReplyList(isReplyComplete)
+                                    onContentRefreshClicked()
+                                } else {
+                                    onErrorOccurred()
+                                }
                             } else {
                                 onDismiss()
                                 onErrorOccurred()

@@ -16,8 +16,8 @@ import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
@@ -30,13 +29,11 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -50,7 +47,7 @@ fun BoardWriteSearchButton(
 ) {
     val scope = rememberCoroutineScope()
     var searchKeyWord by remember { mutableStateOf(boardPageUiState.currentSearchKeyWord) }
-    val selectedType = stringResource(boardPageUiState.currentSearchType)
+    val selectedType = boardPageUiState.currentSearchType
 
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
@@ -120,19 +117,19 @@ fun BoardWriteSearchButton(
                         .padding(1.dp),
                     onClick = {
                         scope.launch {
-                            isLoadingState = true
-                            val callBoard = CallBoard(kw = searchKeyWord, page = 0, type = selectedType, email = "")
-                            val isDeferred =
-                                async { getAllBoardDefault(callBoard, boardPageViewModel, scope) }
-                            val isComplete = isDeferred.await()
-                            // 모든 작업이 완료되었을 때만 실행합니다.
-                            if (isComplete) {
-                                isLoadingState = null
-                                boardPageViewModel.setCurrentSearchKeyWord(searchKeyWord)
-                                onResetButtonClicked()
-                            } else {
-                                isLoadingState = false
-                            }
+//                            isLoadingState = true
+//                            val callBoard = CallBoard(kw = searchKeyWord, page = 0, type = selectedType, email = "")
+//                            val isDeferred =
+//                                async { getAllBoardDefault(callBoard, boardPageViewModel, scope) }
+//                            val isComplete = isDeferred.await()
+//                            // 모든 작업이 완료되었을 때만 실행합니다.
+//                            if (isComplete) {
+//                                isLoadingState = null
+//                                boardPageViewModel.setSearchKeyWord(searchKeyWord)
+//                                onResetButtonClicked()
+//                            } else {
+//                                isLoadingState = false
+//                            }
                         }
                     },
                     shape = RoundedCornerShape(0.dp),

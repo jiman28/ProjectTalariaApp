@@ -23,7 +23,7 @@ import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByCity
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByWeather
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate

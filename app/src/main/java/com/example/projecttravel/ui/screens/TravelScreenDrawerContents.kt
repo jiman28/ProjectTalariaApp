@@ -35,16 +35,13 @@ import androidx.navigation.NavHostController
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
-import com.example.projecttravel.ui.screens.boardlist.readapi.getBoardListMobile
-import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -164,7 +161,7 @@ fun DrawerContents (
                 // 모든 작업이 완료되었을 때만 실행합니다.
                 if (isComplete) {
                     isLoadingState = null
-                    boardPageViewModel.setCurrentSearchKeyWord("")
+                    boardPageViewModel.setSearchKeyWord("")
                     userViewModel.previousScreenWasPageOneA(false)
                     navController.navigate(TravelScreen.Page4.name)
                 } else {
@@ -178,37 +175,35 @@ fun DrawerContents (
             Text(text = "게시판", fontSize = 25.sp)
         }
 
-        //TestTestTestTestTestTestTestTest
-
-        Spacer(modifier = Modifier.padding(2.dp))
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        TextButton(onClick = {
-            scope.launch {
-                drawerState.close()
-                isLoadingState = true
-                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "b@b.b")
-                val userResponse = UserResponse(id = "",email = "",name = "",picture = "")
-                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
-//                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
-//                val isDeferred = async { getBoardListMobile(callBoard) }
-                val isComplete = isDeferred.await()
-                // 모든 작업이 완료되었을 때만 실행합니다.
-                if (isComplete) {
-//                    boardPageViewModel.setBoardList(isComplete)
-//                    userViewModel.setCheckUserPlanList(isComplete)
-                    isLoadingState = null
-                    navController.navigate(TravelScreen.PageTest.name)
-                } else {
-                    isLoadingState = false
-                }
-            }
-        }) {
-            Text(text = "테스트테스트", fontSize = 25.sp)
-        }
-
-        //TestTestTestTestTestTestTestTest
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
+//        Spacer(modifier = Modifier.padding(2.dp))
+//        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+//        Spacer(modifier = Modifier.padding(2.dp))
+//
+//        TextButton(onClick = {
+//            scope.launch {
+//                drawerState.close()
+//                isLoadingState = true
+//                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "b@b.b")
+//                val userResponse = UserResponse(id = "",email = "",name = "",picture = "")
+//                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+////                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
+////                val isDeferred = async { getBoardListMobile(callBoard) }
+//                val isComplete = isDeferred.await()
+//                // 모든 작업이 완료되었을 때만 실행합니다.
+//                if (isComplete) {
+////                    boardPageViewModel.setBoardList(isComplete)
+////                    userViewModel.setCheckUserPlanList(isComplete)
+//                    isLoadingState = null
+//                    navController.navigate(TravelScreen.PageTest.name)
+//                } else {
+//                    isLoadingState = false
+//                }
+//            }
+//        }) {
+//            Text(text = "테스트테스트", fontSize = 25.sp)
+//        }
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
 
     }
 }

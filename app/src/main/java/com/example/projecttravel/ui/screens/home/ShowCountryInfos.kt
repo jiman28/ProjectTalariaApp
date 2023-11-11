@@ -40,7 +40,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
-import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageUiState
+import com.example.projecttravel.data.repositories.select.viewmodels.HomepageUiState
 
 @Composable
 fun ShowCountryInfos(

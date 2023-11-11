@@ -25,9 +25,9 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.CancelSelectDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.ResetConfirmDialog
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.SelectViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 @Composable
 fun SelectPageButtons (

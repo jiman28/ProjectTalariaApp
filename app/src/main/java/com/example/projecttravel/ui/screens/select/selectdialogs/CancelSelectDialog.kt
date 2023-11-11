@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.viewmodels.SelectViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 /** ===================================================================== */
 /** CancelSelectDialog to ask whether to cancel Selection and reset All ====================*/

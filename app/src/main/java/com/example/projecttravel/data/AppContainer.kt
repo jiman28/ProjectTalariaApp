@@ -1,5 +1,6 @@
 package com.example.projecttravel.data
 
+import android.content.res.Resources
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.data.repositories.board.BoardListRepository
 import com.example.projecttravel.data.repositories.board.CompanyListRepository
@@ -23,10 +24,10 @@ import com.example.projecttravel.data.repositories.user.DefaultUserInfoListRepos
 import com.example.projecttravel.data.repositories.user.DefaultUserPlanListRepository
 import com.example.projecttravel.data.repositories.user.UserInfoListRepository
 import com.example.projecttravel.data.repositories.user.UserPlanListRepository
+import com.example.projecttravel.data.uistates.BoardPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.network.TravelApiService
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
+import kotlinx.coroutines.flow.StateFlow
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -38,25 +39,32 @@ private val BASE_URL = BuildConfig.BASE_URL
 
 /** Dependency Injection container at the application level. */
 interface AppContainer {
+//    val boardPageViewModel: BoardPageViewModel
+//    val resources: Resources
     val countryListRepository: CountryListRepository
     val cityListRepository: CityListRepository
     val interestListRepository: InterestListRepository
     val tourAttractionListRepository: TourAttractionListRepository
     val tourAttrSearchListRepository: TourAttrSearchListRepository
-    val boardListRepository: BoardListRepository
-    val companyListRepository: CompanyListRepository
-    val tradeListRepository: TradeListRepository
-    val replyListRepository: ReplyListRepository
+//    val boardListRepository: BoardListRepository
+//    val companyListRepository: CompanyListRepository
+//    val tradeListRepository: TradeListRepository
+//    val replyListRepository: ReplyListRepository
     val userInfoListRepository: UserInfoListRepository
     val userPlanListRepository: UserPlanListRepository
 }
 
 /** Implementation for the Dependency Injection container at the application level.
  * Variables are initialized lazily and the same instance is shared across the whole app. */
-class DefaultAppContainer : AppContainer {
+class DefaultAppContainer(
+//    override val resources: Resources,
+//    override val boardPageViewModel: BoardPageViewModel
+) : AppContainer {
+
     /** Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter */
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+//        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
+        .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(BASE_URL)
         .build()
 
@@ -64,6 +72,8 @@ class DefaultAppContainer : AppContainer {
     private val retrofitService: TravelApiService by lazy {
         retrofit.create(TravelApiService::class.java)
     }
+//    val boardPageUiState: StateFlow<BoardPageUiState>
+//        get() = boardPageViewModel.boardPageUiState
 
     /** DI implementation for all of each repository - Travel */
     override val countryListRepository: CountryListRepository by lazy {
@@ -86,22 +96,22 @@ class DefaultAppContainer : AppContainer {
         DefaultTourAttrSearchListRepository(retrofitService)
     }
 
-    /** DI implementation for all of each repository - Boards */
-    override val boardListRepository: BoardListRepository by lazy {
-        DefaultBoardListRepository(retrofitService)
-    }
-
-    override val companyListRepository: CompanyListRepository by lazy {
-        DefaultCompanyListRepository(retrofitService)
-    }
-
-    override val tradeListRepository: TradeListRepository by lazy {
-        DefaultTradeListRepository(retrofitService)
-    }
-
-    override val replyListRepository: ReplyListRepository by lazy {
-        DefaultReplyListRepository(retrofitService)
-    }
+//    /** DI implementation for all of each repository - Boards */
+//    override val boardListRepository: BoardListRepository by lazy {
+//        DefaultBoardListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)
+//    }
+//
+//    override val companyListRepository: CompanyListRepository by lazy {
+//        DefaultCompanyListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)
+//    }
+//
+//    override val tradeListRepository: TradeListRepository by lazy {
+//        DefaultTradeListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)
+//    }
+//
+//    override val replyListRepository: ReplyListRepository by lazy {
+//        DefaultReplyListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)
+//    }
 
     /** DI implementation for all of each repository - UserInfo */
     override val userInfoListRepository: UserInfoListRepository by lazy {

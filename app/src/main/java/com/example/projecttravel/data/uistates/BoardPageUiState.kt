@@ -1,6 +1,7 @@
 package com.example.projecttravel.data.uistates
 
 import com.example.projecttravel.R
+import com.example.projecttravel.model.AllBoardsEntity
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.BoardEntity
 import com.example.projecttravel.model.BoardList
@@ -14,15 +15,30 @@ import com.example.projecttravel.model.TradeList
 
 data class BoardPageUiState(
 
-    val selectedWriteBoardMenu: Int = R.string.selectTabTitle,
+    /** for Search ============================== */
+    val currentSearchKeyWord: String = "",
+    val currentBoardPage: Int = 0,
+    val currentSearchType: Int = R.string.selectSearchType,
+    val currentSearchUser: String = "",
+
+    /** for View Article ============================== */
+    val currentSelectedBoardTab: Int = R.string.boardTabTitle,
+    val currentSelectedArtcNum: String = "",
+    val selectedViewBoard: AllBoardsEntity? = null,
 
     val selectedBoardContent: BoardEntity? = null,
     val selectedCompanyContent: CompanyEntity? = null,
     val selectedTradeContent: TradeEntity? = null,
 
-    val currentSelectedBoard: Int = R.string.boardTabTitle,
-    val currentSearchKeyWord: String = "",
-    val currentSearchType: Int = R.string.selectSearchType,
+    /** for ~~ ============================== */
+    /** for ~~ ============================== */
+    /** for ~~ ============================== */
+
+    val selectedWriteBoardMenu: Int = R.string.selectTabTitle,
+
+
+
+
 
     val currentBoardList: BoardList? = null,
     val currentCompanyList: CompanyList? = null,

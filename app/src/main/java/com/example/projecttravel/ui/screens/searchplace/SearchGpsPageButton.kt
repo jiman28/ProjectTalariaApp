@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.data.viewmodels.SearchViewModel
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun SearchGpsPageButton(

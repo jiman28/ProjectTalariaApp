@@ -11,7 +11,7 @@ import com.example.projecttravel.model.WeatherCallSend
 import com.example.projecttravel.model.WeatherResponseGet
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
-import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback

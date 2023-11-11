@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 @Composable
 fun UserPlanDateList(

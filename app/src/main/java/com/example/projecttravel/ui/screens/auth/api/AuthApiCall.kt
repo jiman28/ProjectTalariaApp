@@ -2,7 +2,7 @@ package com.example.projecttravel.ui.screens.auth.api
 
 import android.util.Log
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.model.SendInterest

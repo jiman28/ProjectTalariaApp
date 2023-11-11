@@ -49,8 +49,8 @@ import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.model.TourAttractionInfo
-import com.example.projecttravel.data.viewmodels.SelectViewModel
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.TourAttractionUiState
 
 @Composable
 fun ShowTourAttractionInfos(

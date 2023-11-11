@@ -19,23 +19,22 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.CountryInfo
-import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.ListCountryRepoViewModel
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
+import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.InterestInfo
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
-import com.example.projecttravel.ui.screens.viewmodels.selection.CityUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.ListCityRepoViewModel
-import com.example.projecttravel.ui.screens.viewmodels.selection.InterestUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.ListInterestRepoViewModel
-import com.example.projecttravel.ui.screens.viewmodels.selection.TourAttractionUiState
-import com.example.projecttravel.ui.screens.viewmodels.selection.ListTourAttrRepoViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
+import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.InterestUiState
+import com.example.projecttravel.data.repositories.select.viewmodels.ListInterestRepoViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.TourAttractionUiState
+import com.example.projecttravel.data.repositories.select.viewmodels.ListTourAttrRepoViewModel
 
 @Composable
 fun SelectPage(

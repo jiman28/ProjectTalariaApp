@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import java.time.LocalDate
 
 @Composable

@@ -30,8 +30,8 @@ import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDtoRead
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.plantrip.NoPlanListFound
-import com.example.projecttravel.data.viewmodels.PlanViewModel
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 @Composable
 fun CheckMyPlanPage(

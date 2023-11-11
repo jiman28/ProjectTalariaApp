@@ -19,8 +19,8 @@ import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.ui.screens.LoginErrorDialog
-import com.example.projecttravel.data.viewmodels.UserViewModel
-import com.example.projecttravel.ui.screens.viewmodels.homepage.HomepageRepoViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.HomepageRepoViewModel
 
 @Composable
 fun HomePage(

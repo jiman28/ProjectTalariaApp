@@ -45,7 +45,7 @@
 <!--    <string name="reply">reply</string>-->
 
     <!--Board SearchType -->
-    <string name="selectSearchType">""</string>
+    <string name="selectSearchType"></string>
     <string name="title">title</string>
     <string name="content">content</string>
     <string name="writeuser">writeuser</string>
@@ -58,7 +58,7 @@
     <string name="replyTitle">Comments</string>
 
     <string name="noSearchFound">검색 결과가 없습니다.</string>
-    <string name="noArticlesFound">게시글이 아직 없습니다.</string>
+    <string name="noArticlesFound">게시글이 없습니다.</string>
 
     <!--User -->
     <string name="userTabMenuBoard">작성한 게시물</string>

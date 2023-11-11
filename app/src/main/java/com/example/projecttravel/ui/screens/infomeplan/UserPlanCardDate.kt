@@ -27,7 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.data.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 
 @Composable
 fun UserPlanCardDate(

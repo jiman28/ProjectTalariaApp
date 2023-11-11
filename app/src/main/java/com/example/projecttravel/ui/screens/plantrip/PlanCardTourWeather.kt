@@ -42,7 +42,7 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
-import com.example.projecttravel.data.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import java.time.LocalDate
 
 @Composable

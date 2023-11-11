@@ -19,8 +19,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CountryInfo
-import com.example.projecttravel.ui.screens.viewmodels.selection.CountryUiState
-import com.example.projecttravel.data.viewmodels.SelectViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
+import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Alignment
