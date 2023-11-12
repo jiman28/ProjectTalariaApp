@@ -81,6 +81,7 @@ fun TravelScreenHome(
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
+    // git network check 2023-11-12 a
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen =
         TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
