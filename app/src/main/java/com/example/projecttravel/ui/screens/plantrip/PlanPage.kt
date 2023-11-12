@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.plantrip
 
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -45,6 +46,8 @@ fun PlanPage(
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
 ) {
+    Log.d("jiman=dateToAttrByCity", planUiState.dateToAttrByCity.toString())
+    Log.d("jiman=dateToAttrByWeather", planUiState.dateToAttrByWeather.toString())
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
 //    var weatherSwitchChecked by remember { mutableStateOf(false) }
 

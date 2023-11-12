@@ -29,7 +29,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.auth.InterestForm
 import com.example.projecttravel.ui.screens.boardlist.AllBoardsPage
-//import com.example.projecttravel.ui.screens.boardview.ViewContentsBoard
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
 import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
@@ -40,12 +39,13 @@ import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
-//import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
+import com.example.projecttravel.ui.screens.boardread.TestPage
+import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -210,25 +210,29 @@ fun TravelScreenHome(
                     ExitAppWhenBackOnPressed(drawerState)
                 }
             }
-//            /** 1A. 내 정보 화면 (다른 유저 혼용) ====================*/
-//            composable(route = TravelScreen.Page1A.name) {
-//                MyInfoPage(
-//                    userUiState = userUiState,
-//                    userViewModel = userViewModel,
-//                    planViewModel = planViewModel,
-//                    boardPageUiState = boardPageUiState,
-//                    boardPageViewModel = boardPageViewModel,
-//                    navController = navController,
-//                    onNextButtonClicked = { navController.navigate(TravelScreen.Page1B.name) },
-//                )
-//                BackHandler(
-//                    enabled = drawerState.isClosed,
-//                    onBack = {
-//                        navController.navigate(TravelScreen.Page1.name)
-//                        userViewModel.previousScreenWasPageOneA(false)
-//                    },
-//                )
-//            }
+            /** 1A. 내 정보 화면 (다른 유저 혼용) ====================*/
+            composable(route = TravelScreen.Page1A.name) {
+                MyInfoPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
+                    onNextButtonClicked = { navController.navigate(TravelScreen.Page1B.name) },
+                    onResetButtonClicked = { navController.navigate(TravelScreen.Page1A.name) },
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        planViewModel.resetAllPlanUiState()
+                        navController.navigate(TravelScreen.Page1.name)
+                        userViewModel.previousScreenWasPageOneA(false)
+                    },
+                )
+            }
             /** 1B. 내가 만든 계획 확인 (다른 유저 혼용) ====================*/
             composable(route = TravelScreen.Page1B.name) {
                 CheckMyPlanPage(
@@ -349,7 +353,10 @@ fun TravelScreenHome(
                     )
                     BackHandler(
                         enabled = drawerState.isClosed,
-                        onBack = { navController.navigate(TravelScreen.Page1.name) },
+                        onBack = {
+                            planViewModel.resetAllPlanUiState()
+                            navController.navigate(TravelScreen.Page1.name)
+                        },
                     )
                 }
             }
@@ -403,7 +410,7 @@ fun TravelScreenHome(
 //                    userViewModel = userViewModel,
 //                    planUiState = planUiState,
 //                    planViewModel = planViewModel,
-//                    boardPageUiState = boardSelectUiState,
+//                    boardPageUiState = boardPageUiState,
 //                    boardPageViewModel = boardPageViewModel,
 //                    navController = navController,
 //                    scope = scope,

@@ -17,7 +17,7 @@ import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.User
-import com.example.projecttravel.model.UserInfo
+import com.example.projecttravel.model.UserInterest
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.model.WeatherCallSend
 import com.example.projecttravel.model.WeatherResponseGet
@@ -64,10 +64,14 @@ interface TravelApiService {
     @POST("callplanlist")
     fun getMyPlanList(@Body userResponse: UserResponse): Call<List<PlansDataRead>>
 
+    // userpage
+    @POST("callmyinterest")
+    fun getMyInterest(@Body userResponse: UserResponse): Call<UserInterest>
+
 
     // UserInfo DB ==============================
     @GET("userinfo")
-    suspend fun getUserInfoList(): List<UserInfo>
+    suspend fun getUserInfoList(): List<UserInterest>
 
     @GET("planlist")
     suspend fun getUserPlansDataList(): List<PlansDataRead>

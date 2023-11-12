@@ -309,7 +309,7 @@ fun ListCompanyEntity(
                             kw = boardPageUiState.currentSearchKeyWord,
                             page = index,
                             type = stringResource(boardPageUiState.currentSearchType),
-                            email = ""
+                            email = if (userUiState.checkOtherUser != null) userUiState.checkOtherUser.email else ""
                         )
                         Box(
                             modifier = Modifier

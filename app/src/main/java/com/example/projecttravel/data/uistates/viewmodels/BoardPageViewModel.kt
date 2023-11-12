@@ -2,6 +2,7 @@ package com.example.projecttravel.data.uistates.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.BoardPageUiState
+import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.AllBoardsEntity
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.BoardEntity
@@ -131,5 +132,11 @@ class BoardPageViewModel: ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(myTradeContent = desiredBoard)
         }
+    }
+
+    /** etc ============================== */
+    /** reset all Objects */
+    fun resetBoardPage() {
+        _uiState.value = BoardPageUiState() // UserUiState를 기본 값(null)으로 재설정
     }
 }

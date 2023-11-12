@@ -56,6 +56,21 @@ fun TestPage (
         }
     }
     Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
+    Column {
+        if (userUiState.checkMyInterest != null) {
+            Text(text = "id = ${userUiState.checkMyInterest.id}")
+            Text(text = "culture = ${userUiState.checkMyInterest.culture}")
+            Text(text = "food = ${userUiState.checkMyInterest.food}")
+            Text(text = "history = ${userUiState.checkMyInterest.history}")
+            Text(text = "nature = ${userUiState.checkMyInterest.nature}")
+            Text(text = "reliability = ${userUiState.checkMyInterest.reliability}")
+            Text(text = "religion = ${userUiState.checkMyInterest.religion}")
+            Text(text = "sights = ${userUiState.checkMyInterest.sights}")
+            Text(text = "user = ${userUiState.checkMyInterest.user}")
+        }
+    }
+
     Column {
         if (userUiState.checkMyPlanList.isNotEmpty()) {
             Text(text = "pages = ${userUiState.checkMyPlanList.size}")
@@ -92,18 +107,18 @@ fun TestPage (
 
                 }
             }
-
-
         }
     }
 
     Column {
 
         Column {
-            BoardsPageTabButtons(
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
-            )
+            if (boardPageUiState.currentBoardList != null) {
+                BoardsPageTabButtons(
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                )
+            }
         }
 
         when (boardPageUiState.currentSelectedBoardTab) {

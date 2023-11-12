@@ -1,6 +1,6 @@
 package com.example.projecttravel.data.repositories.user
 
-import com.example.projecttravel.model.UserInfo
+import com.example.projecttravel.model.UserInterest
 import com.example.projecttravel.network.TravelApiService
 
 /**
@@ -8,7 +8,7 @@ import com.example.projecttravel.network.TravelApiService
  */
 interface UserInfoListRepository {
     /** Retrieves list of Board from underlying data source */
-    suspend fun getUserInfoList(): List<UserInfo>
+    suspend fun getUserInfoList(): List<UserInterest>
 }
 
 /**
@@ -18,5 +18,5 @@ class DefaultUserInfoListRepository(
     private val travelApiService: TravelApiService
 ) : UserInfoListRepository {
     /** Retrieves list of Board from underlying data source */
-    override suspend fun getUserInfoList(): List<UserInfo> = travelApiService.getUserInfoList()
+    override suspend fun getUserInfoList(): List<UserInterest> = travelApiService.getUserInfoList()
 }

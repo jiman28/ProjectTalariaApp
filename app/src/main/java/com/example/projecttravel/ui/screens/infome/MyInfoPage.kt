@@ -22,7 +22,6 @@ import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
 import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
-import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
@@ -30,30 +29,33 @@ import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 //import com.example.projecttravel.data.repositories.board.viewmodels.CompanyUiState
 //import com.example.projecttravel.data.repositories.board.viewmodels.TradeUiState
 //import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.ListCompanyRepoViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.ListTradeRepoViewModel
 import com.example.projecttravel.data.repositories.user.viewmodels.PlanListUiState
 import com.example.projecttravel.data.repositories.user.viewmodels.UserInfoUiState
 import com.example.projecttravel.data.repositories.user.viewmodels.ListUserPlansRepoViewModel
 import com.example.projecttravel.data.repositories.user.viewmodels.ListUserInfoRepoViewModel
+import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.ui.screens.TravelScreen
 
 @Composable
 fun MyInfoPage(
     userUiState: UserUiState,
     userViewModel: UserViewModel,
+    planUiState: PlanUiState,
     planViewModel: PlanViewModel,
     boardPageUiState: BoardPageUiState,
     boardPageViewModel: BoardPageViewModel,
     navController: NavHostController,
+    onBoardClicked: () -> Unit,
     onNextButtonClicked: () -> Unit,
+    onResetButtonClicked: () -> Unit,
 ) {
-    val listUserInfoRepoViewModel: ListUserInfoRepoViewModel = viewModel(factory = ListUserInfoRepoViewModel.UserInfoFactory)
-    val listUserPlansRepoViewModel: ListUserPlansRepoViewModel = viewModel(factory = ListUserPlansRepoViewModel.PlanListFactory)
+//    val listUserInfoRepoViewModel: ListUserInfoRepoViewModel = viewModel(factory = ListUserInfoRepoViewModel.UserInfoFactory)
+//    val listUserPlansRepoViewModel: ListUserPlansRepoViewModel = viewModel(factory = ListUserPlansRepoViewModel.PlanListFactory)
 //    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
 //    val listCompanyRepoViewModel: ListCompanyRepoViewModel = viewModel(factory = ListCompanyRepoViewModel.CompanyFactory)
 //    val listTradeRepoViewModel: ListTradeRepoViewModel = viewModel(factory = ListTradeRepoViewModel.TradeFactory)
 
-    val userInfoUiState = (listUserInfoRepoViewModel.userInfoUiState as? UserInfoUiState.UserInfoSuccess)
+//    val userInfoUiState = (listUserInfoRepoViewModel.userInfoUiState as? UserInfoUiState.UserInfoSuccess)
 //    val planListUiState = (userPlanListViewModel.planListUiState as? PlanListUiState.PlanListSuccess)
 //    val boardUiState = (listBoardRepoViewModel.boardUiState as? BoardUiState.BoardSuccess)
 //    val companyUiState = (listCompanyRepoViewModel.companyUiState as? CompanyUiState.CompanySuccess)
@@ -71,11 +73,11 @@ fun MyInfoPage(
             val currentUserMenuName = userUiState.checkOtherUser.name
             val currentUserMenuPicture = userUiState.checkOtherUser.picture
             /** filtered Lists for User Menus (perfectly matching => equals) */
-            val filteredInfoGraph = userInfoUiState?.userInfoList?.firstOrNull { userInfoItem ->
-                val idTag = userInfoItem.user
-                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
-                boardMatchesId
-            }
+//            val filteredInfoGraph = userInfoUiState?.userInterestList?.firstOrNull { userInfoItem ->
+//                val idTag = userInfoItem.user
+//                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
+//                boardMatchesId
+//            }
 //            val filteredBoardList = boardUiState?.boardList?.filter { boardItem ->
 //                val idTag = boardItem.userId
 //                val boardMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
@@ -92,7 +94,7 @@ fun MyInfoPage(
 //                val tradeMatchesId = idTag.equals(currentUserMenuId, ignoreCase = true)
 //                tradeMatchesId
 //            }
-//
+
 //            val filteredAllBoardCount = countAllBoardsOfUser(filteredBoardList,filteredCompanyList,filteredTradeList)
 
             /** User Menus */
@@ -104,14 +106,14 @@ fun MyInfoPage(
                 /** UserInfos */
                 Row {
                     Column {
-//                        UserProfiles(
-//                            filteredInfoGraph = filteredInfoGraph,
-//                            currentUserInfo = userUiState.checkOtherUser,
-//                            allBoardsCounts = filteredAllBoardCount,
-//                            userUiState = userUiState,
-//                            userViewModel = userViewModel,
-//                            navController = navController,
-//                        )
+                        UserProfiles(
+                            currentUserInfo = userUiState.checkOtherUser,
+                            userUiState = userUiState,
+                            userViewModel = userViewModel,
+                            boardPageUiState = boardPageUiState,
+                            boardPageViewModel = boardPageViewModel,
+                            navController = navController,
+                        )
                     }
 
                     Spacer(modifier = Modifier.padding(5.dp))
@@ -136,38 +138,24 @@ fun MyInfoPage(
                 Column {
                     when (userUiState.currentSelectedUserTab) {
                         R.string.userTabMenuBoard -> {
-//                            UserWrittenBoard(
-//                                userUiState = userUiState,
-//                                boardPageUiState = boardPageUiState,
-//                                filteredBoardList = filteredBoardList,
-//                                filteredCompanyList = filteredCompanyList,
-//                                filteredTradeList = filteredTradeList,
-//                                boardPageViewModel = boardPageViewModel,
-//                                onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
-//                            )
+                            UserWrittenBoard(
+                                userUiState = userUiState,
+                                planUiState = planUiState,
+                                boardPageUiState = boardPageUiState,
+                                boardPageViewModel = boardPageViewModel,
+                                onResetButtonClicked = onResetButtonClicked,
+                                onBoardClicked = onBoardClicked,
+                            )
                         }
 
                         R.string.userTabMenuPlans -> {
-                            when (listUserPlansRepoViewModel.planListUiState) {
-                                is PlanListUiState.Loading -> GlobalLoadingScreen()
-                                is PlanListUiState.PlanListSuccess -> {
-                                    val planListUiState = (listUserPlansRepoViewModel.planListUiState as PlanListUiState.PlanListSuccess)
-                                    val filteredPlanList = planListUiState.planList.filter { planItem ->
-                                        val emailTag = planItem.email
-                                        val boardMatchesId = emailTag.equals(currentUserMenuEmail, ignoreCase = true)
-                                        boardMatchesId
-                                    }
-                                    UserPlanList(
-                                        userUiState = userUiState,
-                                        userViewModel = userViewModel,
-                                        planViewModel = planViewModel,
-                                        navController = navController,
-                                        filteredPlanList = filteredPlanList,
-                                        onNextButtonClicked = onNextButtonClicked,
-                                    )
-                                }
-                                else -> GlobalErrorScreen(listUserPlansRepoViewModel::getPlanList)
-                            }
+                            UserPlanList(
+                                userUiState = userUiState,
+                                userViewModel = userViewModel,
+                                planViewModel = planViewModel,
+                                navController = navController,
+                                onNextButtonClicked = onNextButtonClicked,
+                            )
                         }
                     }
                 }

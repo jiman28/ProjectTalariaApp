@@ -24,7 +24,7 @@ data class UserResponse (
 )
 
 @Serializable
-data class UserInfo (
+data class UserInterest (
     val id: String,
     val user: String,
     val reliability: String,

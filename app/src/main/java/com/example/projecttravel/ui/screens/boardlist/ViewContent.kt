@@ -168,6 +168,7 @@ fun ViewContentsBoard(
                 Spacer(modifier = Modifier.padding(1.dp))
                 UserDropDownMenu(
                     boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
                     userViewModel = userViewModel,
                     onUserButtonClicked = onUserButtonClicked,
                 )

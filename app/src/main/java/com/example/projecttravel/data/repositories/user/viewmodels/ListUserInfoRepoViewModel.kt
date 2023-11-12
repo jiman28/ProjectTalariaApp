@@ -10,13 +10,13 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.user.UserInfoListRepository
-import com.example.projecttravel.model.UserInfo
+import com.example.projecttravel.model.UserInterest
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
 sealed interface UserInfoUiState {
-    data class UserInfoSuccess(val userInfoList: List<UserInfo>) : UserInfoUiState
+    data class UserInfoSuccess(val userInterestList: List<UserInterest>) : UserInfoUiState
     object Error : UserInfoUiState
     object Loading : UserInfoUiState
 }

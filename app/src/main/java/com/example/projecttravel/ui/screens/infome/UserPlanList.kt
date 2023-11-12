@@ -60,7 +60,6 @@ fun UserPlanList(
     userViewModel: UserViewModel,
     planViewModel: PlanViewModel,
     navController: NavHostController,
-    filteredPlanList: List<PlansDataRead>?,
     onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -76,13 +75,13 @@ fun UserPlanList(
         }
     }
 
-    if (!filteredPlanList.isNullOrEmpty()) {
+    if (userUiState.checkMyPlanList.isNotEmpty()) {
         LazyColumn(
             modifier = Modifier,
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             items(
-                items = filteredPlanList,
+                items = userUiState.checkMyPlanList,
                 key = { userPlan -> userPlan.id }
             ) { userPlan ->
                 Card(
@@ -187,6 +186,8 @@ fun UserPlanList(
     if (isDeletePlanDialog && selectedPlanIdToDelete != "") {
         DeletePlanDialog(
             planId = selectedPlanIdToDelete,
+            userUiState = userUiState,
+            userViewModel = userViewModel,
             onPlanDeleteClicked = { navController.navigate(TravelScreen.Page1A.name) },
             onDismiss = {
                 isDeletePlanDialog = false

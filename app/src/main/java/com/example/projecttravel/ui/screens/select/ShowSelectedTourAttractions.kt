@@ -123,7 +123,7 @@ fun SelectedTourAttrDialog(
                         items = selectUiState.selectTourAttractions,
                         key = { tourAttractionAll ->
                             when (tourAttractionAll) {
-                                is TourAttractionInfo -> tourAttractionAll.placeName
+                                is TourAttractionInfo -> tourAttractionAll.placeId
                                 is TourAttractionSearchInfo -> tourAttractionAll.name
                                 else -> {}
                             }

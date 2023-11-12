@@ -15,6 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import com.example.projecttravel.ui.screens.plantrip.planapi.deletePlanfromMongoDb
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -22,6 +25,8 @@ import kotlinx.coroutines.launch
 @Composable
 fun DeletePlanDialog(
     planId: String,
+    userUiState: UserUiState,
+    userViewModel: UserViewModel,
     onPlanDeleteClicked: () -> Unit = {},
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -59,8 +64,14 @@ fun DeletePlanDialog(
                             val isPlanDeleteComplete = planDeferred.await()
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isPlanDeleteComplete) {
-                                onDismiss()
-                                onPlanDeleteClicked()
+                                val isDeferredPlan = async { userUiState.checkOtherUser?.let { callMyPlanList(it) } }
+                                val isCompletePlan = isDeferredPlan.await()
+                                if (isCompletePlan != null ) {
+                                    userViewModel.setUserPlanList(isCompletePlan)
+                                    userViewModel.previousScreenWasPageOneA(true)
+                                    onDismiss()
+                                    onPlanDeleteClicked()
+                                }
                             } else {
                                 onDismiss()
                                 onErrorOccurred()

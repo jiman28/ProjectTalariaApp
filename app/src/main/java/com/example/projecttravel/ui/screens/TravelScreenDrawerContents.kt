@@ -40,9 +40,12 @@ import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
+import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
+import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
+import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -112,15 +115,46 @@ fun DrawerContents (
 
         }
 
+        Spacer(modifier = Modifier.padding(2.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
 
-        TextButton(onClick = {
-            userViewModel.previousScreenWasPageOneA(true)
-            userViewModel.setUserPageInfo(userUiState.currentLogin)
-            navController.navigate(TravelScreen.Page1A.name)
-            scope.launch { drawerState.close() }
-        }) {
-            Text(text = "마이 페이지", fontSize = 25.sp)
+        if (userUiState.currentLogin !=null) {
+            val callBoardMe = CallBoard(
+                kw = "",
+                page = 0,
+                type = stringResource(boardPageUiState.currentSearchType),
+                email = userUiState.currentLogin.email
+            )
+            val userResponse = userUiState.currentLogin
+            TextButton(onClick = {
+                scope.launch {
+                    drawerState.close()
+                    isLoadingState = true
+                    val isDeferredInterest = async { callMyInterest(userResponse) }
+                    val isDeferredPlan = async { callMyPlanList(userResponse) }
+                    val isDeferredBoard = async { getAllBoardDefault(callBoardMe,boardPageViewModel,scope) }
+                    val isCompleteInterest = isDeferredInterest.await()
+                    val isCompletePlan = isDeferredPlan.await()
+                    val isCompleteBoard = isDeferredBoard.await()
+                    // 모든 작업이 완료되었을 때만 실행합니다.
+                    if (isCompleteBoard && isCompleteInterest != null ) {
+                        isLoadingState = null
+                        userViewModel.setUserInterest(isCompleteInterest)
+                        userViewModel.setUserPlanList(isCompletePlan)
+                        userViewModel.previousScreenWasPageOneA(true)
+                        userViewModel.setUserPageInfo(userUiState.currentLogin)
+                        navController.navigate(TravelScreen.Page1A.name)
+                    } else {
+                        isLoadingState = false
+                    }
+                }
+            }) {
+                Text(text = "마이 페이지", fontSize = 25.sp)
+            }
+
+        } else {
+            Text(text = "로그인 오류", fontSize = 25.sp)
         }
 
         Spacer(modifier = Modifier.padding(2.dp))
@@ -152,24 +186,21 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
         Spacer(modifier = Modifier.padding(2.dp))
 
-        val callBoard = CallBoard(
+        val callBoardBoard = CallBoard(
             kw = "",
             page = 0,
             type = stringResource(boardPageUiState.currentSearchType),
             email = ""
         )
         TextButton(onClick = {
-
             scope.launch {
                 drawerState.close()
                 isLoadingState = true
-                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+                val isDeferred = async { getAllBoardDefault(callBoardBoard,boardPageViewModel,scope) }
                 val isComplete = isDeferred.await()
                 // 모든 작업이 완료되었을 때만 실행합니다.
                 if (isComplete) {
                     isLoadingState = null
-                    boardPageViewModel.setSearchKeyWord("")
-                    boardPageViewModel.setBoardPage(0)
                     userViewModel.previousScreenWasPageOneA(false)
                     navController.navigate(TravelScreen.Page4.name)
                 } else {
@@ -193,15 +224,17 @@ fun DrawerContents (
 //                drawerState.close()
 //                isLoadingState = true
 //                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "b@b.b")
-//                val userResponse = UserResponse(id = "",email = "",name = "",picture = "")
-//                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
+//                val userResponse = UserResponse(id = "1",email = "c@c.c",name = "1",picture = "1")
+////                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
 ////                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
 ////                val isDeferred = async { getBoardListMobile(callBoard) }
+//                val isDeferred = async { callMyInterest(userResponse) }
 //                val isComplete = isDeferred.await()
 //                // 모든 작업이 완료되었을 때만 실행합니다.
-//                if (isComplete) {
+//                if (isComplete != null) {
 ////                    boardPageViewModel.setBoardList(isComplete)
 ////                    userViewModel.setCheckUserPlanList(isComplete)
+//                    userViewModel.setUserInterest(isComplete)
 //                    isLoadingState = null
 //                    navController.navigate(TravelScreen.PageTest.name)
 //                } else {

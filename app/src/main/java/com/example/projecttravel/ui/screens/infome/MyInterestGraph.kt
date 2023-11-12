@@ -20,13 +20,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.model.UserInfo
+import com.example.projecttravel.model.UserInterest
 import com.example.projecttravel.model.UserRadarChartInfo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyInterestGraph(
-    filteredInfoGraph: UserInfo,
+    filteredInfoGraph: UserInterest,
     onDismiss: () -> Unit,
 ) {
 
