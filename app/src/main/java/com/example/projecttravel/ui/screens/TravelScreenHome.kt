@@ -11,6 +11,7 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,6 +21,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -44,8 +47,7 @@ import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
-import com.example.projecttravel.ui.screens.boardread.GPSTestPage
-import com.example.projecttravel.ui.screens.boardread.TestPage
+import com.example.projecttravel.zdump.aaatestpagedumpz.GPSTestPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -94,8 +96,8 @@ fun TravelScreenHome(
     val boardPageUiState by boardPageViewModel.boardPageUiState.collectAsState()
 
     /** State of topBar, set state to false on each currentScreens */
-    var showTopBar by rememberSaveable { mutableStateOf(true) }
-    showTopBar = when (currentScreen) { // on this screens topBar should be hidden
+    var showTopBarAndDrawer by rememberSaveable { mutableStateOf(true)  }
+    showTopBarAndDrawer = when (currentScreen) { // on this screens topBar should be hidden
         TravelScreen.Page0 -> false
         TravelScreen.Page0A -> false
         TravelScreen.Page1A -> false
@@ -114,7 +116,7 @@ fun TravelScreenHome(
     Scaffold(
         topBar = {
             /** shows TopBar only when true */
-            if (showTopBar) {
+            if (showTopBarAndDrawer) {
                 TravelAppBar(
                     currentScreen = currentScreen,
                     navController = navController,  // TravelApp()의 navController 를 전달
@@ -122,7 +124,7 @@ fun TravelScreenHome(
                     scope = scope,
                 )
             }
-        },
+        }
     ) { innerPadding ->
         /** All pages ====================*/
         NavHost(    // NavHost 컴포저블을 추가
@@ -438,25 +440,25 @@ fun TravelScreenHome(
 //                    },
 //                )
 //            }
-            composable(route = TravelScreen.PageTest.name) {
-                GPSTestPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
-                    navController = navController,
-                    scope = scope,
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = {
-                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-                    },
-                )
-            }
-            /** Test ==================== ==================== ==================== ==================== ====================*/
+//            composable(route = TravelScreen.PageTest.name) {
+//                GPSTestPage(
+//                    userUiState = userUiState,
+//                    userViewModel = userViewModel,
+//                    planUiState = planUiState,
+//                    planViewModel = planViewModel,
+//                    boardPageUiState = boardPageUiState,
+//                    boardPageViewModel = boardPageViewModel,
+//                    navController = navController,
+//                    scope = scope,
+//                )
+//                BackHandler(
+//                    enabled = drawerState.isClosed,
+//                    onBack = {
+//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+//                    },
+//                )
+//            }
+//            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */

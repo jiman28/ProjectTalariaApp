@@ -86,6 +86,9 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+//    // Permissions
+//    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
+
     // JSoup - HTML Parser
     implementation("org.jsoup:jsoup:1.14.3")
 

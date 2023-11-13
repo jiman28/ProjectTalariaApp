@@ -49,9 +49,14 @@ fun TravelAppBar(
         ),
         modifier = modifier,
         navigationIcon = {
+            IconButton(onClick = { scope.launch { drawerState.open() } }) {
+                Icon(imageVector = Icons.Filled.List, contentDescription = "AppBarHome")
+            }
+        },
+        actions = {// 버튼 오른쪽 정렬
             IconButton(
                 onClick = {
-                if (currentScreen != TravelScreen.Page1) { navController.navigate(TravelScreen.Page1.name) }
+                    if (currentScreen != TravelScreen.Page1) { navController.navigate(TravelScreen.Page1.name) }
                 }
             ) {
                 Image(
@@ -60,11 +65,6 @@ fun TravelAppBar(
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.scale(1F)
                 )
-            }
-        },
-        actions = {// 버튼 오른쪽 정렬
-            IconButton(onClick = { scope.launch { drawerState.open() } }) {
-                Icon(imageVector = Icons.Filled.List, contentDescription = "AppBarHome")
             }
         },
     )

@@ -1,5 +1,12 @@
 package com.example.projecttravel.ui.screens.planroutegps
 
+import android.Manifest
+import android.content.Context
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.location.Location
+import android.util.Log
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +22,16 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.projecttravel.MainActivity
+import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SpotDto
@@ -27,11 +39,15 @@ import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.Marker
+import com.google.maps.android.compose.MarkerInfoWindowContent
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 
@@ -44,15 +60,41 @@ fun RouteGpsPage(
     onBackButtonClicked: () -> Unit = {},
 ) {
     val context = LocalContext.current
-//    /** Reset GOOGLE_MAPS_API_KEY ====================*/
-//    val apiKey = BuildConfig.GOOGLE_MAPS_API_KEY
-//    Places.initialize(context, apiKey) // YOUR_API_KEY_HERE를 실제 API 키로 대체
 
-//    /** Reset placesClient & Geocoder ====================*/
-//    val locationViewModel: LocationViewModel = viewModel()
-//    locationViewModel.placesClient = Places.createClient(context)
-//    locationViewModel.geoCoder = Geocoder(context)
+    // 위치 허용 확인 (Boolean 값)
+    val locationPermissionGranted =
+        ActivityCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(
+                    context,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) == PackageManager.PERMISSION_GRANTED
 
+//    // 기기 위치 계산용
+//    val fusedLocationProviderClient = remember { LocationServices.getFusedLocationProviderClient(context) }
+//    var lastKnownLocation by remember { mutableStateOf<Location?>(null) }
+//    var deviceLatLng by remember { mutableStateOf(LatLng(0.0, 0.0)) }
+//
+//    // 기기 위치 계산
+//    val locationResult = fusedLocationProviderClient.lastLocation
+//    locationResult.addOnCompleteListener(context as MainActivity) { task ->
+//        if (task.isSuccessful) {
+//            // 위치 가져오기 성공
+//            lastKnownLocation = task.result
+//            deviceLatLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
+////            cameraPositionState.position = CameraPosition.fromLatLngZoom(deviceLatLng, 18f)
+//            Log.d("TAG", "현재 위치: $deviceLatLng")
+//        } else {
+//            // 위치 가져오기 실패
+//            Log.e("TAG", "현재 위치를 가져오는 중 오류 발생", task.exception)
+//            Log.d("TAG", "현재 위치를 가져오는 중 오류 발생: ${task.exception?.message}")
+//            // 오류 메시지를 사용자에게 표시하거나 기본값을 사용하도록 처리할 수 있습니다.
+//        }
+//    }
+
+    // 들어오는 변수 확인
     val currentDayTripAttrs: SpotDtoResponse? =
         when (planUiState.checkSingleDayGps) {
             is SpotDtoResponseRead -> {
@@ -72,10 +114,12 @@ fun RouteGpsPage(
                 )
                 spotDtoResponse
             }
+
             is SpotDtoResponse -> planUiState.checkSingleDayGps
             else -> null
         }
 
+    // 마커를 눌렀을 경우 나오는 다이알로그
     var showPlaceInfo by remember { mutableStateOf(false) }
     var selectedPlaceMarker by remember { mutableStateOf<SpotDto?>(null) }
     if (showPlaceInfo) {
@@ -110,15 +154,28 @@ fun RouteGpsPage(
                         .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
                 ) {
                     Text(
-                        text = "마커를 클릭하여 관광지 정보 확인",
-                        fontSize = 15.sp,   // font 의 크기
-                        lineHeight = 15.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
-                        fontWeight = FontWeight.Bold,  // font 의 굵기
-                        style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                        text = "관광지 정보 확인",
+                        fontSize = 20.sp,   // font 의 크기
+                        lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                        fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+                        style = MaterialTheme.typography.titleLarge,  //font 의 스타일
+                        textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                        modifier = Modifier
+                            .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
+                    )
+                    if (!locationPermissionGranted) {
+                        Text(
+                            text = "위치 정보에 동의하면 자신의 위치가 보입니다",
+                            fontSize = 10.sp,   // font 의 크기
+                            lineHeight = 10.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                            fontWeight = FontWeight.Bold,  // font 의 굵기
+                            style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
                             textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                            color = Color.Red,
                             modifier = Modifier
                                 .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
-                    )
+                        )
+                    }
                 }
                 /** GoogleMap Composable ====================*/
                 Column {
@@ -139,13 +196,45 @@ fun RouteGpsPage(
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
                         cameraPositionState = cameraPositionState,
+                        properties = MapProperties(
+                            isMyLocationEnabled = locationPermissionGranted,    // 내 위치(허가할 시에만)
+                            isTrafficEnabled = true,    // 교통정보
+
+                        ),
                     ) {
                         currentDayTripAttrs.list.forEach { attrs ->
+//                            MapMarker(
+//                                context = context,
+//                                position = stringToLatLng(
+//                                    attrs.lat,
+//                                    attrs.lan
+//                                ),
+//                                title = attrs.name,
+//                                snippet = attrs.inOut,
+//                                onInfoWindowClick = {
+//                                    showPlaceInfo = true
+//                                    selectedPlaceMarker = attrs
+//                                },
+//                                iconResourceId = (R.drawable.ic_launcher_foreground),
+//                            )
+
+
                             Marker(
-                                state = MarkerState(position = stringToLatLng(attrs.lat, attrs.lan),),
+                                state = MarkerState(
+                                    position = stringToLatLng(
+                                        attrs.lat,
+                                        attrs.lan
+                                    ),
+                                ),
                                 alpha = 3.0f,
                                 anchor = Offset(0.5f, 0.5f),
-                                icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE), // 마커 아이콘 설정
+                                icon = BitmapDescriptorFactory.defaultMarker(
+                                    when (attrs.inOut) {
+                                        "0" -> BitmapDescriptorFactory.HUE_BLUE
+                                        "1" -> BitmapDescriptorFactory.HUE_RED
+                                        else -> 0f
+                                    }
+                                ), // 마커 아이콘 설정
                                 title = attrs.name,
                                 snippet = when (attrs.inOut) {
                                     "0" -> "실내 활동"
@@ -158,6 +247,16 @@ fun RouteGpsPage(
                                 },
                             )
                         }
+//                        // 기계 위치 허용시 나오는 마커
+//                        if (locationPermissionGranted) {
+//                            MarkerInfoWindowContent(
+//                                state = MarkerState(
+//                                    position = deviceLatLng
+//                                )
+//                            ) { marker ->
+//                                Text(marker.title ?: "You", color = Color.Red)
+//                            }
+//                        }
                     }
                 }
             }
@@ -172,4 +271,55 @@ fun stringToLatLng(lat: String, lng: String): LatLng {
     val latitude = lat.toDouble()
     val longitude = lng.toDouble()
     return LatLng(latitude, longitude)
+}
+
+// Custom Marker
+@Composable
+fun MapMarker(
+    context: Context,
+    position: LatLng,
+    title: String,
+    snippet: String,
+    onInfoWindowClick: () -> Unit = {},
+    @DrawableRes iconResourceId: Int
+) {
+    val icon = bitmapDescriptorFromVector(
+        context, iconResourceId
+    )
+    Marker(
+        state = MarkerState(
+            position = position,
+        ),
+        alpha = 3.0f,
+        anchor = Offset(0.5f, 0.5f),
+        title = title,
+        icon = icon,
+        snippet = when (snippet) {
+            "0" -> "실내 활동"
+            "1" -> "실외 활동"
+            else -> "몰루"
+        },
+        onInfoWindowClick = { onInfoWindowClick() }
+    )
+}
+
+// Custom Marker icon Editor
+fun bitmapDescriptorFromVector(
+    context: Context,
+    vectorResId: Int
+): BitmapDescriptor? {
+
+    // retrieve the actual drawable
+    val drawable = ContextCompat.getDrawable(context, vectorResId) ?: return null
+    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    val bm = Bitmap.createBitmap(
+        drawable.intrinsicWidth,
+        drawable.intrinsicHeight,
+        Bitmap.Config.ARGB_8888
+    )
+
+    // draw it onto the bitmap
+    val canvas = android.graphics.Canvas(bm)
+    drawable.draw(canvas)
+    return BitmapDescriptorFactory.fromBitmap(bm)
 }

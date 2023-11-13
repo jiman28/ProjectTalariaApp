@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -65,6 +66,7 @@ fun DrawerContents (
     drawerState: DrawerState,
     scope: CoroutineScope,
 ) {
+
     var isLogOutState by remember { mutableStateOf(false) }
     Surface {
         if (isLogOutState) {
@@ -214,11 +216,11 @@ fun DrawerContents (
             Text(text = "게시판", fontSize = 25.sp)
         }
 
-        /** Test ==================== ==================== ==================== ==================== ====================*/
-        Spacer(modifier = Modifier.padding(2.dp))
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-        Spacer(modifier = Modifier.padding(2.dp))
-
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
+//        Spacer(modifier = Modifier.padding(2.dp))
+//        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+//        Spacer(modifier = Modifier.padding(2.dp))
+//
 //        TextButton(onClick = {
 //            scope.launch {
 //                drawerState.close()
@@ -244,16 +246,16 @@ fun DrawerContents (
 //        }) {
 //            Text(text = "테스트테스트", fontSize = 25.sp)
 //        }
-
-        TextButton(onClick = {
-            scope.launch {
-                drawerState.close()
-                navController.navigate(TravelScreen.PageTest.name)
-            }
-        }) {
-            Text(text = "GPS 테스트", fontSize = 25.sp)
-        }
-        /** Test ==================== ==================== ==================== ==================== ====================*/
+//
+//        TextButton(onClick = {
+//            scope.launch {
+//                drawerState.close()
+//                navController.navigate(TravelScreen.PageTest.name)
+//            }
+//        }) {
+//            Text(text = "GPS 테스트", fontSize = 25.sp)
+//        }
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
 
     }
 }

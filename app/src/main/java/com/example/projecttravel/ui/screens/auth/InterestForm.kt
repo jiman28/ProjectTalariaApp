@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -22,7 +23,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SendInterest
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
@@ -68,10 +72,20 @@ fun InterestForm(
             .verticalScroll(scrollState)
             .padding(start = 15.dp, end = 15.dp),
     ) {
+//        Text(text = "name = ${userUiState.currentSignIn?.name}")
+//        Text(text = "email = ${userUiState.currentSignIn?.email}")
+//        Text(text = "password = ${userUiState.currentSignIn?.password}")
 
-        Text(text = "name = ${userUiState.currentSignIn?.name}")
-        Text(text = "email = ${userUiState.currentSignIn?.email}")
-        Text(text = "password = ${userUiState.currentSignIn?.password}")
+        Text(
+            text = "자신의 취향을 고르세요",
+            fontSize = 20.sp,   // font 의 크기
+            lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+            fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+            style = MaterialTheme.typography.titleLarge,  //font 의 스타일
+            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+            modifier = Modifier
+                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
+        )
 
         Spacer(modifier = Modifier.height(20.dp))
 
