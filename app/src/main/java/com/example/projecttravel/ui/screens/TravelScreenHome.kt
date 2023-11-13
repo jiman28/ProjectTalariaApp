@@ -44,6 +44,7 @@ import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
+import com.example.projecttravel.ui.screens.boardread.GPSTestPage
 import com.example.projecttravel.ui.screens.boardread.TestPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import kotlinx.coroutines.CoroutineScope
@@ -404,7 +405,7 @@ fun TravelScreenHome(
                 )
             }
 
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
+            /** Test ==================== ==================== ==================== ==================== ====================*/
 //            composable(route = TravelScreen.PageTest.name) {
 //                TestPage(
 //                    userUiState = userUiState,
@@ -437,7 +438,25 @@ fun TravelScreenHome(
 //                    },
 //                )
 //            }
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
+            composable(route = TravelScreen.PageTest.name) {
+                GPSTestPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    scope = scope,
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+                    },
+                )
+            }
+            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */
