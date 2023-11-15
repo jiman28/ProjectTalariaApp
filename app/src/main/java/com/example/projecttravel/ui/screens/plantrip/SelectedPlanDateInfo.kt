@@ -58,10 +58,6 @@ fun SelectedPlanDateInfo(
                 modifier = Modifier
                     .padding(3.dp)
                     .clip(RoundedCornerShape(8.dp)),
-//                        colors = ButtonDefaults.buttonColors(
-//                            containerColor = Color.Blue,
-//                            contentColor = Color.White
-//                        ),
                 onClick = {
                     if (planUiState.weatherSwitch) {
                         planViewModel.setGpsPage(planUiState.dateToAttrByWeather.find { it.date == planUiState.currentPlanDate.toString() })

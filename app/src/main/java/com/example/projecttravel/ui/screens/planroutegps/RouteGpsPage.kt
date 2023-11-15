@@ -72,28 +72,6 @@ fun RouteGpsPage(
                     Manifest.permission.ACCESS_COARSE_LOCATION
                 ) == PackageManager.PERMISSION_GRANTED
 
-//    // 기기 위치 계산용
-//    val fusedLocationProviderClient = remember { LocationServices.getFusedLocationProviderClient(context) }
-//    var lastKnownLocation by remember { mutableStateOf<Location?>(null) }
-//    var deviceLatLng by remember { mutableStateOf(LatLng(0.0, 0.0)) }
-//
-//    // 기기 위치 계산
-//    val locationResult = fusedLocationProviderClient.lastLocation
-//    locationResult.addOnCompleteListener(context as MainActivity) { task ->
-//        if (task.isSuccessful) {
-//            // 위치 가져오기 성공
-//            lastKnownLocation = task.result
-//            deviceLatLng = LatLng(lastKnownLocation!!.latitude, lastKnownLocation!!.longitude)
-////            cameraPositionState.position = CameraPosition.fromLatLngZoom(deviceLatLng, 18f)
-//            Log.d("TAG", "현재 위치: $deviceLatLng")
-//        } else {
-//            // 위치 가져오기 실패
-//            Log.e("TAG", "현재 위치를 가져오는 중 오류 발생", task.exception)
-//            Log.d("TAG", "현재 위치를 가져오는 중 오류 발생: ${task.exception?.message}")
-//            // 오류 메시지를 사용자에게 표시하거나 기본값을 사용하도록 처리할 수 있습니다.
-//        }
-//    }
-
     // 들어오는 변수 확인
     val currentDayTripAttrs: SpotDtoResponse? =
         when (planUiState.checkSingleDayGps) {
@@ -190,8 +168,9 @@ fun RouteGpsPage(
                     val centerPosition = LatLng(centerLat, centerLng)
 
                     /** GoogleMap Camera Position - 카메라 위치 조정 ====================*/
+                    // zoom(float) : zoomIn = num up/ zoomOut = num down
                     val cameraPositionState = rememberCameraPositionState {
-                        position = CameraPosition.fromLatLngZoom(centerPosition, 12f)
+                        position = CameraPosition.fromLatLngZoom(centerPosition, 11f)
                     }
                     GoogleMap(
                         modifier = Modifier.fillMaxSize(),
@@ -217,7 +196,6 @@ fun RouteGpsPage(
 //                                },
 //                                iconResourceId = (R.drawable.ic_launcher_foreground),
 //                            )
-
 
                             Marker(
                                 state = MarkerState(
@@ -247,16 +225,6 @@ fun RouteGpsPage(
                                 },
                             )
                         }
-//                        // 기계 위치 허용시 나오는 마커
-//                        if (locationPermissionGranted) {
-//                            MarkerInfoWindowContent(
-//                                state = MarkerState(
-//                                    position = deviceLatLng
-//                                )
-//                            ) { marker ->
-//                                Text(marker.title ?: "You", color = Color.Red)
-//                            }
-//                        }
                     }
                 }
             }

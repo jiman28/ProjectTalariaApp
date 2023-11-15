@@ -11,7 +11,6 @@ import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -21,8 +20,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -47,8 +44,8 @@ import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
-import com.example.projecttravel.zdump.aaatestpagedumpz.GPSTestPage
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
+import com.example.projecttravel.zzztester.TestPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -78,16 +75,12 @@ fun TravelScreenHome(
     searchViewModel: SearchViewModel = viewModel(),
     planViewModel: PlanViewModel = viewModel(),
     boardPageViewModel: BoardPageViewModel = viewModel(),
-//    boardPageViewModel: BoardPageViewModel = LocalViewModel.current,
-//    boardPageUiState: State<BoardPageUiState> = (LocalContext.current.applicationContext as TravelApplication).boardPageUiState,
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
 ) {
-    // git network check 2023-11-12 a
     val backStackEntry by navController.currentBackStackEntryAsState()
-    val currentScreen =
-        TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
+    val currentScreen = TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
 
     val userUiState by userViewModel.userUiState.collectAsState()
     val selectUiState by selectViewModel.selectUiState.collectAsState()
@@ -408,57 +401,25 @@ fun TravelScreenHome(
             }
 
             /** Test ==================== ==================== ==================== ==================== ====================*/
-//            composable(route = TravelScreen.PageTest.name) {
-//                TestPage(
-//                    userUiState = userUiState,
-//                    userViewModel = userViewModel,
-//                    planUiState = planUiState,
-//                    planViewModel = planViewModel,
-//                    boardPageUiState = boardPageUiState,
-//                    boardPageViewModel = boardPageViewModel,
-//                    navController = navController,
-//                    scope = scope,
-//                )
-//                BackHandler(
-//                    enabled = drawerState.isClosed,
-//                    onBack = {
-//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-//                    },
-//                )
-//            }
-//
-//            composable(route = TravelScreen.PageTest2.name) {
-//                TestPageSecond(
-//                    boardPageUiState = boardSelectUiState,
-//                    boardPageViewModel = boardPageViewModel,
-//                    navController = navController,
-//                    scope = scope,
-//                )
-//                BackHandler(
-//                    onBack = {
-//                        navController.navigateUp()
-//                    },
-//                )
-//            }
-//            composable(route = TravelScreen.PageTest.name) {
-//                GPSTestPage(
-//                    userUiState = userUiState,
-//                    userViewModel = userViewModel,
-//                    planUiState = planUiState,
-//                    planViewModel = planViewModel,
-//                    boardPageUiState = boardPageUiState,
-//                    boardPageViewModel = boardPageViewModel,
-//                    navController = navController,
-//                    scope = scope,
-//                )
-//                BackHandler(
-//                    enabled = drawerState.isClosed,
-//                    onBack = {
-//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-//                    },
-//                )
-//            }
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
+            composable(route = TravelScreen.PageTest.name) {
+                TestPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    scope = scope,
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+                    },
+                )
+            }
+            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */

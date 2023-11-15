@@ -49,7 +49,6 @@ fun PlanPage(
     Log.d("jiman=dateToAttrByCity", planUiState.dateToAttrByCity.toString())
     Log.d("jiman=dateToAttrByWeather", planUiState.dateToAttrByWeather.toString())
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
-//    var weatherSwitchChecked by remember { mutableStateOf(false) }
 
     // allList By WeatherSwitch for all list and size
     val allAttrList: List<SpotDtoResponse> = if (planUiState.weatherSwitch) {
@@ -62,19 +61,6 @@ fun PlanPage(
 
     // List By WeatherSwitch for view
     val attrList: List<SpotDto> = allAttrList.find { it.date == selectedPlanDate.toString() }?.list ?: emptyList()
-
-//    // List By WeatherSwitch for view
-//    val attrList: List<SpotDto> = if (planUiState.weatherSwitch) {
-//        val selectedDate = selectedPlanDate.toString()
-//        val attrList = planUiState.dateToAttrByWeather
-//            .find { it.date == selectedDate }?.list ?: emptyList()
-//        attrList
-//    } else {
-//        val selectedDate = selectedPlanDate.toString()
-//        val attrList = planUiState.dateToAttrByCity
-//            .find { it.date == selectedDate }?.list ?: emptyList()
-//        attrList
-//    }
 
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -156,14 +142,6 @@ fun PlanPage(
         /** Show your All Selections ====================*/
         if (planUiState.weatherSwitch) {
             Column {
-//                val selectedDateWeather: List<SpotDto> = if (planUiState.weatherSwitch) {
-//                    val selectedDate = selectedPlanDate.toString()
-//                    val selectedDateWeather = planUiState.dateToAttrByWeather
-//                        .find { it.date == selectedDate }?.list ?: emptyList()
-//                    selectedDateWeather
-//                } else {
-//                    emptyList()
-//                }
                 if (attrList.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier,
@@ -187,14 +165,6 @@ fun PlanPage(
             }
         } else {
             Column {
-//                val selectedDateAttrs: List<SpotDto> = if (!planUiState.weatherSwitch) {
-//                    val selectedDate = selectedPlanDate.toString()
-//                    val selectedDateAttrs = planUiState.dateToAttrByCity
-//                        .find { it.date == selectedDate }?.list ?: emptyList()
-//                    selectedDateAttrs
-//                } else {
-//                    emptyList()
-//                }
                 if (attrList.isNotEmpty()) {
                     LazyColumn(
                         modifier = Modifier,

@@ -34,11 +34,6 @@ import kotlinx.coroutines.launch
 /** The screen displaying the loading message.*/
 @Composable
 fun GlobalLoadingScreen() {
-//    Image(
-//        painter = painterResource(R.drawable.loading_img),
-//        contentDescription = stringResource(R.string.loading),
-//        modifier = Modifier.size(200.dp)
-//    )
     Column (
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬

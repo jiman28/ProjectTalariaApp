@@ -175,7 +175,3 @@ interface TravelApiService {
     @POST("removearticle")
     fun removeArticle(@Body removeArticle: RemoveArticle): Call<Boolean>
 }
-
-//    // TestBoardA
-//    @POST("sendtba")
-//    fun setTestBoardA(@Body testBoardASend: TestBoardASend): Call<String>

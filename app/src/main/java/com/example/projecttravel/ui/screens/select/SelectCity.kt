@@ -119,13 +119,6 @@ fun CityDropDownMenu(
                     }
                 }
             )
-//            Text(
-//                text = "나라를 선택하세요",
-//                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
-//                modifier = Modifier
-//                    .padding(10.dp) // 원하는 여백을 추가).
-//                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
-//            )
         }
     }
 }

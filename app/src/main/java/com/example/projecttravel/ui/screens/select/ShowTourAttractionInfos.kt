@@ -175,7 +175,6 @@ fun TourAttrCard(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-//            modifier = modifier.clickable { onClick(tourAttractionInfo) }   // 카드 섹션을 버튼화
         ) {
             Text(
                 text = tourAttractionInfo.placeName,
@@ -214,18 +213,6 @@ fun TourAttrCard(
                 ) {
                     Icon(imageVector = Icons.Filled.Add, contentDescription = "CancelTourAttraction", tint = Color.White)
                 }
-//                OutlinedButton(
-//                    modifier = Modifier
-//                        .padding(3.dp)
-//                        .clip(RoundedCornerShape(8.dp))
-//                        .align(Alignment.BottomEnd),
-//                    colors = ButtonDefaults.buttonColors(containerColor = Color.Blue, contentColor = Color.White),
-//                    onClick = {
-//                        onClick(tourAttractionInfo)
-//                    }
-//                ) {
-//                    Text(text = "여기 갈랭")
-//                }
             }
         }
     }

@@ -209,9 +209,6 @@ fun DrawerContents (
                     isLoadingState = false
                 }
             }
-//            userViewModel.previousScreenWasPageOneA(false)
-//            navController.navigate(TravelScreen.Page4.name)
-//            scope.launch { drawerState.close() }
         }) {
             Text(text = "게시판", fontSize = 25.sp)
         }
@@ -222,38 +219,9 @@ fun DrawerContents (
 //        Spacer(modifier = Modifier.padding(2.dp))
 //
 //        TextButton(onClick = {
-//            scope.launch {
-//                drawerState.close()
-//                isLoadingState = true
-//                val callBoard = CallBoard(kw = "",page = 0,type = "", email = "b@b.b")
-//                val userResponse = UserResponse(id = "1",email = "c@c.c",name = "1",picture = "1")
-////                val isDeferred = async { getAllBoardDefault(callBoard,boardPageViewModel,scope) }
-////                val isDeferred = async { userUiState.currentLogin?.let { callMyPlanList(it) } }
-////                val isDeferred = async { getBoardListMobile(callBoard) }
-//                val isDeferred = async { callMyInterest(userResponse) }
-//                val isComplete = isDeferred.await()
-//                // 모든 작업이 완료되었을 때만 실행합니다.
-//                if (isComplete != null) {
-////                    boardPageViewModel.setBoardList(isComplete)
-////                    userViewModel.setCheckUserPlanList(isComplete)
-//                    userViewModel.setUserInterest(isComplete)
-//                    isLoadingState = null
-//                    navController.navigate(TravelScreen.PageTest.name)
-//                } else {
-//                    isLoadingState = false
-//                }
-//            }
+//            navController.navigate(TravelScreen.PageTest.name)
 //        }) {
-//            Text(text = "테스트테스트", fontSize = 25.sp)
-//        }
-//
-//        TextButton(onClick = {
-//            scope.launch {
-//                drawerState.close()
-//                navController.navigate(TravelScreen.PageTest.name)
-//            }
-//        }) {
-//            Text(text = "GPS 테스트", fontSize = 25.sp)
+//            Text(text = "테스트페이지", fontSize = 25.sp)
 //        }
 //        /** Test ==================== ==================== ==================== ==================== ====================*/
 
