@@ -1,8 +1,10 @@
 package com.example.projecttravel.ui.screens.select
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
@@ -23,9 +25,21 @@ import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiSt
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.LocalAirport
+import androidx.compose.material.icons.filled.LocationCity
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
+import com.example.projecttravel.R
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectCountry(
@@ -55,19 +69,33 @@ fun CountryDropDownMenu(
 
     // 2. DropDownMenu의 Expanded 상태를 변경하기 위한 버튼 정의
     Button(
-        modifier = Modifier.size(width = 110.dp, height = 40.dp),
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(10.dp),
         onClick = { isDropDownMenuExpanded = true }
     ) {
-        Text(
-            text = selectUiState.selectCountry?.countryName ?: "나라 고르기" // 선택된 나라가 없으면 "나라 고르기"를 표시
-        )
+        if (selectUiState.selectCountry != null) {
+            Text(
+                text = selectUiState.selectCountry.countryName,
+                fontWeight = FontWeight.Thin,  // font 의 굵기
+                fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+            )
+        } else {
+            Icon(imageVector = Icons.Filled.LocalAirport, contentDescription = "LocalAirport")
+            Text(
+                text = " 나라",
+                fontWeight = FontWeight.Thin,  // font 의 굵기
+                fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+            )
+        }
     }
 
     // 3. DropDownMenu 정의
     DropdownMenu(
         modifier = Modifier.wrapContentSize(),
         expanded = isDropDownMenuExpanded,
-        offset = DpOffset(35.dp, 0.dp), // Dropdown Menu 의 위치 조정
+        offset = DpOffset(10.dp, 0.dp), // Dropdown Menu 의 위치 조정
         onDismissRequest = { isDropDownMenuExpanded = false }
     ) {
         if (countryList.isNotEmpty()) {

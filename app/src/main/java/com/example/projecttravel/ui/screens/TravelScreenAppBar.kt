@@ -17,6 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
@@ -34,12 +36,12 @@ fun TravelAppBar(
     scope: CoroutineScope,
     modifier: Modifier = Modifier,
 ) {
-    val image = painterResource(R.drawable.talaria)
     TopAppBar(
         title = {
             Text(
-                text = "탈랄리아",
+                text = "T A L A R I  A",
                 fontSize = 50.sp,
+                fontFamily = FontFamily(Font(R.font.lobster)),
                 textAlign = TextAlign.Center,
                 modifier = Modifier.fillMaxWidth()
             )
@@ -60,7 +62,7 @@ fun TravelAppBar(
                 }
             ) {
                 Image(
-                    painter = image,
+                    painter = painterResource(R.drawable.logo_talaria_round),
                     contentDescription = "HomeImage",
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.scale(1F)

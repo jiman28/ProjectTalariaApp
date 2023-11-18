@@ -1,9 +1,19 @@
 package com.example.projecttravel.ui.screens.select
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -12,8 +22,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
@@ -57,16 +69,20 @@ fun SelectPageButtons (
     }
 
     Row(
-        horizontalArrangement = Arrangement.SpaceEvenly
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
     ) {
         /** Cancel Button go to go back ====================*/
-        Button(
+        OutlinedButton(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = { isCancelSelectDialogVisible = true }
         ) {
-            Text(stringResource(R.string.cancel_button))
+            Icon(imageVector = Icons.Filled.ArrowBackIos, contentDescription = "ArrowBackIos")
+            Text(text = stringResource(R.string.cancel_button))
             if (isCancelSelectDialogVisible) {
                 CancelSelectDialog(
                     selectViewModel = selectViewModel,
@@ -79,14 +95,16 @@ fun SelectPageButtons (
             }
         }
         /** Reset all selected options ====================*/
-        OutlinedButton(
+        Button(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = {
                 isResetDialogVisible = true
             }
         ) {
+            Icon(imageVector = Icons.Filled.RestartAlt, contentDescription = "RestartAlt")
             Text(stringResource(R.string.reset_button))
             if (isResetDialogVisible) {
                 ResetConfirmDialog(
@@ -98,10 +116,11 @@ fun SelectPageButtons (
             }
         }
         /** Next Button to go forward ====================*/
-        Button(
+        OutlinedButton(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = {
                 if (selectUiState.selectDateRange == null) {
                     txtErrorMsg = "날짜를 고르세요"
@@ -114,7 +133,8 @@ fun SelectPageButtons (
                 }
             }
         ) {
-            Text(stringResource(R.string.next_button))
+            Text(text = stringResource(R.string.next_button))
+            Icon(imageVector = Icons.Filled.ArrowForwardIos, contentDescription = "ArrowForwardIos")
             if (isTextErrorDialog) {
                 TextMsgErrorDialog(
                     txtErrorMsg = txtErrorMsg,

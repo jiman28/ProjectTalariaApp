@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens.select
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -13,7 +14,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
@@ -46,6 +49,7 @@ import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectedTourAttractions(
@@ -67,9 +71,9 @@ fun SelectedTourAttractions(
             )
             Text(
                 text = extractLastName(selectUiState),
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 = 이게 있어야 TextAlign.Center 이 작동함
+                style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                modifier = Modifier.fillMaxWidth() // 화면 가로 전체를 차지하도록 함 = 이게 있어야 TextAlign.Center 이 작동함
             )
         }
     }
@@ -85,9 +89,16 @@ fun SelectedTourAttractionsMenu(
     var isOpenTourAttrDialog by remember { mutableStateOf(false) }
     // 2. AlertDialog Open 상태를 변경하기 위한 버튼 정의
     Button(
+        shape = RoundedCornerShape(10.dp),
         onClick = { isOpenTourAttrDialog = true }
     ) {
-        Text(text = "선택한 관광지 확인")
+        Icon(imageVector = Icons.Filled.LocationOn, contentDescription = "LocationOn")
+        Text(
+            text = " 선택한 관광지",
+            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+            style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+        )
     }
     if (isOpenTourAttrDialog) {
         SelectedTourAttrDialog(
@@ -210,6 +221,7 @@ fun SelectedTourAttrCard(
             AsyncImage(
                 modifier = Modifier
                     .size(50.dp)
+                    .padding(dimensionResource(R.dimen.padding_small))
                     .clip(RoundedCornerShape(8.dp)),
                 model = ImageRequest.Builder(context = LocalContext.current)
                     .data(

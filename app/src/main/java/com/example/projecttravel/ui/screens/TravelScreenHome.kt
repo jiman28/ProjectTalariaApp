@@ -20,6 +20,8 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -45,7 +47,6 @@ import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
-import com.example.projecttravel.zzztester.TestPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -451,4 +452,10 @@ fun ExitAppWhenBackOnPressed(
         }
         backPressedTime = System.currentTimeMillis()
     }
+}
+
+@Composable
+fun DefaultAppFontContent(): FontFamily {
+    return FontFamily(Font(R.font.jua))
+//    return FontFamily.Default
 }

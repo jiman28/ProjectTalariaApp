@@ -20,19 +20,36 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIos
+import androidx.compose.material.icons.filled.ArrowForwardIos
+import androidx.compose.material.icons.filled.CalendarMonth
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.RestartAlt
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.DateRangePickerState
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.time.LocalDate
@@ -64,15 +81,30 @@ fun DateRangePickerMenu(
         OutlinedButton(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = { isOpenDateRangePickerDialog = true }
         ) {
             if (selectUiState.selectDateRange != null) {
+                Icon(imageVector = Icons.Filled.CalendarMonth, contentDescription = "RestartAlt")
                 Text(
-                    text = "${selectUiState.selectDateRange.start} ~ ${selectUiState.selectDateRange.endInclusive}"
+                    text = " ${selectUiState.selectDateRange.start} ~ ${selectUiState.selectDateRange.endInclusive}",
+                    fontSize = 20.sp,   // font 의 크기
+                    fontWeight = FontWeight.Light,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                    style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                    textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
                 )
             } else {
-                Text(text = "여행 날짜 고르기")
+                Icon(imageVector = Icons.Filled.CalendarMonth, contentDescription = "RestartAlt")
+                Text(
+                    text = "  여행 날짜 고르기",
+                    fontSize = 20.sp,   // font 의 크기
+                    fontWeight = FontWeight.Light,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                    style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                    textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                )
             }
             if (isOpenDateRangePickerDialog) {
                 DateRangePickerCustom(
@@ -117,19 +149,22 @@ fun DateRangePickerCustom(
             Button(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(3.dp),
+                    .padding(1.dp),
+                shape = RoundedCornerShape(10.dp),
                 onClick = { onDismiss() }
             ) {
+                Icon(imageVector = Icons.Filled.Clear, contentDescription = "RestartAlt")
                 Text(
-                    text = stringResource(R.string.close_button),
-                    fontSize = 10.sp
+                    text = stringResource(R.string.cancel_button),
+                    fontSize = 10.sp,
                 )
             }
             /** Reset DateRange Button ====================*/
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(3.dp),
+                    .padding(1.dp),
+                shape = RoundedCornerShape(10.dp),
                 onClick = {
                     dateRangePickerState.setSelection(
                         null,
@@ -138,16 +173,18 @@ fun DateRangePickerCustom(
                     selectViewModel.setDateRange(null)
                 }
             ) {
+                Icon(imageVector = Icons.Filled.RestartAlt, contentDescription = "RestartAlt")
                 Text(
                     text = stringResource(R.string.reset_button),
-                    fontSize = 10.sp
+                    fontSize = 10.sp,
                 )
             }
             /** Confirm DateRange Button  ====================*/
             Button(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(3.dp),
+                    .padding(1.dp),
+                shape = RoundedCornerShape(10.dp),
                 onClick = {
                     val startDate = dateRangePickerState.selectedStartDateMillis?.let {
                         millisToLocalDate(it)
@@ -163,9 +200,10 @@ fun DateRangePickerCustom(
                     }
                 }
             ) {
+                Icon(imageVector = Icons.Filled.Check, contentDescription = "ArrowForwardIos")
                 Text(
                     text = stringResource(R.string.confirm_button),
-                    fontSize = 10.sp
+                    fontSize = 10.sp,
                 )
             }
         }
@@ -180,12 +218,14 @@ fun DateRangePickerCustom(
                     verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
                     horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                     modifier = Modifier.fillMaxWidth()
-                ){
+                ) {
                     Text(
                         text = "Select Your Trip Date Range",
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier
-                            .padding(5.dp)
+                        fontSize = 20.sp,   // font 의 크기
+                        fontWeight = FontWeight.Thin,  // font 의 굵기
+                        fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                        style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                        textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
                     )
                 }
             },
@@ -199,29 +239,49 @@ fun DateRangePickerCustom(
                     Column(
                         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                        modifier = Modifier.fillMaxWidth().weight(1f),   // 경우에 따라 -> .fillMaxHeight()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),   // 경우에 따라 -> .fillMaxHeight()
                     ) {
                         (if (dateRangePickerState.selectedStartDateMillis != null)
                             dateRangePickerState.selectedStartDateMillis?.let {
                                 getFormattedDate(it)
-                            } else "Start Date")?.let { Text(text = it ,fontSize = 20.sp) }
+                            } else "Start Date")?.let {
+                            Text(
+                                text = it,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Thin,
+                                fontFamily = DefaultAppFontContent()
+                            )
+                        }
                     }
                     Column(
                         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                        modifier = Modifier.fillMaxWidth().weight(0.2f),   // 경우에 따라 -> .fillMaxHeight()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(0.2f),   // 경우에 따라 -> .fillMaxHeight()
                     ) {
-                        Text(text = "~",fontSize = 20.sp)
+                        Text(text = "~", fontSize = 20.sp)
                     }
                     Column(
                         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                        modifier = Modifier.fillMaxWidth().weight(1f),   // 경우에 따라 -> .fillMaxHeight()
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),   // 경우에 따라 -> .fillMaxHeight()
                     ) {
                         (if (dateRangePickerState.selectedEndDateMillis != null)
                             dateRangePickerState.selectedEndDateMillis?.let {
                                 getFormattedDate(it)
-                            } else "End Date")?.let { Text(text = it,fontSize = 20.sp) }
+                            } else "End Date")?.let {
+                            Text(
+                                text = it,
+                                fontSize = 20.sp,
+                                fontWeight = FontWeight.Thin,
+                                fontFamily = DefaultAppFontContent()
+                            )
+                        }
                     }
                 }
             },

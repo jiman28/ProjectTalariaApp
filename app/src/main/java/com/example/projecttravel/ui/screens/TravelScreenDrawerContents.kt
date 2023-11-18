@@ -1,17 +1,19 @@
 package com.example.projecttravel.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Divider
 import androidx.compose.material3.DrawerState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -24,16 +26,22 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
@@ -41,7 +49,6 @@ import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
@@ -55,7 +62,7 @@ import kotlinx.coroutines.launch
  * ModalNavigationDrawer Contents
  * */
 @Composable
-fun DrawerContents (
+fun DrawerContents(
     onLogOutClicked: () -> Unit,
     userUiState: UserUiState,
     userViewModel: UserViewModel,
@@ -88,7 +95,7 @@ fun DrawerContents (
     }
 
     ModalDrawerSheet(
-        modifier = Modifier.size(200.dp, 500.dp),
+        modifier = Modifier.size(280.dp, 500.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
@@ -103,15 +110,31 @@ fun DrawerContents (
                 }
             )
         ) {
-            Image(
-                painter = painterResource(R.drawable.talaria),
-                contentDescription = "UserImage",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier.size(40.dp)
+            Spacer(modifier = Modifier.padding(10.dp))
+            AsyncImage(
+                modifier = Modifier
+                    .size(50.dp)
+                    .clip(RoundedCornerShape(8.dp)),
+                model = ImageRequest.Builder(context = LocalContext.current)
+                    .data(
+                        if (userUiState.currentLogin?.picture != null) {
+                            userUiState.currentLogin.picture
+                        } else {
+                            painterResource(id = R.drawable.icon_user)
+                        }
+                    )
+                    .crossfade(true)
+                    .build(),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                error = painterResource(id = R.drawable.no_image_country),
+                placeholder = painterResource(id = R.drawable.loading_img)
             )
+            Spacer(modifier = Modifier.padding(5.dp))
             Text(
-                text = "${userUiState.currentLogin?.name} 님, 환영합니다",
-                fontSize = 25.sp,
+                text = "${userUiState.currentLogin?.name} 님,\n환영합니다",
+                fontSize = 20.sp,
+                fontFamily = FontFamily.SansSerif,
                 modifier = Modifier.fillMaxWidth()
             )
 
@@ -121,7 +144,7 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
         Spacer(modifier = Modifier.padding(2.dp))
 
-        if (userUiState.currentLogin !=null) {
+        if (userUiState.currentLogin != null) {
             val callBoardMe = CallBoard(
                 kw = "",
                 page = 0,
@@ -129,32 +152,51 @@ fun DrawerContents (
                 email = userUiState.currentLogin.email
             )
             val userResponse = userUiState.currentLogin
-            TextButton(onClick = {
-                scope.launch {
-                    drawerState.close()
-                    isLoadingState = true
-                    val isDeferredInterest = async { callMyInterest(userResponse) }
-                    val isDeferredPlan = async { callMyPlanList(userResponse) }
-                    val isDeferredBoard = async { getAllBoardDefault(callBoardMe,boardPageViewModel,scope) }
-                    val isCompleteInterest = isDeferredInterest.await()
-                    val isCompletePlan = isDeferredPlan.await()
-                    val isCompleteBoard = isDeferredBoard.await()
-                    // 모든 작업이 완료되었을 때만 실행합니다.
-                    if (isCompleteBoard && isCompleteInterest != null ) {
-                        isLoadingState = null
-                        userViewModel.setUserInterest(isCompleteInterest)
-                        userViewModel.setUserPlanList(isCompletePlan)
-                        userViewModel.previousScreenWasPageOneA(true)
-                        userViewModel.setUserPageInfo(userUiState.currentLogin)
-                        navController.navigate(TravelScreen.Page1A.name)
-                    } else {
-                        isLoadingState = false
+            Row(
+                verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+            ) {
+                Spacer(modifier = Modifier.padding(10.dp))
+                Image(
+                    painter = painterResource(R.drawable.icon_mypage),
+                    contentDescription = "icon_mypage",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier.size(40.dp)
+                )
+                Spacer(modifier = Modifier.padding(2.dp))
+                TextButton(onClick = {
+                    scope.launch {
+                        drawerState.close()
+                        isLoadingState = true
+                        val isDeferredInterest = async { callMyInterest(userResponse) }
+                        val isDeferredPlan = async { callMyPlanList(userResponse) }
+                        val isDeferredBoard =
+                            async { getAllBoardDefault(callBoardMe, boardPageViewModel, scope) }
+                        val isCompleteInterest = isDeferredInterest.await()
+                        val isCompletePlan = isDeferredPlan.await()
+                        val isCompleteBoard = isDeferredBoard.await()
+                        // 모든 작업이 완료되었을 때만 실행합니다.
+                        if (isCompleteBoard && isCompleteInterest != null) {
+                            isLoadingState = null
+                            userViewModel.setUserInterest(isCompleteInterest)
+                            userViewModel.setUserPlanList(isCompletePlan)
+                            userViewModel.previousScreenWasPageOneA(true)
+                            userViewModel.setUserPageInfo(userUiState.currentLogin)
+                            navController.navigate(TravelScreen.Page1A.name)
+                        } else {
+                            isLoadingState = false
+                        }
                     }
+                }) {
+                    Text(
+                        text = "MY PAGE",
+                        fontSize = 25.sp,
+                        fontWeight = FontWeight.Bold,  // font 의 굵기
+                        fontFamily = FontFamily(Font(R.font.jua)),
+                        style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
+                    )
                 }
-            }) {
-                Text(text = "마이 페이지", fontSize = 25.sp)
             }
-
         } else {
             Text(text = "로그인 오류", fontSize = 25.sp)
         }
@@ -163,55 +205,151 @@ fun DrawerContents (
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
         Spacer(modifier = Modifier.padding(2.dp))
 
-        TextButton(onClick = {
-            isLogOutState = true
-            scope.launch {
-                drawerState.close()
-            }
-        }) {
-            Text(text = "로그아웃", fontSize = 25.sp)
-        }
-
-        Spacer(modifier = Modifier.padding(2.dp))
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        TextButton(onClick = {
-            userViewModel.previousScreenWasPageOneA(false)
-            navController.navigate(TravelScreen.Page2.name)
-            scope.launch { drawerState.close() }
-        }) {
-            Text(text = "여행 계획하기", fontSize = 25.sp)
-        }
-
-        Spacer(modifier = Modifier.padding(2.dp))
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-        Spacer(modifier = Modifier.padding(2.dp))
-
-        val callBoardBoard = CallBoard(
-            kw = "",
-            page = 0,
-            type = stringResource(boardPageUiState.currentSearchType),
-            email = ""
-        )
-        TextButton(onClick = {
-            scope.launch {
-                drawerState.close()
-                isLoadingState = true
-                val isDeferred = async { getAllBoardDefault(callBoardBoard,boardPageViewModel,scope) }
-                val isComplete = isDeferred.await()
-                // 모든 작업이 완료되었을 때만 실행합니다.
-                if (isComplete) {
-                    isLoadingState = null
-                    userViewModel.previousScreenWasPageOneA(false)
-                    navController.navigate(TravelScreen.Page4.name)
-                } else {
-                    isLoadingState = false
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        ) {
+            Spacer(modifier = Modifier.padding(10.dp))
+            Image(
+                painter = painterResource(R.drawable.icon_logout),
+                contentDescription = "icon_logout",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+            TextButton(onClick = {
+                isLogOutState = true
+                scope.launch {
+                    drawerState.close()
                 }
+            }) {
+                Text(
+                    text = "LOGOUT",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,  // font 의 굵기
+                    fontFamily = FontFamily(Font(R.font.jua)),
+                    style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
+                )
             }
-        }) {
-            Text(text = "게시판", fontSize = 25.sp)
         }
+
+        Spacer(modifier = Modifier.padding(2.dp))
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        ) {
+            Spacer(modifier = Modifier.padding(10.dp))
+            Image(
+                painter = painterResource(R.drawable.talaria),
+                contentDescription = "talaria",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+            TextButton(onClick = {
+                userViewModel.previousScreenWasPageOneA(false)
+                navController.navigate(TravelScreen.Page2.name)
+                scope.launch { drawerState.close() }
+            }) {
+                Text(
+                    text = "PLAN YOUR TRIP",
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,  // font 의 굵기
+                    fontFamily = FontFamily(Font(R.font.jua)),
+                    style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(2.dp))
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        ) {
+            Spacer(modifier = Modifier.padding(10.dp))
+            Image(
+                painter = painterResource(R.drawable.icon_board),
+                contentDescription = "icon_board",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier.size(40.dp)
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+            val callBoardBoard = CallBoard(
+                kw = "",
+                page = 0,
+                type = stringResource(boardPageUiState.currentSearchType),
+                email = ""
+            )
+            TextButton(onClick = {
+                scope.launch {
+                    drawerState.close()
+                    isLoadingState = true
+                    val isDeferred =
+                        async { getAllBoardDefault(callBoardBoard, boardPageViewModel, scope) }
+                    val isComplete = isDeferred.await()
+                    // 모든 작업이 완료되었을 때만 실행합니다.
+                    if (isComplete) {
+                        isLoadingState = null
+                        userViewModel.previousScreenWasPageOneA(false)
+                        navController.navigate(TravelScreen.Page4.name)
+                    } else {
+                        isLoadingState = false
+                    }
+                }
+            }) {
+                Text(
+                    text = "BOARD",
+                    fontSize = 25.sp,
+                    fontWeight = FontWeight.Bold,  // font 의 굵기
+                    fontFamily = FontFamily(Font(R.font.jua)),
+                    style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.padding(2.dp))
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        ) {
+            Spacer(modifier = Modifier.padding(10.dp))
+            Image(
+                painter = painterResource(R.drawable.logo_google_maps),
+                contentDescription = "logo_google_maps",
+                modifier = Modifier.padding(end = 20.dp)
+                    .clickable {  }
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+        }
+
+
+        Spacer(modifier = Modifier.padding(2.dp))
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
+
+        Row(
+            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+        ) {
+            Spacer(modifier = Modifier.padding(10.dp))
+            Image(
+                painter = painterResource(R.drawable.logo_skyscanner),
+                contentDescription = "logo_skyscanner",
+                modifier = Modifier.clickable {  }
+            )
+            Spacer(modifier = Modifier.padding(2.dp))
+        }
+
+
 
 //        /** Test ==================== ==================== ==================== ==================== ====================*/
 //        Spacer(modifier = Modifier.padding(2.dp))

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Divider
@@ -56,7 +57,13 @@ fun SelectPage(
     val selectedCity by remember { mutableStateOf<CityInfo?>(null) }
     val selectedInterest by remember { mutableStateOf<InterestInfo?>(null) }
 
-    Column {
+    Column(
+        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+        modifier = Modifier
+            .padding(10.dp) // 원하는 여백을 추가(start = 15.dp, end = 15.dp, ...)
+            .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
+    ) {
         /** Buttons ====================*/
         Column {
             SelectPageButtons(
@@ -79,7 +86,7 @@ fun SelectPage(
                     selectViewModel = selectViewModel,
                 )
             }
-            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
             Row(
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
@@ -88,7 +95,7 @@ fun SelectPage(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(3.dp),
+                        .padding(1.dp),
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
@@ -108,7 +115,7 @@ fun SelectPage(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(3.dp),
+                        .padding(1.dp),
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
@@ -129,7 +136,7 @@ fun SelectPage(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(3.dp),
+                        .padding(1.dp),
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                 ) {
@@ -179,8 +186,6 @@ fun SelectPage(
                     selectedCountry = selectUiState.selectCountry,
                     selectedCity = selectUiState.selectCity,
                     selectedInterest = selectUiState.selectInterest,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(0.dp),
                 )
             }
         }

@@ -2,6 +2,7 @@ package com.example.projecttravel.ui.screens.searchplace
 
 import android.location.Geocoder
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,8 +30,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,6 +51,7 @@ import com.example.projecttravel.ui.screens.searchplace.searchapi.LocationViewMo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.getPlaceInfo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.sendPlaceNameDjango
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.libraries.places.api.Places
 import com.google.maps.android.compose.GoogleMap
@@ -206,16 +213,31 @@ fun GoogleMapSheet(
                 )
             }
         } else {
-            Text(
-                text = "검색하면\n지도가\n나옵니다.",
-                textAlign = TextAlign.Center,
-                lineHeight = 80.sp,    // 줄간 간격 = 왠만하면 fontSize 에 맞추도록 한다
-                fontSize = 80.sp,
-                style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(dimensionResource(R.dimen.padding_medium)),
-            )
+            Column(
+                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                modifier = Modifier.fillMaxSize(),
+            ) {
+                Text(
+                    text = "검색하면\n지도가\n나옵니다.",
+                    lineHeight = 50.sp,    // 줄간 간격 = 왠만하면 fontSize 에 맞추도록 한다
+                    fontSize = 50.sp,
+                    fontWeight = FontWeight.Thin,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                    style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                    textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(dimensionResource(R.dimen.padding_medium)),
+                )
+                Image(
+                    painter = painterResource(R.drawable.basket_search),
+                    contentDescription = "icon_logout",
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                )
+            }
         }
     }
 }

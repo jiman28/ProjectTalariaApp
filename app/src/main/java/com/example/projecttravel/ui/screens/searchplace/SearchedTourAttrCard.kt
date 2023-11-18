@@ -60,7 +60,7 @@ fun SearchedTourAttrCard(
                     .weight(4f)
                     .fillMaxWidth()
                     .padding(dimensionResource(R.dimen.padding_medium)),
-                style = MaterialTheme.typography.titleLarge,
+                style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Bold,
                 textAlign = TextAlign.Start
             )
