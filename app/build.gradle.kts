@@ -86,6 +86,9 @@ dependencies {
 
     implementation("io.coil-kt:coil-compose:2.4.0")
 
+    // https://mvnrepository.com/artifact/org.burnoutcrew.composereorderable/reorderable
+    implementation("org.burnoutcrew.composereorderable:reorderable:0.9.6")
+
 //    // Permissions
 //    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 

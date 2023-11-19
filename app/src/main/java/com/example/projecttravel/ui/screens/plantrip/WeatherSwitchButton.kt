@@ -61,7 +61,10 @@ fun WeatherSwitchButton(
             horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
         ) {
             if (weatherSwitchChecked) {
-                Row {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                    horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                ) {
                     Icon(imageVector = Icons.Filled.WbCloudy, contentDescription = "WbCloudy")
                     Text(
                         text = " 날씨 모드 ON !!!",
@@ -74,7 +77,10 @@ fun WeatherSwitchButton(
                 }
 
             } else {
-                Row {
+                Row (
+                    verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                    horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                ) {
                     Icon(imageVector = Icons.Filled.WbSunny, contentDescription = "WbSunny")
                     Text(
                         text = " 날씨 모드 OFF  ",

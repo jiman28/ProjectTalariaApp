@@ -2,16 +2,28 @@ package com.example.projecttravel.ui.screens.planroutegps
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.location.Location
+import android.net.Uri
 import android.util.Log
 import androidx.annotation.DrawableRes
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowForward
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.Divider
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,7 +35,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -51,6 +66,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerInfoWindowContent
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.launch
 
 @Composable
 fun RouteGpsPage(
@@ -114,10 +130,20 @@ fun RouteGpsPage(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
         modifier = Modifier
-            .padding(10.dp) // 원하는 여백을 추가(start = 15.dp, end = 15.dp, ...)
+            .padding(start = 15.dp, end = 15.dp) // 원하는 여백을 추가(start = 15.dp, end = 15.dp, ...)
             .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
     ) {
         if (currentDayTripAttrs != null) {
+            /** GoogleMap Marker Position ====================*/
+            // 모든 마커 위치 리스트 (LatLng)
+            val markerPositions = currentDayTripAttrs.list.map { attrs ->
+                stringToLatLng(attrs.lat, attrs.lan)
+            }
+            // 모든 마커 의 중심점 계산
+            val centerLat = markerPositions.map { it.latitude }.average()
+            val centerLng = markerPositions.map { it.longitude }.average()
+            val centerPosition = LatLng(centerLat, centerLng)
+
             Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
@@ -129,11 +155,10 @@ fun RouteGpsPage(
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                     modifier = Modifier
-                        .padding(15.dp) // 원하는 여백을 추가(start = 15.dp, end = 15.dp, ...)
                         .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
                 ) {
                     Text(
-                        text = "관광지 정보 확인",
+                        text = "관광지 정보",
                         fontSize = 50.sp,   // font 의 크기
                         lineHeight = 50.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                         fontWeight = FontWeight.ExtraBold,  // font 의 굵기
@@ -145,10 +170,10 @@ fun RouteGpsPage(
                     )
                     if (!locationPermissionGranted) {
                         Text(
-                            text = "위치 정보에 동의하면 자신의 위치가 보입니다",
-                            fontSize = 10.sp,   // font 의 크기
-                            lineHeight = 10.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
-                            fontWeight = FontWeight.Bold,  // font 의 굵기
+                            text = "위치 정보에 동의하면 자신의 위치를 볼 수 있습니다.",
+                            fontSize = 15.sp,   // font 의 크기
+                            lineHeight = 15.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                            fontWeight = FontWeight.Thin,  // font 의 굵기
                             style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
                             fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                             textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
@@ -158,17 +183,17 @@ fun RouteGpsPage(
                         )
                     }
                 }
+
+                Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
+
+                Column {
+                    RouteGpsAllDir(
+                        currentDayTripAttrs = currentDayTripAttrs,
+                    )
+                }
                 /** GoogleMap Composable ====================*/
                 Column {
-                    /** GoogleMap Marker Position ====================*/
-                    // 모든 마커 위치 리스트 (LatLng)
-                    val markerPositions = currentDayTripAttrs.list.map { attrs ->
-                        stringToLatLng(attrs.lat, attrs.lan)
-                    }
-                    // 모든 마커 의 중심점 계산
-                    val centerLat = markerPositions.map { it.latitude }.average()
-                    val centerLng = markerPositions.map { it.longitude }.average()
-                    val centerPosition = LatLng(centerLat, centerLng)
+
 
                     /** GoogleMap Camera Position - 카메라 위치 조정 ====================*/
                     // zoom(float) : zoomIn = num up/ zoomOut = num down
