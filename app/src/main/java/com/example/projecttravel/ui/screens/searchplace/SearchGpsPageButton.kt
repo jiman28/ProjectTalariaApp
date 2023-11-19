@@ -44,7 +44,7 @@ fun SearchGpsPageButton(
                 onBackButtonClicked()
             }
         ) {
-            Icon(imageVector = Icons.Filled.Clear, contentDescription = "RestartAlt")
+            Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clear")
             Text(
                 text = stringResource(R.string.close_button),
                 fontSize = 10.sp,

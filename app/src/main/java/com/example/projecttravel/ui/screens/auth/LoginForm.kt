@@ -167,6 +167,7 @@ fun LoginForm(
                     if (isUserComplete) {
                         onLoginSuccess()
                     } else {
+                        logInErrorMsg = "로그인 실패\n아이디나 비밀번호를\n다시 확인해주세요"
                         isLoadingState = false
                     }
                 }

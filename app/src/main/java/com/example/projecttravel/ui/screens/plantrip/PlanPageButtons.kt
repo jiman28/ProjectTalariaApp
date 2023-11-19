@@ -3,7 +3,12 @@ package com.example.projecttravel.ui.screens.plantrip
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -55,11 +60,13 @@ fun PlanPageButtons (
         Button(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = {
                 isResetPlanDialogVisible = true
             }
         ) {
+            Icon(imageVector = Icons.Filled.Clear, contentDescription = "Clear")
             Text(stringResource(R.string.cancel_button))
             if (isResetPlanDialogVisible) {
                 ResetPlanDialog(
@@ -76,12 +83,14 @@ fun PlanPageButtons (
         OutlinedButton(
             modifier = Modifier
                 .weight(1f)
-                .padding(3.dp),
+                .padding(1.dp),
+            shape = RoundedCornerShape(10.dp),
             onClick = {
                 isSavePlanDialogVisible = true
             }
         ) {
-            Text(text = "계획 다짬!")
+            Icon(imageVector = Icons.Filled.DoneAll, contentDescription = "DoneAll")
+            Text(stringResource(R.string.complete_button))
             if (isSavePlanDialogVisible) {
                 SavePlanDialog(
                     userUiState = userUiState,

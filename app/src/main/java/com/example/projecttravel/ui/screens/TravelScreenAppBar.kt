@@ -39,7 +39,7 @@ fun TravelAppBar(
     TopAppBar(
         title = {
             Text(
-                text = "T A L A R I  A",
+                text = "TALARIA",
                 fontSize = 50.sp,
                 fontFamily = FontFamily(Font(R.font.lobster)),
                 textAlign = TextAlign.Center,

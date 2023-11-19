@@ -34,10 +34,13 @@ fun MyInfoPageTabButtons(
                 onClick = { userViewModel.setUserPageTab(R.string.userTabMenuBoard) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color.Yellow else Color.White,
+                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color(0xFF005FAF) else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.userTabMenuBoard))
+                Text(
+                    text = stringResource(R.string.userTabMenuBoard),
+                    color = if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color.White else Color(0xFF005FAF)
+                )
             }
             OutlinedButton(
                 modifier = Modifier
@@ -45,10 +48,13 @@ fun MyInfoPageTabButtons(
                 onClick = { userViewModel.setUserPageTab(R.string.userTabMenuPlans) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color.Yellow else Color.White,
+                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color(0xFF005FAF) else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.userTabMenuPlans))
+                Text(
+                    text = stringResource(R.string.userTabMenuPlans),
+                    color = if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color.White else Color(0xFF005FAF)
+                    )
             }
         }
     }

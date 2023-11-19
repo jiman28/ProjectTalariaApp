@@ -157,8 +157,8 @@ fun TextMsgErrorDialog(
         text = {
             Text(
                 text = txtErrorMsg,
-                fontSize = 30.sp,
-                lineHeight = 30.sp,
+                fontSize = 25.sp,
+                lineHeight = 25.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier
                     .padding(10.dp) // 원하는 여백을 추가).

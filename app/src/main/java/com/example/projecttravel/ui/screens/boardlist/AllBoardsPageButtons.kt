@@ -34,10 +34,13 @@ fun BoardsPageTabButtons(
                 onClick = { boardPageViewModel.setBoardTab(R.string.boardTabTitle) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardPageUiState.currentSelectedBoardTab == R.string.boardTabTitle) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoardTab == R.string.boardTabTitle) Color(0xFF005FAF) else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.boardTabTitle))
+                Text(
+                    text = stringResource(R.string.boardTabTitle),
+                    color = if (boardPageUiState.currentSelectedBoardTab == R.string.boardTabTitle) Color.White else Color(0xFF005FAF)
+                )
             }
             OutlinedButton(
                 modifier = Modifier
@@ -45,10 +48,13 @@ fun BoardsPageTabButtons(
                 onClick = { boardPageViewModel.setBoardTab(R.string.companyTabTitle) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardPageUiState.currentSelectedBoardTab == R.string.companyTabTitle) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoardTab == R.string.companyTabTitle) Color(0xFF005FAF) else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.companyTabTitle))
+                Text(
+                    text = stringResource(R.string.companyTabTitle),
+                    color = if (boardPageUiState.currentSelectedBoardTab == R.string.companyTabTitle) Color.White else Color(0xFF005FAF)
+                )
             }
             OutlinedButton(
                 modifier = Modifier
@@ -56,10 +62,13 @@ fun BoardsPageTabButtons(
                 onClick = { boardPageViewModel.setBoardTab(R.string.tradeTabTitle) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (boardPageUiState.currentSelectedBoardTab == R.string.tradeTabTitle) Color.Yellow else Color.White,
+                    if (boardPageUiState.currentSelectedBoardTab == R.string.tradeTabTitle) Color(0xFF005FAF) else Color.White,
                 )
             ) {
-                Text(text = stringResource(R.string.tradeTabTitle))
+                Text(
+                    text = stringResource(R.string.tradeTabTitle),
+                    color = if (boardPageUiState.currentSelectedBoardTab == R.string.tradeTabTitle) Color.White else Color(0xFF005FAF)
+                )
             }
         }
     }

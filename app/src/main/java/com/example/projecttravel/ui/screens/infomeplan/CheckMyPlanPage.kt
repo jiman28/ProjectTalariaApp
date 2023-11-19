@@ -1,5 +1,6 @@
 package com.example.projecttravel.ui.screens.infomeplan
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -19,9 +20,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
@@ -32,6 +35,7 @@ import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.plantrip.NoPlanListFound
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun CheckMyPlanPage(
@@ -58,12 +62,18 @@ fun CheckMyPlanPage(
             Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        color = Color(0xFFD4E3FF),
+                    ),
             ) {
                 Text(
                     text = userUiState.checkMyPageTrip.planName,
-                    fontSize = 20.sp,   // font 의 크기
-                    lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
-                    fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+                    fontSize = 25.sp,   // font 의 크기
+                    lineHeight = 25.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                    fontWeight = FontWeight.Bold,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                     style = MaterialTheme.typography.titleLarge,  //font 의 스타일
                     textAlign = TextAlign.Start, // 텍스트 내용을 compose 가운데 정렬
                     modifier = Modifier

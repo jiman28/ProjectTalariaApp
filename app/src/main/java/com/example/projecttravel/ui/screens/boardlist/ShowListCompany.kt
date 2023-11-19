@@ -255,7 +255,7 @@ fun ListCompanyEntity(
                                             .build(),
                                         contentDescription = null,
                                         contentScale = ContentScale.Crop,
-                                        error = painterResource(id = R.drawable.talaria),
+                                        error = painterResource(id = R.drawable.icon_user),
                                         placeholder = painterResource(id = R.drawable.loading_img)
                                     )
                                 } else {
@@ -316,7 +316,7 @@ fun ListCompanyEntity(
                                 .width(50.dp)
                                 .height(50.dp)
                                 .background(
-                                    if (boardPageUiState.currentCompanyPage == index) Color.Yellow else Color.White
+                                    if (boardPageUiState.currentCompanyPage == index) Color(0xFF005FAF) else Color.White
                                 )
                                 .clickable {
                                     Log.d("jiman", "Clicked on page $index")
@@ -339,7 +339,7 @@ fun ListCompanyEntity(
                         ) {
                             Text(
                                 text = (index + 1).toString(), // 1부터 시작하도록 표시
-//                                color = Color.White,
+                                color = if (boardPageUiState.currentCompanyPage == index) Color.White else Color(0xFF005FAF),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }

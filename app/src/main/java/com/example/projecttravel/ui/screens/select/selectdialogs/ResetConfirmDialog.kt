@@ -25,7 +25,7 @@ fun ResetConfirmDialog(
         onDismissRequest = onDismiss,
         text = {
             Text(
-                text = "선택사항들 초기화 ㄱㄱ",
+                text = "선택사항들 초기화",
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
                 modifier = Modifier

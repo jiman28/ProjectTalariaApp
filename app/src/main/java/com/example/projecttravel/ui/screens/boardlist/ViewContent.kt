@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
@@ -28,11 +29,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.BoardPageUiState
@@ -160,11 +167,29 @@ fun ViewContentsBoard(
                 Text(fontSize = 12.sp, text = currentArticleNo.toString())
                 Spacer(modifier = Modifier.padding(5.dp))
 
-                Icon(
-                    modifier = Modifier.size(15.dp),
-                    imageVector = Icons.Filled.AccountCircle,
-                    contentDescription = "Account"
-                )
+                if (currentUser != null) {
+                    if (currentUser.picture != null) {
+                        AsyncImage(
+                            modifier = Modifier
+                                .size(30.dp)
+                                .clip(RoundedCornerShape(50.dp)),
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(currentUser.picture)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            error = painterResource(id = R.drawable.icon_user),
+                            placeholder = painterResource(id = R.drawable.loading_img)
+                        )
+                    } else {
+                        Icon(
+                            modifier = Modifier.size(15.dp),
+                            imageVector = Icons.Filled.AccountCircle,
+                            contentDescription = "Account"
+                        )
+                    }
+                }
                 Spacer(modifier = Modifier.padding(1.dp))
                 UserDropDownMenu(
                     boardPageUiState = boardPageUiState,

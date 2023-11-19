@@ -111,25 +111,29 @@ fun DrawerContents(
             )
         ) {
             Spacer(modifier = Modifier.padding(10.dp))
-            AsyncImage(
-                modifier = Modifier
-                    .size(50.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                model = ImageRequest.Builder(context = LocalContext.current)
-                    .data(
-                        if (userUiState.currentLogin?.picture != null) {
-                            userUiState.currentLogin.picture
-                        } else {
-                            painterResource(id = R.drawable.icon_user)
-                        }
-                    )
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                contentScale = ContentScale.Crop,
-                error = painterResource(id = R.drawable.no_image_country),
-                placeholder = painterResource(id = R.drawable.loading_img)
-            )
+            if (userUiState.currentLogin?.picture != null) {
+                AsyncImage(
+                    modifier = Modifier
+                        .size(50.dp)
+                        .clip(RoundedCornerShape(8.dp)),
+                    model = ImageRequest.Builder(context = LocalContext.current)
+                        .data(userUiState.currentLogin.picture)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    error = painterResource(id = R.drawable.no_image_country),
+                    placeholder = painterResource(id = R.drawable.loading_img)
+                )
+            } else {
+                Image(
+                    painter = painterResource(R.drawable.icon_user),
+                    contentDescription = "icon_user",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.size(50.dp)
+                )
+
+            }
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
                 text = "${userUiState.currentLogin?.name} 님,\n환영합니다",
@@ -137,7 +141,6 @@ fun DrawerContents(
                 fontFamily = FontFamily.SansSerif,
                 modifier = Modifier.fillMaxWidth()
             )
-
         }
 
         Spacer(modifier = Modifier.padding(2.dp))

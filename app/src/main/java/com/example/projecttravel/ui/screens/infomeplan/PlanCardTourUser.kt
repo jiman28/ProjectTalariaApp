@@ -20,17 +20,19 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.SpotDtoRead
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun PlanCardTourUser(
     spotDtoRead: SpotDtoRead,
 ) {
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(10.dp),
         modifier = Modifier.padding(8.dp)
     ) {
         Row(
@@ -59,12 +61,14 @@ fun PlanCardTourUser(
             ) {
                 Text(
                     text = spotDtoRead.name,
+                    fontSize = 20.sp,   // font 의 크기
+                    fontWeight = FontWeight.Thin,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                    style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                    textAlign = TextAlign.Start, // 텍스트 내용을 compose 가운데 정렬
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(R.dimen.padding_medium)),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Start
+                        .padding(dimensionResource(R.dimen.padding_small)),
                 )
             }
         }

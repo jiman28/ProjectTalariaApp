@@ -1,14 +1,31 @@
 package com.example.projecttravel.ui.screens.infome
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AutoGraph
+import androidx.compose.material.icons.filled.Email
+import androidx.compose.material.icons.filled.Hexagon
+import androidx.compose.material.icons.filled.Interests
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.TagFaces
+import androidx.compose.material.icons.filled.VerifiedUser
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -21,10 +38,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -40,6 +65,7 @@ import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.infome.infodialog.UserSimilarToMeDialog
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -92,63 +118,89 @@ fun UserProfiles(
         )
     }
 
+
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
     ) {
-        Row(
+        Box(
+            contentAlignment = Alignment.TopCenter,
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
         ) {
-            Column(
-                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            Image(
+                painter = painterResource(R.drawable.banner_mypage),
+                contentDescription = "banner_mypage",
+                contentScale = ContentScale.FillWidth,
                 modifier = Modifier
-                    .weight(1f)
-                    .padding(1.dp)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
+                    .aspectRatio(16f / 5f)
+            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
             ) {
-                AsyncImage(
+                Column(
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                     modifier = Modifier
-                        .size(70.dp)
-                        .clip(RoundedCornerShape(50.dp)),
-                    model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(currentUserInfo.picture)
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.talaria),
-                    placeholder = painterResource(id = R.drawable.loading_img)
-                )
-            }
-
-            Column(
-                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                horizontalAlignment = Alignment.Start, // 수평 가운데 정렬
-                modifier = Modifier.weight(3f).padding(1.dp).fillMaxWidth(),
-            ) {
-                Text(text = "Name : ${currentUserInfo.name}", modifier = Modifier.padding(5.dp))
-                Spacer(modifier = Modifier.padding(2.dp))
-                Text(text = "E-mail : ${currentUserInfo.email}", modifier = Modifier.padding(5.dp))
-            }
-            Column(
-                verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-                modifier = Modifier.weight(1f).padding(1.dp).fillMaxWidth(),
-            ) {
-                Button(
-                    modifier = Modifier
-                        .size(70.dp)
-                        .clip(RoundedCornerShape(50.dp))
-                        .padding(2.dp),
-                    onClick = {
-                        isMyHexaGraph = true
-//                        navController.navigate(TravelScreen.Page1B.name)
-                    },
+                        .weight(1.5f)
+                        .padding(1.dp)
+                        .fillMaxWidth(),
                 ) {
-                    Text(text = "성향")
+                    AsyncImage(
+                        modifier = Modifier
+                            .border(
+                                BorderStroke(5.dp, Color(0xFF3C5BA9)),
+                                CircleShape
+                            )
+                            .size(100.dp)
+                            .clip(RoundedCornerShape(50.dp)),
+                        model = ImageRequest.Builder(context = LocalContext.current)
+                            .data(currentUserInfo.picture)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        error = painterResource(id = R.drawable.icon_user),
+                        placeholder = painterResource(id = R.drawable.loading_img)
+                    )
+                }
+                Column(
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.Start, // 수평 가운데 정렬
+                    modifier = Modifier
+                        .weight(3.5f)
+                        .padding(1.dp)
+                        .fillMaxWidth(),
+                ) {
+                    Spacer(modifier = Modifier.padding(10.dp))
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                    ) {
+                        Icon(imageVector = Icons.Filled.Person, contentDescription = "VerifiedUser")
+                        Text(
+                            text = currentUserInfo.name,
+                            fontSize = 15.sp,   // font 의 크기
+                            fontWeight = FontWeight.Bold,  // font 의 굵기
+                            style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
+                        )
+                    }
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                    ) {
+                        Icon(imageVector = Icons.Filled.Email, contentDescription = "Email")
+                        Text(
+                            text = currentUserInfo.email,
+                            fontSize = 12.sp,   // font 의 크기
+                            fontWeight = FontWeight.Bold,  // font 의 굵기
+                            style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
+                        )
+                    }
                 }
             }
         }
@@ -160,26 +212,68 @@ fun UserProfiles(
 //                    Text(text = "전체 게시글 개수 : $allBoardsCounts")
 //                }
 //                Spacer(modifier = Modifier.padding(10.dp))
-                TextButton(
-                    onClick = {
-                        scope.launch {
-                            isLoadingState = true
-                            val peopleDeferred = async { getPeopleLikeMe(currentUserInfo) }
-                            val peopleComplete = peopleDeferred.await()
-                            if (peopleComplete.isNotEmpty()) {
-                                isLoadingState = null
-                                userViewModel.setSimilarUsers(peopleComplete)
-                                isSimilarToMe = true
-                            } else {
-                                peopleErrorMsg = "서버 오류"
-                                isLoadingState = false
-                            }
-                        }
-                    },
+                Column(
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
                 ) {
-                    Text(text = "비슷한 성향의 유저 찾기")
+                    TextButton(
+                        onClick = {
+                            scope.launch {
+                                isLoadingState = true
+                                val peopleDeferred = async { getPeopleLikeMe(currentUserInfo) }
+                                val peopleComplete = peopleDeferred.await()
+                                if (peopleComplete.isNotEmpty()) {
+                                    isLoadingState = null
+                                    userViewModel.setSimilarUsers(peopleComplete)
+                                    isSimilarToMe = true
+                                } else {
+                                    peopleErrorMsg = "서버 오류"
+                                    isLoadingState = false
+                                }
+                            }
+                        },
+                    ) {
+                        Icon(imageVector = Icons.Filled.TagFaces, contentDescription = "TagFaces")
+                        Text(
+                            text = " 비슷한 유저",
+                            fontSize = 18.sp,   // font 의 크기
+                            fontWeight = FontWeight.Light,  // font 의 굵기
+                            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                            fontStyle = FontStyle.Italic,
+                            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                        )
+                    }
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                    modifier = Modifier
+                        .weight(1f)
+                        .fillMaxWidth(),
+                ) {
+                    TextButton(
+                        onClick = {
+                            isMyHexaGraph = true
+//                        navController.navigate(TravelScreen.Page1B.name)
+                        },
+                    ) {
+                        Icon(imageVector = Icons.Filled.AutoGraph, contentDescription = "AutoGraph")
+                        Text(
+                            text = " 성향 그래프",
+                            fontSize = 18.sp,   // font 의 크기
+                            fontWeight = FontWeight.Light,  // font 의 굵기
+                            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                            fontStyle = FontStyle.Italic,
+                            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                        )
+                    }
                 }
             }
         }
     }
+
 }

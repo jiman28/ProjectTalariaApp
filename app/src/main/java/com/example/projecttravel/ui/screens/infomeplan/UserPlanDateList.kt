@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,7 +29,8 @@ fun UserPlanDateList(
             .height(160.dp)
             .fillMaxWidth()
             .background(
-                Color.LightGray,
+                color = Color(0xFFD4E3FF),
+                shape = RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp)
             ),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center

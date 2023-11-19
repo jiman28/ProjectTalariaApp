@@ -15,10 +15,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -43,6 +47,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import java.time.LocalDate
 
 @Composable
@@ -56,7 +61,7 @@ fun PlanCardTourWeather(
     val sortedDates = planUiState.dateToSelectedTourAttrMap.keys.sorted()
 
     Card(
-        shape = RoundedCornerShape(24.dp),
+        shape = RoundedCornerShape(10.dp),
         modifier = Modifier.padding(8.dp)
     ) {
         Row(
@@ -85,25 +90,31 @@ fun PlanCardTourWeather(
             ) {
                 Text(
                     text = spotDto.name,
+                    fontSize = 20.sp,   // font 의 크기
+                    fontWeight = FontWeight.Thin,  // font 의 굵기
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                    style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                    textAlign = TextAlign.Start, // 텍스트 내용을 compose 가운데 정렬
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(dimensionResource(R.dimen.padding_medium)),
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold,
-                    textAlign = TextAlign.Start
                 )
             }
             Column (
                 modifier = Modifier.weight(1f)
             ) {
-                IconButton(
-                    modifier = Modifier
-                        .padding(3.dp)
-                        .clip(RoundedCornerShape(50.dp))
-                        .background(Color.Blue),
+                OutlinedButton(
+                    shape = RoundedCornerShape(10.dp),
+                    colors = ButtonDefaults.outlinedButtonColors(Color(0xFF3C5BA9)), // 버튼의 색깔 (보통 OutlinedButton 에 사용)
                     onClick = { isMoveAttrDialogVisible = true }
                 ) {
-                    Icon(imageVector = Icons.Filled.List, contentDescription = "CancelTourAttraction", tint = Color.White)
+                    Text(
+                        text = "날짜\n변경",
+                        fontSize = 10.sp,   // font 의 크기
+                        fontWeight = FontWeight.Thin,  // font 의 굵기
+                        style = MaterialTheme.typography.labelSmall,  //font 의 스타일
+                        textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                        color = Color.White
+                    )
                     if (isMoveAttrDialogVisible) {
                         AlertDialog(
                             onDismissRequest = { isMoveAttrDialogVisible =false },
@@ -119,7 +130,7 @@ fun PlanCardTourWeather(
                                             fontSize = 20.sp,
                                             textAlign = TextAlign.Center,
                                             modifier = Modifier
-                                                .padding(10.dp)
+                                                .padding(dimensionResource(R.dimen.padding_medium))
                                                 .fillMaxWidth()
                                                 .clickable {
                                                     planUiState.currentPlanDate?.let { planViewModel.removeAttrByWeather(sourceDate = it, spotDtoToMove = spotDto) }
@@ -128,6 +139,19 @@ fun PlanCardTourWeather(
                                                     onDateClick(date)
                                                     isMoveAttrDialogVisible =false
                                                 }
+                                        )
+                                    }
+                                    item {
+                                        Text(
+                                            text = "변경할 날짜 선택",
+                                            fontSize = 20.sp,   // font 의 크기
+                                            fontWeight = FontWeight.Thin,  // font 의 굵기
+                                            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
+                                            style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                                            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+                                            modifier = Modifier
+                                                .padding(dimensionResource(R.dimen.padding_medium))
+                                                .fillMaxWidth()
                                         )
                                     }
                                 }

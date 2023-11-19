@@ -103,7 +103,7 @@ fun HomePage(
         ) {
             Text(
                 text = "나라의 사진을 누르면 나라 정보를 볼수 있어요",
-                fontSize = 20.sp,   // font 의 크기
+                fontSize = 15.sp,   // font 의 크기
                 fontWeight = FontWeight.Light,  // font 의 굵기
                 fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                 fontStyle = FontStyle.Italic,

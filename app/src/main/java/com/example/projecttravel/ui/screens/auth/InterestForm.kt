@@ -1,8 +1,10 @@
 package com.example.projecttravel.ui.screens.auth
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -10,6 +12,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -23,12 +26,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.model.SendInterest
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.auth.api.interestSaveApiCall
@@ -72,99 +81,151 @@ fun InterestForm(
             .verticalScroll(scrollState)
             .padding(start = 15.dp, end = 15.dp),
     ) {
-//        Text(text = "name = ${userUiState.currentSignIn?.name}")
-//        Text(text = "email = ${userUiState.currentSignIn?.email}")
-//        Text(text = "password = ${userUiState.currentSignIn?.password}")
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+//        Text(
+//            text = "자신의 취향을 고르세요",
+//            fontSize = 20.sp,   // font 의 크기
+//            lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+//            fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+//            style = MaterialTheme.typography.titleLarge,  //font 의 스타일
+//            textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
+//            modifier = Modifier
+//                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
+//        )
 
         Text(
-            text = "자신의 취향을 고르세요",
-            fontSize = 20.sp,   // font 의 크기
-            lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
-            fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+            text = "Select Your Interest !",
+            fontSize = 30.sp,   // font 의 크기
+            fontWeight = FontWeight.Light,  // font 의 굵기
+            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
             style = MaterialTheme.typography.titleLarge,  //font 의 스타일
             textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
-            modifier = Modifier
-                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
+            color = Color(0xFF0000FF),
+            modifier = Modifier.fillMaxWidth(),
         )
 
         Spacer(modifier = Modifier.height(20.dp))
 
         //sightsPosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = sightsPosition,
                 onValueChange = { sightsPosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "sightsPosition")
-            Text(text = "{sightsPosition = ${sightsPosition.toInt()}")
+            Text(text = "명소 = ${sightsPosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         //naturePosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = naturePosition,
                 onValueChange = { naturePosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "naturePosition")
-            Text(text = "{naturePosition = ${naturePosition.toInt()}")
+            Text(text = "자연 = ${naturePosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         //culturePosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = culturePosition,
                 onValueChange = { culturePosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "culturePosition")
-            Text(text = "{culturePosition = ${culturePosition.toInt()}")
+            Text(text = "문화 = ${culturePosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         //historyPosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = historyPosition,
                 onValueChange = { historyPosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "historyPosition")
-            Text(text = "{historyPosition = ${historyPosition.toInt()}")
+            Text(text = "역사 = ${historyPosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         //foodPosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = foodPosition,
                 onValueChange = { foodPosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "foodPosition")
-            Text(text = "{foodPosition = ${foodPosition.toInt()}")
+            Text(text = "음식 = ${foodPosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         //religionPosition
-        Column {
+        Column(
+            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+            modifier = Modifier.background(
+                color = Color(0xFFDAE1FF),
+                shape = RoundedCornerShape(10.dp)
+            )
+        ) {
             Slider(
                 value = religionPosition,
                 onValueChange = { religionPosition = it },
                 steps = 9,
                 valueRange = 0f..10F
             )
-            Text(text = "religionPosition")
-            Text(text = "{religionPosition = ${religionPosition.toInt()}")
+            Text(text = "종교 = ${religionPosition.toInt()} point")
         }
+
         Spacer(modifier = Modifier.height(20.dp))
 
         Button(
