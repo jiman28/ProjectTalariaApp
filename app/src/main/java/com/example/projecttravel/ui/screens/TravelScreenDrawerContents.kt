@@ -1,5 +1,9 @@
 package com.example.projecttravel.ui.screens
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
+import android.content.Intent.createChooser
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -38,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.startActivity
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
@@ -73,6 +78,7 @@ fun DrawerContents(
     drawerState: DrawerState,
     scope: CoroutineScope,
 ) {
+    val context = LocalContext.current
 
     var isLogOutState by remember { mutableStateOf(false) }
     Surface {
@@ -195,7 +201,7 @@ fun DrawerContents(
                         text = "MY PAGE",
                         fontSize = 25.sp,
                         fontWeight = FontWeight.Bold,  // font 의 굵기
-                        fontFamily = FontFamily(Font(R.font.jua)),
+                        fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                         style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
                     )
                 }
@@ -230,7 +236,7 @@ fun DrawerContents(
                     text = "LOGOUT",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,  // font 의 굵기
-                    fontFamily = FontFamily(Font(R.font.jua)),
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                     style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
                 )
             }
@@ -261,7 +267,7 @@ fun DrawerContents(
                     text = "PLAN YOUR TRIP",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,  // font 의 굵기
-                    fontFamily = FontFamily(Font(R.font.jua)),
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                     style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
                 )
             }
@@ -310,7 +316,7 @@ fun DrawerContents(
                     text = "BOARD",
                     fontSize = 25.sp,
                     fontWeight = FontWeight.Bold,  // font 의 굵기
-                    fontFamily = FontFamily(Font(R.font.jua)),
+                    fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                     style = MaterialTheme.typography.titleLarge,  //font 의 스타일)
                 )
             }
@@ -328,12 +334,19 @@ fun DrawerContents(
             Image(
                 painter = painterResource(R.drawable.logo_google_maps),
                 contentDescription = "logo_google_maps",
-                modifier = Modifier.padding(end = 20.dp)
-                    .clickable {  }
+                modifier = Modifier
+                    .padding(end = 20.dp)
+                    .clickable {
+                        scope.launch {
+                            drawerState.close()
+                            val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0"))
+                            // Check if there's a mapping app available before starting the activity
+                            context.startActivity(mapIntent)
+                        }
+                    }
             )
             Spacer(modifier = Modifier.padding(2.dp))
         }
-
 
         Spacer(modifier = Modifier.padding(2.dp))
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
@@ -347,12 +360,19 @@ fun DrawerContents(
             Image(
                 painter = painterResource(R.drawable.logo_skyscanner),
                 contentDescription = "logo_skyscanner",
-                modifier = Modifier.clickable {  }
+                modifier = Modifier
+                    .clickable {
+                        scope.launch {
+                            drawerState.close()
+                            val url = "https://www.skyscanner.co.kr/"
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                            // Check if there's a web browser available before starting the activity
+                            context.startActivity(intent)
+                        }
+                    }
             )
             Spacer(modifier = Modifier.padding(2.dp))
         }
-
-
 
 //        /** Test ==================== ==================== ==================== ==================== ====================*/
 //        Spacer(modifier = Modifier.padding(2.dp))

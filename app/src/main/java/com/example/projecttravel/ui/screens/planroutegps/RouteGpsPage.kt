@@ -39,6 +39,7 @@ import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -133,9 +134,10 @@ fun RouteGpsPage(
                 ) {
                     Text(
                         text = "관광지 정보 확인",
-                        fontSize = 20.sp,   // font 의 크기
-                        lineHeight = 20.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                        fontSize = 30.sp,   // font 의 크기
+                        lineHeight = 30.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                         fontWeight = FontWeight.ExtraBold,  // font 의 굵기
+                        fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                         style = MaterialTheme.typography.titleLarge,  //font 의 스타일
                         textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
                         modifier = Modifier
@@ -148,6 +150,7 @@ fun RouteGpsPage(
                             lineHeight = 10.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                             fontWeight = FontWeight.Bold,  // font 의 굵기
                             style = MaterialTheme.typography.bodyMedium,  //font 의 스타일
+                            fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                             textAlign = TextAlign.Center, // 텍스트 내용을 compose 가운데 정렬
                             color = Color.Red,
                             modifier = Modifier
@@ -178,7 +181,6 @@ fun RouteGpsPage(
                         properties = MapProperties(
                             isMyLocationEnabled = locationPermissionGranted,    // 내 위치(허가할 시에만)
                             isTrafficEnabled = true,    // 교통정보
-
                         ),
                     ) {
                         currentDayTripAttrs.list.forEach { attrs ->
