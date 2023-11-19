@@ -134,8 +134,8 @@ fun RouteGpsPage(
                 ) {
                     Text(
                         text = "관광지 정보 확인",
-                        fontSize = 30.sp,   // font 의 크기
-                        lineHeight = 30.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
+                        fontSize = 50.sp,   // font 의 크기
+                        lineHeight = 50.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                         fontWeight = FontWeight.ExtraBold,  // font 의 굵기
                         fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
                         style = MaterialTheme.typography.titleLarge,  //font 의 스타일
@@ -161,7 +161,7 @@ fun RouteGpsPage(
                 /** GoogleMap Composable ====================*/
                 Column {
                     /** GoogleMap Marker Position ====================*/
-                    // 모든 마커 위치 리스트
+                    // 모든 마커 위치 리스트 (LatLng)
                     val markerPositions = currentDayTripAttrs.list.map { attrs ->
                         stringToLatLng(attrs.lat, attrs.lan)
                     }
@@ -184,21 +184,6 @@ fun RouteGpsPage(
                         ),
                     ) {
                         currentDayTripAttrs.list.forEach { attrs ->
-//                            MapMarker(
-//                                context = context,
-//                                position = stringToLatLng(
-//                                    attrs.lat,
-//                                    attrs.lan
-//                                ),
-//                                title = attrs.name,
-//                                snippet = attrs.inOut,
-//                                onInfoWindowClick = {
-//                                    showPlaceInfo = true
-//                                    selectedPlaceMarker = attrs
-//                                },
-//                                iconResourceId = (R.drawable.ic_launcher_foreground),
-//                            )
-
                             Marker(
                                 state = MarkerState(
                                     position = stringToLatLng(
@@ -243,53 +228,3 @@ fun stringToLatLng(lat: String, lng: String): LatLng {
     return LatLng(latitude, longitude)
 }
 
-// Custom Marker
-@Composable
-fun MapMarker(
-    context: Context,
-    position: LatLng,
-    title: String,
-    snippet: String,
-    onInfoWindowClick: () -> Unit = {},
-    @DrawableRes iconResourceId: Int
-) {
-    val icon = bitmapDescriptorFromVector(
-        context, iconResourceId
-    )
-    Marker(
-        state = MarkerState(
-            position = position,
-        ),
-        alpha = 3.0f,
-        anchor = Offset(0.5f, 0.5f),
-        title = title,
-        icon = icon,
-        snippet = when (snippet) {
-            "0" -> "실내 활동"
-            "1" -> "실외 활동"
-            else -> "몰루"
-        },
-        onInfoWindowClick = { onInfoWindowClick() }
-    )
-}
-
-// Custom Marker icon Editor
-fun bitmapDescriptorFromVector(
-    context: Context,
-    vectorResId: Int
-): BitmapDescriptor? {
-
-    // retrieve the actual drawable
-    val drawable = ContextCompat.getDrawable(context, vectorResId) ?: return null
-    drawable.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
-    val bm = Bitmap.createBitmap(
-        drawable.intrinsicWidth,
-        drawable.intrinsicHeight,
-        Bitmap.Config.ARGB_8888
-    )
-
-    // draw it onto the bitmap
-    val canvas = android.graphics.Canvas(bm)
-    drawable.draw(canvas)
-    return BitmapDescriptorFactory.fromBitmap(bm)
-}
