@@ -100,64 +100,62 @@ fun UserSimilarToMeDialog(
                                 verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
                                 horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                             ) {
+                                //=== 유저 정보
                                 Column(
                                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                                     modifier = Modifier
-                                        .weight(1f)
-                                        .padding(1.dp)
-                                        .fillMaxWidth(),
-                                ) {
-                                    AsyncImage(
-                                        modifier = Modifier
-                                            .size(50.dp)
-                                            .clip(RoundedCornerShape(50.dp)),
-                                        model = ImageRequest.Builder(context = LocalContext.current)
-                                            .data(people.picture)
-                                            .crossfade(true)
-                                            .build(),
-                                        contentDescription = null,
-                                        contentScale = ContentScale.Crop,
-                                        error = painterResource(id = R.drawable.icon_user),
-                                        placeholder = painterResource(id = R.drawable.loading_img)
-                                    )
-                                }
-                                Spacer(modifier = Modifier.padding(3.dp))
-                                Column(
-                                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                                    horizontalAlignment = Alignment.Start, // 수평 가운데 정렬
-                                    modifier = Modifier
-                                        .weight(3f)
+                                        .weight(4f)
                                         .padding(1.dp)
                                         .fillMaxWidth(),
                                 ) {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
-                                    ) {
-                                        Icon(imageVector = Icons.Filled.Person, contentDescription = "VerifiedUser")
+                                        horizontalArrangement = Arrangement.Start, // 수평 가운데 정렬
+                                        modifier = Modifier.fillMaxWidth(),
+                                    ){
+                                        Spacer(modifier = Modifier.padding(2.dp))
+                                        AsyncImage(
+                                            modifier = Modifier
+                                                .size(30.dp)
+                                                .clip(RoundedCornerShape(50.dp)),
+                                            model = ImageRequest.Builder(context = LocalContext.current)
+                                                .data(people.picture)
+                                                .crossfade(true)
+                                                .build(),
+                                            contentDescription = null,
+                                            contentScale = ContentScale.Crop,
+                                            error = painterResource(id = R.drawable.icon_user),
+                                            placeholder = painterResource(id = R.drawable.loading_img)
+                                        )
+                                        Spacer(modifier = Modifier.padding(3.dp))
                                         Text(
                                             text = people.name,
-                                            fontSize = 12.sp,   // font 의 크기
+                                            fontSize = 15.sp,   // font 의 크기
                                             fontWeight = FontWeight.Bold,  // font 의 굵기
                                             style = MaterialTheme.typography.titleMedium,  //font 의 스타일
 //                                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
                                         )
                                     }
+
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
-                                    ) {
-                                        Icon(imageVector = Icons.Filled.Email, contentDescription = "Email")
+                                        horizontalArrangement = Arrangement.Start, // 수평 가운데 정렬
+                                        modifier = Modifier.fillMaxWidth(),
+                                    ){
+                                        Spacer(modifier = Modifier.padding(3.dp))
+                                        Icon(imageVector = Icons.Filled.Email, contentDescription = "Email",modifier = Modifier.size(20.dp))
+                                        Spacer(modifier = Modifier.padding(3.dp))
                                         Text(
                                             text = people.email,
-                                            fontSize = 7.sp,   // font 의 크기
-                                            fontWeight = FontWeight.Bold,  // font 의 굵기
+                                            fontSize = 12.sp,   // font 의 크기
+                                            fontWeight = FontWeight.Normal,  // font 의 굵기
                                             style = MaterialTheme.typography.titleMedium,  //font 의 스타일
 //                                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
                                         )
                                     }
                                 }
+                                //=== 확인 버튼
                                 Column(
                                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                                     horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
@@ -227,7 +225,7 @@ fun UserSimilarToMeDialog(
                                             }
                                         },
                                     ) {
-                                        Text(text = "보러\n가기", fontSize = 10.sp)
+                                        Text(text = "확인", fontSize = 10.sp)
                                     }
                                 }
                             }
