@@ -279,7 +279,7 @@ fun ListCompanyEntity(
                                     contentDescription = "WriteDate"
                                 )
                                 Spacer(modifier = Modifier.padding(2.dp))
-                                Text(fontSize = 12.sp, text = board.writeDate)
+                                Text(fontSize = 12.sp, text = board.writeDate.substring(0 until 10))
 
                                 Spacer(modifier = Modifier.padding(5.dp))
 

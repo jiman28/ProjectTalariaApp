@@ -124,7 +124,7 @@ fun ViewReply(
                                             contentDescription = "WriteDate"
                                         )
                                         Spacer(modifier = Modifier.padding(1.dp))
-                                        Text(fontSize = 12.sp, text = reply.writeDate)
+                                        Text(fontSize = 12.sp, text = reply.writeDate.substring(0 until 10))
                                     }
                                     Row {
                                     }

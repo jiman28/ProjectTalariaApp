@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -163,8 +164,8 @@ fun RouteGpsAllDir(
             .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
             .clickable {
                 if (myPositionSwitchChecked) {
-                    val myPosition = "My+Location"  // 진짜 위치
-//                    val myPosition = "바비칸 센터"   // 임시 확인용 위치
+//                    val myPosition = "My+Location"  // 진짜 위치
+                    val myPosition = "바비칸 센터"   // 임시 확인용 위치
                     val uriBuilder =
                         StringBuilder("https://www.google.co.in/maps/dir/$myPosition")
                     for (i in 0 until currentDayTripAttrs.list.size) {
@@ -172,6 +173,7 @@ fun RouteGpsAllDir(
                     }
                     val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uriBuilder.toString()))
                     // Check if there's a mapping app available before starting the activity
+                    Log.d("jimanLog=111queryCheck", uriBuilder.toString())
                     context.startActivity(mapIntent)
                 } else {
                     if (currentDayTripAttrs.list.size >= 2) {
@@ -183,12 +185,14 @@ fun RouteGpsAllDir(
                         }
                         val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uriBuilder.toString()))
                         // Check if there's a mapping app available before starting the activity
+                        Log.d("jimanLog=111queryCheck", uriBuilder.toString())
                         context.startActivity(mapIntent)
                     } else {
                         // Build the geo URI for the route
                         val uriBuilder = StringBuilder("geo:0,0?q=${currentDayTripAttrs.list[0].name}")
                         val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse(uriBuilder.toString()))
                         // Check if there's a mapping app available before starting the activity
+                        Log.d("jimanLog=111queryCheck", uriBuilder.toString())
                         context.startActivity(mapIntent)
                     }
                 }

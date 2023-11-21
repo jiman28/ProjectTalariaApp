@@ -206,7 +206,7 @@ fun ViewContentsBoard(
                     contentDescription = "WriteDate"
                 )
                 Spacer(modifier = Modifier.padding(1.dp))
-                Text(fontSize = 12.sp, text = currentWriteDate)
+                Text(fontSize = 12.sp, text = currentWriteDate.substring(0 until 10))
 
                 Spacer(modifier = Modifier.padding(5.dp))
 

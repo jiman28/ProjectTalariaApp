@@ -70,22 +70,22 @@ fun AllBoardsPage(
                 boardPageViewModel = boardPageViewModel,
             )
         }
-        Column {
-            val title = when (boardPageUiState.currentSelectedBoardTab) {
-                R.string.boardTabTitle -> "여행 후기를 자유롭게 쓰세요!"
-                R.string.companyTabTitle -> "같이 여행 갈 사람 구합니다!"
-                R.string.tradeTabTitle -> "비행기 티켓 팔고 싶어요!"
-                else -> "몰루"
-            }
-            Text(
-                modifier = Modifier.padding(2.dp),
-                fontWeight = FontWeight.ExtraBold,
-                fontStyle = FontStyle.Italic,
-                fontSize = 25.sp,
-                textAlign = TextAlign.Center,
-                text = title
-            )
-        }
+//        Column {
+//            val title = when (boardPageUiState.currentSelectedBoardTab) {
+//                R.string.boardTabTitle -> "여행 후기를 자유롭게 쓰세요!"
+//                R.string.companyTabTitle -> "같이 여행 갈 사람 구합니다!"
+//                R.string.tradeTabTitle -> "비행기 티켓 팔고 싶어요!"
+//                else -> "몰루"
+//            }
+//            Text(
+//                modifier = Modifier.padding(2.dp),
+//                fontWeight = FontWeight.ExtraBold,
+//                fontStyle = FontStyle.Italic,
+//                fontSize = 25.sp,
+//                textAlign = TextAlign.Center,
+//                text = title
+//            )
+//        }
         Spacer(modifier = Modifier.padding(2.dp))
 //        Column(
 //            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
