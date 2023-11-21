@@ -128,7 +128,7 @@ fun DrawerContents(
                         .build(),
                     contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    error = painterResource(id = R.drawable.no_image_country),
+                    error = painterResource(id = R.drawable.icon_user),
                     placeholder = painterResource(id = R.drawable.loading_img)
                 )
             } else {
