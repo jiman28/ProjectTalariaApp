@@ -48,6 +48,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
+import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
@@ -77,6 +78,7 @@ fun DrawerContents(
     navController: NavHostController,
     drawerState: DrawerState,
     scope: CoroutineScope,
+    listBoardRepoViewModel: ListBoardRepoViewModel,
 ) {
     val context = LocalContext.current
 
@@ -101,7 +103,7 @@ fun DrawerContents(
     }
 
     ModalDrawerSheet(
-        modifier = Modifier.size(280.dp, 500.dp),
+        modifier = Modifier.size(280.dp, 600.dp),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
@@ -374,16 +376,23 @@ fun DrawerContents(
             Spacer(modifier = Modifier.padding(2.dp))
         }
 
-//        /** Test ==================== ==================== ==================== ==================== ====================*/
-//        Spacer(modifier = Modifier.padding(2.dp))
-//        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-//        Spacer(modifier = Modifier.padding(2.dp))
-//        TextButton(onClick = {
-//
-//        }) {
-//            Text(text = "테스트페이지", fontSize = 25.sp)
-//        }
-//        /** Test ==================== ==================== ==================== ==================== ====================*/
+        /** Test ==================== ==================== ==================== ==================== ====================*/
+        Spacer(modifier = Modifier.padding(2.dp))
+        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+        Spacer(modifier = Modifier.padding(2.dp))
+        val testBoardBoard = CallBoard(
+            kw = "",
+            page = 0,
+            type = stringResource(boardPageUiState.currentSearchType),
+            email = ""
+        )
+        TextButton(onClick = {
+            listBoardRepoViewModel.getBoard(testBoardBoard)
+            navController.navigate(TravelScreen.PageTest.name)
+        }) {
+            Text(text = "테스트페이지", fontSize = 25.sp)
+        }
+        /** Test ==================== ==================== ==================== ==================== ====================*/
 
     }
 }

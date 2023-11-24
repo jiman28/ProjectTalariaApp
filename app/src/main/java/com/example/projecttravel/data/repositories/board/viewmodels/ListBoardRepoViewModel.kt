@@ -47,14 +47,14 @@ class ListBoardRepoViewModel(private val boardListRepository: BoardListRepositor
         }
     }
 
-//    companion object {
-//        val BoardFactory: ViewModelProvider.Factory = viewModelFactory {
-//            initializer {
-//                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
-//                        as TravelApplication)
-//                val boardRepository = application.container.boardListRepository
-//                ListBoardRepoViewModel(boardListRepository = boardRepository)
-//            }
-//        }
-//    }
+    companion object {
+        val BoardFactory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY]
+                        as TravelApplication)
+                val boardRepository = application.container.boardListRepository
+                ListBoardRepoViewModel(boardListRepository = boardRepository)
+            }
+        }
+    }
 }

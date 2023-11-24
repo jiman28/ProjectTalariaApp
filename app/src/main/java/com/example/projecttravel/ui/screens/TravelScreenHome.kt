@@ -29,6 +29,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
+import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
+import com.example.projecttravel.data.repositories.select.viewmodels.HomepageRepoViewModel
 import com.example.projecttravel.ui.screens.auth.InterestForm
 import com.example.projecttravel.ui.screens.boardlist.AllBoardsPage
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
@@ -91,6 +93,8 @@ fun TravelScreenHome(
     val searchUiState by searchViewModel.searchUiState.collectAsState()
     val planUiState by planViewModel.planUiState.collectAsState()
     val boardPageUiState by boardPageViewModel.boardPageUiState.collectAsState()
+
+    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
 
     /** State of topBar, set state to false on each currentScreens */
     var showTopBarAndDrawer by rememberSaveable { mutableStateOf(true)  }
@@ -189,6 +193,7 @@ fun TravelScreenHome(
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
+                            listBoardRepoViewModel = listBoardRepoViewModel,
                         )
                     },
                 ) {
@@ -357,6 +362,7 @@ fun TravelScreenHome(
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
+                            listBoardRepoViewModel = listBoardRepoViewModel,
                         )
                     },
                 ) {
@@ -421,26 +427,28 @@ fun TravelScreenHome(
                 )
             }
 
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
-//            composable(route = TravelScreen.PageTest.name) {
-//                TestPage(
-//                    userUiState = userUiState,
-//                    userViewModel = userViewModel,
-//                    planUiState = planUiState,
-//                    planViewModel = planViewModel,
-//                    boardPageUiState = boardPageUiState,
-//                    boardPageViewModel = boardPageViewModel,
-//                    navController = navController,
-//                    scope = scope,
-//                )
-//                BackHandler(
-//                    enabled = drawerState.isClosed,
-//                    onBack = {
-//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-//                    },
-//                )
-//            }
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
+            /** Test ==================== ==================== ==================== ==================== ====================*/
+            composable(route = TravelScreen.PageTest.name) {
+                TestPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
+                    scope = scope,
+                    listBoardRepoViewModel = listBoardRepoViewModel,
+                    boardUiState = listBoardRepoViewModel.boardUiState,
+                )
+                BackHandler(
+                    enabled = drawerState.isClosed,
+                    onBack = {
+                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+                    },
+                )
+            }
+            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */
