@@ -29,6 +29,7 @@ import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.ReplyList
 import com.example.projecttravel.model.SendInterest
+import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.model.TradeList
 import retrofit2.Call
 import retrofit2.http.Body
@@ -67,6 +68,14 @@ interface TravelApiService {
     // userpage
     @POST("callmyinterest")
     fun getMyInterest(@Body userResponse: UserResponse): Call<UserInterest>
+
+    // Saving First Interest rate
+    @POST("calledituser")
+    fun sendEditUser(@Body sendSignIn: SendSignIn): Call<Boolean>
+
+    // Saving First Interest rate
+    @POST("callwithdrawaluser")
+    fun sendWithdrawUser(@Body sendSignIn: SendSignIn): Call<Boolean>
 
 
     // UserInfo DB ==============================

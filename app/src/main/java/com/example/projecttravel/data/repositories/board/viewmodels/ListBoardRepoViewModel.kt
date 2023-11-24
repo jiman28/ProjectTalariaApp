@@ -12,6 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.board.BoardListRepository
 import com.example.projecttravel.model.BoardList
+import com.example.projecttravel.model.CallBoard
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -27,15 +28,15 @@ class ListBoardRepoViewModel(private val boardListRepository: BoardListRepositor
     var boardUiState: BoardUiState by mutableStateOf(BoardUiState.BoardSuccess(null))
         private set
 
-    init {
-        getBoard()
-    }
+//    init {
+//        getBoard(callBoard: CallBoard)
+//    }
 
-    fun getBoard() {
+    fun getBoard(callBoard: CallBoard) {
         viewModelScope.launch {
             boardUiState = BoardUiState.Loading
             boardUiState = try {
-                BoardUiState.BoardSuccess(boardListRepository.getBoardList())
+                BoardUiState.BoardSuccess(boardListRepository.getBoardList(callBoard))
             } catch (e: IOException) {
                 Log.d("jimanLog=getBoardList", "${e.message}")
                 BoardUiState.Error

@@ -47,6 +47,8 @@ import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
+import com.example.projecttravel.ui.screens.infomeedit.EditUserPage
+import com.example.projecttravel.zzztester.TestPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -59,6 +61,7 @@ enum class TravelScreen(@StringRes val title: Int) {
     Page1(title = R.string.page1),
     Page1A(title = R.string.pageUser),
     Page1B(title = R.string.pageUserPlans),
+    Page1C(title = R.string.pageEditUser),
     Page2(title = R.string.page2),
     Page2A(title = R.string.pageGps),
     Page3(title = R.string.page3),
@@ -96,6 +99,7 @@ fun TravelScreenHome(
         TravelScreen.Page0A -> false
         TravelScreen.Page1A -> false
         TravelScreen.Page1B -> false
+        TravelScreen.Page1C -> false
         TravelScreen.Page0B -> false
         TravelScreen.Page2 -> false
         TravelScreen.Page2A -> false
@@ -242,6 +246,22 @@ fun TravelScreenHome(
                         navController.navigate(TravelScreen.Page1A.name)
                     },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
+                )
+                BackHandler(
+                    onBack = { navController.navigate(TravelScreen.Page1A.name) },    // 바로 전 페이지로 이동
+                )
+            }
+
+            /** 1B. 내가 만든 계획 확인 (다른 유저 혼용) ====================*/
+            composable(route = TravelScreen.Page1C.name) {
+                EditUserPage(
+                    userUiState = userUiState,
+                    userViewModel = userViewModel,
+                    planUiState = planUiState,
+                    planViewModel = planViewModel,
+                    boardPageUiState = boardPageUiState,
+                    boardPageViewModel = boardPageViewModel,
+                    navController = navController,
                 )
                 BackHandler(
                     onBack = { navController.navigate(TravelScreen.Page1A.name) },    // 바로 전 페이지로 이동

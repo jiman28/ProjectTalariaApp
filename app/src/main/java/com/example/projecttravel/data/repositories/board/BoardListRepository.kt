@@ -14,7 +14,7 @@ import kotlinx.coroutines.withContext
  */
 interface BoardListRepository {
     /** Retrieves list of Board from underlying data source */
-    suspend fun getBoardList(): BoardList
+    suspend fun getBoardList(callBoard: CallBoard): BoardList
 }
 
 /**
@@ -22,16 +22,9 @@ interface BoardListRepository {
  */
 class DefaultBoardListRepository(
     private val travelApiService: TravelApiService,
-    boardPageUiState: StateFlow<BoardPageUiState>,
-    resources: Resources,
 ) : BoardListRepository {
-    private val callBoard = CallBoard(
-        kw = boardPageUiState.value.currentSearchKeyWord,
-        page = boardPageUiState.value.currentBoardPage,
-        type = resources.getString(boardPageUiState.value.currentSearchType),
-        email = boardPageUiState.value.currentSearchUser
-    )
-    override suspend fun getBoardList(): BoardList {
+
+    override suspend fun getBoardList(callBoard: CallBoard): BoardList {
         return withContext(Dispatchers.IO) {
             travelApiService.callBoardList(callBoard).execute().body()
                 ?: throw Exception("Unable to fetch board list")

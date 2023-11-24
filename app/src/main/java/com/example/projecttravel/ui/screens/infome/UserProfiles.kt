@@ -123,87 +123,112 @@ fun UserProfiles(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
         horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
     ) {
+        //=====
+
         Box(
-            contentAlignment = Alignment.TopCenter,
+            contentAlignment = Alignment.BottomEnd,
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Image(
-                painter = painterResource(R.drawable.banner_mypage),
-                contentDescription = "banner_mypage",
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .aspectRatio(16f / 5f)
-            )
-            Row(
+            Box(
+                contentAlignment = Alignment.TopCenter,
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
             ) {
-                Column(
-                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                    horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
+                Image(
+                    painter = painterResource(R.drawable.banner_mypage),
+                    contentDescription = "banner_mypage",
+                    contentScale = ContentScale.FillWidth,
                     modifier = Modifier
-                        .weight(1.5f)
-                        .padding(1.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .aspectRatio(16f / 5f)
+                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                    horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
                 ) {
-                    AsyncImage(
+                    Column(
+                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                        horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
                         modifier = Modifier
-                            .border(
-                                BorderStroke(5.dp, Color(0xFF3C5BA9)),
-                                CircleShape
-                            )
-                            .size(100.dp)
-                            .clip(RoundedCornerShape(50.dp)),
-                        model = ImageRequest.Builder(context = LocalContext.current)
-                            .data(currentUserInfo.picture)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Crop,
-                        error = painterResource(id = R.drawable.icon_user),
-                        placeholder = painterResource(id = R.drawable.loading_img)
-                    )
-                }
-                Column(
-                    verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-                    horizontalAlignment = Alignment.Start, // 수평 가운데 정렬
-                    modifier = Modifier
-                        .weight(3.5f)
-                        .padding(1.dp)
-                        .fillMaxWidth(),
-                ) {
-                    Spacer(modifier = Modifier.padding(10.dp))
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                            .weight(1.5f)
+                            .padding(1.dp)
+                            .fillMaxWidth(),
                     ) {
-                        Icon(imageVector = Icons.Filled.Person, contentDescription = "VerifiedUser")
-                        Text(
-                            text = currentUserInfo.name,
-                            fontSize = 15.sp,   // font 의 크기
-                            fontWeight = FontWeight.Bold,  // font 의 굵기
-                            style = MaterialTheme.typography.titleMedium,  //font 의 스타일
-                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
+                        AsyncImage(
+                            modifier = Modifier
+                                .border(
+                                    BorderStroke(5.dp, Color(0xFF3C5BA9)),
+                                    CircleShape
+                                )
+                                .size(100.dp)
+                                .clip(RoundedCornerShape(50.dp)),
+                            model = ImageRequest.Builder(context = LocalContext.current)
+                                .data(currentUserInfo.picture)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Crop,
+                            error = painterResource(id = R.drawable.icon_user),
+                            placeholder = painterResource(id = R.drawable.loading_img)
                         )
                     }
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
-                        horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                    Column(
+                        verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
+                        horizontalAlignment = Alignment.Start, // 수평 가운데 정렬
+                        modifier = Modifier
+                            .weight(3.5f)
+                            .padding(1.dp)
+                            .fillMaxWidth(),
                     ) {
-                        Icon(imageVector = Icons.Filled.Email, contentDescription = "Email")
-                        Text(
-                            text = currentUserInfo.email,
-                            fontSize = 12.sp,   // font 의 크기
-                            fontWeight = FontWeight.Bold,  // font 의 굵기
-                            style = MaterialTheme.typography.titleMedium,  //font 의 스타일
-                            modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
-                        )
+                        Spacer(modifier = Modifier.padding(10.dp))
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                        ) {
+                            Icon(
+                                imageVector = Icons.Filled.Person,
+                                contentDescription = "VerifiedUser"
+                            )
+                            Text(
+                                text = currentUserInfo.name,
+                                fontSize = 15.sp,   // font 의 크기
+                                fontWeight = FontWeight.Bold,  // font 의 굵기
+                                style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                                modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
+                            )
+                        }
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
+                            horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
+                        ) {
+                            Icon(imageVector = Icons.Filled.Email, contentDescription = "Email")
+                            Text(
+                                text = currentUserInfo.email,
+                                fontSize = 12.sp,   // font 의 크기
+                                fontWeight = FontWeight.Bold,  // font 의 굵기
+                                style = MaterialTheme.typography.titleMedium,  //font 의 스타일
+                                modifier = Modifier.padding(dimensionResource(R.dimen.padding_medium))
+                            )
+                        }
                     }
                 }
             }
+            if (userUiState.currentLogin?.id == currentUserInfo.id) {
+                Image(
+                    painter = painterResource(R.drawable.icon_edit),
+                    contentDescription = "edit",
+//                contentScale = ContentScale.None,
+                    modifier = Modifier
+                        .padding(5.dp)
+                        .size(30.dp)
+                        .clickable {
+                        navController.navigate(TravelScreen.Page1C.name)
+                        },
+                )
+            }
         }
+
+        //=====
         Column {
             Row {
 //                TextButton(

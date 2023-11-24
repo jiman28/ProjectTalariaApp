@@ -163,7 +163,6 @@ fun TravelCard(
                             textAlign = TextAlign.Start,
                         )
                     }
-
                 }
 
                 Column(

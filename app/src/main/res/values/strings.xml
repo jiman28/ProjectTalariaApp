@@ -11,6 +11,7 @@
     <string name="page1">Homepage</string>
     <string name="pageUser">View Your Infos</string>
     <string name="pageUserPlans">View Your Plans</string>
+    <string name="pageEditUser">Edit Your Info</string>
     <string name="pageUsersLike">View Peoples like me</string>
     <string name="page2">Select Your Tour Attractions</string>
     <string name="pageGps">Search GPS</string>

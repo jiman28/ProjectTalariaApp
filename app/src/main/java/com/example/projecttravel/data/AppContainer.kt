@@ -46,7 +46,7 @@ interface AppContainer {
     val interestListRepository: InterestListRepository
     val tourAttractionListRepository: TourAttractionListRepository
     val tourAttrSearchListRepository: TourAttrSearchListRepository
-//    val boardListRepository: BoardListRepository
+    val boardListRepository: BoardListRepository
 //    val companyListRepository: CompanyListRepository
 //    val tradeListRepository: TradeListRepository
 //    val replyListRepository: ReplyListRepository
@@ -96,10 +96,10 @@ class DefaultAppContainer(
         DefaultTourAttrSearchListRepository(retrofitService)
     }
 
-//    /** DI implementation for all of each repository - Boards */
-//    override val boardListRepository: BoardListRepository by lazy {
-//        DefaultBoardListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)
-//    }
+    /** DI implementation for all of each repository - Boards */
+    override val boardListRepository: BoardListRepository by lazy {
+        DefaultBoardListRepository(retrofitService)
+    }
 //
 //    override val companyListRepository: CompanyListRepository by lazy {
 //        DefaultCompanyListRepository(retrofitService, boardPageViewModel.boardPageUiState, resources)

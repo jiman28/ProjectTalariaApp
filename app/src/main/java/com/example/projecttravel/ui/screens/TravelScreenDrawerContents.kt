@@ -378,9 +378,8 @@ fun DrawerContents(
 //        Spacer(modifier = Modifier.padding(2.dp))
 //        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
 //        Spacer(modifier = Modifier.padding(2.dp))
-//
 //        TextButton(onClick = {
-//            navController.navigate(TravelScreen.PageTest.name)
+//
 //        }) {
 //            Text(text = "테스트페이지", fontSize = 25.sp)
 //        }

@@ -18,7 +18,7 @@ import com.example.projecttravel.model.Trade
 import com.example.projecttravel.ui.screens.boardlist.BoardsPageTabButtons
 import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
+//import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.CompanyUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.TradeUiState
 import com.example.projecttravel.data.uistates.PlanUiState
