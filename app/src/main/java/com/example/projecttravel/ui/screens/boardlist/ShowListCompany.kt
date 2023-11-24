@@ -47,7 +47,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.CompanyUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardListUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.CompanyListUiState
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
@@ -59,43 +62,41 @@ import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.boardlist.readapi.getCompanyListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
+import com.example.projecttravel.ui.screens.boardview.ListBoardEntity
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun ShowListCompany(
-    companyUiState: CompanyUiState,
+    companyListUiState: CompanyListUiState,
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
     onResetButtonClicked: () -> Unit,
-    retryAction: () -> Unit,
 ) {
-    when (companyUiState) {
-        is CompanyUiState.Loading -> GlobalLoadingScreen()
-        is CompanyUiState.CompanySuccess ->
-            if (companyUiState.companyList != null && companyUiState.companyList.list.isNotEmpty()) {
+    when (companyListUiState) {
+        is CompanyListUiState.Loading -> GlobalLoadingScreen()
+        is CompanyListUiState.Success ->
+            if (companyListUiState.companyList?.list?.isNotEmpty() == true) {
                 ListCompanyEntity(
-                    companyList = companyUiState.companyList,
+                    companyList = companyListUiState.companyList,
                     userUiState = userUiState,
                     planUiState = planUiState,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                     onBoardClicked = onBoardClicked,
                     onResetButtonClicked = onResetButtonClicked,
                 )
             } else {
                 NoArticlesFoundScreen()
             }
-
-        else -> GlobalErrorScreen(retryAction)
+        else -> NoArticlesFoundScreen()
     }
 }
 
@@ -104,8 +105,8 @@ fun ListCompanyEntity(
     companyList: CompanyList,
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
     onResetButtonClicked: () -> Unit,
 
@@ -122,7 +123,7 @@ fun ListCompanyEntity(
     }
 
     Spacer(modifier = Modifier.padding(5.dp))
-    val tabtitle = stringResource(boardPageUiState.currentSelectedBoardTab)
+    val tabtitle = stringResource(boardUiState.currentSelectedBoardTab)
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(3.dp),
@@ -160,51 +161,18 @@ fun ListCompanyEntity(
                             Column(
                                 modifier = Modifier.weight(8f)
                             ) {
+                                val callReply = CallReply(
+                                    tabtitle = tabtitle,
+                                    articleNo = board.articleNo.toString()
+                                )
                                 TextButton(
                                     onClick = {
-//                                        isLoadingState = true
-//                                        val result: Boolean = try {
-//                                            viewCounter(tabtitle, board.articleNo.toString())
-//                                            boardPageViewModel.setViewBoard(board)
-//                                            boardPageViewModel.setSelectedArtcNum(board.articleNo.toString())
-//                                            true // 성공했을 경우 true 반환
-//                                        } catch (e: Exception) {
-//                                            // 예외 처리 로직 추가
-//                                            false // 실패했을 경우 false 반환
-//                                        }
-//
-//                                        if (result) {
-//                                            isLoadingState = null
-//                                            onBoardClicked()
-//                                        } else {
-//                                            isLoadingState = false
-//                                        }
-
-                                        scope.launch {
-                                            isLoadingState = true
-                                            val callReply = CallReply(
-                                                tabtitle = tabtitle,
-                                                articleNo = board.articleNo.toString()
-                                            )
-                                            val isReplyDeferred =
-                                                async { getReplyListMobile(callReply) }
-                                            // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                            val isReplyComplete = isReplyDeferred.await()
-                                            // 모든 작업이 완료되었을 때만 실행합니다.
-                                            if (isReplyComplete != null) {
-                                                viewCounter(tabtitle, board.articleNo.toString())
-//                                                boardPageViewModel.setSelectedCompany(board)
-                                                boardPageViewModel.setViewBoard(board)
-                                                boardPageViewModel.setReplyList(isReplyComplete)
-                                                isLoadingState = null
-                                                onBoardClicked()
-                                            } else {
-                                                isLoadingState = false
-                                            }
-                                        }
+                                        boardViewModel.getReplyList(callReply)
+                                        boardViewModel.setViewBoard(board)
+                                        onBoardClicked()
+                                        viewCounter(tabtitle, board.articleNo.toString())
                                     }
                                 ) {
-//                                        Text(fontSize = 20.sp, text = board.title)
                                     EllipsisTextBoard(
                                         text = board.title,
                                         maxLength = 10,
@@ -306,9 +274,9 @@ fun ListCompanyEntity(
                     items(companyList.pages) { index ->
                         // (index = boardList.pages - 1)까지의 값을 가지게 됩니다.
                         val callBoard = CallBoard(
-                            kw = boardPageUiState.currentSearchKeyWord,
+                            kw = boardUiState.currentSearchKeyWord,
                             page = index,
-                            type = stringResource(boardPageUiState.currentSearchType),
+                            type = stringResource(boardUiState.currentSearchType),
                             email = if (userUiState.checkOtherUser != null) userUiState.checkOtherUser.email else ""
                         )
                         Box(
@@ -316,30 +284,16 @@ fun ListCompanyEntity(
                                 .width(50.dp)
                                 .height(50.dp)
                                 .background(
-                                    if (boardPageUiState.currentCompanyPage == index) Color(0xFF005FAF) else Color.White
+                                    if (boardUiState.currentCompanyPage == index) Color(0xFF005FAF) else Color.White
                                 )
                                 .clickable {
-                                    Log.d("jiman", "Clicked on page $index")
-                                    scope.launch {
-                                        isLoadingState = true
-
-                                        val isDeferred = async { getCompanyListMobile(callBoard) }
-                                        val isComplete = isDeferred.await()
-                                        // 모든 작업이 완료되었을 때만 실행합니다.
-                                        if (isComplete != null) {
-                                            isLoadingState = null
-                                            boardPageViewModel.setCompanyList(isComplete)
-                                            boardPageViewModel.setCompanyPage(index)
-                                            onResetButtonClicked()
-                                        } else {
-                                            isLoadingState = false
-                                        }
-                                    }
+                                    boardViewModel.getCompanyList(callBoard)
+                                    boardViewModel.setCompanyPage(index)
                                 }
                         ) {
                             Text(
                                 text = (index + 1).toString(), // 1부터 시작하도록 표시
-                                color = if (boardPageUiState.currentCompanyPage == index) Color.White else Color(0xFF005FAF),
+                                color = if (boardUiState.currentCompanyPage == index) Color.White else Color(0xFF005FAF),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }

@@ -29,8 +29,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.HomepageRepoViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
 import com.example.projecttravel.ui.screens.auth.InterestForm
 import com.example.projecttravel.ui.screens.boardlist.AllBoardsPage
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
@@ -94,7 +93,8 @@ fun TravelScreenHome(
     val planUiState by planViewModel.planUiState.collectAsState()
     val boardPageUiState by boardPageViewModel.boardPageUiState.collectAsState()
 
-    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
+    val boardViewModel: BoardViewModel = viewModel(factory = BoardViewModel.BoardFactory)
+    val boardUiState by boardViewModel.boardUiState.collectAsState()
 
     /** State of topBar, set state to false on each currentScreens */
     var showTopBarAndDrawer by rememberSaveable { mutableStateOf(true)  }
@@ -193,7 +193,7 @@ fun TravelScreenHome(
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
-                            listBoardRepoViewModel = listBoardRepoViewModel,
+                            boardViewModel = boardViewModel,
                         )
                     },
                 ) {
@@ -362,15 +362,15 @@ fun TravelScreenHome(
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
-                            listBoardRepoViewModel = listBoardRepoViewModel,
+                            boardViewModel = boardViewModel,
                         )
                     },
                 ) {
                     AllBoardsPage(
                         userUiState = userUiState,
                         planUiState = planUiState,
-                        boardPageUiState = boardPageUiState,
-                        boardPageViewModel = boardPageViewModel,
+                        boardViewModel = boardViewModel,
+                        boardUiState = boardUiState,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                         onWriteButtonClicked = { navController.navigate(TravelScreen.Page4B.name) },
                         onResetButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
@@ -438,8 +438,8 @@ fun TravelScreenHome(
                     boardPageViewModel = boardPageViewModel,
                     navController = navController,
                     scope = scope,
-                    listBoardRepoViewModel = listBoardRepoViewModel,
-                    boardUiState = listBoardRepoViewModel.boardUiState,
+                    boardViewModel = boardViewModel,
+                    boardListUiState = boardViewModel.boardListUiState,
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,

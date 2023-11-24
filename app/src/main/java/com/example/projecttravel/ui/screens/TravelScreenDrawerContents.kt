@@ -1,8 +1,6 @@
 package com.example.projecttravel.ui.screens
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.Intent.createChooser
 import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -36,19 +34,17 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.content.ContextCompat.startActivity
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.UserUiState
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
@@ -78,7 +74,7 @@ fun DrawerContents(
     navController: NavHostController,
     drawerState: DrawerState,
     scope: CoroutineScope,
-    listBoardRepoViewModel: ListBoardRepoViewModel,
+    boardViewModel: BoardViewModel,
 ) {
     val context = LocalContext.current
 
@@ -300,19 +296,26 @@ fun DrawerContents(
             TextButton(onClick = {
                 scope.launch {
                     drawerState.close()
-                    isLoadingState = true
-                    val isDeferred =
-                        async { getAllBoardDefault(callBoardBoard, boardPageViewModel, scope) }
-                    val isComplete = isDeferred.await()
-                    // 모든 작업이 완료되었을 때만 실행합니다.
-                    if (isComplete) {
-                        isLoadingState = null
-                        userViewModel.previousScreenWasPageOneA(false)
-                        navController.navigate(TravelScreen.Page4.name)
-                    } else {
-                        isLoadingState = false
-                    }
+                    boardViewModel.getBoardList(callBoardBoard)
+                    boardViewModel.getCompanyList(callBoardBoard)
+                    boardViewModel.getTradeList(callBoardBoard)
+                    navController.navigate(TravelScreen.Page4.name)
                 }
+//                scope.launch {
+//                    drawerState.close()
+//                    isLoadingState = true
+//                    val isDeferred =
+//                        async { getAllBoardDefault(callBoardBoard, boardPageViewModel, scope) }
+//                    val isComplete = isDeferred.await()
+//                    // 모든 작업이 완료되었을 때만 실행합니다.
+//                    if (isComplete) {
+//                        isLoadingState = null
+//                        userViewModel.previousScreenWasPageOneA(false)
+//                        navController.navigate(TravelScreen.Page4.name)
+//                    } else {
+//                        isLoadingState = false
+//                    }
+//                }
             }) {
                 Text(
                     text = "BOARD",
@@ -387,7 +390,7 @@ fun DrawerContents(
             email = ""
         )
         TextButton(onClick = {
-            listBoardRepoViewModel.getBoard(testBoardBoard)
+            boardViewModel.getBoardList(testBoardBoard)
             navController.navigate(TravelScreen.PageTest.name)
         }) {
             Text(text = "테스트페이지", fontSize = 25.sp)

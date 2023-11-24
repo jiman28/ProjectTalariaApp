@@ -13,16 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.ListCompanyRepoViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.ListTradeRepoViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
@@ -34,8 +28,10 @@ import com.example.projecttravel.ui.screens.boardview.ShowListBoard
 fun AllBoardsPage(
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+//    boardPageUiState: BoardPageUiState,
+//    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
     onWriteButtonClicked: () -> Unit,
     onResetButtonClicked: () -> Unit,
@@ -55,8 +51,8 @@ fun AllBoardsPage(
             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
         ) {
             BoardWriteSearchButton(
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
+                boardViewModel = boardViewModel,
+                boardUiState = boardUiState,
                 onWriteButtonClicked = onWriteButtonClicked,
                 onResetButtonClicked = onResetButtonClicked,
                 )
@@ -66,43 +62,11 @@ fun AllBoardsPage(
         Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
         Column {
             BoardsPageTabButtons(
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
+                boardViewModel = boardViewModel,
+                boardUiState = boardUiState,
             )
         }
-//        Column {
-//            val title = when (boardPageUiState.currentSelectedBoardTab) {
-//                R.string.boardTabTitle -> "여행 후기를 자유롭게 쓰세요!"
-//                R.string.companyTabTitle -> "같이 여행 갈 사람 구합니다!"
-//                R.string.tradeTabTitle -> "비행기 티켓 팔고 싶어요!"
-//                else -> "몰루"
-//            }
-//            Text(
-//                modifier = Modifier.padding(2.dp),
-//                fontWeight = FontWeight.ExtraBold,
-//                fontStyle = FontStyle.Italic,
-//                fontSize = 25.sp,
-//                textAlign = TextAlign.Center,
-//                text = title
-//            )
-//        }
         Spacer(modifier = Modifier.padding(2.dp))
-//        Column(
-//            verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
-//            horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-//            modifier = Modifier.padding(start = 15.dp, end = 15.dp),
-//        ) {
-//            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.Center,
-//            ) {
-//                Text(modifier = Modifier.weight(1f), textAlign = TextAlign.Center, text = "글번호")
-//                Text(modifier = Modifier.weight(7f), textAlign = TextAlign.Center, text = "제목")
-//            }
-//            Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
-//        }
-//        Spacer(modifier = Modifier.padding(2.dp))
         /** Lists Show ====================*/
         Column(
             verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -110,57 +74,43 @@ fun AllBoardsPage(
             modifier = Modifier.padding(start = 15.dp, end = 15.dp),
         ) {
             Spacer(modifier = Modifier.padding(5.dp))
-            when (boardPageUiState.currentSelectedBoardTab) {
+            when (boardUiState.currentSelectedBoardTab) {
                 R.string.boardTabTitle -> {
-//                    val listBoardRepoViewModel: ListBoardRepoViewModel = viewModel(factory = ListBoardRepoViewModel.BoardFactory)
-                    if (boardPageUiState.currentBoardList != null && boardPageUiState.currentBoardList.list.isNotEmpty()) {
-                        ListBoardEntity(
-                            boardList = boardPageUiState.currentBoardList,
-                            userUiState = userUiState,
-                            planUiState = planUiState,
-                            boardPageUiState = boardPageUiState,
-                            boardPageViewModel = boardPageViewModel,
-                            onBoardClicked = onBoardClicked,
-                            onResetButtonClicked = onResetButtonClicked,
-                        )
-                    } else {
-                        NoArticlesFoundScreen()
-                    }
-
+                    ShowListBoard(
+                        boardListUiState = boardViewModel.boardListUiState,
+                        userUiState = userUiState,
+                        planUiState = planUiState,
+                        boardViewModel = boardViewModel,
+                        boardUiState = boardUiState,
+                        onBoardClicked = onBoardClicked,
+                        onResetButtonClicked = onResetButtonClicked,
+                    )
                 }
 
                 R.string.companyTabTitle -> {
 //                    val listCompanyRepoViewModel: ListCompanyRepoViewModel = viewModel(factory = ListCompanyRepoViewModel.CompanyFactory)
-                    if (boardPageUiState.currentCompanyList != null && boardPageUiState.currentCompanyList.list.isNotEmpty()) {
-                        ListCompanyEntity(
-                            companyList = boardPageUiState.currentCompanyList,
-                            userUiState = userUiState,
-                            planUiState = planUiState,
-                            boardPageUiState = boardPageUiState,
-                            boardPageViewModel = boardPageViewModel,
-                            onBoardClicked = onBoardClicked,
-                            onResetButtonClicked = onResetButtonClicked,
-                        )
-                    } else {
-                        NoArticlesFoundScreen()
-                    }
+                    ShowListCompany(
+                        companyListUiState = boardViewModel.companyListUiState,
+                        userUiState = userUiState,
+                        planUiState = planUiState,
+                        boardViewModel = boardViewModel,
+                        boardUiState = boardUiState,
+                        onBoardClicked = onBoardClicked,
+                        onResetButtonClicked = onResetButtonClicked,
+                    )
                 }
 
                 R.string.tradeTabTitle -> {
 //                    val listTradeRepoViewModel: ListTradeRepoViewModel = viewModel(factory = ListTradeRepoViewModel.TradeFactory)
-                    if (boardPageUiState.currentTradeList != null && boardPageUiState.currentTradeList.list.isNotEmpty()) {
-                        ListTradeEntity(
-                            tradeList = boardPageUiState.currentTradeList,
-                            userUiState = userUiState,
-                            planUiState = planUiState,
-                            boardPageUiState = boardPageUiState,
-                            boardPageViewModel = boardPageViewModel,
-                            onBoardClicked = onBoardClicked,
-                            onResetButtonClicked = onResetButtonClicked,
-                        )
-                    } else {
-                        NoArticlesFoundScreen()
-                    }
+                    ShowListTrade(
+                        tradeListUiState = boardViewModel.tradeListUiState,
+                        userUiState = userUiState,
+                        planUiState = planUiState,
+                        boardViewModel = boardViewModel,
+                        boardUiState = boardUiState,
+                        onBoardClicked = onBoardClicked,
+                        onResetButtonClicked = onResetButtonClicked,
+                    )
                 }
             }
         }

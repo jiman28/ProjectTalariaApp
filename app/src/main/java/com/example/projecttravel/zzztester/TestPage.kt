@@ -1,6 +1,5 @@
 package com.example.projecttravel.zzztester
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,7 +28,6 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,15 +43,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.ListBoardRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.HomepageRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.HomepageUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardListUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
@@ -64,12 +59,10 @@ import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
-import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getBoardListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
 import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
@@ -87,21 +80,21 @@ fun TestPage(
     boardPageViewModel: BoardPageViewModel,
     navController: NavHostController,
     scope: CoroutineScope,
-    listBoardRepoViewModel: ListBoardRepoViewModel,
-    boardUiState: BoardUiState,
+    boardViewModel: BoardViewModel,
+    boardListUiState: BoardListUiState,
 ) {
 
-    when (boardUiState) {
-        is BoardUiState.Loading -> GlobalLoadingScreen()
-        is BoardUiState.BoardSuccess ->
-            boardUiState.boardList?.let {
+    when (boardListUiState) {
+        is BoardListUiState.Loading -> GlobalLoadingScreen()
+        is BoardListUiState.Success ->
+            boardListUiState.boardList?.let {
                 TestListBoardEntity(
                     boardList = it,
                     userUiState = userUiState,
                     planUiState = planUiState,
                     boardPageUiState = boardPageUiState,
                     boardPageViewModel = boardPageViewModel,
-                    listBoardRepoViewModel = listBoardRepoViewModel,
+                    boardViewModel = boardViewModel,
                     navController = navController,
                 )
             }
@@ -116,7 +109,7 @@ fun TestListBoardEntity(
     planUiState: PlanUiState,
     boardPageUiState: BoardPageUiState,
     boardPageViewModel: BoardPageViewModel,
-    listBoardRepoViewModel: ListBoardRepoViewModel,
+    boardViewModel: BoardViewModel,
     navController: NavHostController,
 ) {
 
@@ -329,7 +322,7 @@ fun TestListBoardEntity(
                                     if (boardPageUiState.currentBoardPage == index) Color(0xFF005FAF) else Color.White
                                 )
                                 .clickable {
-                                    listBoardRepoViewModel.getBoard(callBoard)
+                                    boardViewModel.getBoardList(callBoard)
 //                                    Log.d("jiman", "Clicked on page $index")
 //                                    scope.launch {
 //                                        isLoadingState = true

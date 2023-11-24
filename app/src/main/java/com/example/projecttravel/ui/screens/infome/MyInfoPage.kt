@@ -138,14 +138,14 @@ fun MyInfoPage(
                 Column {
                     when (userUiState.currentSelectedUserTab) {
                         R.string.userTabMenuBoard -> {
-                            UserWrittenBoard(
-                                userUiState = userUiState,
-                                planUiState = planUiState,
-                                boardPageUiState = boardPageUiState,
-                                boardPageViewModel = boardPageViewModel,
-                                onResetButtonClicked = onResetButtonClicked,
-                                onBoardClicked = onBoardClicked,
-                            )
+//                            UserWrittenBoard(
+//                                userUiState = userUiState,
+//                                planUiState = planUiState,
+//                                boardPageUiState = boardPageUiState,
+//                                boardPageViewModel = boardPageViewModel,
+//                                onResetButtonClicked = onResetButtonClicked,
+//                                onBoardClicked = onBoardClicked,
+//                            )
                         }
 
                         R.string.userTabMenuPlans -> {

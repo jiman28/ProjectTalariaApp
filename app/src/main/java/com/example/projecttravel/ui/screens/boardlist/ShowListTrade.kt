@@ -47,8 +47,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardListUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.TradeUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.TradeListUiState
 import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserUiState
@@ -61,7 +63,6 @@ import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalErrorScreen
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.getTradeListMobile
 import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
@@ -71,33 +72,31 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun ShowListTrade(
-    tradeUiState: TradeUiState,
+    tradeListUiState: TradeListUiState,
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
     onResetButtonClicked: () -> Unit,
-    retryAction: () -> Unit,
 ) {
-    when (tradeUiState) {
-        is TradeUiState.Loading -> GlobalLoadingScreen()
-        is TradeUiState.TradeSuccess ->
-            if (tradeUiState.tradeList != null && tradeUiState.tradeList.list.isNotEmpty()) {
+    when (tradeListUiState) {
+        is TradeListUiState.Loading -> GlobalLoadingScreen()
+        is TradeListUiState.Success ->
+            if (tradeListUiState.tradeList?.list?.isNotEmpty() == true) {
                 ListTradeEntity(
-                    tradeList = tradeUiState.tradeList,
+                    tradeList = tradeListUiState.tradeList,
                     userUiState = userUiState,
                     planUiState = planUiState,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                     onBoardClicked = onBoardClicked,
                     onResetButtonClicked = onResetButtonClicked,
                 )
             } else {
                 NoArticlesFoundScreen()
             }
-
-        else -> GlobalErrorScreen(retryAction)
+        else -> NoArticlesFoundScreen()
     }
 }
 
@@ -106,13 +105,11 @@ fun ListTradeEntity(
     tradeList: TradeList,
     userUiState: UserUiState,
     planUiState: PlanUiState,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
     onResetButtonClicked: () -> Unit,
 ) {
-
-
     val scope = rememberCoroutineScope()
 
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
@@ -125,7 +122,7 @@ fun ListTradeEntity(
     }
 
     Spacer(modifier = Modifier.padding(5.dp))
-    val tabtitle = stringResource(boardPageUiState.currentSelectedBoardTab)
+    val tabtitle = stringResource(boardUiState.currentSelectedBoardTab)
 
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(3.dp),
@@ -163,51 +160,18 @@ fun ListTradeEntity(
                             Column(
                                 modifier = Modifier.weight(8f)
                             ) {
+                                val callReply = CallReply(
+                                    tabtitle = tabtitle,
+                                    articleNo = board.articleNo.toString()
+                                )
                                 TextButton(
                                     onClick = {
-//                                        isLoadingState = true
-//                                        val result: Boolean = try {
-//                                            viewCounter(tabtitle, board.articleNo.toString())
-//                                            boardPageViewModel.setViewBoard(board)
-//                                            boardPageViewModel.setSelectedArtcNum(board.articleNo.toString())
-//                                            true // 성공했을 경우 true 반환
-//                                        } catch (e: Exception) {
-//                                            // 예외 처리 로직 추가
-//                                            false // 실패했을 경우 false 반환
-//                                        }
-//
-//                                        if (result) {
-//                                            isLoadingState = null
-//                                            onBoardClicked()
-//                                        } else {
-//                                            isLoadingState = false
-//                                        }
-
-                                        scope.launch {
-                                            isLoadingState = true
-                                            val callReply = CallReply(
-                                                tabtitle = tabtitle,
-                                                articleNo = board.articleNo.toString()
-                                            )
-                                            val isReplyDeferred =
-                                                async { getReplyListMobile(callReply) }
-                                            // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-                                            val isReplyComplete = isReplyDeferred.await()
-                                            // 모든 작업이 완료되었을 때만 실행합니다.
-                                            if (isReplyComplete != null) {
-                                                viewCounter(tabtitle, board.articleNo.toString())
-                                                boardPageViewModel.setViewBoard(board)
-//                                                boardPageViewModel.setSelectedTrade(board)
-                                                boardPageViewModel.setReplyList(isReplyComplete)
-                                                isLoadingState = null
-                                                onBoardClicked()
-                                            } else {
-                                                isLoadingState = false
-                                            }
-                                        }
+                                        boardViewModel.getReplyList(callReply)
+                                        boardViewModel.setViewBoard(board)
+                                        onBoardClicked()
+                                        viewCounter(tabtitle, board.articleNo.toString())
                                     }
                                 ) {
-//                                        Text(fontSize = 20.sp, text = board.title)
                                     EllipsisTextBoard(
                                         text = board.title,
                                         maxLength = 10,
@@ -309,9 +273,9 @@ fun ListTradeEntity(
                     items(tradeList.pages) { index ->
                         // (index = boardList.pages - 1)까지의 값을 가지게 됩니다.
                         val callBoard = CallBoard(
-                            kw = boardPageUiState.currentSearchKeyWord,
+                            kw = boardUiState.currentSearchKeyWord,
                             page = index,
-                            type = stringResource(boardPageUiState.currentSearchType),
+                            type = stringResource(boardUiState.currentSearchType),
                             email = if (userUiState.checkOtherUser != null) userUiState.checkOtherUser.email else ""
                         )
                         Box(
@@ -319,30 +283,16 @@ fun ListTradeEntity(
                                 .width(50.dp)
                                 .height(50.dp)
                                 .background(
-                                    if (boardPageUiState.currentTradePage == index) Color(0xFF005FAF) else Color.White
+                                    if (boardUiState.currentTradePage == index) Color(0xFF005FAF) else Color.White
                                 )
                                 .clickable {
-                                    Log.d("jiman", "Clicked on page $index")
-                                    scope.launch {
-                                        isLoadingState = true
-
-                                        val isDeferred = async { getTradeListMobile(callBoard) }
-                                        val isComplete = isDeferred.await()
-                                        // 모든 작업이 완료되었을 때만 실행합니다.
-                                        if (isComplete != null) {
-                                            isLoadingState = null
-                                            boardPageViewModel.setTradeList(isComplete)
-                                            boardPageViewModel.setTradePage(index)
-                                            onResetButtonClicked()
-                                        } else {
-                                            isLoadingState = false
-                                        }
-                                    }
+                                    boardViewModel.getTradeList(callBoard)
+                                    boardViewModel.setTradePage(index)
                                 }
                         ) {
                             Text(
                                 text = (index + 1).toString(), // 1부터 시작하도록 표시
-                                color = if (boardPageUiState.currentTradePage == index) Color.White else Color(0xFF005FAF),
+                                color = if (boardUiState.currentTradePage == index) Color.White else Color(0xFF005FAF),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
