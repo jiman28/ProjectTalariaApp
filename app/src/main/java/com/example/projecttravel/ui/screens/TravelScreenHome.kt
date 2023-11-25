@@ -42,9 +42,9 @@ import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.boardview.ViewContentsBoard
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import com.example.projecttravel.ui.screens.infomeedit.EditUserPage
@@ -74,9 +74,9 @@ enum class TravelScreen(@StringRes val title: Int) {
 @Composable
 fun TravelScreenHome(
     userPageViewModel: UserPageViewModel = viewModel(),
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
     searchViewModel: SearchViewModel = viewModel(),
-    planViewModel: PlanViewModel = viewModel(),
+    planPageViewModel: PlanPageViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -85,9 +85,9 @@ fun TravelScreenHome(
     val currentScreen = TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
 
     val userUiState by userPageViewModel.userPageUiState.collectAsState()
-    val selectUiState by selectViewModel.selectUiState.collectAsState()
+    val selectUiState by selectPageViewModel.selectUiState.collectAsState()
     val searchUiState by searchViewModel.searchUiState.collectAsState()
-    val planUiState by planViewModel.planUiState.collectAsState()
+    val planUiState by planPageViewModel.planUiState.collectAsState()
 
     val boardViewModel: BoardViewModel = viewModel(factory = BoardViewModel.BoardFactory)
     val boardUiState by boardViewModel.boardUiState.collectAsState()
@@ -185,7 +185,7 @@ fun TravelScreenHome(
                             userPageViewModel = userPageViewModel,
                             boardViewModel = boardViewModel,
                             boardUiState = boardUiState,
-                            planViewModel = planViewModel,
+                            planPageViewModel = planPageViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -202,9 +202,9 @@ fun TravelScreenHome(
                             navController.navigate(TravelScreen.Page2.name)
                         },
                         countryCardClicked = {
-                            selectViewModel.setCountry(it) // 카드를 누르면 나라를 변경
-                            selectViewModel.setCity(null) // 나라를 변경하면 다른 값들 초기화
-                            selectViewModel.setInterest(null) // 나라를 변경하면 다른 값들 초기화
+                            selectPageViewModel.setCountry(it) // 카드를 누르면 나라를 변경
+                            selectPageViewModel.setCity(null) // 나라를 변경하면 다른 값들 초기화
+                            selectPageViewModel.setInterest(null) // 나라를 변경하면 다른 값들 초기화
                             navController.navigate(TravelScreen.Page2.name)
                         },
                     )
@@ -218,7 +218,7 @@ fun TravelScreenHome(
                     userPageUiState = userUiState,
                     userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     boardViewModel = boardViewModel,
                     boardUiState = boardUiState,
                     navController = navController,
@@ -229,7 +229,7 @@ fun TravelScreenHome(
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = {
-                        planViewModel.resetAllPlanUiState()
+                        planPageViewModel.resetAllPlanUiState()
                         navController.navigate(TravelScreen.Page1.name)
                         userPageViewModel.previousScreenWasPageOneA(false)
                     },
@@ -241,7 +241,7 @@ fun TravelScreenHome(
                     userPageUiState = userUiState,
                     userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     onBackButtonClicked = {
                         navController.navigate(TravelScreen.Page1A.name)
                     },
@@ -270,9 +270,9 @@ fun TravelScreenHome(
                 SelectPage(
                     userPageUiState = userUiState,
                     userPageViewModel = userPageViewModel,
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     selectUiState = selectUiState,
-                    selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
+                    selectPageViewModel = selectPageViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page1.name) },
                     onNextButtonClicked = { navController.navigate(TravelScreen.Page3.name) },
                     onGpsClicked = { navController.navigate(TravelScreen.Page2A.name) },
@@ -288,7 +288,7 @@ fun TravelScreenHome(
                     selectUiState = selectUiState,
                     searchUiState = searchUiState,
                     searchViewModel = searchViewModel,
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
                     updateUiPageClicked = { navController.navigate(TravelScreen.Page2A.name) },
                 )
@@ -304,8 +304,8 @@ fun TravelScreenHome(
                     userPageUiState = userUiState,
                     userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    selectViewModel = selectViewModel,
+                    planPageViewModel = planPageViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     onCancelButtonClicked = { navController.navigate(TravelScreen.Page2.name) },
                     onPlanCompleteClicked = { navController.navigate(TravelScreen.Page1.name) },
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
@@ -320,16 +320,16 @@ fun TravelScreenHome(
                     userPageUiState = userUiState,
                     userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     onBackButtonClicked = {
-                        planViewModel.setGpsPage(null)
+                        planPageViewModel.setGpsPage(null)
                         navController.navigateUp()
                     },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
                     onBack = {
-                        planViewModel.setGpsPage(null)
+                        planPageViewModel.setGpsPage(null)
                         navController.navigateUp()
                     },
                 )
@@ -349,7 +349,7 @@ fun TravelScreenHome(
                             userPageViewModel = userPageViewModel,
                             boardViewModel = boardViewModel,
                             boardUiState = boardUiState,
-                            planViewModel = planViewModel,
+                            planPageViewModel = planPageViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
@@ -366,7 +366,7 @@ fun TravelScreenHome(
                     BackHandler(
                         enabled = drawerState.isClosed,
                         onBack = {
-                            planViewModel.resetAllPlanUiState()
+                            planPageViewModel.resetAllPlanUiState()
                             navController.navigate(TravelScreen.Page1.name)
                         },
                     )

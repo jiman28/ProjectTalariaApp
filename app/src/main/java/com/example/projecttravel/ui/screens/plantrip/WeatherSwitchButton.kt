@@ -5,18 +5,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddTask
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Build
-import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.WbCloudy
 import androidx.compose.material.icons.filled.WbSunny
-import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
@@ -32,16 +26,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun WeatherSwitchButton(
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
 ) {
     var weatherSwitchChecked by remember { mutableStateOf(planUiState.weatherSwitch) }
     // You can display the selected date if needed
@@ -107,10 +100,10 @@ fun WeatherSwitchButton(
                     weatherSwitchChecked = newCheckedState
                     if (newCheckedState) {
                         // 스위치가 켜졌을 때 실행할 작업
-                        planViewModel.setWeatherSwitch(true)
+                        planPageViewModel.setWeatherSwitch(true)
                     } else {
                         // 스위치가 꺼졌을 때 실행할 작업
-                        planViewModel.setWeatherSwitch(false)
+                        planPageViewModel.setWeatherSwitch(false)
                     }
                 },
                 thumbContent = if (weatherSwitchChecked) {

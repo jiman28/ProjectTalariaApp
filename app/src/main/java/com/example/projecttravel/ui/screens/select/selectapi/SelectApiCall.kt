@@ -11,7 +11,7 @@ import com.example.projecttravel.model.WeatherCallSend
 import com.example.projecttravel.model.WeatherResponseGet
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import kotlinx.coroutines.suspendCancellableCoroutine
 import retrofit2.Call
 import retrofit2.Callback
@@ -24,7 +24,7 @@ import kotlin.coroutines.resume
 suspend fun getDateToWeather(
 //    selectUiState: SelectUiState,
     selection: Any,
-    planViewModel: PlanViewModel
+    planPageViewModel: PlanPageViewModel
 ): Boolean {
 
     val firstCity: Any? = when (selection) {
@@ -90,7 +90,7 @@ suspend fun getDateToWeather(
                     if (response.isSuccessful) {
                         val weatherResponse = response.body()
                         if (weatherResponse != null) {
-                            planViewModel.setDateToWeather(weatherResponse)
+                            planPageViewModel.setDateToWeather(weatherResponse)
                             Log.d("jiman=111", "Request Success + Response Success")
                             Log.d("jiman=111", call.toString())
                             Log.d("jiman=111", response.body().toString())
@@ -117,7 +117,7 @@ suspend fun getDateToWeather(
 /** function for getting Weather ====================*/
 suspend fun getDateToAttrByWeather(
     selectUiState: SelectUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
 ): Boolean {
     val selections = selectUiState.selectTourAttractions
     val placeId = selections
@@ -147,7 +147,7 @@ suspend fun getDateToAttrByWeather(
                     // 통신 및 응답 성공
                     val attrResponse = response.body()
                     if (attrResponse != null) {
-                        planViewModel.setDateToAttrByWeather(attrResponse)
+                        planPageViewModel.setDateToAttrByWeather(attrResponse)
                         Log.d("jiman=111", "Request Success + Response Success")
                         Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
@@ -175,7 +175,7 @@ suspend fun getDateToAttrByWeather(
 /** function for getting Weather ====================*/
 suspend fun getDateToAttrByCity(
     selectUiState: SelectUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
 ): Boolean {
     val selections = selectUiState.selectTourAttractions
     val placeId = selections
@@ -205,7 +205,7 @@ suspend fun getDateToAttrByCity(
                     // 통신 및 응답 성공
                     val attrResponse = response.body()
                     if (attrResponse != null) {
-                        planViewModel.setDateToAttrByCity(attrResponse)
+                        planPageViewModel.setDateToAttrByCity(attrResponse)
                         Log.d("jiman=111", "Request Success + Response Success")
                         Log.d("jiman=111", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환

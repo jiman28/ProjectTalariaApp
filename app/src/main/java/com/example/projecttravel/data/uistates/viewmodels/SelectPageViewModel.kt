@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 
-class SelectViewModel : ViewModel() {
+class SelectPageViewModel : ViewModel() {
     /** all selection */
     private val _uiState = MutableStateFlow(SelectUiState())
     val selectUiState: StateFlow<SelectUiState> = _uiState.asStateFlow()

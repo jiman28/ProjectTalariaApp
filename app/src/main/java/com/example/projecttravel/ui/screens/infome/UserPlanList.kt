@@ -49,7 +49,7 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infodialog.DeletePlanDialog
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import kotlinx.coroutines.async
@@ -59,7 +59,7 @@ import kotlinx.coroutines.launch
 fun UserPlanList(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     navController: NavHostController,
     onNextButtonClicked: () -> Unit,
 ) {
@@ -94,7 +94,7 @@ fun UserPlanList(
                                 isLoadingState = true
                                 // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
                                 val weatherDeferred =
-                                    async { getDateToWeather(userPlan, planViewModel) }
+                                    async { getDateToWeather(userPlan, planPageViewModel) }
                                 // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                                 val isWeatherComplete = weatherDeferred.await()
                                 // 모든 작업이 완료되었을 때만 실행합니다.

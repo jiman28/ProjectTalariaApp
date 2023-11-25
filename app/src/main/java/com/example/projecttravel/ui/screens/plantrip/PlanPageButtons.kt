@@ -28,16 +28,16 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 
 @Composable
 fun PlanPageButtons (
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    selectViewModel: SelectViewModel,
+    planPageViewModel: PlanPageViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onCancelButtonClicked: () -> Unit,
     onPlanCompleteClicked: () -> Unit,
 ) {
@@ -70,7 +70,7 @@ fun PlanPageButtons (
             Text(stringResource(R.string.cancel_button))
             if (isResetPlanDialogVisible) {
                 ResetPlanDialog(
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     userPageViewModel = userPageViewModel,
                     onCancelButtonClicked = onCancelButtonClicked,
                     onDismiss = {
@@ -95,8 +95,8 @@ fun PlanPageButtons (
                 SavePlanDialog(
                     userPageUiState = userPageUiState,
                     planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    selectViewModel = selectViewModel,
+                    planPageViewModel = planPageViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     onPlanCompleteClicked = onPlanCompleteClicked,
                     onDismiss = {
                         isSavePlanDialogVisible = false

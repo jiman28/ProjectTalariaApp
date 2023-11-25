@@ -18,16 +18,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 
 @Composable
 fun SearchGpsPageButton(
     selectUiState: SelectUiState,
     searchViewModel: SearchViewModel,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onBackButtonClicked: () -> Unit = {},
     updateUiPageClicked: () -> Unit = {},
 ) {
@@ -57,7 +56,7 @@ fun SearchGpsPageButton(
                 .padding(1.dp),
             shape = RoundedCornerShape(10.dp),
             onClick = {
-                selectViewModel.setSearch(null)
+                selectPageViewModel.setSearch(null)
                 searchViewModel.resetAllSearchUiState()
                 updateUiPageClicked()
             }
@@ -80,8 +79,8 @@ fun SearchGpsPageButton(
 //                        placeName = searchUiState.searchedPlace?.name,
 //                        stateInOut = stateInOut
 //                    )
-                    selectViewModel.addTourAttrSearch(selectUiState.selectSearch)
-                    selectViewModel.setSearch(null)
+                    selectPageViewModel.addTourAttrSearch(selectUiState.selectSearch)
+                    selectPageViewModel.setSearch(null)
                     searchViewModel.resetAllSearchUiState()
                     onBackButtonClicked()
                 }

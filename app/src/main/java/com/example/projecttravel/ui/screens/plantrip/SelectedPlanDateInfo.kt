@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DoneAll
 import androidx.compose.material.icons.filled.Map
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -16,19 +15,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectedPlanDateInfo(
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     onRouteClicked: () -> Unit = {},
 ) {
     Row(
@@ -64,10 +62,10 @@ fun SelectedPlanDateInfo(
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
                     if (planUiState.weatherSwitch) {
-                        planViewModel.setGpsPage(planUiState.dateToAttrByWeather.find { it.date == planUiState.currentPlanDate.toString() })
+                        planPageViewModel.setGpsPage(planUiState.dateToAttrByWeather.find { it.date == planUiState.currentPlanDate.toString() })
                         onRouteClicked()
                     } else {
-                        planViewModel.setGpsPage(planUiState.dateToAttrByCity.find { it.date == planUiState.currentPlanDate.toString() })
+                        planPageViewModel.setGpsPage(planUiState.dateToAttrByCity.find { it.date == planUiState.currentPlanDate.toString() })
                         onRouteClicked()
                     }
                 }

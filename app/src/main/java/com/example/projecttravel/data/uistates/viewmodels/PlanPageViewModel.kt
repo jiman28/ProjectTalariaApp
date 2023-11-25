@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import java.time.LocalDate
 
-class PlanViewModel : ViewModel() {
+class PlanPageViewModel : ViewModel() {
     /** all selection */
     private val _uiState = MutableStateFlow(PlanUiState())
     val planUiState: StateFlow<PlanUiState> = _uiState.asStateFlow()

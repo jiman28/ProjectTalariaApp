@@ -12,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 /** ===================================================================== */
 /** CancelSelectDialog to ask whether to cancel Selection and reset All ====================*/
 @Composable
 fun CancelSelectDialog(
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     userPageViewModel: UserPageViewModel,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onDismiss: () -> Unit,
@@ -46,7 +46,7 @@ fun CancelSelectDialog(
             ) {
                 TextButton(
                     onClick = {
-                        selectViewModel.resetAllSelectUiState()
+                        selectPageViewModel.resetAllSelectUiState()
                         userPageViewModel.setBackHandlerClick(false)
                         onCancelButtonClicked()
                         onDismiss()

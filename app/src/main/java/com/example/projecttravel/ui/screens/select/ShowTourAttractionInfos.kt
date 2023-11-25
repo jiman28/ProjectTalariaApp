@@ -6,9 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -16,14 +14,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -54,7 +49,7 @@ import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.model.TourAttractionInfo
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.TourAttractionUiState
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
@@ -62,7 +57,7 @@ import com.example.projecttravel.ui.screens.DefaultAppFontContent
 fun ShowTourAttractionInfos(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     tourAttractionUiState: TourAttractionUiState.TourAttractionSuccess,
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
@@ -71,7 +66,7 @@ fun ShowTourAttractionInfos(
     TourAttractionListScreen(
         onGpsClicked = onGpsClicked,
         selectUiState = selectUiState,
-        selectViewModel = selectViewModel,
+        selectPageViewModel = selectPageViewModel,
         tourAttractionInfo = tourAttractionUiState.tourAttractionList,
         selectedCountry = selectedCountry,
         selectedCity = selectedCity,
@@ -83,7 +78,7 @@ fun ShowTourAttractionInfos(
 private fun TourAttractionListScreen(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     tourAttractionInfo: List<TourAttractionInfo>,
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
@@ -96,7 +91,7 @@ private fun TourAttractionListScreen(
         TourAttrScreen(
             onGpsClicked = onGpsClicked,
             selectUiState = selectUiState,
-            selectViewModel = selectViewModel,
+            selectPageViewModel = selectPageViewModel,
             filteredTourAttractionInfo = filteredTourAttractionInfo,
         )
     }
@@ -107,7 +102,7 @@ private fun TourAttractionListScreen(
         TourAttrScreen(
             onGpsClicked = onGpsClicked,
             selectUiState = selectUiState,
-            selectViewModel = selectViewModel,
+            selectPageViewModel = selectPageViewModel,
             filteredTourAttractionInfo = filteredTourAttractionInfo,
         )
     }
@@ -140,7 +135,7 @@ private fun TourAttractionListScreen(
 fun TourAttrScreen(
     onGpsClicked: () -> Unit = {},
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     filteredTourAttractionInfo: List<TourAttractionInfo>,
 ) {
     Column {
@@ -171,7 +166,7 @@ fun TourAttrScreen(
             }
         ) { tourAttractionInfo ->
             TourAttrCard(tourAttractionInfo = tourAttractionInfo){
-                selectViewModel.addTourAttraction(tourAttractionInfo)
+                selectPageViewModel.addTourAttraction(tourAttractionInfo)
             }
         }
     }

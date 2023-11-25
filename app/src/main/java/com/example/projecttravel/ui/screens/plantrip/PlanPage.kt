@@ -31,16 +31,16 @@ import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 
 @Composable
 fun PlanPage(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    selectViewModel: SelectViewModel,
+    planPageViewModel: PlanPageViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onCancelButtonClicked: () -> Unit,  // 취소버튼 매개변수를 추가
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
@@ -72,8 +72,8 @@ fun PlanPage(
                 userPageUiState = userPageUiState,
                 userPageViewModel = userPageViewModel,
                 planUiState = planUiState,
-                planViewModel = planViewModel,
-                selectViewModel = selectViewModel,
+                planPageViewModel = planPageViewModel,
+                selectPageViewModel = selectPageViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,
                 onPlanCompleteClicked = onPlanCompleteClicked,
             )
@@ -88,7 +88,7 @@ fun PlanPage(
         ) {
             WeatherSwitchButton(
                 planUiState = planUiState,
-                planViewModel = planViewModel,
+                planPageViewModel = planPageViewModel,
             )
         }
 
@@ -101,7 +101,7 @@ fun PlanPage(
             PlanDateList(
                 allAttrList = allAttrList,
                 planUiState = planUiState,
-                planViewModel = planViewModel,
+                planPageViewModel = planPageViewModel,
                 onDateClick = { clickedDate -> selectedPlanDate = clickedDate }
             )
         }
@@ -131,7 +131,7 @@ fun PlanPage(
         ) {
             SelectedPlanDateInfo(
                 planUiState = planUiState,
-                planViewModel = planViewModel,
+                planPageViewModel = planPageViewModel,
                 onRouteClicked = onRouteClicked,
             )
             Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
@@ -150,7 +150,7 @@ fun PlanPage(
                         items(attrList) { spotDto ->
                             PlanCardTourWeather(
                                 planUiState = planUiState,
-                                planViewModel = planViewModel,
+                                planPageViewModel = planPageViewModel,
                                 spotDto = spotDto,
                                 onDateClick = { clickedDate ->
                                     selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경
@@ -173,7 +173,7 @@ fun PlanPage(
                         items(attrList) { spotDto ->
                             PlanCardTourAttr(
                                 planUiState = planUiState,
-                                planViewModel = planViewModel,
+                                planPageViewModel = planPageViewModel,
                                 spotDto = spotDto,
                                 onDateClick = { clickedDate ->
                                     selectedPlanDate = clickedDate // 여기서 selectedPlanDate 변경

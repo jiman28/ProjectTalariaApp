@@ -26,16 +26,15 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import java.time.LocalDate
 
 @Composable
 fun PlanCardDate(
     date: LocalDate,
     size: Int,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     weatherResponseGet: WeatherResponseGet?,
     onClick: (LocalDate) -> Unit, // 클릭 시 호출될 콜백 함수
 ) {
@@ -45,7 +44,7 @@ fun PlanCardDate(
             .padding(8.dp)
             .clickable {
                 onClick(date) // 클릭 시 해당 날짜를 콜백 함수로 전달
-                planViewModel.setCurrentPlanDate(date)
+                planPageViewModel.setCurrentPlanDate(date)
             },
     ) {
         Column(

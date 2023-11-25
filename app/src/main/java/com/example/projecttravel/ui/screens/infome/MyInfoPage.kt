@@ -18,7 +18,7 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 //import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 //import com.example.projecttravel.data.repositories.board.viewmodels.CompanyUiState
@@ -32,7 +32,7 @@ fun MyInfoPage(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     boardViewModel: BoardViewModel,
     boardUiState: com.example.projecttravel.ui.viewmodels.BoardUiState,
     navController: NavHostController,
@@ -101,7 +101,7 @@ fun MyInfoPage(
                             UserPlanList(
                                 userPageUiState = userPageUiState,
                                 userPageViewModel = userPageViewModel,
-                                planViewModel = planViewModel,
+                                planPageViewModel = planPageViewModel,
                                 navController = navController,
                                 onNextButtonClicked = onNextButtonClicked,
                             )

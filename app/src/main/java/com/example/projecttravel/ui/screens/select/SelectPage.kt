@@ -24,10 +24,10 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
 import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.InterestInfo
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
 import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
@@ -40,9 +40,9 @@ import com.example.projecttravel.data.repositories.select.viewmodels.ListTourAtt
 fun SelectPage(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
     onGpsClicked: () -> Unit = {},
@@ -68,9 +68,9 @@ fun SelectPage(
             SelectPageButtons(
                 userPageUiState = userPageUiState,
                 userPageViewModel = userPageViewModel,
-                planViewModel = planViewModel,
+                planPageViewModel = planPageViewModel,
                 selectUiState = selectUiState,
-                selectViewModel = selectViewModel,
+                selectPageViewModel = selectPageViewModel,
                 onCancelButtonClicked = onCancelButtonClicked,
                 onNextButtonClicked = onNextButtonClicked,
             )
@@ -82,7 +82,7 @@ fun SelectPage(
             Column {
                 SelectDateRange(
                     selectUiState = selectUiState,
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                 )
             }
 
@@ -104,7 +104,7 @@ fun SelectPage(
                         SelectCountry(
                             selectUiState = selectUiState,
                             countryUiState = countryUiState,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                             selectedCountry = selectedCountry,
                         )
                     }
@@ -124,7 +124,7 @@ fun SelectPage(
                         SelectCity(
                             selectUiState = selectUiState,
                             cityUiState = cityUiState,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                             selectedCountry = selectUiState.selectCountry,
                             selectedCity = selectedCity,
                         )
@@ -145,7 +145,7 @@ fun SelectPage(
                         SelectInterest(
                             selectUiState = selectUiState,
                             interestUiState = interestUiState,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                             selectedCountry = selectUiState.selectCountry,
                             selectedCity = selectUiState.selectCity,
                             selectedInterest = selectedInterest,
@@ -163,7 +163,7 @@ fun SelectPage(
         ) {
             SelectedTourAttractions(
                 selectUiState = selectUiState,
-                selectViewModel = selectViewModel,
+                selectPageViewModel = selectPageViewModel,
                 contentPadding = PaddingValues(5.dp),
             )
         }
@@ -180,7 +180,7 @@ fun SelectPage(
                 ShowTourAttractionInfos(
                     onGpsClicked = onGpsClicked,
                     selectUiState = selectUiState,
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     tourAttractionUiState = tourAttractionUiState,
                     selectedCountry = selectUiState.selectCountry,
                     selectedCity = selectUiState.selectCity,

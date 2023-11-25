@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionAll
 import com.example.projecttravel.model.TourAttractionInfo
@@ -23,7 +22,7 @@ import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByCity
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToAttrByWeather
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate
@@ -32,7 +31,7 @@ import java.time.LocalDate
 /** PlanConfirmDialog to ask whether to go planPage or not ====================*/
 @Composable
 fun PlanConfirmDialog(
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     selectUiState: SelectUiState,
     onNextButtonClicked: () -> Unit = {},
     onDismiss: () -> Unit,
@@ -62,12 +61,12 @@ fun PlanConfirmDialog(
                     onClick = {
                         scope.launch {
                             onLoadingStarted()
-                            planViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
-                            planViewModel.setPlanTourAttrMap(createDefaultDateToSelectedTourAttractions(selectUiState))
+                            planPageViewModel.setPlanTourAttr(selectUiState.selectTourAttractions)
+                            planPageViewModel.setPlanTourAttrMap(createDefaultDateToSelectedTourAttractions(selectUiState))
                             // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
-                            val weatherDeferred = async { getDateToWeather(selectUiState, planViewModel) }
-                            val attrWeatherDeferred = async { getDateToAttrByWeather(selectUiState, planViewModel) }
-                            val attrCityDeferred = async { getDateToAttrByCity(selectUiState, planViewModel) }
+                            val weatherDeferred = async { getDateToWeather(selectUiState, planPageViewModel) }
+                            val attrWeatherDeferred = async { getDateToAttrByWeather(selectUiState, planPageViewModel) }
+                            val attrCityDeferred = async { getDateToAttrByCity(selectUiState, planPageViewModel) }
 
                             // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
                             val isWeatherComplete = weatherDeferred.await()
@@ -76,9 +75,9 @@ fun PlanConfirmDialog(
 
                             // 모든 작업이 완료되었을 때만 실행합니다.
                             if (isWeatherComplete && isAttrWeatherComplete && isAttrCityComplete) {
-                                planViewModel.setPlanDateRange(selectUiState.selectDateRange)
+                                planPageViewModel.setPlanDateRange(selectUiState.selectDateRange)
                                 selectUiState.selectDateRange?.let {
-                                    planViewModel.setCurrentPlanDate(
+                                    planPageViewModel.setCurrentPlanDate(
                                         it.start)
                                 }
                                 onDismiss()

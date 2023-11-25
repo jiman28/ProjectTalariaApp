@@ -3,12 +3,10 @@ package com.example.projecttravel.ui.screens.select
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.LocalAirport
 import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -32,20 +30,20 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectCity(
     selectUiState: SelectUiState,
     cityUiState: CityUiState.CitySuccess,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
 ) {
     CityDropDownMenu(
         selectUiState = selectUiState,
-        selectViewModel = selectViewModel,
+        selectPageViewModel = selectPageViewModel,
         selectedCity = selectedCity,
         selectedCountry = selectedCountry,
         cityList = cityUiState.cityList,
@@ -55,7 +53,7 @@ fun SelectCity(
 @Composable
 fun CityDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?, // 선택된 나라 정보 받기
     cityList: List<CityInfo>,
@@ -102,7 +100,7 @@ fun CityDropDownMenu(
                         modifier = Modifier.selectable(
                             selected = selectedCity == city,
                             onClick = {
-                                selectViewModel.setCity(city) // 변경된 CountryInfo를 전달
+                                selectPageViewModel.setCity(city) // 변경된 CountryInfo를 전달
                                 isDropDownMenuExpanded = false // 메뉴 닫기
                             }
                         ),

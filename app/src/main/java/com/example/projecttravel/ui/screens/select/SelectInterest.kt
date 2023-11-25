@@ -3,13 +3,11 @@ package com.example.projecttravel.ui.screens.select
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Interests
-import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenu
@@ -34,21 +32,21 @@ import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 
 import com.example.projecttravel.data.repositories.select.viewmodels.InterestUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectInterest(
     selectUiState: SelectUiState,
     interestUiState: InterestUiState.InterestSuccess,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
     selectedCountry: CountryInfo?,
     selectedCity: CityInfo?,
     selectedInterest: InterestInfo?,
 ) {
     InterestDropDownMenu(
         selectUiState = selectUiState,
-        selectViewModel = selectViewModel,
+        selectPageViewModel = selectPageViewModel,
         selectedCity = selectedCity,
         selectedCountry = selectedCountry,
         selectedInterest = selectedInterest,
@@ -59,7 +57,7 @@ fun SelectInterest(
 @Composable
 fun InterestDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
     selectedCountry: CountryInfo?, // 선택된 나라 정보 받기
     selectedCity: CityInfo?, // 선택된 도시 정보 받기
     selectedInterest: InterestInfo?,
@@ -152,7 +150,7 @@ fun InterestDropDownMenu(
                 modifier = Modifier.selectable(
                     selected = showAllOption,
                     onClick = {
-                        selectViewModel.setInterest(null) // 선택된 관심사를 null로 설정
+                        selectPageViewModel.setInterest(null) // 선택된 관심사를 null로 설정
                         isDropDownMenuExpanded = false // 메뉴 닫기
                     }
                 )
@@ -173,7 +171,7 @@ fun InterestDropDownMenu(
                     modifier = Modifier.selectable(
                         selected = selectedInterest == interest,
                         onClick = {
-                            selectViewModel.setInterest(interest) // 선택된 관심사를 null로 설정
+                            selectPageViewModel.setInterest(interest) // 선택된 관심사를 null로 설정
                             isDropDownMenuExpanded = false // 메뉴 닫기
                         }
                     )

@@ -26,8 +26,8 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -35,8 +35,8 @@ import kotlinx.coroutines.launch
 fun SavePlanDialog(
     userPageUiState: UserPageUiState,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    selectViewModel: SelectViewModel,
+    planPageViewModel: PlanPageViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onPlanCompleteClicked: () -> Unit = {},
     onDismiss: () -> Unit,
     onLoadingStarted: () -> Unit,
@@ -120,8 +120,8 @@ fun SavePlanDialog(
                                     val isPlanComplete = planDeferred.await()
                                     // 모든 작업이 완료되었을 때만 실행합니다.
                                     if (isPlanComplete) {
-                                        planViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
-                                        selectViewModel.resetAllSelectUiState() // select 관련 창들을 전부 초기화
+                                        planPageViewModel.setWeatherSwitch(false)   // 날씨 버튼을 초기화 시켜줘야 한다
+                                        selectPageViewModel.resetAllSelectUiState() // select 관련 창들을 전부 초기화
                                         onDismiss()
                                         onPlanCompleteClicked()
                                     } else {

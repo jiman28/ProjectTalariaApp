@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.plantrip
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,15 +11,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -46,14 +39,14 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import java.time.LocalDate
 
 @Composable
 fun PlanCardTourWeather(
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     spotDto: SpotDto,
     onDateClick: (LocalDate) -> Unit,
 ) {
@@ -133,9 +126,9 @@ fun PlanCardTourWeather(
                                                 .padding(dimensionResource(R.dimen.padding_medium))
                                                 .fillMaxWidth()
                                                 .clickable {
-                                                    planUiState.currentPlanDate?.let { planViewModel.removeAttrByWeather(sourceDate = it, spotDtoToMove = spotDto) }
-                                                    planViewModel.addAttrByWeather(destinationDate = date, spotDtoToMove = spotDto)
-                                                    planViewModel.setCurrentPlanDate(date)
+                                                    planUiState.currentPlanDate?.let { planPageViewModel.removeAttrByWeather(sourceDate = it, spotDtoToMove = spotDto) }
+                                                    planPageViewModel.addAttrByWeather(destinationDate = date, spotDtoToMove = spotDto)
+                                                    planPageViewModel.setCurrentPlanDate(date)
                                                     onDateClick(date)
                                                     isMoveAttrDialogVisible =false
                                                 }

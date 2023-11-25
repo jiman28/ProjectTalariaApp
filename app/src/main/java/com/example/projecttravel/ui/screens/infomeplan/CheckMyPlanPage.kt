@@ -32,7 +32,7 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoRead
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.plantrip.NoPlanListFound
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
@@ -41,7 +41,7 @@ fun CheckMyPlanPage(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     onBackButtonClicked: () -> Unit,
     onRouteClicked: () -> Unit,
 ) {
@@ -123,7 +123,7 @@ fun CheckMyPlanPage(
                 SelectedUserPlanDateInfo(
                     allUserAttrList = allUserAttrList,
                     userPageUiState = userPageUiState,
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     onRouteClicked = onRouteClicked,
                 )
                 Divider(thickness = dimensionResource(R.dimen.thickness_divider3))

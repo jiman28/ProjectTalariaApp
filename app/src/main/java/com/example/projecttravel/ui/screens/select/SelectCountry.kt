@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.select
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,35 +21,28 @@ import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.LocalAirport
-import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
-import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectCountry(
     selectUiState: SelectUiState,
     countryUiState: CountryUiState.CountrySuccess,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     selectedCountry: CountryInfo?,
 ) {
     CountryDropDownMenu(
         selectUiState = selectUiState,
-        selectViewModel = selectViewModel,
+        selectPageViewModel = selectPageViewModel,
         selectedCountry = selectedCountry,
         countryList = countryUiState.countryList,
     )
@@ -60,7 +52,7 @@ fun SelectCountry(
 @Composable
 fun CountryDropDownMenu(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     selectedCountry: CountryInfo?, // 선택된 나라 정보 받기
     countryList: List<CountryInfo>,
 ) {
@@ -115,9 +107,9 @@ fun CountryDropDownMenu(
                                 modifier = Modifier.selectable(
                                     selected = selectedCountry == country,
                                     onClick = {
-                                        selectViewModel.setCountry(country) // 변경된 CountryInfo를 전달
-                                        selectViewModel.setCity(null) // 나라를 변경하면 다른 값들 초기화
-                                        selectViewModel.setInterest(null) // 나라를 변경하면 다른 값들 초기화
+                                        selectPageViewModel.setCountry(country) // 변경된 CountryInfo를 전달
+                                        selectPageViewModel.setCity(null) // 나라를 변경하면 다른 값들 초기화
+                                        selectPageViewModel.setInterest(null) // 나라를 변경하면 다른 값들 초기화
                                         isDropDownMenuExpanded = false // 메뉴 닫기
                                     }
                                 ),

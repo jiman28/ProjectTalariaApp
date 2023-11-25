@@ -117,7 +117,7 @@ class DefaultAppContainer(
 
     /** 리펙토링 = MVVM */
     override val userRepository: UserRepository by lazy {
-        DefaultUserRepository(retrofitService)
+        DefaultUserRepository(retrofitService, retrofitStringService)
     }
 
     override val boardRepository: BoardRepository by lazy {

@@ -32,7 +32,7 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDto
 import com.example.projecttravel.model.SpotDtoResponse
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
@@ -49,7 +49,7 @@ fun RouteGpsPage(
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     onBackButtonClicked: () -> Unit = {},
 ) {
     val context = LocalContext.current

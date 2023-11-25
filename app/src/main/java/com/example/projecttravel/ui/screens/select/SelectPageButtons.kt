@@ -32,17 +32,17 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.CancelSelectDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.PlanConfirmDialog
 import com.example.projecttravel.ui.screens.select.selectdialogs.ResetConfirmDialog
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun SelectPageButtons (
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onCancelButtonClicked: () -> Unit = {},
     onNextButtonClicked: () -> Unit = {},
 ) {
@@ -80,7 +80,7 @@ fun SelectPageButtons (
             Text(text = stringResource(R.string.cancel_button))
             if (isCancelSelectDialogVisible) {
                 CancelSelectDialog(
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     userPageViewModel = userPageViewModel,
                     onCancelButtonClicked = onCancelButtonClicked,
                     onDismiss = {
@@ -103,7 +103,7 @@ fun SelectPageButtons (
             Text(stringResource(R.string.reset_button))
             if (isResetDialogVisible) {
                 ResetConfirmDialog(
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     onDismiss = {
                         isResetDialogVisible = false
                     }
@@ -140,7 +140,7 @@ fun SelectPageButtons (
             }
             if (isPlanConfirmVisible) {
                 PlanConfirmDialog(
-                    planViewModel = planViewModel,
+                    planPageViewModel = planPageViewModel,
                     selectUiState = selectUiState,
                     onNextButtonClicked = onNextButtonClicked,
                     onDismiss = {

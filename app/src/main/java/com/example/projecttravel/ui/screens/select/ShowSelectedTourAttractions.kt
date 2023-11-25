@@ -2,7 +2,6 @@ package com.example.projecttravel.ui.screens.select
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -14,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialog
@@ -48,13 +46,13 @@ import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.TourAttractionInfo
 import com.example.projecttravel.model.TourAttractionSearchInfo
 import com.example.projecttravel.model.TourAttractionAll
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectedTourAttractions(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     contentPadding: PaddingValues,
 ) {
     if (selectUiState.selectCountry != null && selectUiState.selectCity != null) {
@@ -66,7 +64,7 @@ fun SelectedTourAttractions(
         ) {
             SelectedTourAttractionsMenu(
                 selectUiState = selectUiState,
-                selectViewModel = selectViewModel,
+                selectPageViewModel = selectPageViewModel,
                 contentPadding = contentPadding,
             )
             Text(
@@ -82,7 +80,7 @@ fun SelectedTourAttractions(
 @Composable
 fun SelectedTourAttractionsMenu(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     contentPadding: PaddingValues,
 ) {
     // 1. AlertDialog 펼쳐짐 상태 정의
@@ -103,7 +101,7 @@ fun SelectedTourAttractionsMenu(
     if (isOpenTourAttrDialog) {
         SelectedTourAttrDialog(
             selectUiState = selectUiState,
-            selectViewModel = selectViewModel,
+            selectPageViewModel = selectPageViewModel,
             contentPadding = contentPadding,
             onDismiss = { isOpenTourAttrDialog = false },
         )
@@ -115,7 +113,7 @@ fun SelectedTourAttractionsMenu(
 @Composable
 fun SelectedTourAttrDialog(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     contentPadding: PaddingValues,
     onDismiss: () -> Unit,
 ) {
@@ -142,7 +140,7 @@ fun SelectedTourAttrDialog(
                     ) { tourAttractionAll ->
                         SelectedTourAttrCard(
                             tourAttractionAll = tourAttractionAll,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                         )
                     }
                 }
@@ -203,7 +201,7 @@ fun extractLastName(selectUiState: SelectUiState): String {
 @Composable
 fun SelectedTourAttrCard(
     tourAttractionAll: TourAttractionAll,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
 ) {
     Card(
         modifier = Modifier.fillMaxSize(),
@@ -214,7 +212,7 @@ fun SelectedTourAttrCard(
             horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
         ) {
             IconButton(
-                onClick = { selectViewModel.cancelTourAttraction(tourAttractionAll) }
+                onClick = { selectPageViewModel.cancelTourAttraction(tourAttractionAll) }
             ) {
                 Icon(imageVector = Icons.Filled.Clear, contentDescription = "CancelTourAttraction")
             }

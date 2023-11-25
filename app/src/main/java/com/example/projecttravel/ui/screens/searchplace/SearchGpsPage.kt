@@ -26,7 +26,7 @@ import com.example.projecttravel.ui.screens.searchplace.searchapi.findSearchList
 import com.example.projecttravel.ui.screens.select.SelectCity
 import com.example.projecttravel.ui.screens.select.SelectCountry
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
 import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
@@ -39,7 +39,7 @@ fun SearchGpsPage(
     selectUiState: SelectUiState,
     searchUiState: SearchUiState,
     searchViewModel: SearchViewModel,
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     onBackButtonClicked: () -> Unit = {},
     updateUiPageClicked: () -> Unit = {},
 ) {
@@ -57,7 +57,7 @@ fun SearchGpsPage(
         findSearchListByName(
             searchUiState.searchedPlace?.name,
             tourAttrSearchUiState.tourAttrSearchList
-        )?.let { selectViewModel.setSearch(it) }
+        )?.let { selectPageViewModel.setSearch(it) }
 
         Column(
             verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -69,7 +69,7 @@ fun SearchGpsPage(
                 SearchGpsPageButton(
                     selectUiState = selectUiState,
                     searchViewModel = searchViewModel,
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     onBackButtonClicked = onBackButtonClicked,
                     updateUiPageClicked = updateUiPageClicked,
                 )
@@ -96,7 +96,7 @@ fun SearchGpsPage(
                         SelectCountry(
                             selectUiState = selectUiState,
                             countryUiState = countryUiState,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                             selectedCountry = selectedCountry,
                         )
                     }
@@ -117,7 +117,7 @@ fun SearchGpsPage(
                         SelectCity(
                             selectUiState = selectUiState,
                             cityUiState = cityUiState,
-                            selectViewModel = selectViewModel,
+                            selectPageViewModel = selectPageViewModel,
                             selectedCountry = selectUiState.selectCountry,
                             selectedCity = selectedCity,
                         )

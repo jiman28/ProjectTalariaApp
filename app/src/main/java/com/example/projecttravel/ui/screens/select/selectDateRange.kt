@@ -20,15 +20,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIos
-import androidx.compose.material.icons.filled.ArrowForwardIos
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Clear
@@ -38,17 +34,13 @@ import androidx.compose.material3.DateRangePickerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
+import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import java.text.SimpleDateFormat
 import java.time.Instant
@@ -59,11 +51,11 @@ import java.util.Calendar
 @Composable
 fun SelectDateRange(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
 ) {
     DateRangePickerMenu(
         selectUiState = selectUiState,
-        selectViewModel = selectViewModel,
+        selectPageViewModel = selectPageViewModel,
     )
 }
 
@@ -71,7 +63,7 @@ fun SelectDateRange(
 @Composable
 fun DateRangePickerMenu(
     selectUiState: SelectUiState,
-    selectViewModel: SelectViewModel = viewModel(),
+    selectPageViewModel: SelectPageViewModel = viewModel(),
 ) {
     val dateRangePickerState = rememberDateRangePickerState()
     var isOpenDateRangePickerDialog by remember { mutableStateOf(false) }
@@ -108,7 +100,7 @@ fun DateRangePickerMenu(
             }
             if (isOpenDateRangePickerDialog) {
                 DateRangePickerCustom(
-                    selectViewModel = selectViewModel,
+                    selectPageViewModel = selectPageViewModel,
                     dateRangePickerState = dateRangePickerState,
                     onDismiss = {
                         isOpenDateRangePickerDialog = false
@@ -124,7 +116,7 @@ fun DateRangePickerMenu(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DateRangePickerCustom(
-    selectViewModel: SelectViewModel,
+    selectPageViewModel: SelectPageViewModel,
     dateRangePickerState: DateRangePickerState,
     onDismiss: () -> Unit,
 ) {
@@ -170,7 +162,7 @@ fun DateRangePickerCustom(
                         null,
                         null
                     )  // 단순히 dateRangePickerState 의 날짜만 초기화
-                    selectViewModel.setDateRange(null)
+                    selectPageViewModel.setDateRange(null)
                 }
             ) {
                 Icon(imageVector = Icons.Filled.RestartAlt, contentDescription = "RestartAlt")
@@ -193,7 +185,7 @@ fun DateRangePickerCustom(
                         millisToLocalDate(it)
                     }
                     if (startDate != null && endDate != null) {
-                        selectViewModel.setDateRange(startDate..endDate)
+                        selectPageViewModel.setDateRange(startDate..endDate)
                         onDismiss()
                     } else {
                         dateRangeAlertDialog.show()

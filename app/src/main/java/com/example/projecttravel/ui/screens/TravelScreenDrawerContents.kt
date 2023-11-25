@@ -46,7 +46,7 @@ import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
@@ -66,7 +66,7 @@ fun DrawerContents(
     onLogOutClicked: () -> Unit,
     userPageUiState: UserPageUiState,
     userPageViewModel: UserPageViewModel,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     navController: NavHostController,

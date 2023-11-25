@@ -21,14 +21,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
+import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectedUserPlanDateInfo(
     allUserAttrList: List<SpotDtoResponseRead>,
     userPageUiState: UserPageUiState,
-    planViewModel: PlanViewModel,
+    planPageViewModel: PlanPageViewModel,
     onRouteClicked: () -> Unit,
 ) {
     Row(
@@ -63,7 +63,7 @@ fun SelectedUserPlanDateInfo(
                     .padding(1.dp),
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
-                    planViewModel.setGpsPage(allUserAttrList.find { it.date == userPageUiState.currentMyPlanDate.toString() })
+                    planPageViewModel.setGpsPage(allUserAttrList.find { it.date == userPageUiState.currentMyPlanDate.toString() })
                     onRouteClicked()
                 }
             ) {
