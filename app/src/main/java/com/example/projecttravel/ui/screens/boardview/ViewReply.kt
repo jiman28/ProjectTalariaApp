@@ -37,16 +37,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.AddCommentUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.RemoveCommentUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.ReplyListUiState
+import com.example.projecttravel.ui.viewmodels.AddCommentUiState
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.ui.viewmodels.RemoveCommentUiState
+import com.example.projecttravel.ui.viewmodels.ReplyListUiState
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.SendComment
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.ReplyList
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
@@ -56,7 +56,7 @@ fun ShowReply(
     replyListUiState: ReplyListUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     currentArticleNo: Int,
 ) {
     when (replyListUiState) {
@@ -66,7 +66,7 @@ fun ShowReply(
                 replyList = replyListUiState.replyList,
                 boardUiState = boardUiState,
                 boardViewModel = boardViewModel,
-                userUiState = userUiState,
+                userPageUiState = userPageUiState,
                 currentArticleNo = currentArticleNo,
             )
         else -> NoArticlesFoundScreen()
@@ -78,7 +78,7 @@ fun ViewReply(
     replyList: List<ReplyList>,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     currentArticleNo: Int,
 ) {
     /** 로딩창 관리 ============================== */
@@ -226,7 +226,7 @@ fun ViewReply(
                             //                        userUiState.currentLogin?.id?.let { Text(text = "로그인 $it") }
                             //                        Text(text = "리플 ${reply.userId}")
                             var isRemoveCommentDialog by remember { mutableStateOf(false) }
-                            if (userUiState.currentLogin?.id == reply.userId) {
+                            if (userPageUiState.currentLogin?.id == reply.userId) {
                                 Icon(
                                     modifier = Modifier
                                         .size(15.dp)
@@ -278,7 +278,7 @@ fun ViewReply(
                     verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                     horizontalAlignment = Alignment.End, // 수평 가운데 정렬
                 ) {
-                    val sendComment = userUiState.currentLogin?.let {
+                    val sendComment = userPageUiState.currentLogin?.let {
                         SendComment(
                             tabTitle = tabtitle,
                             articleNo = currentArticleNo.toString(),

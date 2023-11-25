@@ -29,20 +29,19 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.ui.screens.auth.InterestForm
 import com.example.projecttravel.ui.screens.boardview.AllBoardsPage
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
 import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.home.HomePage
 import com.example.projecttravel.ui.screens.infomeplan.CheckMyPlanPage
 import com.example.projecttravel.ui.screens.planroutegps.RouteGpsPage
 import com.example.projecttravel.ui.screens.plantrip.PlanPage
 import com.example.projecttravel.ui.screens.searchplace.SearchGpsPage
 import com.example.projecttravel.ui.screens.select.SelectPage
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
@@ -74,11 +73,10 @@ enum class TravelScreen(@StringRes val title: Int) {
 /** Composable that displays screens */
 @Composable
 fun TravelScreenHome(
-    userViewModel: UserViewModel = viewModel(),
+    userPageViewModel: UserPageViewModel = viewModel(),
     selectViewModel: SelectViewModel = viewModel(),
     searchViewModel: SearchViewModel = viewModel(),
     planViewModel: PlanViewModel = viewModel(),
-    boardPageViewModel: BoardPageViewModel = viewModel(),
     navController: NavHostController = rememberNavController(),
     drawerState: DrawerState = rememberDrawerState(initialValue = DrawerValue.Closed),
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -86,11 +84,10 @@ fun TravelScreenHome(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentScreen = TravelScreen.valueOf(backStackEntry?.destination?.route ?: TravelScreen.Page0.name)
 
-    val userUiState by userViewModel.userUiState.collectAsState()
+    val userUiState by userPageViewModel.userPageUiState.collectAsState()
     val selectUiState by selectViewModel.selectUiState.collectAsState()
     val searchUiState by searchViewModel.searchUiState.collectAsState()
     val planUiState by planViewModel.planUiState.collectAsState()
-    val boardPageUiState by boardPageViewModel.boardPageUiState.collectAsState()
 
     val boardViewModel: BoardViewModel = viewModel(factory = BoardViewModel.BoardFactory)
     val boardUiState by boardViewModel.boardUiState.collectAsState()
@@ -138,8 +135,8 @@ fun TravelScreenHome(
             /** 0. 로그인 페이지 ====================*/
             composable(route = TravelScreen.Page0.name) {
                 LoginForm(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     onLoginSuccess = {
                         navController.navigate(TravelScreen.Page1.name)
                     },
@@ -153,7 +150,7 @@ fun TravelScreenHome(
             /** 0A. 회원 가입 화면 ====================*/
             composable(route = TravelScreen.Page0A.name) {
                 SignInForm(
-                    userViewModel = userViewModel,
+                    userPageViewModel = userPageViewModel,
                     onNextButtonClicked = {
                         navController.navigate(TravelScreen.Page0B.name)
                     },
@@ -162,7 +159,7 @@ fun TravelScreenHome(
             /** 0B. 회원 가입 성공 후 선호도 조사 ====================*/
             composable(route = TravelScreen.Page0B.name) {
                 InterestForm(
-                    userUiState = userUiState,
+                    userPageUiState = userUiState,
                     onCompleteButtonClicked = {
                         navController.navigate(TravelScreen.Page0.name)
                     },
@@ -184,21 +181,20 @@ fun TravelScreenHome(
                             onLogOutClicked = {
                                 navController.navigate(TravelScreen.Page0.name)
                             },
-                            userUiState = userUiState,
-                            userViewModel = userViewModel,
-                            boardPageUiState = boardPageUiState,
-                            boardPageViewModel = boardPageViewModel,
+                            userPageUiState = userUiState,
+                            userPageViewModel = userPageViewModel,
+                            boardViewModel = boardViewModel,
+                            boardUiState = boardUiState,
                             planViewModel = planViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
-                            boardViewModel = boardViewModel,
                         )
                     },
                 ) {
                     HomePage(
-                        userUiState = userUiState,
-                        userViewModel = userViewModel,
+                        userPageUiState = userUiState,
+                        userPageViewModel = userPageViewModel,
                         onLogOutClicked = {
                             navController.navigate(TravelScreen.Page0.name)
                         },
@@ -219,12 +215,12 @@ fun TravelScreenHome(
             /** 1A. 내 정보 화면 (다른 유저 혼용) ====================*/
             composable(route = TravelScreen.Page1A.name) {
                 MyInfoPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                     navController = navController,
                     onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                     onNextButtonClicked = { navController.navigate(TravelScreen.Page1B.name) },
@@ -235,15 +231,15 @@ fun TravelScreenHome(
                     onBack = {
                         planViewModel.resetAllPlanUiState()
                         navController.navigate(TravelScreen.Page1.name)
-                        userViewModel.previousScreenWasPageOneA(false)
+                        userPageViewModel.previousScreenWasPageOneA(false)
                     },
                 )
             }
             /** 1B. 내가 만든 계획 확인 (다른 유저 혼용) ====================*/
             composable(route = TravelScreen.Page1B.name) {
                 CheckMyPlanPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onBackButtonClicked = {
@@ -256,15 +252,11 @@ fun TravelScreenHome(
                 )
             }
 
-            /** 1B. 내가 만든 계획 확인 (다른 유저 혼용) ====================*/
+            /** 1C. 유저 정보 변경 ====================*/
             composable(route = TravelScreen.Page1C.name) {
                 EditUserPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     navController = navController,
                 )
                 BackHandler(
@@ -276,8 +268,8 @@ fun TravelScreenHome(
             /** 2. 나라, 도시, 관광지 선택 화면 ====================*/
             composable(route = TravelScreen.Page2.name) {
                 SelectPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     planViewModel = planViewModel,
                     selectUiState = selectUiState,
                     selectViewModel = selectViewModel, // 이 부분이 추가되어야 SelectPage 내에서 viewModel 코드가 돌아감!!!!!
@@ -286,7 +278,7 @@ fun TravelScreenHome(
                     onGpsClicked = { navController.navigate(TravelScreen.Page2A.name) },
                 )
                 BackHandler(
-                    onBack = { userViewModel.setBackHandlerClick(true) },
+                    onBack = { userPageViewModel.setBackHandlerClick(true) },
 //                    onBack = { navController.navigate(TravelScreen.Page1.name) },
                 )
             }
@@ -309,8 +301,8 @@ fun TravelScreenHome(
             /** 3. 여행 플랜 짜기 화면 ====================*/
             composable(route = TravelScreen.Page3.name) {
                 PlanPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectViewModel = selectViewModel,
@@ -319,14 +311,14 @@ fun TravelScreenHome(
                     onRouteClicked = { navController.navigate(TravelScreen.Page3A.name) },
                 )
                 BackHandler(
-                    onBack = { userViewModel.setBackHandlerClick(true) },
+                    onBack = { userPageViewModel.setBackHandlerClick(true) },
                 )
             }
             /** 3-1. 경로 확인 화면 ====================*/
             composable(route = TravelScreen.Page3A.name) {
                 RouteGpsPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     onBackButtonClicked = {
@@ -353,20 +345,19 @@ fun TravelScreenHome(
                             onLogOutClicked = {
                                 navController.navigate(TravelScreen.Page0.name)
                             },
-                            userUiState = userUiState,
-                            userViewModel = userViewModel,
-                            boardPageUiState = boardPageUiState,
-                            boardPageViewModel = boardPageViewModel,
+                            userPageUiState = userUiState,
+                            userPageViewModel = userPageViewModel,
+                            boardViewModel = boardViewModel,
+                            boardUiState = boardUiState,
                             planViewModel = planViewModel,
                             navController = navController,
                             drawerState = drawerState,
                             scope = scope,
-                            boardViewModel = boardViewModel,
                         )
                     },
                 ) {
                     AllBoardsPage(
-                        userUiState = userUiState,
+                        userPageUiState = userUiState,
                         boardViewModel = boardViewModel,
                         boardUiState = boardUiState,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
@@ -384,8 +375,8 @@ fun TravelScreenHome(
             /** 4-1. 단일 게시판 보기 화면 ====================*/
             composable(route = TravelScreen.Page4A.name) {
                 ViewContentsBoard(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
                     boardViewModel = boardViewModel,
                     boardUiState = boardUiState,
                     onBackButtonClicked = {
@@ -411,15 +402,15 @@ fun TravelScreenHome(
             /** 4-2. 게시판 작성 화면 ====================*/
             composable(route = TravelScreen.Page4B.name) {
                 WriteArticlePage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    userPageUiState = userUiState,
+                    userPageViewModel = userPageViewModel,
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                     onBackButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                 )
                 BackHandler(
                     enabled = drawerState.isClosed,
-                    onBack = { userViewModel.setBackHandlerClick(true) },
+                    onBack = { userPageViewModel.setBackHandlerClick(true) },
                 )
             }
 
@@ -430,12 +421,10 @@ fun TravelScreenHome(
 //                    userViewModel = userViewModel,
 //                    planUiState = planUiState,
 //                    planViewModel = planViewModel,
-//                    boardPageUiState = boardPageUiState,
-//                    boardPageViewModel = boardPageViewModel,
+//                    boardViewModel = boardViewModel,
+//                    boardUiState = boardUiState,
 //                    navController = navController,
 //                    scope = scope,
-//                    boardViewModel = boardViewModel,
-//                    boardListUiState = boardViewModel.boardListUiState,
 //                )
 //                BackHandler(
 //                    enabled = drawerState.isClosed,

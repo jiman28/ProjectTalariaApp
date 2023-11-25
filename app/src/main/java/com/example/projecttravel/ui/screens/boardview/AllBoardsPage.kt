@@ -16,13 +16,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
 
 @Composable
 fun AllBoardsPage(
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
@@ -68,7 +68,7 @@ fun AllBoardsPage(
                 R.string.boardTabTitle -> {
                     ShowListBoard(
                         boardListUiState = boardViewModel.boardListUiState,
-                        userUiState = userUiState,
+                        userPageUiState = userPageUiState,
                         boardViewModel = boardViewModel,
                         boardUiState = boardUiState,
                         onBoardClicked = onBoardClicked,
@@ -78,7 +78,7 @@ fun AllBoardsPage(
                 R.string.companyTabTitle -> {
                     ShowListCompany(
                         companyListUiState = boardViewModel.companyListUiState,
-                        userUiState = userUiState,
+                        userPageUiState = userPageUiState,
                         boardViewModel = boardViewModel,
                         boardUiState = boardUiState,
                         onBoardClicked = onBoardClicked,
@@ -88,7 +88,7 @@ fun AllBoardsPage(
                 R.string.tradeTabTitle -> {
                     ShowListTrade(
                         tradeListUiState = boardViewModel.tradeListUiState,
-                        userUiState = userUiState,
+                        userPageUiState = userPageUiState,
                         boardViewModel = boardViewModel,
                         boardUiState = boardUiState,
                         onBoardClicked = onBoardClicked,

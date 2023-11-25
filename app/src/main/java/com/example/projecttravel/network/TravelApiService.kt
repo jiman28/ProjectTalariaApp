@@ -135,26 +135,10 @@ interface TravelApiService {
     @FormUrlEncoded
     fun deletePlan(@Field("planId") planId: String,): Call<String>
 
+    /** ======================================================================================== */
+    /** refactoring - MVVM ===================================================================== */
 
-//    // Board DB ==============================
-//    @GET("board")
-//    suspend fun getBoardList(): List<Board>
-//
-//    @GET("company")
-//    suspend fun getCompanyList(): List<Company>
-//
-//    @GET("trade")
-//    suspend fun getTradeList(): List<Trade>
-//
-//    @GET("reply")
-//    suspend fun getReplyList(): List<Reply>
-
-    /** 뷰모델에서 통신 */
-    /** 뷰모델에서 통신 */
-    /** 뷰모델에서 통신 */
-    /** 뷰모델에서 통신 */
-
-    // Board DB Call Page ==============================TestTestTest
+    /** Board DB Calls - MVVM ===================================================================== */
     @POST("callboardlist")
     fun callBoardList(@Body callBoard: CallBoard): Call<BoardList>
 

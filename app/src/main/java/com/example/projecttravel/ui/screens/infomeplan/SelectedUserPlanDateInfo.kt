@@ -15,21 +15,19 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun SelectedUserPlanDateInfo(
     allUserAttrList: List<SpotDtoResponseRead>,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     planViewModel: PlanViewModel,
     onRouteClicked: () -> Unit,
 ) {
@@ -45,7 +43,7 @@ fun SelectedUserPlanDateInfo(
                 .weight(3f)
         ) {
             Text(
-                text = userUiState.currentMyPlanDate.toString(),
+                text = userPageUiState.currentMyPlanDate.toString(),
                 fontSize = 25.sp,   // font 의 크기
                 fontWeight = FontWeight.Bold,  // font 의 굵기
                 fontFamily = DefaultAppFontContent(),  // font 의 글씨체(커스텀)
@@ -65,7 +63,7 @@ fun SelectedUserPlanDateInfo(
                     .padding(1.dp),
                 shape = RoundedCornerShape(10.dp),
                 onClick = {
-                    planViewModel.setGpsPage(allUserAttrList.find { it.date == userUiState.currentMyPlanDate.toString() })
+                    planViewModel.setGpsPage(allUserAttrList.find { it.date == userPageUiState.currentMyPlanDate.toString() })
                     onRouteClicked()
                 }
             ) {

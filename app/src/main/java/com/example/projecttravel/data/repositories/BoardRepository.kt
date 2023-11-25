@@ -1,4 +1,4 @@
-package com.example.projecttravel.data.repositories.board
+package com.example.projecttravel.data.repositories
 
 import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard

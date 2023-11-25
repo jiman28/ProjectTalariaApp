@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.infomeedit
 
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,33 +14,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
-import com.example.projecttravel.model.SendSignIn
-import com.example.projecttravel.ui.screens.auth.SignCredentials
-import com.example.projecttravel.ui.screens.auth.api.signInApiCall
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun EditUserPage(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     navController: NavHostController,
 ) {
 
@@ -55,23 +39,15 @@ fun EditUserPage(
     ) {
         if (editStatus == "edit") {
             UserInfoEditForm(
-                userUiState = userUiState,
-                userViewModel = userViewModel,
-                planUiState = planUiState,
-                planViewModel = planViewModel,
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
+                userPageUiState = userPageUiState,
+                userPageViewModel = userPageViewModel,
                 navController = navController,
             )
 
         } else if(editStatus == "withdrawal") {
             UserWithdrawalForm(
-                userUiState = userUiState,
-                userViewModel = userViewModel,
-                planUiState = planUiState,
-                planViewModel = planViewModel,
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
+                userPageUiState = userPageUiState,
+                userPageViewModel = userPageViewModel,
                 navController = navController,
             )
         } else {

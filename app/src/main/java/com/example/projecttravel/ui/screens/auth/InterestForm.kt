@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,7 +11,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -27,15 +25,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.dimensionResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SendInterest
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
@@ -46,7 +40,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun InterestForm(
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     onCompleteButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -232,9 +226,9 @@ fun InterestForm(
             onClick = {
                 scope.launch {
                     isLoadingState = true
-                    if (userUiState.currentSignIn!= null) {
+                    if (userPageUiState.currentSignIn!= null) {
                         val sendInterest = SendInterest(
-                            email = userUiState.currentSignIn.email,
+                            email = userPageUiState.currentSignIn.email,
                             sights = sightsPosition.toInt().toString(),
                             nature = naturePosition.toInt().toString(),
                             culture = culturePosition.toInt().toString(),
@@ -243,7 +237,7 @@ fun InterestForm(
                             religion = religionPosition.toInt().toString(),
                             )
                         val interestDeferred =
-                            async { interestSaveApiCall(sendInterest, userUiState) }
+                            async { interestSaveApiCall(sendInterest, userPageUiState) }
                         val interestComplete = interestDeferred.await()
 
                         if (interestComplete) {

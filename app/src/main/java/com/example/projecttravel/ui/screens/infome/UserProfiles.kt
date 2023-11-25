@@ -18,12 +18,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AutoGraph
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Hexagon
-import androidx.compose.material.icons.filled.Interests
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.TagFaces
-import androidx.compose.material.icons.filled.VerifiedUser
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -43,8 +39,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -54,28 +48,25 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.model.UserInterest
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.UserResponse
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.infome.infodialog.UserSimilarToMeDialog
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserProfiles(
     currentUserInfo: UserResponse,
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
+    boardViewModel: BoardViewModel,
     navController: NavHostController,
 ) {
     val scope = rememberCoroutineScope()
@@ -95,7 +86,7 @@ fun UserProfiles(
 
     var isMyHexaGraph by remember { mutableStateOf(false) }
     if (isMyHexaGraph) {
-        userUiState.checkMyInterest?.let {
+        userPageUiState.checkMyInterest?.let {
             MyInterestGraph(
                 filteredInfoGraph = it,
                 onDismiss = { isMyHexaGraph = false },
@@ -106,10 +97,9 @@ fun UserProfiles(
     var isSimilarToMe by remember { mutableStateOf(false) }
     if (isSimilarToMe) {
         UserSimilarToMeDialog(
-            userUiState = userUiState,
-            userViewModel = userViewModel,
-            boardPageUiState = boardPageUiState,
-            boardPageViewModel = boardPageViewModel,
+            userPageUiState = userPageUiState,
+            userPageViewModel = userPageViewModel,
+            boardViewModel = boardViewModel,
             onUserClicked = {
                 isSimilarToMe = false
                 navController.navigate(TravelScreen.Page1A.name)
@@ -213,7 +203,7 @@ fun UserProfiles(
                     }
                 }
             }
-            if (userUiState.currentLogin?.id == currentUserInfo.id) {
+            if (userPageUiState.currentLogin?.id == currentUserInfo.id) {
                 Image(
                     painter = painterResource(R.drawable.icon_edit),
                     contentDescription = "edit",
@@ -252,7 +242,7 @@ fun UserProfiles(
                                 val peopleComplete = peopleDeferred.await()
                                 if (peopleComplete.isNotEmpty()) {
                                     isLoadingState = null
-                                    userViewModel.setSimilarUsers(peopleComplete)
+                                    userPageViewModel.setSimilarUsers(peopleComplete)
                                     isSimilarToMe = true
                                 } else {
                                     peopleErrorMsg = "서버 오류"

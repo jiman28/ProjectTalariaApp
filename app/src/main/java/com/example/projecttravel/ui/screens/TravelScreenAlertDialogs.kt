@@ -28,7 +28,7 @@ import androidx.datastore.preferences.core.edit
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import kotlinx.coroutines.launch
 
 /** The screen displaying the loading message.*/
@@ -186,7 +186,7 @@ fun TextMsgErrorDialog(
 /** ResetConfirmDialog to ask whether to reset or not ====================*/
 @Composable
 fun LoginErrorDialog(
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     onLogOutClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -213,7 +213,7 @@ fun LoginErrorDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
-                            userViewModel.resetUser()
+                            userPageViewModel.resetUser()
                             dataStore.edit { preferences ->
                                 preferences[DataStore.emailKey] = ""
                                 preferences[DataStore.pwdKey] = ""

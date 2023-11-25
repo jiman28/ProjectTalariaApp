@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
@@ -33,7 +33,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun SavePlanDialog(
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     planUiState: PlanUiState,
     planViewModel: PlanViewModel,
     selectViewModel: SelectViewModel,
@@ -50,7 +50,7 @@ fun SavePlanDialog(
 
     val scope = rememberCoroutineScope()
 
-    val plansData = userUiState.currentLogin?.let {
+    val plansData = userPageUiState.currentLogin?.let {
         val selectedPlan = if (planUiState.weatherSwitch) {
             planUiState.dateToAttrByWeather
         } else {

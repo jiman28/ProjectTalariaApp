@@ -14,12 +14,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun UserPlanDateList(
     allUserAttrList: List<SpotDtoResponseRead>,
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
     onDateClick: (String) -> Unit
 ) {
@@ -44,7 +44,7 @@ fun UserPlanDateList(
                 UserPlanCardDate(
                     date = list.date,
                     size = allUserAttrListSize,
-                    userViewModel = userViewModel,
+                    userPageViewModel = userPageViewModel,
                     weatherResponseGet = weatherResponseGet,
                     onClick = { onDateClick(list.date) } // Update selectedUserPlanDate
                 )

@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -29,16 +28,16 @@ import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.model.SpotDto
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoResponse
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPage(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
     planViewModel: PlanViewModel,
     selectViewModel: SelectViewModel,
@@ -70,8 +69,8 @@ fun PlanPage(
         /** Buttons ====================*/
         Column {
             PlanPageButtons(
-                userUiState = userUiState,
-                userViewModel = userViewModel,
+                userPageUiState = userPageUiState,
+                userPageViewModel = userPageViewModel,
                 planUiState = planUiState,
                 planViewModel = planViewModel,
                 selectViewModel = selectViewModel,

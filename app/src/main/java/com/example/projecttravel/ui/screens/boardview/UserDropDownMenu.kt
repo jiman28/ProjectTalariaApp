@@ -20,21 +20,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.BoardEntity
+import com.example.projecttravel.model.CallBoard
+import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.model.CompanyEntity
 import com.example.projecttravel.model.TradeEntity
-
+import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
+import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
+import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 @Composable
 fun UserDropDownMenu(
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     onUserButtonClicked: () -> Unit,
 ){
     val scope = rememberCoroutineScope()
@@ -49,6 +55,13 @@ fun UserDropDownMenu(
         is BoardEntity -> boardUiState.selectedViewBoard.user.id.toString()
         is CompanyEntity -> boardUiState.selectedViewBoard.user.id.toString()
         is TradeEntity -> boardUiState.selectedViewBoard.user.id.toString()
+        else -> ""
+    }
+
+    val currentUserEmail: String = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.user.email
+        is CompanyEntity -> boardUiState.selectedViewBoard.user.email
+        is TradeEntity -> boardUiState.selectedViewBoard.user.email
         else -> ""
     }
 
@@ -81,49 +94,52 @@ fun UserDropDownMenu(
         offset = DpOffset(0.dp, 0.dp), // Dropdown Menu 의 위치 조정
         onDismissRequest = { isDropDownMenuExpanded = false },
     ) {
+        val callBoardYou = CallBoard(
+            kw = "",
+            page = 0,
+            type = "",
+            email = currentUserEmail
+        )
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메 // 뉴 닫기
-//                scope.launch {
-//                    val checkOtherUserById = CheckOtherUserById(
-//                        id = currentUserId,
-//                    )
-//                    isLoadingState = true
-//                    // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
-//                    val otherIdDeferred = async { getUserPageById(checkOtherUserById) }
-//                    // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
-//                    val isOtherIdComplete = otherIdDeferred.await()
-//                    // 모든 작업이 완료되었을 때만 실행합니다.
-//                    if (isOtherIdComplete != null) {
-//                        val callBoardYou = CallBoard(
-//                            kw = "",
-//                            page = 0,
-//                            type = "",
-//                            email = isOtherIdComplete.email
-//                        )
-//                        val isDeferredInterest = async { callMyInterest(isOtherIdComplete) }
-//                        val isDeferredPlan = async { callMyPlanList(isOtherIdComplete) }
-//                        val isDeferredBoard = async { getAllBoardDefault(callBoardYou,boardPageViewModel,scope) }
-//                        val isCompleteInterest = isDeferredInterest.await()
-//                        val isCompletePlan = isDeferredPlan.await()
-//                        val isCompleteBoard = isDeferredBoard.await()
-//                        // 모든 작업이 완료되었을 때만 실행합니다.
-//                        if (isCompleteBoard && isCompleteInterest != null ) {
-//                            isLoadingState = null
-//                            userViewModel.setUserPageInfo(isOtherIdComplete)
-//                            userViewModel.setUserInterest(isCompleteInterest)
-//                            userViewModel.setUserPlanList(isCompletePlan)
-//                            userViewModel.previousScreenWasPageOneA(true)
-//                            userViewModel.setUserPageInfo(isOtherIdComplete)
-//                            userViewModel.previousScreenWasPageOneA(true)
-//                            onUserButtonClicked()
-//                        } else {
-//                            isLoadingState = false
-//                        }
-//                    } else {
-//                        isLoadingState = false
-//                    }
-//                }
+                scope.launch {
+                    boardViewModel.getBoardList(callBoardYou)
+                    boardViewModel.getCompanyList(callBoardYou)
+                    boardViewModel.getTradeList(callBoardYou)
+
+                    val checkOtherUserById = CheckOtherUserById(
+                        id = currentUserId,
+                    )
+                    isLoadingState = true
+                    // 비동기 작업을 시작하고 결과(return)를 받아오기 위한 Deferred 객체를 생성합니다.
+                    val otherIdDeferred = async { getUserPageById(checkOtherUserById) }
+                    // Deferred 객체의 await() 함수를 사용하여 작업 완료를 대기하고 결과를 받아옵니다.
+                    val isOtherIdComplete = otherIdDeferred.await()
+                    // 모든 작업이 완료되었을 때만 실행합니다.
+                    if (isOtherIdComplete != null) {
+
+                        val isDeferredInterest = async { callMyInterest(isOtherIdComplete) }
+                        val isDeferredPlan = async { callMyPlanList(isOtherIdComplete) }
+                        val isCompleteInterest = isDeferredInterest.await()
+                        val isCompletePlan = isDeferredPlan.await()
+                        // 모든 작업이 완료되었을 때만 실행합니다.
+                        if (isCompleteInterest != null ) {
+                            isLoadingState = null
+                            userPageViewModel.setUserPageInfo(isOtherIdComplete)
+                            userPageViewModel.setUserInterest(isCompleteInterest)
+                            userPageViewModel.setUserPlanList(isCompletePlan)
+                            userPageViewModel.previousScreenWasPageOneA(true)
+                            userPageViewModel.setUserPageInfo(isOtherIdComplete)
+                            userPageViewModel.previousScreenWasPageOneA(true)
+                            onUserButtonClicked()
+                        } else {
+                            isLoadingState = false
+                        }
+                    } else {
+                        isLoadingState = false
+                    }
+                }
             },
         ) {
             Text(

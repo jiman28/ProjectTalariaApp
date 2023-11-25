@@ -15,13 +15,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun MyInfoPageTabButtons(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
 ) {
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -31,29 +31,29 @@ fun MyInfoPageTabButtons(
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { userViewModel.setUserPageTab(R.string.userTabMenuBoard) },
+                onClick = { userPageViewModel.setUserPageTab(R.string.userTabMenuBoard) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color(0xFF005FAF) else Color.White,
+                    if (userPageUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color(0xFF005FAF) else Color.White,
                 )
             ) {
                 Text(
                     text = stringResource(R.string.userTabMenuBoard),
-                    color = if (userUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color.White else Color(0xFF005FAF)
+                    color = if (userPageUiState.currentSelectedUserTab == R.string.userTabMenuBoard) Color.White else Color(0xFF005FAF)
                 )
             }
             OutlinedButton(
                 modifier = Modifier
                     .weight(1f).padding(1.dp),
-                onClick = { userViewModel.setUserPageTab(R.string.userTabMenuPlans) },
+                onClick = { userPageViewModel.setUserPageTab(R.string.userTabMenuPlans) },
                 shape = RoundedCornerShape(0.dp),
                 colors = ButtonDefaults.outlinedButtonColors(
-                    if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color(0xFF005FAF) else Color.White,
+                    if (userPageUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color(0xFF005FAF) else Color.White,
                 )
             ) {
                 Text(
                     text = stringResource(R.string.userTabMenuPlans),
-                    color = if (userUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color.White else Color(0xFF005FAF)
+                    color = if (userPageUiState.currentSelectedUserTab == R.string.userTabMenuPlans) Color.White else Color(0xFF005FAF)
                     )
             }
         }

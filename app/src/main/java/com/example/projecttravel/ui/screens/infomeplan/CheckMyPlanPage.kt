@@ -24,31 +24,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoRead
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.plantrip.NoPlanListFound
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable
 fun CheckMyPlanPage(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
     planViewModel: PlanViewModel,
     onBackButtonClicked: () -> Unit,
     onRouteClicked: () -> Unit,
 ) {
-    var selectedUserPlanDate by remember { mutableStateOf(userUiState.currentMyPlanDate) }
-    if (userUiState.checkMyPageTrip != null) {
-        val allUserAttrList: List<SpotDtoResponseRead> = userUiState.checkMyPageTrip.plans
+    var selectedUserPlanDate by remember { mutableStateOf(userPageUiState.currentMyPlanDate) }
+    if (userPageUiState.checkMyPageTrip != null) {
+        val allUserAttrList: List<SpotDtoResponseRead> = userPageUiState.checkMyPageTrip.plans
         // List By WeatherSwitch for view
         val userAttrList: List<SpotDtoRead> = allUserAttrList.find { it.date == selectedUserPlanDate.toString() }?.list ?: emptyList()
 
@@ -69,7 +68,7 @@ fun CheckMyPlanPage(
                     ),
             ) {
                 Text(
-                    text = userUiState.checkMyPageTrip.planName,
+                    text = userPageUiState.checkMyPageTrip.planName,
                     fontSize = 25.sp,   // font 의 크기
                     lineHeight = 25.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                     fontWeight = FontWeight.Bold,  // font 의 굵기
@@ -91,7 +90,7 @@ fun CheckMyPlanPage(
             ) {
                 UserPlanDateList(
                     allUserAttrList = allUserAttrList,
-                    userViewModel = userViewModel,
+                    userPageViewModel = userPageViewModel,
                     planUiState = planUiState,
                     onDateClick = { clickedDate -> selectedUserPlanDate = clickedDate }
                 )
@@ -103,7 +102,7 @@ fun CheckMyPlanPage(
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
             ) {
                 Text(
-                    text = "${userUiState.checkMyPageTrip.startDay} ~ ${userUiState.checkMyPageTrip.endDay}",
+                    text = "${userPageUiState.checkMyPageTrip.startDay} ~ ${userPageUiState.checkMyPageTrip.endDay}",
                     fontSize = 15.sp,   // font 의 크기
                     lineHeight = 15.sp, // 줄 간격 = fontSize 와 맞춰야 글이 겹치지 않는다
                     fontWeight = FontWeight.Bold,  // font 의 굵기
@@ -123,7 +122,7 @@ fun CheckMyPlanPage(
             ) {
                 SelectedUserPlanDateInfo(
                     allUserAttrList = allUserAttrList,
-                    userUiState = userUiState,
+                    userPageUiState = userPageUiState,
                     planViewModel = planViewModel,
                     onRouteClicked = onRouteClicked,
                 )

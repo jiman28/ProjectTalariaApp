@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
 import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
@@ -29,7 +28,7 @@ import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
 import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
 import com.example.projecttravel.data.repositories.select.viewmodels.InterestUiState
@@ -39,8 +38,8 @@ import com.example.projecttravel.data.repositories.select.viewmodels.ListTourAtt
 
 @Composable
 fun SelectPage(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planViewModel: PlanViewModel,
     selectUiState: SelectUiState,
     selectViewModel: SelectViewModel,
@@ -67,8 +66,8 @@ fun SelectPage(
         /** Buttons ====================*/
         Column {
             SelectPageButtons(
-                userUiState = userUiState,
-                userViewModel = userViewModel,
+                userPageUiState = userPageUiState,
+                userPageViewModel = userPageViewModel,
                 planViewModel = planViewModel,
                 selectUiState = selectUiState,
                 selectViewModel = selectViewModel,

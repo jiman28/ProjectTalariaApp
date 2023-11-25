@@ -1,8 +1,10 @@
 package com.example.projecttravel.data
 
 import com.example.projecttravel.BuildConfig
-import com.example.projecttravel.data.repositories.board.BoardRepository
-import com.example.projecttravel.data.repositories.board.DefaultBoardRepository
+import com.example.projecttravel.data.repositories.BoardRepository
+import com.example.projecttravel.data.repositories.DefaultBoardRepository
+import com.example.projecttravel.data.repositories.DefaultUserRepository
+import com.example.projecttravel.data.repositories.UserRepository
 import com.example.projecttravel.data.repositories.select.CityListRepository
 import com.example.projecttravel.data.repositories.select.CountryListRepository
 import com.example.projecttravel.data.repositories.select.DefaultCityListRepository
@@ -34,9 +36,13 @@ interface AppContainer {
     val interestListRepository: InterestListRepository
     val tourAttractionListRepository: TourAttractionListRepository
     val tourAttrSearchListRepository: TourAttrSearchListRepository
-    val boardRepository: BoardRepository
+
     val userInfoListRepository: UserInfoListRepository
     val userPlanListRepository: UserPlanListRepository
+
+    /** 리펙토링 = MVVM */
+    val userRepository: UserRepository
+    val boardRepository: BoardRepository
 }
 
 /** Implementation for the Dependency Injection container at the application level.
@@ -55,6 +61,18 @@ class DefaultAppContainer(
         .baseUrl(BASE_URL)
         .build()
 
+    private val customHttpClient = OkHttpClient.Builder()
+        .connectTimeout(30, TimeUnit.SECONDS) // 연결 timeout 시간 설정 (초 단위)
+        .readTimeout(30, TimeUnit.SECONDS)    // 읽기 timeout 시간 설정 (초 단위)
+        .writeTimeout(30, TimeUnit.SECONDS)   // 쓰기 timeout 시간 설정 (초 단위)
+        .build()
+
+    private val retrofitStringCustom: Retrofit = Retrofit.Builder()
+        .baseUrl(BASE_URL) // 요청 보내는 API 서버 URL. /로 끝나야 함
+        .client(customHttpClient) // 커스텀 OkHttpClient 사용 설정
+        .addConverterFactory(ScalarsConverterFactory.create())  // String 등 처리시
+        .build()
+
     /** Retrofit service object for creating api calls */
     private val retrofitService: TravelApiService by lazy {
         retrofit.create(TravelApiService::class.java)
@@ -62,6 +80,10 @@ class DefaultAppContainer(
 
     private val retrofitStringService: TravelApiService by lazy {
         retrofitString.create(TravelApiService::class.java)
+    }
+
+    private val retrofitStringCustomService: TravelApiService by lazy {
+        retrofitStringCustom.create(TravelApiService::class.java)
     }
 
     /** DI implementation for all of each repository - Travel */
@@ -85,18 +107,21 @@ class DefaultAppContainer(
         DefaultTourAttrSearchListRepository(retrofitService)
     }
 
-    /** DI implementation for all of each repository - Boards  =뷰모델 */
-    override val boardRepository: BoardRepository by lazy {
-        DefaultBoardRepository(retrofitService, retrofitStringService)
-    }
-
-    /** DI implementation for all of each repository - UserInfo */
     override val userInfoListRepository: UserInfoListRepository by lazy {
         DefaultUserInfoListRepository(retrofitService)
     }
 
     override val userPlanListRepository: UserPlanListRepository by lazy {
         DefaultUserPlanListRepository(retrofitService)
+    }
+
+    /** 리펙토링 = MVVM */
+    override val userRepository: UserRepository by lazy {
+        DefaultUserRepository(retrofitService)
+    }
+
+    override val boardRepository: BoardRepository by lazy {
+        DefaultBoardRepository(retrofitService, retrofitStringService)
     }
 
 }
@@ -161,7 +186,7 @@ object RetrofitBuilderStringCustom {
 //        val retrofit = Retrofit.Builder()
 //            .baseUrl(BASE_URL) // 요청 보내는 API 서버 URL. /로 끝나야 함
 //            .client(customHttpClient) // 커스텀 OkHttpClient 사용 설정
-//            .addConverterFactory(ScalarsConverterFactory.create())  // String 등 처리시
+//            .addConverterFactory(GsonConverterFactory.create()) // Gson 컨버터 사용
 //            .build()
 //
 //        travelJsonApiCustomService = retrofit.create(TravelApiService::class.java)

@@ -2,7 +2,7 @@ package com.example.projecttravel.data.uistates.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.model.UserResponse
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.PlansDataRead
 import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.model.UserInterest
@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-class UserViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(UserUiState())
-    val userUiState: StateFlow<UserUiState> = _uiState.asStateFlow()
+class UserPageViewModel : ViewModel() {
+    private val _uiState = MutableStateFlow(UserPageUiState())
+    val userPageUiState: StateFlow<UserPageUiState> = _uiState.asStateFlow()
 
     /** login ============================== */
 
@@ -87,6 +87,6 @@ class UserViewModel : ViewModel() {
     }
     /** reset all Objects */
     fun resetUser() {
-        _uiState.value = UserUiState() // UserUiState를 기본 값(null)으로 재설정
+        _uiState.value = UserPageUiState() // UserUiState를 기본 값(null)으로 재설정
     }
 }

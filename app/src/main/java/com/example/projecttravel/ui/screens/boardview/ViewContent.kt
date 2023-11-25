@@ -45,11 +45,11 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.RemoveArticleUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.ui.viewmodels.RemoveArticleUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.BoardEntity
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CompanyEntity
@@ -62,8 +62,8 @@ import org.jsoup.Jsoup
 
 @Composable
 fun ViewContentsBoard(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBackButtonClicked: () -> Unit,
@@ -240,7 +240,7 @@ fun ViewContentsBoard(
                 UserDropDownMenu(
                     boardUiState = boardUiState,
                     boardViewModel = boardViewModel,
-                    userViewModel = userViewModel,
+                    userPageViewModel = userPageViewModel,
                     onUserButtonClicked = onUserButtonClicked,
                 )
                 Spacer(modifier = Modifier.padding(5.dp))
@@ -288,7 +288,7 @@ fun ViewContentsBoard(
                 horizontalAlignment = Alignment.End, // 수평 가운데 정렬
             ) {
                 var isRemoveArticleDialog by remember { mutableStateOf(false) }
-                if (userUiState.currentLogin?.id == currentUser?.id.toString()) {
+                if (userPageUiState.currentLogin?.id == currentUser?.id.toString()) {
                     Button(
                         onClick = { isRemoveArticleDialog = true }
                     ) {
@@ -328,7 +328,7 @@ fun ViewContentsBoard(
                     replyListUiState = boardViewModel.replyListUiState,
                     boardUiState = boardUiState,
                     boardViewModel = boardViewModel,
-                    userUiState = userUiState,
+                    userPageUiState = userPageUiState,
                     currentArticleNo = currentArticleNo,
                 )
             }

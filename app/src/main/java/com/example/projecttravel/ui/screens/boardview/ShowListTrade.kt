@@ -40,10 +40,10 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.repositories.board.viewmodels.TradeListUiState
-import com.example.projecttravel.data.uistates.UserUiState
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.ui.viewmodels.TradeListUiState
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.TradeList
@@ -52,7 +52,7 @@ import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 @Composable
 fun ShowListTrade(
     tradeListUiState: TradeListUiState,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
@@ -63,7 +63,7 @@ fun ShowListTrade(
             if (tradeListUiState.tradeList?.list?.isNotEmpty() == true) {
                 ListTradeEntity(
                     tradeList = tradeListUiState.tradeList,
-                    userUiState = userUiState,
+                    userPageUiState = userPageUiState,
                     boardViewModel = boardViewModel,
                     boardUiState = boardUiState,
                     onBoardClicked = onBoardClicked,
@@ -78,7 +78,7 @@ fun ShowListTrade(
 @Composable
 fun ListTradeEntity(
     tradeList: TradeList,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
@@ -237,7 +237,7 @@ fun ListTradeEntity(
                             kw = boardUiState.currentSearchKeyWord,
                             page = index,
                             type = stringResource(boardUiState.currentSearchType),
-                            email = if (userUiState.checkOtherUser != null) userUiState.checkOtherUser.email else ""
+                            email = if (userPageUiState.checkOtherUser != null) userPageUiState.checkOtherUser.email else ""
                         )
                         Box(
                             modifier = Modifier

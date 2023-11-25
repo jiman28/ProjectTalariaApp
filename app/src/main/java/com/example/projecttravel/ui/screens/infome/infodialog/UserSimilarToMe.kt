@@ -37,27 +37,24 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.ui.screens.boardview.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserSimilarToMeDialog(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
+    boardViewModel: BoardViewModel,
     onUserClicked: () -> Unit = {},
     onDismiss: () -> Unit,
 ) {
@@ -75,13 +72,13 @@ fun UserSimilarToMeDialog(
     AlertDialog(
         onDismissRequest = onDismiss,
         text = {
-            if (userUiState.checkSimilarUsers.isNotEmpty()) {
+            if (userPageUiState.checkSimilarUsers.isNotEmpty()) {
                 LazyColumn(
                     modifier = Modifier,
                     verticalArrangement = Arrangement.spacedBy(5.dp),
                 ) {
                     items(
-                        items = userUiState.checkSimilarUsers,
+                        items = userPageUiState.checkSimilarUsers,
                         key = { people ->
                             people.id
                         }
@@ -171,6 +168,9 @@ fun UserSimilarToMeDialog(
                                             .padding(2.dp),
                                         onClick = {
                                             scope.launch {
+                                                boardViewModel.getBoardList(callBoardYou)
+                                                boardViewModel.getCompanyList(callBoardYou)
+                                                boardViewModel.getTradeList(callBoardYou)
                                                 val checkOtherUserById =
                                                     CheckOtherUserById(id = people.id)
                                                 isLoadingState = true
@@ -185,32 +185,29 @@ fun UserSimilarToMeDialog(
                                                         async { callMyInterest(isOtherIdComplete) }
                                                     val isDeferredPlan =
                                                         async { callMyPlanList(isOtherIdComplete) }
-                                                    val isDeferredBoard = async {
-                                                        getAllBoardDefault(
-                                                            callBoardYou,
-                                                            boardPageViewModel,
-                                                            scope
-                                                        )
-                                                    }
+
                                                     val isCompleteInterest =
                                                         isDeferredInterest.await()
                                                     val isCompletePlan = isDeferredPlan.await()
-                                                    val isCompleteBoard = isDeferredBoard.await()
+
                                                     // 모든 작업이 완료되었을 때만 실행합니다.
-                                                    if (isCompleteBoard && isCompleteInterest != null) {
+                                                    if (isCompleteInterest != null) {
                                                         isLoadingState = null
-                                                        userViewModel.setUserPageInfo(
+                                                        userPageViewModel.setUserPageInfo(
                                                             isOtherIdComplete
                                                         )
-                                                        userViewModel.setUserInterest(
+                                                        userPageViewModel.setUserInterest(
                                                             isCompleteInterest
                                                         )
-                                                        userViewModel.setUserPlanList(isCompletePlan)
-                                                        userViewModel.previousScreenWasPageOneA(true)
-                                                        userViewModel.setUserPageInfo(
+                                                        userPageViewModel.setUserPlanList(isCompletePlan)
+                                                        userPageViewModel.previousScreenWasPageOneA(true)
+                                                        userPageViewModel.setUserPageInfo(
                                                             isOtherIdComplete
                                                         )
-                                                        userViewModel.previousScreenWasPageOneA(true)
+                                                        userPageViewModel.previousScreenWasPageOneA(true)
+
+                                                        // 리펙토링
+
                                                         onUserClicked()
                                                     } else {
                                                         isLoadingState = false

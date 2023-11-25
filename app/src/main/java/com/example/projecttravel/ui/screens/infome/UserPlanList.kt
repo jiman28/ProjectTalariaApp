@@ -17,7 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -44,23 +43,22 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.model.PlansDataRead
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infodialog.DeletePlanDialog
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserPlanList(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planViewModel: PlanViewModel,
     navController: NavHostController,
     onNextButtonClicked: () -> Unit,
@@ -78,13 +76,13 @@ fun UserPlanList(
         }
     }
 
-    if (userUiState.checkMyPlanList.isNotEmpty()) {
+    if (userPageUiState.checkMyPlanList.isNotEmpty()) {
         LazyColumn(
             modifier = Modifier,
             verticalArrangement = Arrangement.spacedBy(5.dp),
         ) {
             items(
-                items = userUiState.checkMyPlanList,
+                items = userPageUiState.checkMyPlanList,
                 key = { userPlan -> userPlan.id }
             ) { userPlan ->
                 Card(
@@ -102,8 +100,8 @@ fun UserPlanList(
                                 // 모든 작업이 완료되었을 때만 실행합니다.
                                 if (isWeatherComplete) {
                                     isLoadingState = null
-                                    userViewModel.setCheckUserPlanDataPage(userPlan)
-                                    userViewModel.setUserPlanDate(userPlan.startDay)
+                                    userPageViewModel.setCheckUserPlanDataPage(userPlan)
+                                    userPageViewModel.setUserPlanDate(userPlan.startDay)
                                     onNextButtonClicked()
                                     onNextButtonClicked()
                                 } else {
@@ -179,7 +177,7 @@ fun UserPlanList(
                                         shape = RoundedCornerShape(topStart = 8.dp)
                                     )
                             ) {
-                                if (userUiState.currentLogin?.email == userPlan.email) {
+                                if (userPageUiState.currentLogin?.email == userPlan.email) {
                                     Row(
                                         verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
                                         horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
@@ -291,8 +289,8 @@ fun UserPlanList(
     if (isDeletePlanDialog && selectedPlanIdToDelete != "") {
         DeletePlanDialog(
             planId = selectedPlanIdToDelete,
-            userUiState = userUiState,
-            userViewModel = userViewModel,
+            userPageUiState = userPageUiState,
+            userPageViewModel = userPageViewModel,
             onPlanDeleteClicked = { navController.navigate(TravelScreen.Page1A.name) },
             onDismiss = {
                 isDeletePlanDialog = false

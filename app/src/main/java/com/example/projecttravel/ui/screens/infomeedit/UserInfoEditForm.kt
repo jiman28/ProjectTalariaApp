@@ -49,33 +49,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.SendSignIn
-import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.infomeedit.meeditapi.editUserCall
-import com.example.projecttravel.ui.screens.infomeedit.meeditapi.withdrawalUserCall
-import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun UserInfoEditForm(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     navController: NavHostController,
 ) {
     val scope = rememberCoroutineScope()
@@ -143,9 +132,9 @@ fun UserInfoEditForm(
             Button(
                 onClick = {
                     if (editCredentials.pwd == editCredentials.pwdCheck) {
-                        if (userUiState.currentLogin != null) {
+                        if (userPageUiState.currentLogin != null) {
                             sendSignIn = SendSignIn(
-                                email = userUiState.currentLogin.email,
+                                email = userPageUiState.currentLogin.email,
                                 name = editCredentials.name,
                                 password = editCredentials.pwd,
                             )
@@ -168,7 +157,7 @@ fun UserInfoEditForm(
         sendSignIn?.let {
             UserEditConfirmDialog(
                 sendSignIn = it,
-                userViewModel = userViewModel,
+                userPageViewModel = userPageViewModel,
                 navController = navController,
                 onDismiss = {
                     isEditUserDialogVisible = false
@@ -298,7 +287,7 @@ fun EditPasswordField(
 @Composable
 fun UserEditConfirmDialog(
     sendSignIn: SendSignIn,
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     navController: NavHostController,
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit,
@@ -334,7 +323,7 @@ fun UserEditConfirmDialog(
                             val signInDeferred = async { editUserCall(sendSignIn) }
                             val withdrawalComplete = signInDeferred.await()
                             if (withdrawalComplete) {
-                                userViewModel.resetUser()
+                                userPageViewModel.resetUser()
                                 dataStore.edit { preferences ->
                                     preferences[DataStore.emailKey] = ""
                                     preferences[DataStore.pwdKey] = ""

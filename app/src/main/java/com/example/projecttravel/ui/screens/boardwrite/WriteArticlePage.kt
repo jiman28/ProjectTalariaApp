@@ -27,17 +27,17 @@ import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun WriteArticlePage(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBackButtonClicked: () -> Unit,
 ) {
     var title by remember { mutableStateOf("") }
@@ -57,10 +57,10 @@ fun WriteArticlePage(
             WritePageButtons(
                 title = title,
                 content = content,
-                userUiState = userUiState,
-                userViewModel = userViewModel,
-                boardPageUiState = boardPageUiState,
-                boardPageViewModel = boardPageViewModel,
+                userPageUiState = userPageUiState,
+                userPageViewModel = userPageViewModel,
+                boardViewModel = boardViewModel,
+                boardUiState = boardUiState,
                 onBackButtonClicked = onBackButtonClicked
             )
         }
@@ -87,8 +87,8 @@ fun WriteArticlePage(
                 modifier = Modifier.weight(8f)
             ) {
                 BoardDropDownMenu(
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                 )
             }
         }

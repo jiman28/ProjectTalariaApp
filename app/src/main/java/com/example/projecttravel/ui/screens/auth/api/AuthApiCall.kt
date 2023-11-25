@@ -1,8 +1,8 @@
 package com.example.projecttravel.ui.screens.auth.api
 
 import android.util.Log
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.data.RetrofitBuilderJson
 import com.example.projecttravel.data.RetrofitBuilderString
 import com.example.projecttravel.model.SendInterest
@@ -20,8 +20,8 @@ import kotlin.coroutines.resume
 /** function for getting Weather ====================*/
 suspend fun loginApiCall(
     user: User,
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
         val call = RetrofitBuilderJson.travelJsonApiService.checkLogin(user)
@@ -33,11 +33,11 @@ suspend fun loginApiCall(
                 if (response.isSuccessful) {
                     val loginResponse = response.body()
                     if (loginResponse != null) {
-                        userViewModel.setUser(loginResponse)
+                        userPageViewModel.setUser(loginResponse)
                         Log.d("jiman=111", "Request Success + Response Success")
                         Log.d("jiman=111", call.toString())
                         Log.d("jiman=111", response.body().toString())
-                        Log.d("jiman=111", userUiState.currentLogin.toString())
+                        Log.d("jiman=111", userPageUiState.currentLogin.toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {
@@ -104,7 +104,7 @@ suspend fun signInApiCall(
 
 suspend fun interestSaveApiCall(
     sendInterest: SendInterest,
-    userUiState: UserUiState,
+    userPageUiState: UserPageUiState,
 ): Boolean {
     return suspendCancellableCoroutine { continuation ->
         val call = RetrofitBuilderJson.travelJsonApiService.saveFirstInterest(sendInterest)
@@ -119,7 +119,7 @@ suspend fun interestSaveApiCall(
                         Log.d("jiman=111", "Request Success + Response Success")
                         Log.d("jiman=111", call.toString())
                         Log.d("jiman=111", response.body().toString())
-                        Log.d("jiman=111", userUiState.currentSignIn.toString())
+                        Log.d("jiman=111", userPageUiState.currentSignIn.toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
 //                        continuation.resume(false) // 오류 확인용 false
                     } else {

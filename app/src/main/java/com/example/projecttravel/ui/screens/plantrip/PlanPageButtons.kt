@@ -24,8 +24,8 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.ResetPlanDialog
 import com.example.projecttravel.ui.screens.plantrip.plandialogs.SavePlanDialog
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
@@ -33,8 +33,8 @@ import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
 
 @Composable
 fun PlanPageButtons (
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planUiState: PlanUiState,
     planViewModel: PlanViewModel,
     selectViewModel: SelectViewModel,
@@ -71,7 +71,7 @@ fun PlanPageButtons (
             if (isResetPlanDialogVisible) {
                 ResetPlanDialog(
                     planViewModel = planViewModel,
-                    userViewModel = userViewModel,
+                    userPageViewModel = userPageViewModel,
                     onCancelButtonClicked = onCancelButtonClicked,
                     onDismiss = {
                         isResetPlanDialogVisible = false
@@ -93,7 +93,7 @@ fun PlanPageButtons (
             Text(stringResource(R.string.complete_button))
             if (isSavePlanDialogVisible) {
                 SavePlanDialog(
-                    userUiState = userUiState,
+                    userPageUiState = userPageUiState,
                     planUiState = planUiState,
                     planViewModel = planViewModel,
                     selectViewModel = selectViewModel,
@@ -114,7 +114,7 @@ fun PlanPageButtons (
 
     /** ================================================== */
     /** Bottom BackHandler Click Action ====================*/
-    if (userUiState.isBackHandlerClick) {
+    if (userPageUiState.isBackHandlerClick) {
         isResetPlanDialogVisible = true
     }
 }

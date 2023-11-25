@@ -1,4 +1,4 @@
-package com.example.projecttravel.data.repositories.board.viewmodels
+package com.example.projecttravel.ui.viewmodels
 
 import android.util.Log
 import androidx.compose.runtime.getValue
@@ -11,20 +11,17 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.R
 import com.example.projecttravel.TravelApplication
-import com.example.projecttravel.data.repositories.board.BoardRepository
+import com.example.projecttravel.data.repositories.BoardRepository
 import com.example.projecttravel.model.AllBoardsEntity
-import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
-import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.CompanyList
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.ReplyList
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.model.SendComment
-import com.example.projecttravel.model.Trade
 import com.example.projecttravel.model.TradeList
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -118,13 +115,21 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
     var addArticleUiState: AddArticleUiState by mutableStateOf(AddArticleUiState.Success(null))
         private set
 
-    var removeArticleUiState: RemoveArticleUiState by mutableStateOf(RemoveArticleUiState.Success(null))
+    var removeArticleUiState: RemoveArticleUiState by mutableStateOf(
+        RemoveArticleUiState.Success(
+            null
+        )
+    )
         private set
 
     var addCommentUiState: AddCommentUiState by mutableStateOf(AddCommentUiState.Success(null))
         private set
 
-    var removeCommentUiState: RemoveCommentUiState by mutableStateOf(RemoveCommentUiState.Success(null))
+    var removeCommentUiState: RemoveCommentUiState by mutableStateOf(
+        RemoveCommentUiState.Success(
+            null
+        )
+    )
         private set
 
     /** all selection states */

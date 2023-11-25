@@ -45,12 +45,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.edit
 import androidx.navigation.NavHostController
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.PlanUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
@@ -63,12 +59,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun UserWithdrawalForm(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    planUiState: PlanUiState,
-    planViewModel: PlanViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     navController: NavHostController,
 ) {
     val scope = rememberCoroutineScope()
@@ -125,10 +117,10 @@ fun UserWithdrawalForm(
             Button(
                 onClick = {
                     if (withdrawalCredentials.pwd == withdrawalCredentials.pwdCheck) {
-                        if (userUiState.currentLogin != null) {
+                        if (userPageUiState.currentLogin != null) {
                             sendSignIn = SendSignIn(
-                                email = userUiState.currentLogin.email,
-                                name = userUiState.currentLogin.name,
+                                email = userPageUiState.currentLogin.email,
+                                name = userPageUiState.currentLogin.name,
                                 password = withdrawalCredentials.pwd,
                             )
                         }
@@ -150,7 +142,7 @@ fun UserWithdrawalForm(
         sendSignIn?.let {
             WithdrawalConfirmDialog(
                 sendSignIn = it,
-                userViewModel = userViewModel,
+                userPageViewModel = userPageViewModel,
                 navController = navController,
                 onDismiss = {
                     isWithdrawalUserDialogVisible = false
@@ -231,7 +223,7 @@ fun WithdrawalPasswordField(
 @Composable
 fun WithdrawalConfirmDialog(
     sendSignIn: SendSignIn,
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     navController: NavHostController,
     onLoadingStarted: () -> Unit,
     onErrorOccurred: () -> Unit,
@@ -267,7 +259,7 @@ fun WithdrawalConfirmDialog(
                             val signInDeferred = async { withdrawalUserCall(sendSignIn) }
                             val withdrawalComplete = signInDeferred.await()
                             if (withdrawalComplete) {
-                                userViewModel.resetUser()
+                                userPageViewModel.resetUser()
                                 dataStore.edit { preferences ->
                                     preferences[DataStore.emailKey] = ""
                                     preferences[DataStore.pwdKey] = ""

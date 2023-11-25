@@ -46,13 +46,13 @@ import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.auth.api.signInApiCall
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
 fun SignInForm(
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     onNextButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
@@ -132,7 +132,7 @@ fun SignInForm(
                             when (signInComplete) {
                                 "a" -> {
                                     isLoadingState = null
-                                    userViewModel.setCurrentSignIn(sendSignIn)
+                                    userPageViewModel.setCurrentSignIn(sendSignIn)
                                     onNextButtonClicked()
                                 }
 

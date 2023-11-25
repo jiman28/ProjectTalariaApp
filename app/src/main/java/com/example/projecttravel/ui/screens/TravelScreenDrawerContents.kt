@@ -44,18 +44,16 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.ui.screens.boardview.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
+import com.example.projecttravel.ui.viewmodels.BoardUiState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -66,15 +64,14 @@ import kotlinx.coroutines.launch
 @Composable
 fun DrawerContents(
     onLogOutClicked: () -> Unit,
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     planViewModel: PlanViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     navController: NavHostController,
     drawerState: DrawerState,
     scope: CoroutineScope,
-    boardViewModel: BoardViewModel,
 ) {
     val context = LocalContext.current
 
@@ -82,7 +79,7 @@ fun DrawerContents(
     Surface {
         if (isLogOutState) {
             LogOutDialog(
-                userViewModel = userViewModel,
+                userPageViewModel = userPageViewModel,
                 onDismissAlert = { isLogOutState = false },
                 onLogOutClicked = onLogOutClicked
             )
@@ -107,21 +104,21 @@ fun DrawerContents(
             modifier = Modifier.selectable(
                 selected = false,
                 onClick = {
-                    userViewModel.previousScreenWasPageOneA(true)
-                    userViewModel.setUserPageInfo(userUiState.currentLogin)
+                    userPageViewModel.previousScreenWasPageOneA(true)
+                    userPageViewModel.setUserPageInfo(userPageUiState.currentLogin)
                     navController.navigate(TravelScreen.Page1A.name)
                     scope.launch { drawerState.close() }
                 }
             )
         ) {
             Spacer(modifier = Modifier.padding(10.dp))
-            if (userUiState.currentLogin?.picture != null) {
+            if (userPageUiState.currentLogin?.picture != null) {
                 AsyncImage(
                     modifier = Modifier
                         .size(50.dp)
                         .clip(RoundedCornerShape(8.dp)),
                     model = ImageRequest.Builder(context = LocalContext.current)
-                        .data(userUiState.currentLogin.picture)
+                        .data(userPageUiState.currentLogin.picture)
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
@@ -140,7 +137,7 @@ fun DrawerContents(
             }
             Spacer(modifier = Modifier.padding(5.dp))
             Text(
-                text = "${userUiState.currentLogin?.name} 님,\n환영합니다",
+                text = "${userPageUiState.currentLogin?.name} 님,\n환영합니다",
                 fontSize = 20.sp,
                 fontFamily = FontFamily.SansSerif,
                 modifier = Modifier.fillMaxWidth()
@@ -151,14 +148,14 @@ fun DrawerContents(
         Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
         Spacer(modifier = Modifier.padding(2.dp))
 
-        if (userUiState.currentLogin != null) {
+        if (userPageUiState.currentLogin != null) {
             val callBoardMe = CallBoard(
                 kw = "",
                 page = 0,
-                type = stringResource(boardPageUiState.currentSearchType),
-                email = userUiState.currentLogin.email
+                type = stringResource(boardUiState.currentSearchType),
+                email = userPageUiState.currentLogin.email
             )
-            val userResponse = userUiState.currentLogin
+            val userResponse = userPageUiState.currentLogin
             Row(
                 verticalAlignment = Alignment.CenterVertically, // 수직 가운데 정렬
                 horizontalArrangement = Arrangement.Center, // 수평 가운데 정렬
@@ -174,21 +171,23 @@ fun DrawerContents(
                 TextButton(onClick = {
                     scope.launch {
                         drawerState.close()
+                        boardViewModel.resetBoardPage()
+                        boardViewModel.getBoardList(callBoardMe)
+                        boardViewModel.getCompanyList(callBoardMe)
+                        boardViewModel.getTradeList(callBoardMe)
+
                         isLoadingState = true
                         val isDeferredInterest = async { callMyInterest(userResponse) }
                         val isDeferredPlan = async { callMyPlanList(userResponse) }
-                        val isDeferredBoard =
-                            async { getAllBoardDefault(callBoardMe, boardPageViewModel, scope) }
                         val isCompleteInterest = isDeferredInterest.await()
                         val isCompletePlan = isDeferredPlan.await()
-                        val isCompleteBoard = isDeferredBoard.await()
                         // 모든 작업이 완료되었을 때만 실행합니다.
-                        if (isCompleteBoard && isCompleteInterest != null) {
+                        if (isCompleteInterest != null) {
                             isLoadingState = null
-                            userViewModel.setUserInterest(isCompleteInterest)
-                            userViewModel.setUserPlanList(isCompletePlan)
-                            userViewModel.previousScreenWasPageOneA(true)
-                            userViewModel.setUserPageInfo(userUiState.currentLogin)
+                            userPageViewModel.setUserInterest(isCompleteInterest)
+                            userPageViewModel.setUserPlanList(isCompletePlan)
+                            userPageViewModel.previousScreenWasPageOneA(true)
+                            userPageViewModel.setUserPageInfo(userPageUiState.currentLogin)
                             navController.navigate(TravelScreen.Page1A.name)
                         } else {
                             isLoadingState = false
@@ -257,7 +256,7 @@ fun DrawerContents(
             )
             Spacer(modifier = Modifier.padding(2.dp))
             TextButton(onClick = {
-                userViewModel.previousScreenWasPageOneA(false)
+                userPageViewModel.previousScreenWasPageOneA(false)
                 navController.navigate(TravelScreen.Page2.name)
                 scope.launch { drawerState.close() }
             }) {
@@ -290,7 +289,7 @@ fun DrawerContents(
             val callBoardBoard = CallBoard(
                 kw = "",
                 page = 0,
-                type = stringResource(boardPageUiState.currentSearchType),
+                type = stringResource(boardUiState.currentSearchType),
                 email = ""
             )
             TextButton(onClick = {
@@ -390,7 +389,7 @@ fun DrawerContents(
 /** LogOutDialog to ask whether to logout or not ====================*/
 @Composable
 fun LogOutDialog(
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     onLogOutClicked: () -> Unit,
     onDismissAlert: () -> Unit,
 ) {
@@ -420,7 +419,7 @@ fun LogOutDialog(
                 TextButton(
                     onClick = {
                         scope.launch {
-                            userViewModel.resetUser()
+                            userPageViewModel.resetUser()
                             dataStore.edit { preferences ->
                                 preferences[DataStore.emailKey] = ""
                                 preferences[DataStore.pwdKey] = ""

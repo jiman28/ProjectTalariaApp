@@ -27,13 +27,13 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.WeatherResponseGet
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 
 @Composable
 fun UserPlanCardDate(
     date: String,
     size: Int,
-    userViewModel: UserViewModel,
+    userPageViewModel: UserPageViewModel,
     weatherResponseGet: WeatherResponseGet?,
     onClick: (String) -> Unit
 ) {
@@ -43,7 +43,7 @@ fun UserPlanCardDate(
             .padding(8.dp)
             .clickable {
                 onClick(date) // 클릭 시 해당 날짜를 콜백 함수로 전달
-                userViewModel.setUserPlanDate(date)
+                userPageViewModel.setUserPlanDate(date)
             },
     ) {
         Column(

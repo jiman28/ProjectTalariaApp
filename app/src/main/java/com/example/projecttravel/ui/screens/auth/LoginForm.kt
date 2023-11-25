@@ -50,8 +50,8 @@ import androidx.compose.ui.unit.dp
 import androidx.datastore.preferences.core.edit
 import com.example.projecttravel.model.User
 import com.example.projecttravel.ui.screens.auth.api.loginApiCall
-import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
+import com.example.projecttravel.data.uistates.UserPageUiState
+import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.emailKey
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.pwdKey
@@ -62,8 +62,8 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoginForm(
-    userUiState: UserUiState,
-    userViewModel: UserViewModel,
+    userPageUiState: UserPageUiState,
+    userPageViewModel: UserPageViewModel,
     onLoginSuccess: () -> Unit,
     onNextButtonClicked: () -> Unit,
 ) {
@@ -90,7 +90,7 @@ fun LoginForm(
                         email = credentials.email,
                         password = credentials.pwd, // Consider changing the names here if needed
                     )
-                    val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
+                    val userDeferred = async { loginApiCall(sendUser, userPageUiState, userPageViewModel) }
                     val isUserComplete = userDeferred.await()
                     if (isUserComplete) {
                         onLoginSuccess()
@@ -161,7 +161,7 @@ fun LoginForm(
                         email = credentials.email,
                         password = credentials.pwd, // Consider changing the names here if needed
                     )
-                    val userDeferred = async { loginApiCall(sendUser, userUiState, userViewModel) }
+                    val userDeferred = async { loginApiCall(sendUser, userPageUiState, userPageViewModel) }
                     val isUserComplete = userDeferred.await()
 //                    if (isUserComplete && userUiState.currentLogin != null) { // 로그에는 null 이 들어오는데 정상적으로 데이터는 들어옴. 뭔가 이상함.
                     if (isUserComplete) {

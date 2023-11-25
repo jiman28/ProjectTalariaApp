@@ -20,24 +20,24 @@ import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
+import com.example.projecttravel.ui.viewmodels.BoardUiState
+import com.example.projecttravel.ui.viewmodels.BoardViewModel
 
 @Composable
 fun BoardDropDownMenu(
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
 ){
-// 1. DropDownMenu의 펼쳐짐 상태 정의
+    // 1. DropDownMenu의 펼쳐짐 상태 정의
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
-// 2. DropDownMenu의 Expanded 상태를 변경하기 위한 버튼 정의
+    // 2. DropDownMenu의 Expanded 상태를 변경하기 위한 버튼 정의
     TextButton(
         modifier = Modifier,
         onClick = { isDropDownMenuExpanded = true }
     ) {
         Text(
-            text = stringResource(boardPageUiState.selectedWriteBoardMenu)
+            text = stringResource(boardUiState.selectedWriteBoardMenu)
         )
     }
 
@@ -51,7 +51,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.boardTabTitle)
+                boardViewModel.setWriteBoardMenu(R.string.boardTabTitle)
             },
         ) {
             Text(
@@ -66,7 +66,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.companyTabTitle)
+                boardViewModel.setWriteBoardMenu(R.string.companyTabTitle)
             },
         ) {
             Text(
@@ -81,7 +81,7 @@ fun BoardDropDownMenu(
         Column(
             modifier = Modifier.clickable {
                 isDropDownMenuExpanded = false // 메뉴 닫기
-                boardPageViewModel.setWriteBoardMenu(R.string.tradeTabTitle)
+                boardViewModel.setWriteBoardMenu(R.string.tradeTabTitle)
             },
         ) {
             Text(

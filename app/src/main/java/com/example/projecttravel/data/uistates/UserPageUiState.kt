@@ -6,7 +6,7 @@ import com.example.projecttravel.model.SendSignIn
 import com.example.projecttravel.model.UserInterest
 import com.example.projecttravel.model.UserResponse
 
-data class UserUiState(
+data class UserPageUiState(
     /** login ============================== */
     val currentLogin: UserResponse? = null,
     val currentSignIn: SendSignIn? =null,
