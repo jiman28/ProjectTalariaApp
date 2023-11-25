@@ -46,14 +46,22 @@ class DefaultAppContainer(
 
     /** Use the Retrofit builder to build a retrofit object using a kotlinx.serialization converter */
     private val retrofit: Retrofit = Retrofit.Builder()
-//        .addConverterFactory(Json.asConverterFactory("application/json".toMediaType()))
         .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(BASE_URL)
+        .build()
+
+    private val retrofitString: Retrofit = Retrofit.Builder()
+        .addConverterFactory(ScalarsConverterFactory.create())
         .baseUrl(BASE_URL)
         .build()
 
     /** Retrofit service object for creating api calls */
     private val retrofitService: TravelApiService by lazy {
         retrofit.create(TravelApiService::class.java)
+    }
+
+    private val retrofitStringService: TravelApiService by lazy {
+        retrofitString.create(TravelApiService::class.java)
     }
 
     /** DI implementation for all of each repository - Travel */
@@ -77,9 +85,9 @@ class DefaultAppContainer(
         DefaultTourAttrSearchListRepository(retrofitService)
     }
 
-    /** DI implementation for all of each repository - Boards */
+    /** DI implementation for all of each repository - Boards  =뷰모델 */
     override val boardRepository: BoardRepository by lazy {
-        DefaultBoardRepository(retrofitService)
+        DefaultBoardRepository(retrofitService, retrofitStringService)
     }
 
     /** DI implementation for all of each repository - UserInfo */

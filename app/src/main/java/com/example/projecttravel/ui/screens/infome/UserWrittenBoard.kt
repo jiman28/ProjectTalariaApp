@@ -18,7 +18,7 @@
 //import com.example.projecttravel.data.uistates.PlanUiState
 //import com.example.projecttravel.ui.screens.boardlist.ListCompanyEntity
 //import com.example.projecttravel.ui.screens.boardlist.ListTradeEntity
-//import com.example.projecttravel.ui.screens.boardview.ListBoardEntity
+//import com.example.projecttravel.ui.screens.boardlist.ListBoardEntity
 //
 //@Composable
 //fun UserWrittenBoard(

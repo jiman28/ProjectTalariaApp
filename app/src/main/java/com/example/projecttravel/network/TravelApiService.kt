@@ -136,18 +136,23 @@ interface TravelApiService {
     fun deletePlan(@Field("planId") planId: String,): Call<String>
 
 
-    // Board DB ==============================
-    @GET("board")
-    suspend fun getBoardList(): List<Board>
+//    // Board DB ==============================
+//    @GET("board")
+//    suspend fun getBoardList(): List<Board>
+//
+//    @GET("company")
+//    suspend fun getCompanyList(): List<Company>
+//
+//    @GET("trade")
+//    suspend fun getTradeList(): List<Trade>
+//
+//    @GET("reply")
+//    suspend fun getReplyList(): List<Reply>
 
-    @GET("company")
-    suspend fun getCompanyList(): List<Company>
-
-    @GET("trade")
-    suspend fun getTradeList(): List<Trade>
-
-    @GET("reply")
-    suspend fun getReplyList(): List<Reply>
+    /** 뷰모델에서 통신 */
+    /** 뷰모델에서 통신 */
+    /** 뷰모델에서 통신 */
+    /** 뷰모델에서 통신 */
 
     // Board DB Call Page ==============================TestTestTest
     @POST("callboardlist")
@@ -161,8 +166,8 @@ interface TravelApiService {
 
     @POST("callreplylist")
     fun callReplyList(@Body callReply: CallReply): Call<List<ReplyList>>
-
     // Board DB Edit Calls ==============================
+
     // viewCounter
     @POST("sendviewcount")
     @FormUrlEncoded

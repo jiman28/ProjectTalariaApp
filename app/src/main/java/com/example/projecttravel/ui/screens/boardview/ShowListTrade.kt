@@ -1,6 +1,5 @@
 package com.example.projecttravel.ui.screens.boardview
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -25,15 +24,9 @@ import androidx.compose.material.icons.filled.Comment
 import androidx.compose.material.icons.filled.RemoveRedEye
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -47,52 +40,33 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
-import com.example.projecttravel.data.repositories.board.viewmodels.BoardListUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.PlanUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.TradeListUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
-import com.example.projecttravel.model.BoardList
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
-import com.example.projecttravel.ui.screens.GlobalErrorDialog
-import com.example.projecttravel.ui.screens.GlobalErrorScreen
-import com.example.projecttravel.ui.screens.GlobalLoadingDialog
+import com.example.projecttravel.model.TradeList
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
-import com.example.projecttravel.ui.screens.TravelScreen
-import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getBoardListMobile
-import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
-import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
-import com.example.projecttravel.zzztester.TestListBoardEntity
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 
 @Composable
-fun ShowListBoard(
-    boardListUiState: BoardListUiState,
+fun ShowListTrade(
+    tradeListUiState: TradeListUiState,
     userUiState: UserUiState,
-    planUiState: PlanUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
-    onResetButtonClicked: () -> Unit,
 ) {
-    when (boardListUiState) {
-        is BoardListUiState.Loading -> GlobalLoadingScreen()
-        is BoardListUiState.Success ->
-            if (boardListUiState.boardList?.list?.isNotEmpty() == true) {
-                ListBoardEntity(
-                    boardList = boardListUiState.boardList,
+    when (tradeListUiState) {
+        is TradeListUiState.Loading -> GlobalLoadingScreen()
+        is TradeListUiState.Success ->
+            if (tradeListUiState.tradeList?.list?.isNotEmpty() == true) {
+                ListTradeEntity(
+                    tradeList = tradeListUiState.tradeList,
                     userUiState = userUiState,
-                    planUiState = planUiState,
                     boardViewModel = boardViewModel,
                     boardUiState = boardUiState,
                     onBoardClicked = onBoardClicked,
-                    onResetButtonClicked = onResetButtonClicked,
                 )
             } else {
                 NoArticlesFoundScreen()
@@ -102,36 +76,20 @@ fun ShowListBoard(
 }
 
 @Composable
-fun ListBoardEntity(
-    boardList: BoardList,
+fun ListTradeEntity(
+    tradeList: TradeList,
     userUiState: UserUiState,
-    planUiState: PlanUiState,
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onBoardClicked: () -> Unit,
-    onResetButtonClicked: () -> Unit,
 ) {
-
-    val scope = rememberCoroutineScope()
-
-    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
-    Surface {
-        when (isLoadingState) {
-            true -> GlobalLoadingDialog()
-            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
-            else -> isLoadingState = null
-        }
-    }
-
     Spacer(modifier = Modifier.padding(5.dp))
-    val tabtitle = stringResource(boardUiState.currentSelectedBoardTab)
-
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(3.dp),
     ) {
 //        item { Text(text = "확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인확인") }
         items(
-            items = boardList.list,
+            items = tradeList.list,
             key = { board ->
                 board.articleNo
             }
@@ -162,6 +120,7 @@ fun ListBoardEntity(
                             Column(
                                 modifier = Modifier.weight(8f)
                             ) {
+                                val tabtitle = stringResource(boardUiState.currentSelectedBoardTab)
                                 val callReply = CallReply(
                                     tabtitle = tabtitle,
                                     articleNo = board.articleNo.toString()
@@ -170,8 +129,8 @@ fun ListBoardEntity(
                                     onClick = {
                                         boardViewModel.getReplyList(callReply)
                                         boardViewModel.setViewBoard(board)
+                                        boardViewModel.setViewCounter(tabtitle, board.articleNo.toString())
                                         onBoardClicked()
-                                        viewCounter(tabtitle, board.articleNo.toString())
                                     }
                                 ) {
                                     EllipsisTextBoard(
@@ -193,7 +152,7 @@ fun ListBoardEntity(
                                     modifier = Modifier.fillMaxWidth()
                                 ) {
                                     val replyListCounter =
-                                        boardList.replyCount.find { it.articleNo == board.articleNo }
+                                        tradeList.replyCount.find { it.articleNo == board.articleNo }
                                     Icon(
                                         modifier = Modifier.size(15.dp),
                                         imageVector = Icons.Filled.Comment,
@@ -272,7 +231,7 @@ fun ListBoardEntity(
                 modifier = Modifier.fillMaxWidth()
             ) {
                 LazyRow {
-                    items(boardList.pages) { index ->
+                    items(tradeList.pages) { index ->
                         // (index = boardList.pages - 1)까지의 값을 가지게 됩니다.
                         val callBoard = CallBoard(
                             kw = boardUiState.currentSearchKeyWord,
@@ -285,16 +244,16 @@ fun ListBoardEntity(
                                 .width(50.dp)
                                 .height(50.dp)
                                 .background(
-                                    if (boardUiState.currentBoardPage == index) Color(0xFF005FAF) else Color.White
+                                    if (boardUiState.currentTradePage == index) Color(0xFF005FAF) else Color.White
                                 )
                                 .clickable {
-                                    boardViewModel.getBoardList(callBoard)
-                                    boardViewModel.setBoardPage(index)
+                                    boardViewModel.getTradeList(callBoard)
+                                    boardViewModel.setTradePage(index)
                                 }
                         ) {
                             Text(
                                 text = (index + 1).toString(), // 1부터 시작하도록 표시
-                                color = if (boardUiState.currentBoardPage == index) Color.White else Color(0xFF005FAF),
+                                color = if (boardUiState.currentTradePage == index) Color.White else Color(0xFF005FAF),
                                 modifier = Modifier.align(Alignment.Center)
                             )
                         }
@@ -304,4 +263,3 @@ fun ListBoardEntity(
         }
     }
 }
-

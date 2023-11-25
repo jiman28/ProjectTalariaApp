@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boardlist
+package com.example.projecttravel.ui.screens.boardview
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,8 +17,6 @@ import androidx.compose.ui.unit.dp
 import com.example.projecttravel.R
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 
 @Composable
 fun BoardsPageTabButtons(

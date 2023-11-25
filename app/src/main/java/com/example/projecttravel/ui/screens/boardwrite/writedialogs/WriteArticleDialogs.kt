@@ -21,7 +21,7 @@ import com.example.projecttravel.ui.screens.boardwrite.writeapi.sendArticleToDb
 import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
+import com.example.projecttravel.ui.screens.boardview.readapi.getAllBoardDefault
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

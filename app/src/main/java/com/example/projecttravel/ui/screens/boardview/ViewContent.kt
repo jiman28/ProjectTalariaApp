@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boardlist
+package com.example.projecttravel.ui.screens.boardview
 
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -17,11 +17,13 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.RemoveRedEye
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +37,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -42,89 +45,132 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.R
-import com.example.projecttravel.data.uistates.BoardPageUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
+import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
+import com.example.projecttravel.data.repositories.board.viewmodels.RemoveArticleUiState
 import com.example.projecttravel.data.uistates.UserUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.BoardEntity
+import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CompanyEntity
 import com.example.projecttravel.model.RemoveArticle
 import com.example.projecttravel.model.TradeEntity
 import com.example.projecttravel.model.UserDto
-import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.boardlist.boarddialogs.RemoveArticleDialog
-import com.example.projecttravel.ui.screens.boardview.UserDropDownMenu
-import com.example.projecttravel.ui.screens.boardview.ViewReply
+import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import org.jsoup.Jsoup
 
 @Composable
 fun ViewContentsBoard(
     userUiState: UserUiState,
     userViewModel: UserViewModel,
-    boardPageUiState: BoardPageUiState,
-    boardPageViewModel: BoardPageViewModel,
-    onContentRefreshClicked: () -> Unit,
+    boardViewModel: BoardViewModel,
+    boardUiState: BoardUiState,
     onBackButtonClicked: () -> Unit,
     onUserButtonClicked: () -> Unit,
 ) {
 
-    val currentArticleNo: Int = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.articleNo
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.articleNo
-        is TradeEntity -> boardPageUiState.selectedViewBoard.articleNo
+    val currentArticleNo: Int = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.articleNo
+        is CompanyEntity -> boardUiState.selectedViewBoard.articleNo
+        is TradeEntity -> boardUiState.selectedViewBoard.articleNo
         else -> 0
     }
-    val currentTitle: String = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.title
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.title
-        is TradeEntity -> boardPageUiState.selectedViewBoard.title
+    val currentTitle: String = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.title
+        is CompanyEntity -> boardUiState.selectedViewBoard.title
+        is TradeEntity -> boardUiState.selectedViewBoard.title
         else -> ""
     }
-    val currentContent: String = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.content
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.content
-        is TradeEntity -> boardPageUiState.selectedViewBoard.content
+    val currentContent: String = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.content
+        is CompanyEntity -> boardUiState.selectedViewBoard.content
+        is TradeEntity -> boardUiState.selectedViewBoard.content
         else -> ""
     }
-    val currentWriteDate: String = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.writeDate
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.writeDate
-        is TradeEntity -> boardPageUiState.selectedViewBoard.writeDate
+    val currentWriteDate: String = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.writeDate
+        is CompanyEntity -> boardUiState.selectedViewBoard.writeDate
+        is TradeEntity -> boardUiState.selectedViewBoard.writeDate
         else -> ""
     }
-    val currentViews: Int = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.views
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.views
-        is TradeEntity -> boardPageUiState.selectedViewBoard.views
+    val currentViews: Int = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.views
+        is CompanyEntity -> boardUiState.selectedViewBoard.views
+        is TradeEntity -> boardUiState.selectedViewBoard.views
         else -> 0
     }
-    val currentWriteId: String = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.writeId
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.writeId
-        is TradeEntity -> boardPageUiState.selectedViewBoard.writeId
+    val currentWriteId: String = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.writeId
+        is CompanyEntity -> boardUiState.selectedViewBoard.writeId
+        is TradeEntity -> boardUiState.selectedViewBoard.writeId
         else -> ""
     }
-    val currentUser: UserDto? = when (boardPageUiState.selectedViewBoard) {
-        is BoardEntity -> boardPageUiState.selectedViewBoard.user
-        is CompanyEntity -> boardPageUiState.selectedViewBoard.user
-        is TradeEntity -> boardPageUiState.selectedViewBoard.user
+    val currentUser: UserDto? = when (boardUiState.selectedViewBoard) {
+        is BoardEntity -> boardUiState.selectedViewBoard.user
+        is CompanyEntity -> boardUiState.selectedViewBoard.user
+        is TradeEntity -> boardUiState.selectedViewBoard.user
         else -> null
     }
 
-    val tabtitle = stringResource(boardPageUiState.currentSelectedBoardTab)
+    val tabtitle = stringResource(boardUiState.currentSelectedBoardTab)
 
+    val callBoard = CallBoard(
+        kw = boardUiState.currentSearchKeyWord,
+        page = boardUiState.currentBoardPage,
+        type = stringResource(boardUiState.currentSearchType),
+        email = boardUiState.currentSearchUser
+    )
+
+    val callCompany = CallBoard(
+        kw = boardUiState.currentSearchKeyWord,
+        page = boardUiState.currentCompanyPage,
+        type = stringResource(boardUiState.currentSearchType),
+        email = boardUiState.currentSearchUser
+    )
+
+    val callTrade = CallBoard(
+        kw = boardUiState.currentSearchKeyWord,
+        page = boardUiState.currentTradePage,
+        type = stringResource(boardUiState.currentSearchType),
+        email = boardUiState.currentSearchUser
+    )
+
+    /** 로딩창 관리 ============================== */
+    var txtErrorMsg by remember { mutableStateOf("") }
     var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
     Surface {
         when (isLoadingState) {
             true -> GlobalLoadingDialog()
-            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
+            false -> TextMsgErrorDialog( txtErrorMsg = txtErrorMsg, onDismiss = { isLoadingState = null } )
             else -> isLoadingState = null
         }
     }
 
-    val scrollState = rememberScrollState()
+    when (boardViewModel.removeArticleUiState) {
+        is RemoveArticleUiState.Loading -> isLoadingState = true
+        is RemoveArticleUiState.Success -> {
+            if ((boardViewModel.removeArticleUiState as RemoveArticleUiState.Success).removeArticle == true) {
+                isLoadingState = null
+                boardViewModel.getBoardList(callBoard)
+                boardViewModel.getCompanyList(callCompany)
+                boardViewModel.getTradeList(callTrade)
+                boardViewModel.resetRemoveArticle()
+                onBackButtonClicked()
+            } else if ((boardViewModel.removeArticleUiState as RemoveArticleUiState.Success).removeArticle == false) {
+                isLoadingState = false
+                boardViewModel.resetRemoveArticle()
+                txtErrorMsg = "게시글 삭제 실패"
+            }
+        }
+        else -> {
+            isLoadingState = false
+            txtErrorMsg = "게시글 삭제 실패"
+        }
+    }
 
+    /** UI 관리 ============================== */
+    val scrollState = rememberScrollState()
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
@@ -135,7 +181,7 @@ fun ViewContentsBoard(
         ) {
             Text(
                 fontSize = 40.sp,
-                text = when (boardPageUiState.currentSelectedBoardTab) {
+                text = when (boardUiState.currentSelectedBoardTab) {
                     R.string.boardTabTitle -> stringResource(R.string.boardTabTitle)
                     R.string.tradeTabTitle -> stringResource(R.string.tradeTabTitle)
                     R.string.companyTabTitle -> stringResource(R.string.companyTabTitle)
@@ -192,12 +238,11 @@ fun ViewContentsBoard(
                 }
                 Spacer(modifier = Modifier.padding(1.dp))
                 UserDropDownMenu(
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                    boardUiState = boardUiState,
+                    boardViewModel = boardViewModel,
                     userViewModel = userViewModel,
                     onUserButtonClicked = onUserButtonClicked,
                 )
-//                Text(fontSize = 12.sp, text = currentWriteId)
                 Spacer(modifier = Modifier.padding(5.dp))
 
                 Icon(
@@ -269,17 +314,9 @@ fun ViewContentsBoard(
                     )
                     RemoveArticleDialog(
                         removeArticle = removeArticle,
-                        boardPageUiState = boardPageUiState,
-                        boardPageViewModel = boardPageViewModel,
-                        onBackButtonClicked = onBackButtonClicked,
+                        boardViewModel = boardViewModel,
                         onDismiss = {
                             isRemoveArticleDialog = false
-                        },
-                        onLoadingStarted = {
-                            isLoadingState = true
-                        },
-                        onErrorOccurred = {
-                            isLoadingState = false
                         },
                     )
                 }
@@ -287,12 +324,12 @@ fun ViewContentsBoard(
             Divider(thickness = dimensionResource(R.dimen.thickness_divider3))
             Spacer(modifier = Modifier.padding(5.dp))
             Column {
-                ViewReply(
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
+                ShowReply(
+                    replyListUiState = boardViewModel.replyListUiState,
+                    boardUiState = boardUiState,
+                    boardViewModel = boardViewModel,
                     userUiState = userUiState,
                     currentArticleNo = currentArticleNo,
-                    onContentRefreshClicked = onContentRefreshClicked,
                 )
             }
         }
@@ -317,5 +354,49 @@ fun HTMLContentWithImage(content: String) {
             // WebView에 이미지 URL을 로드하고 HTML을 표시
             webView.loadDataWithBaseURL(BASE_BOARD_SUMMERNOTE, content, "text/html", "utf-8", null)
         }
+    )
+}
+
+@Composable
+fun RemoveArticleDialog(
+    removeArticle: RemoveArticle,
+    boardViewModel: BoardViewModel,
+    onDismiss: () -> Unit,
+) {
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        text = {
+            Text(
+                text = "게시글을 삭제하시겠습니까?",
+                fontSize = 20.sp,
+                lineHeight = 20.sp,
+                textAlign = TextAlign.Center, // 텍스트 내용 가운데 정렬
+                modifier = Modifier
+                    .padding(10.dp) // 원하는 여백을 추가).
+                    .fillMaxWidth() // 화면 가로 전체를 차지하도록 함
+            )
+        },
+        confirmButton = {
+            Row(
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                TextButton(
+                    onClick = {
+                        boardViewModel.removeArticle(removeArticle)
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = "확인", fontSize = 20.sp)
+                }
+                TextButton(
+                    onClick = {
+                        onDismiss()
+                    }
+                ) {
+                    Text(text = "취소", fontSize = 20.sp)
+                }
+            }
+        },
     )
 }

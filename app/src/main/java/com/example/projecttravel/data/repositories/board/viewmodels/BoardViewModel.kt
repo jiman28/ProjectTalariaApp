@@ -12,7 +12,6 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.R
 import com.example.projecttravel.TravelApplication
 import com.example.projecttravel.data.repositories.board.BoardRepository
-import com.example.projecttravel.data.uistates.BoardPageUiState
 import com.example.projecttravel.model.AllBoardsEntity
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.BoardList
@@ -20,7 +19,11 @@ import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CallReply
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.CompanyList
+import com.example.projecttravel.model.RemoveArticle
+import com.example.projecttravel.model.RemoveComment
 import com.example.projecttravel.model.ReplyList
+import com.example.projecttravel.model.SendArticle
+import com.example.projecttravel.model.SendComment
 import com.example.projecttravel.model.Trade
 import com.example.projecttravel.model.TradeList
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -55,6 +58,30 @@ sealed interface ReplyListUiState {
     object Loading : ReplyListUiState
 }
 
+sealed interface AddArticleUiState {
+    data class Success(val addArticle: Boolean?) : AddArticleUiState
+    object Error : AddArticleUiState
+    object Loading : AddArticleUiState
+}
+
+sealed interface RemoveArticleUiState {
+    data class Success(val removeArticle: Boolean?) : RemoveArticleUiState
+    object Error : RemoveArticleUiState
+    object Loading : RemoveArticleUiState
+}
+
+sealed interface AddCommentUiState {
+    data class Success(val addComment: Boolean?) : AddCommentUiState
+    object Error : AddCommentUiState
+    object Loading : AddCommentUiState
+}
+
+sealed interface RemoveCommentUiState {
+    data class Success(val removeComment: Boolean?) : RemoveCommentUiState
+    object Error : RemoveCommentUiState
+    object Loading : RemoveCommentUiState
+}
+
 data class BoardUiState(
     /** for Search ============================== */
     val currentSearchKeyWord: String = "",
@@ -67,29 +94,15 @@ data class BoardUiState(
 
     /** for View Article ============================== */
     val currentSelectedBoardTab: Int = R.string.boardTabTitle,
-    val currentSelectedArtcNum: String = "",
     val selectedViewBoard: AllBoardsEntity? = null,
 
     /** for ~~ ============================== */
-    /** for ~~ ============================== */
-    /** for ~~ ============================== */
-
     val selectedWriteBoardMenu: Int = R.string.selectTabTitle,
-
-    val currentBoardList: BoardList? = null,
-    val currentCompanyList: CompanyList? = null,
-    val currentTradeList: TradeList? = null,
-
-    val currentReplyList: List<ReplyList> = emptyList(),
-
-    // for MyPage
-    val myBoardContent: Board? = null,
-    val myCompanyContent: Company? = null,
-    val myTradeContent: Trade? = null,
 )
 
 class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel() {
 
+    /** all connection states */
     var boardListUiState: BoardListUiState by mutableStateOf(BoardListUiState.Success(null))
         private set
 
@@ -102,7 +115,19 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
     var replyListUiState: ReplyListUiState by mutableStateOf(ReplyListUiState.Success(emptyList()))
         private set
 
-    /** all selection */
+    var addArticleUiState: AddArticleUiState by mutableStateOf(AddArticleUiState.Success(null))
+        private set
+
+    var removeArticleUiState: RemoveArticleUiState by mutableStateOf(RemoveArticleUiState.Success(null))
+        private set
+
+    var addCommentUiState: AddCommentUiState by mutableStateOf(AddCommentUiState.Success(null))
+        private set
+
+    var removeCommentUiState: RemoveCommentUiState by mutableStateOf(RemoveCommentUiState.Success(null))
+        private set
+
+    /** all selection states */
     private val _boardUiState = MutableStateFlow(BoardUiState())
     val boardUiState: StateFlow<BoardUiState> = _boardUiState.asStateFlow()
 
@@ -110,8 +135,8 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
 //        getBoard(callBoard: CallBoard)
 //    }
 
-    /** 통신 */
-    // 리뷰
+    /** connection functions */
+    // 리뷰 게시판
     fun getBoardList(callBoard: CallBoard) {
         viewModelScope.launch {
             boardListUiState = BoardListUiState.Loading
@@ -127,7 +152,7 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
         }
     }
 
-    // 동행인
+    // 동행인 게시판
     fun getCompanyList(callBoard: CallBoard) {
         viewModelScope.launch {
             companyListUiState = CompanyListUiState.Loading
@@ -143,7 +168,7 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
         }
     }
 
-    // 거래
+    // 거래 게시판
     fun getTradeList(callBoard: CallBoard) {
         viewModelScope.launch {
             tradeListUiState = TradeListUiState.Loading
@@ -159,7 +184,7 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
         }
     }
     
-    // 댓글
+    // 댓글 목록
     fun getReplyList(callReply: CallReply) {
         viewModelScope.launch {
             replyListUiState = ReplyListUiState.Loading
@@ -175,123 +200,121 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
         }
     }
 
-    /** 내부 데이터 처리 */
+    // 게시글 조회수
+    fun setViewCounter(tabtitle: String, articleNo: String) {
+        viewModelScope.launch {
+            boardRepository.setViewCounter(tabtitle = tabtitle, articleNo = articleNo)
+        }
+    }
 
+    // 게시글 추가
+    fun addArticle(sendArticle: SendArticle) {
+        viewModelScope.launch {
+            addArticleUiState = AddArticleUiState.Loading
+            addArticleUiState = try {
+                AddArticleUiState.Success(boardRepository.addArticle(sendArticle))
+            } catch (e: IOException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                AddArticleUiState.Error
+            } catch (e: HttpException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                AddArticleUiState.Error
+            }
+        }
+    }
+    // 무한 로딩 방지용 초기화
+    fun resetAddArticle() {
+        addArticleUiState = AddArticleUiState.Success(null)
+    }
+
+    // 게시글 삭제
+    fun removeArticle(removeArticle: RemoveArticle) {
+        viewModelScope.launch {
+            removeArticleUiState = RemoveArticleUiState.Loading
+            removeArticleUiState = try {
+                RemoveArticleUiState.Success(boardRepository.removeArticle(removeArticle))
+            } catch (e: IOException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                RemoveArticleUiState.Error
+            } catch (e: HttpException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                RemoveArticleUiState.Error
+            }
+        }
+    }
+    // 무한 로딩 방지용 초기화
+    fun resetRemoveArticle() {
+        removeArticleUiState = RemoveArticleUiState.Success(null)
+    }
+
+    // 댓글 추가
+    fun addComment(sendComment: SendComment) {
+        viewModelScope.launch {
+            addCommentUiState = AddCommentUiState.Loading
+            addCommentUiState = try {
+                AddCommentUiState.Success(boardRepository.addComment(sendComment))
+            } catch (e: IOException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                AddCommentUiState.Error
+            } catch (e: HttpException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                AddCommentUiState.Error
+            }
+        }
+    }
+    // 무한 로딩 방지용 초기화
+    fun resetAddComment() {
+        addCommentUiState = AddCommentUiState.Success(null)
+    }
+
+    // 댓글 삭제
+    fun removeComment(removeComment: RemoveComment) {
+        viewModelScope.launch {
+            removeCommentUiState = RemoveCommentUiState.Loading
+            removeCommentUiState = try {
+                RemoveCommentUiState.Success(boardRepository.removeComment(removeComment))
+            } catch (e: IOException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                RemoveCommentUiState.Error
+            } catch (e: HttpException) {
+                Log.d("jimanLog=getTradeList", "${e.message}")
+                RemoveCommentUiState.Error
+            }
+        }
+    }
+    // 무한 로딩 방지용 초기화
+    fun resetRemoveComment() {
+        removeCommentUiState = RemoveCommentUiState.Success(null)
+    }
+
+    /** selection functions */
     /** for Search ============================== */
-    fun setSearchKeyWord(kw: String) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentSearchKeyWord = kw)
-        }
-    }
+    fun setSearchKeyWord(kw: String) { _boardUiState.update { currentState -> currentState.copy(currentSearchKeyWord = kw) } }
 
-    fun setSearchType(desiredBoard: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentSearchType = desiredBoard)
-        }
-    }
+    fun setSearchType(desiredBoard: Int) {_boardUiState.update { currentState -> currentState.copy(currentSearchType = desiredBoard) } }
 
-    fun setSearchUser(email: String) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentSearchUser = email)
-        }
-    }
+    fun setSearchUser(email: String) { _boardUiState.update { currentState -> currentState.copy(currentSearchUser = email) } }
 
-    fun setBoardPage(page: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentBoardPage = page)
-        }
-    }
+    fun setBoardPage(page: Int) { _boardUiState.update { currentState -> currentState.copy(currentBoardPage = page) } }
 
-    fun setCompanyPage(page: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentCompanyPage = page)
-        }
-    }
+    fun setCompanyPage(page: Int) { _boardUiState.update { currentState -> currentState.copy(currentCompanyPage = page) } }
 
-    fun setTradePage(page: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentTradePage = page)
-        }
-    }
+    fun setTradePage(page: Int) { _boardUiState.update { currentState -> currentState.copy(currentTradePage = page) } }
 
     /** for View Article ============================== */
-    fun setBoardTab(tab: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentSelectedBoardTab = tab)
-        }
-    }
+    fun setBoardTab(tab: Int) { _boardUiState.update { currentState -> currentState.copy(currentSelectedBoardTab = tab) } }
 
-    fun setSelectedArtcNum(desiredBoard: String) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentSelectedArtcNum = desiredBoard)
-        }
-    }
-
-    fun setViewBoard(viewBoard: AllBoardsEntity) {
-        _boardUiState.update { currentState ->
-            currentState.copy(selectedViewBoard = viewBoard)
-        }
-    }
+    fun setViewBoard(viewBoard: AllBoardsEntity) { _boardUiState.update { currentState -> currentState.copy(selectedViewBoard = viewBoard) } }
 
     /** for ~~ ============================== */
     /** for ~~ ============================== */
     /** for ~~ ============================== */
 
-    fun setWriteBoardMenu(desiredBoard: Int) {
-        _boardUiState.update { currentState ->
-            currentState.copy(selectedWriteBoardMenu = desiredBoard)
-        }
-    }
-
-    fun setBoardList(lists: BoardList) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentBoardList = lists)
-        }
-    }
-
-    fun setCompanyList(lists: CompanyList) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentCompanyList = lists)
-        }
-    }
-
-    fun setTradeList(lists: TradeList) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentTradeList = lists)
-        }
-    }
-
-    fun setReplyList(lists: List<ReplyList>) {
-        _boardUiState.update { currentState ->
-            currentState.copy(currentReplyList = lists)
-        }
-    }
-
-    // for MyPage=====================================
-
-    fun setMyBoard(desiredBoard: Board) {
-        _boardUiState.update { currentState ->
-            currentState.copy(myBoardContent = desiredBoard)
-        }
-    }
-
-    fun setMyCompany(desiredBoard: Company) {
-        _boardUiState.update { currentState ->
-            currentState.copy(myCompanyContent = desiredBoard)
-        }
-    }
-
-    fun setMyTrade(desiredBoard: Trade) {
-        _boardUiState.update { currentState ->
-            currentState.copy(myTradeContent = desiredBoard)
-        }
-    }
+    fun setWriteBoardMenu(desiredBoard: Int) { _boardUiState.update { currentState -> currentState.copy(selectedWriteBoardMenu = desiredBoard) } }
 
     /** etc ============================== */
     /** reset all Objects */
-    fun resetBoardPage() {
-        _boardUiState.value = BoardUiState() // UserUiState를 기본 값(null)으로 재설정
-    }
+    fun resetBoardPage() { _boardUiState.value = BoardUiState() }
 
 
     /** viewModelFactory */

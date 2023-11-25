@@ -62,10 +62,9 @@ import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingScreen
 import com.example.projecttravel.ui.screens.TravelScreen
-import com.example.projecttravel.ui.screens.boardlist.NoArticlesFoundScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getReplyListMobile
-import com.example.projecttravel.ui.screens.boardlist.readapi.viewCounter
-import com.example.projecttravel.ui.screens.boardwrite.writeapi.EllipsisTextBoard
+import com.example.projecttravel.ui.screens.boardview.EllipsisTextBoard
+import com.example.projecttravel.ui.screens.boardview.NoArticlesFoundScreen
+import com.example.projecttravel.ui.screens.boardview.readapi.getReplyListMobile
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -195,7 +194,7 @@ fun TestListBoardEntity(
                                             val isReplyComplete = isReplyDeferred.await()
                                             // 모든 작업이 완료되었을 때만 실행합니다.
                                             if (isReplyComplete != null) {
-                                                viewCounter(tabtitle, board.articleNo.toString())
+//                                                viewCounter(tabtitle, board.articleNo.toString())
                                                 boardPageViewModel.setViewBoard(board)
 //                                                boardPageViewModel.setSelectedBoard(board)
                                                 boardPageViewModel.setReplyList(isReplyComplete)

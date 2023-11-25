@@ -53,7 +53,7 @@ import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
+import com.example.projecttravel.ui.screens.boardview.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import kotlinx.coroutines.CoroutineScope
@@ -296,26 +296,12 @@ fun DrawerContents(
             TextButton(onClick = {
                 scope.launch {
                     drawerState.close()
+                    boardViewModel.resetBoardPage()
                     boardViewModel.getBoardList(callBoardBoard)
                     boardViewModel.getCompanyList(callBoardBoard)
                     boardViewModel.getTradeList(callBoardBoard)
                     navController.navigate(TravelScreen.Page4.name)
                 }
-//                scope.launch {
-//                    drawerState.close()
-//                    isLoadingState = true
-//                    val isDeferred =
-//                        async { getAllBoardDefault(callBoardBoard, boardPageViewModel, scope) }
-//                    val isComplete = isDeferred.await()
-//                    // 모든 작업이 완료되었을 때만 실행합니다.
-//                    if (isComplete) {
-//                        isLoadingState = null
-//                        userViewModel.previousScreenWasPageOneA(false)
-//                        navController.navigate(TravelScreen.Page4.name)
-//                    } else {
-//                        isLoadingState = false
-//                    }
-//                }
             }) {
                 Text(
                     text = "BOARD",
@@ -379,23 +365,23 @@ fun DrawerContents(
             Spacer(modifier = Modifier.padding(2.dp))
         }
 
-        /** Test ==================== ==================== ==================== ==================== ====================*/
-        Spacer(modifier = Modifier.padding(2.dp))
-        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-        Spacer(modifier = Modifier.padding(2.dp))
-        val testBoardBoard = CallBoard(
-            kw = "",
-            page = 0,
-            type = stringResource(boardPageUiState.currentSearchType),
-            email = ""
-        )
-        TextButton(onClick = {
-            boardViewModel.getBoardList(testBoardBoard)
-            navController.navigate(TravelScreen.PageTest.name)
-        }) {
-            Text(text = "테스트페이지", fontSize = 25.sp)
-        }
-        /** Test ==================== ==================== ==================== ==================== ====================*/
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
+//        Spacer(modifier = Modifier.padding(2.dp))
+//        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
+//        Spacer(modifier = Modifier.padding(2.dp))
+//        val testBoardBoard = CallBoard(
+//            kw = "",
+//            page = 0,
+//            type = stringResource(boardPageUiState.currentSearchType),
+//            email = ""
+//        )
+//        TextButton(onClick = {
+//            boardViewModel.getBoardList(testBoardBoard)
+//            navController.navigate(TravelScreen.PageTest.name)
+//        }) {
+//            Text(text = "테스트페이지", fontSize = 25.sp)
+//        }
+//        /** Test ==================== ==================== ==================== ==================== ====================*/
 
     }
 }

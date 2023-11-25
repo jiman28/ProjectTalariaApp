@@ -12,7 +12,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
@@ -31,9 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -49,8 +46,7 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
 import com.example.projecttravel.data.uistates.viewmodels.UserViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.ui.screens.TravelScreen
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
+import com.example.projecttravel.ui.screens.boardview.readapi.getAllBoardDefault
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import kotlinx.coroutines.async

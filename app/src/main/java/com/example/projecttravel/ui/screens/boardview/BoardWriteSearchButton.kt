@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.boardlist
+package com.example.projecttravel.ui.screens.boardview
 
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -12,7 +12,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -31,13 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
-import com.example.projecttravel.data.uistates.BoardPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.model.CallBoard
-import com.example.projecttravel.ui.screens.GlobalErrorDialog
-import com.example.projecttravel.ui.screens.GlobalLoadingDialog
-import com.example.projecttravel.ui.screens.boardlist.readapi.getAllBoardDefault
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,20 +38,10 @@ fun BoardWriteSearchButton(
     boardViewModel: BoardViewModel,
     boardUiState: BoardUiState,
     onWriteButtonClicked: () -> Unit,
-    onResetButtonClicked: () -> Unit,
 ) {
     val scope = rememberCoroutineScope()
     var searchKeyWord by remember { mutableStateOf(boardUiState.currentSearchKeyWord) }
     val selectedType = boardUiState.currentSearchType
-
-    var isLoadingState by remember { mutableStateOf<Boolean?>(null) }
-    Surface {
-        when (isLoadingState) {
-            true -> GlobalLoadingDialog()
-            false -> GlobalErrorDialog(onDismiss = { isLoadingState = null })
-            else -> isLoadingState = null
-        }
-    }
 
     Column(
         verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
@@ -89,8 +72,6 @@ fun BoardWriteSearchButton(
             Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-//            modifier = Modifier
-//                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
             ) {
                 val scrollStateText = rememberScrollState()
 
@@ -111,8 +92,6 @@ fun BoardWriteSearchButton(
             Column(
                 verticalArrangement = Arrangement.Center, // 수직 가운데 정렬
                 horizontalAlignment = Alignment.CenterHorizontally, // 수평 가운데 정렬
-//            modifier = Modifier
-//                .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
             ) {
                 val callBoard = CallBoard(
                     kw = searchKeyWord,
@@ -130,18 +109,6 @@ fun BoardWriteSearchButton(
                             boardViewModel.getCompanyList(callBoard)
                             boardViewModel.getTradeList(callBoard)
                             boardViewModel.setSearchKeyWord(searchKeyWord)
-//                            isLoadingState = true
-//                            val isDeferred =
-//                                async { getAllBoardDefault(callBoard, boardPageViewModel, scope) }
-//                            val isComplete = isDeferred.await()
-//                            // 모든 작업이 완료되었을 때만 실행합니다.
-//                            if (isComplete) {
-//                                isLoadingState = null
-//                                boardPageViewModel.setSearchKeyWord(searchKeyWord)
-//                                onResetButtonClicked()
-//                            } else {
-//                                isLoadingState = false
-//                            }
                         }
                     },
                     shape = RoundedCornerShape(0.dp),

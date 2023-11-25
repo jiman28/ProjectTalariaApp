@@ -31,7 +31,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.projecttravel.R
 import com.example.projecttravel.data.repositories.board.viewmodels.BoardViewModel
 import com.example.projecttravel.ui.screens.auth.InterestForm
-import com.example.projecttravel.ui.screens.boardlist.AllBoardsPage
+import com.example.projecttravel.ui.screens.boardview.AllBoardsPage
 import com.example.projecttravel.ui.screens.boardwrite.WriteArticlePage
 import com.example.projecttravel.ui.screens.auth.LoginForm
 import com.example.projecttravel.ui.screens.auth.SignInForm
@@ -46,10 +46,9 @@ import com.example.projecttravel.data.uistates.viewmodels.BoardPageViewModel
 import com.example.projecttravel.data.uistates.viewmodels.PlanViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
 import com.example.projecttravel.data.uistates.viewmodels.SelectViewModel
-import com.example.projecttravel.ui.screens.boardlist.ViewContentsBoard
+import com.example.projecttravel.ui.screens.boardview.ViewContentsBoard
 import com.example.projecttravel.ui.screens.infome.MyInfoPage
 import com.example.projecttravel.ui.screens.infomeedit.EditUserPage
-import com.example.projecttravel.zzztester.TestPage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -368,12 +367,10 @@ fun TravelScreenHome(
                 ) {
                     AllBoardsPage(
                         userUiState = userUiState,
-                        planUiState = planUiState,
                         boardViewModel = boardViewModel,
                         boardUiState = boardUiState,
                         onBoardClicked = { navController.navigate(TravelScreen.Page4A.name) },
                         onWriteButtonClicked = { navController.navigate(TravelScreen.Page4B.name) },
-                        onResetButtonClicked = { navController.navigate(TravelScreen.Page4.name) },
                     )
                     BackHandler(
                         enabled = drawerState.isClosed,
@@ -389,9 +386,8 @@ fun TravelScreenHome(
                 ViewContentsBoard(
                     userUiState = userUiState,
                     userViewModel = userViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
-                    onContentRefreshClicked = { navController.navigate(TravelScreen.Page4A.name) },
+                    boardViewModel = boardViewModel,
+                    boardUiState = boardUiState,
                     onBackButtonClicked = {
                         if (userUiState.previousScreenWasPageOneA) {
                             navController.navigate(TravelScreen.Page1A.name)
@@ -427,28 +423,28 @@ fun TravelScreenHome(
                 )
             }
 
-            /** Test ==================== ==================== ==================== ==================== ====================*/
-            composable(route = TravelScreen.PageTest.name) {
-                TestPage(
-                    userUiState = userUiState,
-                    userViewModel = userViewModel,
-                    planUiState = planUiState,
-                    planViewModel = planViewModel,
-                    boardPageUiState = boardPageUiState,
-                    boardPageViewModel = boardPageViewModel,
-                    navController = navController,
-                    scope = scope,
-                    boardViewModel = boardViewModel,
-                    boardListUiState = boardViewModel.boardListUiState,
-                )
-                BackHandler(
-                    enabled = drawerState.isClosed,
-                    onBack = {
-                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-                    },
-                )
-            }
-            /** Test ==================== ==================== ==================== ==================== ====================*/
+//            /** Test ==================== ==================== ==================== ==================== ====================*/
+//            composable(route = TravelScreen.PageTest.name) {
+//                TestPage(
+//                    userUiState = userUiState,
+//                    userViewModel = userViewModel,
+//                    planUiState = planUiState,
+//                    planViewModel = planViewModel,
+//                    boardPageUiState = boardPageUiState,
+//                    boardPageViewModel = boardPageViewModel,
+//                    navController = navController,
+//                    scope = scope,
+//                    boardViewModel = boardViewModel,
+//                    boardListUiState = boardViewModel.boardListUiState,
+//                )
+//                BackHandler(
+//                    enabled = drawerState.isClosed,
+//                    onBack = {
+//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
+//                    },
+//                )
+//            }
+//            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
 
         /** DrawerMenu Screen closed when click phone's backButton */
