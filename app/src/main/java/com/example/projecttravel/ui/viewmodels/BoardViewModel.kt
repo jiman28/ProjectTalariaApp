@@ -148,10 +148,10 @@ class BoardViewModel(private val boardRepository: BoardRepository) : ViewModel()
             boardListUiState = try {
                 BoardListUiState.Success(boardRepository.getBoardList(callBoard))
             } catch (e: IOException) {
-                Log.d("jimanLog=getBoardList", "${e.message}")
+                Log.d("jimanLog=getBoardList", "IOException: ${e.message}")
                 BoardListUiState.Error
             } catch (e: HttpException) {
-                Log.d("jimanLog=getBoardList", "${e.message}")
+                Log.d("jimanLog=getBoardList", "HttpException: ${e.message}")
                 BoardListUiState.Error
             }
         }

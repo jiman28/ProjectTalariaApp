@@ -148,24 +148,24 @@ suspend fun getDateToAttrByWeather(
                     val attrResponse = response.body()
                     if (attrResponse != null) {
                         planPageViewModel.setDateToAttrByWeather(attrResponse)
-                        Log.d("jiman=111", "Request Success + Response Success")
-                        Log.d("jiman=111", response.body().toString())
+                        Log.d("jiman=111getDateToAttrByWeather", "Request Success + Response Success")
+                        Log.d("jiman=111getDateToAttrByWeather", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
                     } else {
-                        Log.d("jiman=222", "Response body is null")
+                        Log.d("jiman=222getDateToAttrByWeather", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
                     // 통신은 성공하였으나 응답 실패
-                    Log.d("jiman=333", "Request Success + Response FAILURE")
-                    Log.d("jiman=333", response.body().toString())
+                    Log.d("jiman=333getDateToAttrByWeather", "Request Success + Response FAILURE")
+                    Log.d("jiman=333getDateToAttrByWeather", response.body().toString())
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
             override fun onFailure(call: Call<List<SpotDtoResponse>>, t: Throwable) {
                 // 통신 실패
-                Log.d("jiman=444", "Request FAILURE")
-                Log.d("jiman=444", "checking: $call")
+                Log.d("jiman=444getDateToAttrByWeather", "Request FAILURE")
+                Log.d("jiman=444getDateToAttrByWeather", "checking: $call")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
@@ -206,24 +206,24 @@ suspend fun getDateToAttrByCity(
                     val attrResponse = response.body()
                     if (attrResponse != null) {
                         planPageViewModel.setDateToAttrByCity(attrResponse)
-                        Log.d("jiman=111", "Request Success + Response Success")
-                        Log.d("jiman=111", response.body().toString())
+                        Log.d("jiman=111getDateToAttrByCity", "Request Success + Response Success")
+                        Log.d("jiman=111getDateToAttrByCity", response.body().toString())
                         continuation.resume(true) // 작업 성공 시 true 반환
                     } else {
-                        Log.d("jiman=222", "Response body is null")
+                        Log.d("jiman=222getDateToAttrByCity", "Response body is null")
                         continuation.resume(false) // 작업 실패 시 false 반환
                     }
                 } else {
                     // 통신은 성공하였으나 응답 실패
-                    Log.d("jiman=333", "Request Success + Response FAILURE")
-                    Log.d("jiman=333", response.body().toString())
+                    Log.d("jiman=333getDateToAttrByCity", "Request Success + Response FAILURE")
+                    Log.d("jiman=333getDateToAttrByCity", response.body().toString())
                     continuation.resume(false) // 작업 실패 시 false 반환
                 }
             }
             override fun onFailure(call: Call<List<SpotDtoResponse>>, t: Throwable) {
                 // 통신 실패
-                Log.d("jiman=444", "Request FAILURE")
-                Log.d("jiman=444", "checking: $call")
+                Log.d("jiman=444getDateToAttrByCity", "Request FAILURE")
+                Log.d("jiman=444getDateToAttrByCity", "checking: $call")
                 continuation.resume(false) // 작업 실패 시 false 반환
             }
         })
