@@ -51,7 +51,7 @@ import androidx.datastore.preferences.core.edit
 import com.example.projecttravel.model.User
 import com.example.projecttravel.ui.screens.auth.api.loginApiCall
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.emailKey
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.pwdKey

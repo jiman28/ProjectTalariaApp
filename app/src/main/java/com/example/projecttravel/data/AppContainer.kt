@@ -3,22 +3,16 @@ package com.example.projecttravel.data
 import com.example.projecttravel.BuildConfig
 import com.example.projecttravel.data.repositories.BoardRepository
 import com.example.projecttravel.data.repositories.DefaultBoardRepository
-import com.example.projecttravel.data.repositories.DefaultUserRepository
-import com.example.projecttravel.data.repositories.UserRepository
-import com.example.projecttravel.data.repositories.select.CityListRepository
-import com.example.projecttravel.data.repositories.select.CountryListRepository
-import com.example.projecttravel.data.repositories.select.DefaultCityListRepository
-import com.example.projecttravel.data.repositories.select.DefaultCountryListRepository
-import com.example.projecttravel.data.repositories.select.DefaultInterestListRepository
-import com.example.projecttravel.data.repositories.select.DefaultTourAttrSearchListRepository
-import com.example.projecttravel.data.repositories.select.DefaultTourAttractionListRepository
-import com.example.projecttravel.data.repositories.select.InterestListRepository
-import com.example.projecttravel.data.repositories.select.TourAttrSearchListRepository
-import com.example.projecttravel.data.repositories.select.TourAttractionListRepository
-import com.example.projecttravel.data.repositories.user.DefaultUserInfoListRepository
-import com.example.projecttravel.data.repositories.user.DefaultUserPlanListRepository
-import com.example.projecttravel.data.repositories.user.UserInfoListRepository
-import com.example.projecttravel.data.repositories.user.UserPlanListRepository
+import com.example.projecttravel.data.repositories.CityListRepository
+import com.example.projecttravel.data.repositories.CountryListRepository
+import com.example.projecttravel.data.repositories.DefaultCityListRepository
+import com.example.projecttravel.data.repositories.DefaultCountryListRepository
+import com.example.projecttravel.data.repositories.DefaultInterestListRepository
+import com.example.projecttravel.data.repositories.DefaultTourAttrSearchListRepository
+import com.example.projecttravel.data.repositories.DefaultTourAttractionListRepository
+import com.example.projecttravel.data.repositories.InterestListRepository
+import com.example.projecttravel.data.repositories.TourAttrSearchListRepository
+import com.example.projecttravel.data.repositories.TourAttractionListRepository
 import com.example.projecttravel.network.TravelApiService
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -37,11 +31,7 @@ interface AppContainer {
     val tourAttractionListRepository: TourAttractionListRepository
     val tourAttrSearchListRepository: TourAttrSearchListRepository
 
-    val userInfoListRepository: UserInfoListRepository
-    val userPlanListRepository: UserPlanListRepository
-
     /** 리펙토링 = MVVM */
-    val userRepository: UserRepository
     val boardRepository: BoardRepository
 }
 
@@ -107,18 +97,7 @@ class DefaultAppContainer(
         DefaultTourAttrSearchListRepository(retrofitService)
     }
 
-    override val userInfoListRepository: UserInfoListRepository by lazy {
-        DefaultUserInfoListRepository(retrofitService)
-    }
-
-    override val userPlanListRepository: UserPlanListRepository by lazy {
-        DefaultUserPlanListRepository(retrofitService)
-    }
-
     /** 리펙토링 = MVVM */
-    override val userRepository: UserRepository by lazy {
-        DefaultUserRepository(retrofitService, retrofitStringService)
-    }
 
     override val boardRepository: BoardRepository by lazy {
         DefaultBoardRepository(retrofitService, retrofitStringService)

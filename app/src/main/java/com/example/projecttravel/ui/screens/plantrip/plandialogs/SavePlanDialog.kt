@@ -26,8 +26,8 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.PlansData
 import com.example.projecttravel.ui.screens.plantrip.planapi.savePlanToMongoDb
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 

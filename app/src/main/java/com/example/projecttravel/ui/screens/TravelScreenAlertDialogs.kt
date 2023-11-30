@@ -28,7 +28,7 @@ import androidx.datastore.preferences.core.edit
 import com.example.projecttravel.R
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore
 import com.example.projecttravel.ui.screens.auth.datastore.DataStore.Companion.dataStore
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import kotlinx.coroutines.launch
 
 /** The screen displaying the loading message.*/

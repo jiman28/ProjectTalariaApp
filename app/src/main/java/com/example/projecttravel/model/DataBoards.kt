@@ -1,8 +1,6 @@
 package com.example.projecttravel.model
 
 import kotlinx.serialization.Serializable
-import java.time.LocalDate
-import java.time.LocalDateTime
 
 interface AllBoards {
 }

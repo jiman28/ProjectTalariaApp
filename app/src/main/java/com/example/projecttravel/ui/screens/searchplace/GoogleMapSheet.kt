@@ -45,10 +45,10 @@ import com.example.projecttravel.data.uistates.SearchUiState
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
-import com.example.projecttravel.ui.screens.searchplace.searchapi.LocationViewModel
+import com.example.projecttravel.ui.viewmodels.LocationViewModel
 import com.example.projecttravel.ui.screens.searchplace.searchapi.getPlaceInfo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.sendPlaceNameDjango
-import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
+import com.example.projecttravel.ui.viewmodels.SearchViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.libraries.places.api.Places

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
 import com.example.projecttravel.ui.screens.plantrip.planapi.deletePlanfromMongoDb
 import kotlinx.coroutines.async

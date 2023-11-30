@@ -18,8 +18,8 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.Board
 import com.example.projecttravel.model.Company
 import com.example.projecttravel.model.Trade
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 //import com.example.projecttravel.data.repositories.board.viewmodels.BoardUiState
 //import com.example.projecttravel.data.repositories.board.viewmodels.CompanyUiState
 //import com.example.projecttravel.data.repositories.board.viewmodels.TradeUiState

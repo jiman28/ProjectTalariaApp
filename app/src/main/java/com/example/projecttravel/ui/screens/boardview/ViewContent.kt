@@ -49,7 +49,7 @@ import com.example.projecttravel.ui.viewmodels.BoardUiState
 import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.ui.viewmodels.RemoveArticleUiState
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.BoardEntity
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.model.CompanyEntity

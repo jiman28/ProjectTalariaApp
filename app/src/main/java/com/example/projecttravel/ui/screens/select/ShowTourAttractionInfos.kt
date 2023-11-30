@@ -49,8 +49,8 @@ import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.model.InterestInfo
 import com.example.projecttravel.model.TourAttractionInfo
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.TourAttractionUiState
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.TourAttractionUiState
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable

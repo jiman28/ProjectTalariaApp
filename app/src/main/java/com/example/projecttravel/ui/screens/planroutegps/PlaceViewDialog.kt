@@ -25,10 +25,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.example.projecttravel.R
 import com.example.projecttravel.model.SpotDto
-import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
+import com.example.projecttravel.ui.viewmodels.CityUiState
+import com.example.projecttravel.ui.viewmodels.ListCityRepoViewModel
+import com.example.projecttravel.ui.viewmodels.CountryUiState
+import com.example.projecttravel.ui.viewmodels.ListCountryRepoViewModel
 
 @Composable
 fun PlaceViewDialog(

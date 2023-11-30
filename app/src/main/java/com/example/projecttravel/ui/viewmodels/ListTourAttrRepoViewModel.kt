@@ -1,4 +1,4 @@
-package com.example.projecttravel.data.repositories.select.viewmodels
+package com.example.projecttravel.ui.viewmodels
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.projecttravel.TravelApplication
-import com.example.projecttravel.data.repositories.select.TourAttractionListRepository
+import com.example.projecttravel.data.repositories.TourAttractionListRepository
 import com.example.projecttravel.model.TourAttractionInfo
 import kotlinx.coroutines.launch
 

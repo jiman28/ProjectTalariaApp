@@ -31,7 +31,7 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.model.SendArticle
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.CallBoard
 
 @Composable

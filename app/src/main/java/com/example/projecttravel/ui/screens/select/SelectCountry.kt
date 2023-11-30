@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CountryInfo
-import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.CountryUiState
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons

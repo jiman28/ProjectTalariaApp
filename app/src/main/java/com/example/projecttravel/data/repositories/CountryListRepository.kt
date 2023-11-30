@@ -1,4 +1,4 @@
-package com.example.projecttravel.data.repositories.select
+package com.example.projecttravel.data.repositories
 
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.network.TravelApiService

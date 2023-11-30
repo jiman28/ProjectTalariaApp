@@ -32,8 +32,8 @@ import com.example.projecttravel.R
 import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.ui.screens.LoginErrorDialog
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.HomepageRepoViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.HomepageRepoViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable

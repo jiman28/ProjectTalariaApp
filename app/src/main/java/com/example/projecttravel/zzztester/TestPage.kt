@@ -5,8 +5,8 @@ import androidx.navigation.NavHostController
 import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.PlanUiState
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.viewmodels.BoardUiState
 import kotlinx.coroutines.CoroutineScope
 

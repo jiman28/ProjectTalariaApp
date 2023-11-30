@@ -55,7 +55,7 @@ import com.example.projecttravel.ui.screens.TextMsgErrorDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infoapi.getPeopleLikeMe
 import com.example.projecttravel.ui.screens.infome.infodialog.UserSimilarToMeDialog
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import kotlinx.coroutines.async

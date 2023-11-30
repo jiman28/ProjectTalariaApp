@@ -30,7 +30,7 @@ import com.example.projecttravel.R
 import com.example.projecttravel.ui.viewmodels.BoardUiState
 import com.example.projecttravel.ui.viewmodels.BoardViewModel
 import com.example.projecttravel.data.uistates.UserPageUiState
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 
 @Composable
 fun WriteArticlePage(

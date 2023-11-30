@@ -25,14 +25,14 @@ import com.example.projecttravel.model.CountryInfo
 import com.example.projecttravel.ui.screens.searchplace.searchapi.findSearchListByName
 import com.example.projecttravel.ui.screens.select.SelectCity
 import com.example.projecttravel.ui.screens.select.SelectCountry
-import com.example.projecttravel.data.uistates.viewmodels.SearchViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.TourAttrSearchUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListTourSearchRepoViewModel
+import com.example.projecttravel.ui.viewmodels.SearchViewModel
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.CityUiState
+import com.example.projecttravel.ui.viewmodels.ListCityRepoViewModel
+import com.example.projecttravel.ui.viewmodels.CountryUiState
+import com.example.projecttravel.ui.viewmodels.ListCountryRepoViewModel
+import com.example.projecttravel.ui.viewmodels.TourAttrSearchUiState
+import com.example.projecttravel.ui.viewmodels.ListTourSearchRepoViewModel
 
 @Composable
 fun SearchGpsPage(

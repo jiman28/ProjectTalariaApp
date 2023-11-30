@@ -32,8 +32,8 @@ import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoRead
 import com.example.projecttravel.model.SpotDtoResponseRead
 import com.example.projecttravel.ui.screens.plantrip.NoPlanListFound
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable

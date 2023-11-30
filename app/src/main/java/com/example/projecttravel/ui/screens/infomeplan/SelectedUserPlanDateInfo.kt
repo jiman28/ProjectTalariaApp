@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.SpotDtoResponseRead
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable

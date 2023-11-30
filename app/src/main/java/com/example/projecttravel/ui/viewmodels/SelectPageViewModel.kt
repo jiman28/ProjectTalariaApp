@@ -1,4 +1,4 @@
-package com.example.projecttravel.data.uistates.viewmodels
+package com.example.projecttravel.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import com.example.projecttravel.data.uistates.SelectUiState

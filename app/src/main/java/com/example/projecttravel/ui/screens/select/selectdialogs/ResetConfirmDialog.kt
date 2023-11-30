@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 
 /** ===================================================================== */
 /** ResetConfirmDialog to ask whether to reset or not ====================*/

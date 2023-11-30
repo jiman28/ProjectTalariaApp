@@ -29,8 +29,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.CountryInfo
-import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.CityUiState
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 
 @Composable

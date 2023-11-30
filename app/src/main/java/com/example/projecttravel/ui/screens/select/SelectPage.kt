@@ -22,19 +22,19 @@ import com.example.projecttravel.R
 import com.example.projecttravel.data.uistates.SelectUiState
 import com.example.projecttravel.data.uistates.UserPageUiState
 import com.example.projecttravel.model.CountryInfo
-import com.example.projecttravel.data.repositories.select.viewmodels.CountryUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCountryRepoViewModel
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.CountryUiState
+import com.example.projecttravel.ui.viewmodels.ListCountryRepoViewModel
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 import com.example.projecttravel.model.CityInfo
 import com.example.projecttravel.model.InterestInfo
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.CityUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListCityRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.InterestUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListInterestRepoViewModel
-import com.example.projecttravel.data.repositories.select.viewmodels.TourAttractionUiState
-import com.example.projecttravel.data.repositories.select.viewmodels.ListTourAttrRepoViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.CityUiState
+import com.example.projecttravel.ui.viewmodels.ListCityRepoViewModel
+import com.example.projecttravel.ui.viewmodels.InterestUiState
+import com.example.projecttravel.ui.viewmodels.ListInterestRepoViewModel
+import com.example.projecttravel.ui.viewmodels.TourAttractionUiState
+import com.example.projecttravel.ui.viewmodels.ListTourAttrRepoViewModel
 
 @Composable
 fun SelectPage(

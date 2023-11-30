@@ -40,7 +40,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.projecttravel.data.uistates.SelectUiState
-import com.example.projecttravel.data.uistates.viewmodels.SelectPageViewModel
+import com.example.projecttravel.ui.viewmodels.SelectPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import java.text.SimpleDateFormat
 import java.time.Instant

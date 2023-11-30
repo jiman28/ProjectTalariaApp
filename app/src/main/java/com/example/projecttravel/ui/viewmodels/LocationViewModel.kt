@@ -1,4 +1,4 @@
-package com.example.projecttravel.ui.screens.searchplace.searchapi
+package com.example.projecttravel.ui.viewmodels
 
 import android.location.Geocoder
 import androidx.compose.runtime.mutableStateListOf

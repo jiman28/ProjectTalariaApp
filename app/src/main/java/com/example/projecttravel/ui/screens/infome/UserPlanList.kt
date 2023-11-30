@@ -49,8 +49,8 @@ import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.TravelScreen
 import com.example.projecttravel.ui.screens.infome.infodialog.DeletePlanDialog
 import com.example.projecttravel.ui.screens.select.selectapi.getDateToWeather
-import com.example.projecttravel.data.uistates.viewmodels.PlanPageViewModel
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.PlanPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.ui.screens.DefaultAppFontContent
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch

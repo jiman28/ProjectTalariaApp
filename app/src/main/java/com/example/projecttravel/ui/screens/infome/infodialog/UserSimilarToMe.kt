@@ -42,7 +42,7 @@ import com.example.projecttravel.model.CheckOtherUserById
 import com.example.projecttravel.ui.screens.GlobalErrorDialog
 import com.example.projecttravel.ui.screens.GlobalLoadingDialog
 import com.example.projecttravel.ui.screens.infome.infoapi.getUserPageById
-import com.example.projecttravel.data.uistates.viewmodels.UserPageViewModel
+import com.example.projecttravel.ui.viewmodels.UserPageViewModel
 import com.example.projecttravel.model.CallBoard
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyInterest
 import com.example.projecttravel.ui.screens.infome.infoapi.callMyPlanList
