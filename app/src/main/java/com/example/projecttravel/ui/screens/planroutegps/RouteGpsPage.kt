@@ -205,7 +205,7 @@ fun RouteGpsPage(
                                 snippet = when (attrs.inOut) {
                                     "0" -> "실내 활동"
                                     "1" -> "실외 활동"
-                                    else -> "몰루"
+                                    else -> "None"
                                 },
                                 onInfoWindowClick = {
                                     showPlaceInfo = true

@@ -34,9 +34,7 @@ interface BoardRepository {
 
 }
 
-/**
- * Network Implementation of repository that retrieves Country data from underlying data source.
- */
+/** Network Implementations */
 class DefaultBoardRepository(
     private val travelApiService: TravelApiService,
     private val travelStringApiService: TravelApiService,

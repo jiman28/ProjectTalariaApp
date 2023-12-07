@@ -164,8 +164,8 @@ fun RouteGpsAllDir(
             .fillMaxWidth() // 화면 가로 전체를 차지하도록 함 (정렬할 때 중요하게 작용)
             .clickable {
                 if (myPositionSwitchChecked) {
-//                    val myPosition = "My+Location"  // 진짜 위치
-                    val myPosition = "바비칸 센터"   // 임시 확인용 위치
+                    val myPosition = "My+Location"  // 진짜 위치
+//                    val myPosition = "바비칸 센터"   // 임시 확인용 위치
                     val uriBuilder =
                         StringBuilder("https://www.google.co.in/maps/dir/$myPosition")
                     for (i in 0 until currentDayTripAttrs.list.size) {
