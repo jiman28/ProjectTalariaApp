@@ -45,8 +45,6 @@ fun PlanPage(
     onPlanCompleteClicked: () -> Unit,
     onRouteClicked: () -> Unit = {},
 ) {
-    Log.d("jiman=dateToAttrByCity", planUiState.dateToAttrByCity.toString())
-    Log.d("jiman=dateToAttrByWeather", planUiState.dateToAttrByWeather.toString())
     var selectedPlanDate by remember { mutableStateOf(planUiState.currentPlanDate) }
 
     // allList By WeatherSwitch for all list and size

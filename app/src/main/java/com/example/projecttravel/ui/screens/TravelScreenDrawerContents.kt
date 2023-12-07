@@ -363,25 +363,6 @@ fun DrawerContents(
             )
             Spacer(modifier = Modifier.padding(2.dp))
         }
-
-//        /** Test ==================== ==================== ==================== ==================== ====================*/
-//        Spacer(modifier = Modifier.padding(2.dp))
-//        Divider(thickness = dimensionResource(R.dimen.thickness_divider1))
-//        Spacer(modifier = Modifier.padding(2.dp))
-//        val testBoardBoard = CallBoard(
-//            kw = "",
-//            page = 0,
-//            type = stringResource(boardPageUiState.currentSearchType),
-//            email = ""
-//        )
-//        TextButton(onClick = {
-//            boardViewModel.getBoardList(testBoardBoard)
-//            navController.navigate(TravelScreen.PageTest.name)
-//        }) {
-//            Text(text = "테스트페이지", fontSize = 25.sp)
-//        }
-//        /** Test ==================== ==================== ==================== ==================== ====================*/
-
     }
 }
 

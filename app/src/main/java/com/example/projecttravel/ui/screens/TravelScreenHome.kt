@@ -413,29 +413,7 @@ fun TravelScreenHome(
                     onBack = { userPageViewModel.setBackHandlerClick(true) },
                 )
             }
-
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
-//            composable(route = TravelScreen.PageTest.name) {
-//                TestPage(
-//                    userUiState = userUiState,
-//                    userViewModel = userViewModel,
-//                    planUiState = planUiState,
-//                    planViewModel = planViewModel,
-//                    boardViewModel = boardViewModel,
-//                    boardUiState = boardUiState,
-//                    navController = navController,
-//                    scope = scope,
-//                )
-//                BackHandler(
-//                    enabled = drawerState.isClosed,
-//                    onBack = {
-//                        navController.navigate(TravelScreen.Page1.name)    // MyPage 에서 글을 보는 경우 Back 할 시 다시 MyPage 로 가야함.
-//                    },
-//                )
-//            }
-//            /** Test ==================== ==================== ==================== ==================== ====================*/
         }
-
         /** DrawerMenu Screen closed when click phone's backButton */
         /** Must be placed beneath NavHost() to apply this BackHandler logic to all pages */
         BackHandler(
