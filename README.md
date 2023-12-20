@@ -8,7 +8,7 @@
 
 ### Project Summary
 - 날씨API를 활용한 여행 계획 생성 및 머신러닝 기반 유저 추천 서비스
-- 본 repository 는 해당 프로젝트의 모바일 개발부분임 (App, Kotlin)
+- 본 repository 는 해당 프로젝트의 모바일 개발부분임 (App, Kotlin, Android Studio)
 
 ### Design focus
 - 본 프로젝트의 웹개발 부분과 같은 서비스 제공 (웹과 모바일 동시 서비스)
