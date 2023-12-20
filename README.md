@@ -1,4 +1,4 @@
-# Project Talaria
+# Project Talaria (Android 부문)
 
 ## 날씨API를 활용한 여행 계획 생성 및 머신러닝 기반 유저 추천 서비스
 #### Team Name
