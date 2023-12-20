@@ -1,7 +1,7 @@
 # 날씨API를 활용한 여행 계획 생성 및 머신러닝 기반 유저 추천 서비스
-## Project Talaria
-## Team Name:  트래비앙
-## Team Member
+### Project Talaria
+### Team Name:  트래비앙
+### Team Member
 - [Leejs-1014](https://github.com/Leejs-1014) : AI 개발, 백엔드 개발, 프론트엔드 개발, 데이터베이스 구축
 - [idgod8451](https://github.com/idgod8451) : 백엔드 개발, 프론트엔드 개발, 서버 구축
 - [NoelWON](https://github.com/NoelWON) : 백엔드 개발, 프론트엔드 개발, 데이터베이스 구축
@@ -22,7 +22,7 @@
 - 본 repository 는 해당 프로젝트의 Mobile (Android) 개발 부문임
 - local.properties(SDK Location) Setting
 ###### set your api or IP address here for security
-+ sdk.dir=your_directory (sets automatically)
-+ GOOGLE_MAPS_API_KEY=your_api_key
-+ BASE_URL=http://your_ip_address:8080/m/
-+ BASE_BOARD_SUMMERNOTE=http://your_ip_address:8080/
+  + sdk.dir=your_directory (sets automatically)
+  + GOOGLE_MAPS_API_KEY=your_api_key
+  + BASE_URL=http://your_ip_address:8080/m/
+  + BASE_BOARD_SUMMERNOTE=http://your_ip_address:8080/
