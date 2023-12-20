@@ -13,6 +13,13 @@
 ### Design focus
 - 본 프로젝트의 웹개발 부분과 같은 서비스 제공 (웹과 모바일 동시 서비스)
 
+### Team Member
+##### 트래비앙
+- [Leejs-1014](https://github.com/Leejs-1014)
+- [idgod8451](https://github.com/idgod8451)
+- [NoelWON](https://github.com/NoelWON)
+- [jiman28](https://github.com/jiman28)
+
 ### Project Result
 - '2023년 벤처·스타트업 아카데미 통합 프로젝트 발표회' 최우수상 수상
 
