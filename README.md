@@ -20,8 +20,8 @@
 
 # Remarks
 - 본 repository 는 해당 프로젝트의 Mobile (Android) 개발 부문임
-- local.properties(SDK Location) Setting
 ###### set your api or IP address here for security
+- local.properties(SDK Location) Setting
   + sdk.dir=your_directory (sets automatically)
   + GOOGLE_MAPS_API_KEY=your_api_key
   + BASE_URL=http://your_ip_address:8080/m/
